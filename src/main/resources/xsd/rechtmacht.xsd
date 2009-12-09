@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.adviesoverheid.nl/metadata-project/rechtmacht/" targetNamespace="http://www.adviesoverheid.nl/metadata-project/rechtmacht/" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation xml:lang="nl">
+		  Lijst met Nederlandse adviescolleges.
+		  Onderdeel van de Standaard voor Samenwerkende Catalogi versie 2.1
+	    </xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="rechtmacht">
+		<xs:union>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Centrale Raad van Beroep"/>
+					<xs:enumeration value="College van Beroep voor het bedrijfsleven"/>
+					<xs:enumeration value="Douanekamer"/>
+					<xs:enumeration value="Hoge Raad der Nederlanden"/>
+					<xs:enumeration value="Raad van State, afdeling bestuursrechtspraak"/>
+					<xs:enumeration value="Gerechtshof 's-Gravenhage"/>
+					<xs:enumeration value="Gerechtshof 's-Hertogenbosch"/>
+					<xs:enumeration value="Gerechtshof Amsterdam"/>
+					<xs:enumeration value="Gerechtshof Arnhem"/>
+					<xs:enumeration value="Gerechtshof Leeuwarden"/>
+					<xs:enumeration value="Rechtbank 's-Gravenhage"/>
+					<xs:enumeration value="Rechtbank 's-Hertogenbosch"/>
+					<xs:enumeration value="Rechtbank Alkmaar"/>
+					<xs:enumeration value="Rechtbank Almelo"/>
+					<xs:enumeration value="Rechtbank Amsterdam"/>
+					<xs:enumeration value="Rechtbank Arnhem"/>
+					<xs:enumeration value="Rechtbank Assen"/>
+					<xs:enumeration value="Rechtbank Breda"/>
+					<xs:enumeration value="Rechtbank Dordrecht"/>
+					<xs:enumeration value="Rechtbank Groningen"/>
+					<xs:enumeration value="Rechtbank Haarlem"/>
+					<xs:enumeration value="Rechtbank Leeuwarden"/>
+					<xs:enumeration value="Rechtbank Maastricht"/>
+					<xs:enumeration value="Rechtbank Middelburg"/>
+					<xs:enumeration value="Rechtbank Roermond"/>
+					<xs:enumeration value="Rechtbank Rotterdam"/>
+					<xs:enumeration value="Rechtbank Utrecht"/>
+					<xs:enumeration value="Rechtbank Zutphen"/>
+					<xs:enumeration value="Rechtbank Zwolle-Lelystad"/>
+					<xs:enumeration value="hoog college van staat=Algemene Rekenkamer"/>
+					<xs:enumeration value="hoog college van staat=Hoge Raad van Adel"/>
+					<xs:enumeration value="hoog college van staat=Kabinet der Koningin"/>
+					<xs:enumeration value="hoog college van staat=Nationale ombudsman"/>
+					<xs:enumeration value="hoog college van staat=Raad van State"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+</xs:schema>

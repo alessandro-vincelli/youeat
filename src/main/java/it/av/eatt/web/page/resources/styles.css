@@ -1,0 +1,653 @@
+html,body {
+    margin: 0;
+    padding: 0;
+    font: 0.75em 'Lucida Grande', sans-serif;
+    color: #333;
+    font-size: 0.75em;
+    font-size-adjust: none;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: normal;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a {
+    color: #2276BB;
+    text-decoration: none;
+}
+
+div#header {
+    display: block;
+    float: left;
+    width: 100%;
+}
+
+div#container {
+    width: 1024px;
+    margin: 0 auto;
+    border-left: 1px;
+    border-right: 1px solid #C8C8DE;
+    border-left: 1px solid #C8C8DE;
+}
+
+div#content {
+    margin: 0 200px;
+    text-align: center;
+}
+
+div#content fieldset {
+    border: none;
+    border-left: 1px solid #C8C8DE;
+    border-right: 1px solid #C8C8DE;
+}
+
+div#wrapper {
+    float: left;
+    width: 100%
+}
+
+div#navigation {
+    float: left;
+    width: 200px;
+    margin-left: -200px;
+    /*background: #B9CAFF;*/
+    padding-left: 0px;
+}
+
+div#extra {
+    float: left;
+    width: 200px;
+    margin-left: -100%;
+    padding-left: 0px;
+    /*background: #FF8539;*/
+}
+
+div#footer {
+    clear: left;
+    width: 100%;
+    color: #000
+}
+
+div#footer p {
+    margin: 0;
+    padding: 5px 10px
+}
+
+#menu {
+    float: right;
+    display: block;
+    text-align: right;
+    padding-right: 10px;
+}
+
+#menu ul {
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+}
+
+#menu li {
+    border: 1px solid transparent;
+    display: inline-block;
+    font-size: 1em;
+    padding: 0.5em 0.15em;
+}
+
+#menu li a {
+    border: 1px solid transparent;
+    display: inline-block;
+    font-size: 1.50em;
+    padding: 0.2em 0.15em;
+    border-bottom: 1px solid #E9E9E9;
+    color: #000000;
+    text-decoration: none;
+    height: 17px;
+    overflow: hidden;
+    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+#menu li a:hover {
+    color: #2276BB;
+}
+
+#menu-dashed {
+    float: left;
+    display: block;
+    width: 100%;
+}
+
+#menu-dashed li {
+    font-size: 150%;
+    display: inline;
+    float: left;
+    margin: 0.2em 0 0 8px;
+    padding: 3px 2px;
+}
+
+#menu-dashed li a:hover {
+    border: 1px solid #999999;
+    color: #999999;
+}
+
+#menu-dashed li a {
+    border: 1px dashed #A4A0A1;
+    color: #A4A0A1;
+    padding: 3px 12px;
+    text-decoration: none;
+}
+
+#menu-dashed a.act {
+    border: 1px solid #000000;
+    color: #000000;
+}
+
+.addressRisto th {
+    font-size: x-small;
+    text-align: right;
+}
+
+.activitiesList {
+    list-style-image: none;
+    list-style-position: inside;
+    list-style-type: none;
+    font-size: x-small;
+    text-align: left;
+    padding-bottom: 2px;
+    padding-left: 8px;
+    padding-right: 2px;
+    padding-top: 2px;
+}
+
+.activitiesList ul {
+    display: inline;
+    float: left;
+}
+
+.activitiesList li {
+    color: #A4A0A1;
+    margin: 7px 0px 0px 0px;
+}
+
+.activitiesList li a {
+    color: #000;
+    text-decoration: none;
+}
+
+.activitiesList li a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+.iconActivities {
+    height: 12px;
+    width: 12px;
+}
+
+.dateActivities {
+    white-space: nowrap;
+    width: 190px;
+    float: left;
+    padding-left: 15px;
+}
+
+#search-panel form fieldset {
+    border: none;
+}
+
+.datatable {
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+    text-align: left;
+}
+
+.datatable tbody th {
+    font-weight: normal;
+    padding-top: 10px;
+    width: 11em;
+}
+
+.datatable tbody th {
+    display: none;
+}
+
+.datatable td {
+    font-weight: normal;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.datatable td {
+    font-weight: normal;
+    padding-top: 10px;
+    text-align: left;
+    width: 11em;
+}
+
+.datatable td.ristoname {
+    font-weight: normal;
+    padding-top: 10px;
+    width: 22em;
+}
+
+fieldset input[type="text"],fieldset input[type="password"],fieldset textarea,fieldset select,fieldset checkbox
+    {
+    border: 1px solid #AAAAAA;
+    padding: 4px 2px;
+}
+
+input {
+    border: 1px solid #AAAAAA;
+    padding: 4px 2px;
+}
+
+button {
+    border: 1px solid #AAAAAA;
+    padding: 4px 2px;
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-topright: 5px;
+}
+
+.searchRistoInput {
+    border-color: #B4B4B4 #CCCCCC #CCCCCC #B4B4B4;
+    border-style: solid solid solid solid;
+    border-width: 1px 1 1px 1px;
+    font-size: 1em;
+    margin: 0.25em 0 0.25em 12px;
+    outline-color: -moz-use-text-color;
+    outline-style: none;
+    outline-width: medium;
+    padding: 0.4em;
+    width: 250px !important;
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-topright: 5px;
+}
+
+.searchRistoButton {
+    -moz-border-radius-bottomright: 3px;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    background-color: #EEEEEE;
+    background-position: center top;
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    line-height: 1.2;
+}
+
+.form-risto {
+    text-align: left;
+    float: left;
+    display: block;
+}
+
+.form-risto th {
+    text-align: right;
+}
+
+.form-risto input {
+    width: 300px;
+    text-align: left;
+}
+
+/* doesn't work
+.uploadfield {
+    border: 1px solid #AAAAAA !important;
+}
+
+.uploadfield input {
+    border: 1px solid #AAAAAA !important;
+}
+*/
+fieldset input[type="file"] {
+    border: 1px solid #AAAAAA;
+    padding: 4px 2px;
+}
+
+div .friendsList {
+    text-align: left;
+    display: block;
+    height: 35px;
+    border-bottom: 1px solid #EEEEEE;
+    padding-top: 10px;
+}
+
+div .friendName {
+    width: 200px;
+    float: left;
+}
+
+div .friendType {
+    float: left;
+    width: 40px;
+    font-style: oblique;
+}
+
+div .friendCenterColumn {
+    width: 200px;
+    float: left;
+}
+
+div .friendStatus {
+    float: left;
+    width: 20px;
+    font-style: oblique;
+}
+
+div .friendRemoveButton {
+    float: right;
+    width: 20px;
+    font-style: oblique;
+}
+
+.autocomplete-risto ul {
+    list-style-position: outside;
+    list-style-type: none;
+    list-style-image: none;
+    list-style-position: outside;
+    padding-left: 3px;
+    padding-top: 0px;
+    border-left: 1px solid gray;
+    width: 250px;
+    background-color: white;
+}
+
+.autocomplete-risto .selected {
+    color: FFF;
+    background: #3366CC;
+}
+
+.edit {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.risoTypeBox input {
+    width: auto;
+}
+
+.risoTypeBoxView {
+    font-style: italic;
+    font-variant: small-caps;
+}
+
+.risoTypeBoxView span {
+    border-left: thin dotted gray;
+}
+
+h1 {
+    font-size: medium;
+}
+
+.titleAndGoHome {
+    float: left;
+    display: compact;
+    text-decoration: none;
+    padding-left: 30px;
+    padding-top: 5px;
+}
+
+.titleAndGoHome img {
+    float: left;
+    display: compact;
+    text-decoration: none;
+    width: 80px;
+    border-style: none;
+}
+
+input.deleteButton {
+    background: transparent url("images/delete_64_small.png") no-repeat
+        center top;
+    cursor: pointer;;
+    border: none;
+    width: 25px;
+    height: 25px;
+    color: white;
+}
+
+.titleMyActivities {
+    padding-left: 10px;
+}
+
+input.submitButton {
+    border: 1px solid #AAAAAA;
+    padding: 4px 4px;
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-topright: 5px;
+}
+
+button.descriptionLinkActive {
+    text-decoration: underline;
+}
+
+.descriptionLinks {
+    text-align: left;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    padding-top: 8px;
+}
+
+.descriptionLinks ul {
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    padding-left: 0px;
+    margin-bottom: 0px;
+}
+
+.descriptionLinks li {
+    border: 1px solid transparent;
+    display: inline-block;
+    font-size: 1em;
+    padding: 0em 0.15em 0em 0em;
+}
+
+.form-signup {
+    text-align: left;
+    float: left;
+    display: block;
+}
+
+.form-signup th {
+    text-align: right;
+}
+
+.captchaArea {
+    text-align: center;
+}
+
+.form-signup input {
+    width: 300px;
+    text-align: left;
+}
+
+td.submitarea {
+    text-align: center;
+}
+
+.submitarea input {
+    width: auto;
+}
+
+.moreActivitiesArea {
+    text-align: center;
+}
+
+.picturesList{
+    list-style-image: none;
+    list-style-position: inside;
+    list-style-type: none;
+}
+
+#picturesList {
+    float: left;
+    display: block;
+    width: 30%;
+    height: 130px;
+    vertical-align: bottom;
+    border-bottom: 1px solid #EEEEEE;
+    margin-bottom: 7px;
+}
+
+#picturesList ul {
+    width: 100%;
+}
+
+#picturesList li {
+    border: transparent;
+    display: inline-block;
+    font-size: 1em;
+}
+
+#pictureButton {
+    padding-top: 5px;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    height: 18px;
+    text-align: center;
+}
+
+#pictureButton input {
+    margin-left: 8px;
+    margin-right: 8x;
+}
+
+#picture div {
+    width: 140px;
+    height: 95px;
+    text-align: center;
+}
+
+#picture img {
+    width: 95px;
+    height: 88px;
+}
+
+input.publishPictureButton {
+    background: transparent url("images/publish_picture.png") no-repeat
+        center top;
+    cursor: pointer;
+    border: none;
+    width: 25px;
+    height: 25px;
+    color: white;
+}
+
+input.unpublishPictureButton {
+    background: transparent url("images/unpublish_picture.png") no-repeat
+        center top;
+    cursor: pointer;
+    border: none;
+    width: 25px;
+    height: 25px;
+}
+
+.upload-picture{
+    width: 100%;
+    text-align: center;
+}
+.upload-picture th{
+    text-align: right;
+}
+.upload-picture ts{
+    text-align: left;
+}
+
+
+.eateractivitiesList {
+    list-style-image: none;
+    list-style-position: inside;
+    list-style-type: none;
+    font-size: medium;
+    text-align: left;
+    padding-bottom: 2px;
+    padding-left: 130px;
+    padding-right: 2px;
+    padding-top: 2px;
+}
+
+.eateractivitiesList ul {
+    display: inline;
+    float: left;
+}
+
+.eateractivitiesList li {
+    color: #A4A0A1;
+    margin: 7px 0px 0px 0px;
+}
+
+.eateractivitiesList li a {
+    color: #000;
+    text-decoration: none;
+}
+
+.eateractivitiesList li a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+.iconActivities {
+    height: 12px;
+    width: 12px;
+}
+
+.eaterDateActivities {
+    white-space: nowrap;
+    width: 100%;
+    float: left;
+    padding-left: 15px;
+}
+
+#menu-languages {
+    float: right;
+    display: block;
+    text-align: right;
+    
+}
+
+#menu-languages ul {
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+}
+
+#menu-languages li {
+    border: 1px solid transparent;
+    display: inline-block;
+    font-size: 1em;
+    padding: 0.5em 0.15em;
+}
+
+#menu-languages li a {
+    border: 1px solid transparent;
+    display: inline-block;
+    font-size: 1.00em;
+    padding: 0.2em 0.15em;
+    border-bottom: 1px solid #E9E9E9;
+    color: #000000;
+    text-decoration: none;
+    height: 17px;
+    overflow: hidden;
+    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+#menu-languages .selected{
+    text-decoration: underline;
+}
+
+#menu-languages li a:hover {
+    color: #2276BB;
+}
+.descriptionNotAvailableLang{
+    color: gray;
+}

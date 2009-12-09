@@ -1,0 +1,61 @@
+<wicket:extend>
+
+    <div id="wrapper">
+    <div id="content">
+
+        <form wicket:id="ristoranteForm">
+        	<fieldset>
+        	 <table class="form-risto">
+    			<tr>
+	        	<th><label for="name"><wicket:message key="name"/></label></th>
+	        	<td><input type="text" wicket:id="name"></input></td>
+	        	</tr>
+	        	<tr>
+	        	<th><label for="address"><wicket:message key="address"/></label></th>
+	        	<td><input type="text" wicket:id="address"></input></td>
+	        	</tr>
+                <tr>
+                <th><label for="city"><wicket:message key="city"/></label></th>
+	        	<td><input type="text" wicket:id="city-autocomplete"></td>
+	        	</tr>
+	        	<tr>
+	        	<th><label for="province"><wicket:message key="province"/></label></th>
+	        	<td><input type="text" wicket:id="province"></input></td>
+	        	</tr>
+                <tr>
+                <th><label for="postalCode"><wicket:message key="postalCode"/></label></th>
+	        	<td><input type="text" wicket:id="postalCode"></input></td>
+	        	</tr>
+	        	<tr>
+	        	<th><label for="country"><wicket:message key="country"/></label></th>
+	        	<td><select wicket:id="country"></select></td>
+	        	</tr>
+	        	<tr>
+	        	<th><label for="phoneNumber"><wicket:message key="phoneNumber"/></label></th>
+	        	<td><input type="text" wicket:id="phoneNumber"></input></td>
+	        	</tr>
+                <tr>
+                <th><label for="mobilePhoneNumber"><wicket:message key="mobilePhoneNumber"/></label></th>
+	        	<td><input type="text" wicket:id="mobilePhoneNumber"></input></td>
+	        	</tr>
+                <tr>
+                <th><label for="faxNumber"><wicket:message key="faxNumber"/></label></th>
+	        	<td><input type="text" wicket:id="faxNumber"></input></td>
+	        	</tr>
+	        	<tr>
+	        	<td colspan="2" class="submitarea">
+                 <input type="submit" wicket:id="submitRestaurant" class="submitButton"/>
+                 <button class="submit" wicket:id="buttonClearForm"><wicket:message key="button.clean"/></button>
+                </td>
+	        	</tr>
+	        </table>
+        	</fieldset>
+        </form>
+       </div>
+       </div>
+    <div id="navigation">
+    <p>
+    <input type="submit" wicket:id="submitRestaurantRight" class="submitButton"></input>
+    </p>
+    </div>
+</wicket:extend>

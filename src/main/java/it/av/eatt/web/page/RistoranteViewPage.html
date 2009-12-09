@@ -1,0 +1,117 @@
+<wicket:extend>
+    <div id="wrapper">
+    <div id="content">
+    <span wicket:id="revisionsPanel"></span>
+    <form wicket:id="ristoranteForm" class="cmxform">
+    <fieldset>
+    <table class="input-form" cellspacing="0">
+        <tbody>
+            <tr>
+                <td><h1 wicket:id="name"></h1></td>
+            </tr>
+            <tr>
+                <td class="risoTypeBoxView">
+                    <span wicket:id="typeRistoranteLabel"></span>
+                    <span wicket:id="typePizzeriaLabel"></span> 
+                    <span wicket:id="typeBarLabel"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><span type="text" wicket:id="www"></span></td>
+            </tr>
+            <tr>
+                <td class="descriptionLinks">
+                <ul wicket:id="descriptionLinksContainer">
+                <li wicket:id="descriptionLinks"><button class="descriptionLink" href="#" wicket:id="descriptionLink"><span wicket:id="linkName"></span></button></li>
+                </ul>
+                </td>
+            </tr>
+	        <tr>
+                <td>
+                <span wicket:id="descriptionsContainer">
+                <span wicket:id="descriptions">
+                    <span wicket:id="description"></span>
+                </span>
+                </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                <label for="tags"><wicket:message key="tags" />:</label>
+                <span wicket:id="tags">
+                    <span wicket:id="tagItem"></span>
+                </span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="revisionNumber"><wicket:message key="revisionNumber" />:</label> 
+                <span wicket:id="revisionNumber"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+      <ul class="picturesList">
+                <li wicket:id="picturesList">
+                <div id="picturesList">
+                <div id="picture"><img wicket:id="picture"></img></div>
+                </div>
+                </li>
+       </ul>
+    </fieldset>
+    </form>
+    <p class="edit">
+    <button wicket:id="editDataRistorante"><wicket:message key="button.editRistorante" /></button>
+    <button wicket:id="editPictures"><wicket:message key="button.editRistorantePictures" /></button>
+    </p>
+    </div>
+    </div>
+    <div id="extra">
+    <form wicket:id="ristoranteAddressForm">
+    <table class="addressRisto">
+        <tr>
+            <td colspan="2"><span wicket:id="rating1"></span></td>
+        </tr>
+        <tr>
+            <th><label for="address"><wicket:message key="address" /></label></th>
+            <td><span wicket:id="address"></span></td>
+        </tr>
+        <tr>
+            <th><label for="city"><wicket:message key="city" /></label></th>
+            <td><span wicket:id="city"></span></td>
+        </tr>
+        <tr>
+            <th><label for="province"><wicket:message key="province" /></label></th>
+            <td><span wicket:id="province"></span></td>
+        </tr>
+        <tr>
+            <th><label for="postalCode"><wicket:message key="postalCode" /></label></th>
+            <td><span wicket:id="postalCode"></span></td>
+        </tr>
+        <tr>
+            <th><label for="country"><wicket:message key="country" /></label></th>
+            <td><span wicket:id="country"></span></td>
+        </tr>
+        <tr>
+            <th><label for="phoneNumber"><wicket:message key="phoneNumber" /></label></th>
+            <td><span wicket:id="phoneNumber"></span></td>
+        </tr>
+        <tr>
+            <th><label for="mobilePhoneNumber"><wicket:message key="mobilePhoneNumber" /></label></th>
+            <td><span wicket:id="mobilePhoneNumber"></span></td>
+        </tr>
+        <tr>
+            <th><label for="faxNumber"><wicket:message key="faxNumber" /></label></th>
+            <td><span wicket:id="faxNumber"></span></td>
+        </tr>
+    </table>
+    </form>
+    <p class="edit">
+    <button wicket:id="editRistorante"><wicket:message key="button.editRistorante" /></button>
+    </p>
+    </div>
+    <div id="navigation">
+    <p>
+    <button wicket:id="showsAllRevisions"><wicket:message key="button.showsAllRevisions" /></button>
+    </p>
+    </div>
+</wicket:extend>

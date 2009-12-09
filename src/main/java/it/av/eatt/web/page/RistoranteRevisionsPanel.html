@@ -1,0 +1,23 @@
+<wicket:panel>
+	<table class="datatable">
+		<tr>
+			<td colspan="3"><label><strong>Revisions</strong></label></td>	
+		</tr>
+        <tr>
+        	<th></th>
+        	<th><label for="versionNumber"><wicket:message key="revisionNumber"/></label></th>
+        	<th><label for="modificationTime"><wicket:message key="modificationTime"/></label></th>
+        	<th><label for="name"><wicket:message key="name"/></label></th>
+        	<th><label for="address"><wicket:message key="address"/></label></th>
+        	<th><label for="description"><wicket:message key="description"/></label></th>
+        </tr>
+		<tr wicket:id="versions">
+			<td>_</td>
+			<td><span wicket:id="ristoranteRevision.revisionNumber"></span></td>	
+			<td><span wicket:id="ristoranteRevision.modificationTime"></span></td>
+			<td><span wicket:id="ristoranteRevision.name"></span></td>
+			<td><span wicket:id="ristoranteRevision.address"></span></td>
+			<td><span wicket:id="ristoranteRevision.description"></span></td>
+		</tr>
+	</table>
+</wicket:panel>

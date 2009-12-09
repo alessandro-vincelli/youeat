@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.adviesoverheid.nl/metadata-project/regiosamenwerking/" targetNamespace="http://www.adviesoverheid.nl/metadata-project/regiosamenwerking/" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation xml:lang="nl">
+		  Lijst met regionale samenwerkingsverbanden in Nederland.
+		  Onderdeel van de Standaard voor Samenwerkende Catalogi versie 2.1
+	    </xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="regiosamenwerking">
+		<xs:union>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Amstelland en Meerlanden Overleg"/>
+					<xs:enumeration value="Bestuur regio Utrecht"/>
+					<xs:enumeration value="BrabantStad"/>
+					<xs:enumeration value="Commissie Regionaal Overleg Luchthaven Schiphol"/>
+					<xs:enumeration value="De Drechtsteden"/>
+					<xs:enumeration value="De Vallei"/>
+					<xs:enumeration value="Eemland"/>
+					<xs:enumeration value="Eems-Dollard Regio"/>
+					<xs:enumeration value="Euregio Enschede/Gronau"/>
+					<xs:enumeration value="Euregio Maas-Rijn"/>
+					<xs:enumeration value="Euregio Rijn-Waal"/>
+					<xs:enumeration value="FriesArchiefNet"/>
+					<xs:enumeration value="Friese Wouden"/>
+					<xs:enumeration value="Goeree Overflakkee"/>
+					<xs:enumeration value="Gooi en Vechtstreek"/>
+					<xs:enumeration value="Haaglanden"/>
+					<xs:enumeration value="Holland Rijnland"/>
+					<xs:enumeration value="IJmond"/>
+					<xs:enumeration value="IJssel-Vecht"/>
+					<xs:enumeration value="Knooppunt Arnhem-Nijmegen"/>
+					<xs:enumeration value="Kop van Noord-Holland"/>
+					<xs:enumeration value="Maastricht en Mergelland"/>
+					<xs:enumeration value="Midden-Brabant"/>
+					<xs:enumeration value="Midden-Holland"/>
+					<xs:enumeration value="Noord- en Midden-Limburg"/>
+					<xs:enumeration value="Noord-Kennemerland"/>
+					<xs:enumeration value="Noordwest-Veluwe"/>
+					<xs:enumeration value="Oost-Groningen"/>
+					<xs:enumeration value="Paterswolde"/>
+					<xs:enumeration value="ROM Rijnmond"/>
+					<xs:enumeration value="Recreatieschap Drenthe"/>
+					<xs:enumeration value="Regio Achterhoek"/>
+					<xs:enumeration value="Regio Centraal Groningen"/>
+					<xs:enumeration value="Regio Eindhoven"/>
+					<xs:enumeration value="Regio Parkstad Limburg"/>
+					<xs:enumeration value="Regio Randstad"/>
+					<xs:enumeration value="Regio Stedendriehoek"/>
+					<xs:enumeration value="Regio Twente"/>
+					<xs:enumeration value="Regio Zuid-Holland Zuid"/>
+					<xs:enumeration value="Regionaal Orgaan Amsterdam"/>
+					<xs:enumeration value="Regionaal Orgaan voor de Verkeersveiligheid in Noord-Holland"/>
+					<xs:enumeration value="Regioraad Noord-Groningen"/>
+					<xs:enumeration value="Rijnstreek"/>
+					<xs:enumeration value="Rivierenland"/>
+					<xs:enumeration value="Samenwerkingsverband Noord Nederland"/>
+					<xs:enumeration value="Samenwerkingsverband Zuidlaardermeergemeenten"/>
+					<xs:enumeration value="Sociaal Economische Samenwerking West-Brabant"/>
+					<xs:enumeration value="Stadsregio Rotterdam"/>
+					<xs:enumeration value="Stichtse Groenlanden"/>
+					<xs:enumeration value="Stuurgroep Waddenprovincies"/>
+					<xs:enumeration value="Vereniging brede overleggroep kleine dorpen in Drenthe"/>
+					<xs:enumeration value="Vereniging van Drentse gemeenten"/>
+					<xs:enumeration value="Waterpact van Twente"/>
+					<xs:enumeration value="Westelijk Noord-Brabant"/>
+					<xs:enumeration value="Zuidwest-Drenthe"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+</xs:schema>

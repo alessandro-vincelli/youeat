@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.adviesoverheid.nl/metadata-project/openbaarlichaam/" targetNamespace="http://www.adviesoverheid.nl/metadata-project/openbaarlichaam/" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation xml:lang="nl">
+		  Lijst met openbare lichaam voor bedrijf en beroep in Nederland.
+		  Onderdeel van de Standaard voor Samenwerkende Catalogi versie 2.1	
+		  </xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="openbaarlichaam">
+		<xs:union>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Bedrijfschap Horeca en Catering"/>
+					<xs:enumeration value="Bedrijfschap Natuursteenbedrijf"/>
+					<xs:enumeration value="Bedrijfschap voor het Slagersbedrijf"/>
+					<xs:enumeration value="Bosschap"/>
+					<xs:enumeration value="Hoofdbedrijfschap Afbouw en Onderhoud"/>
+					<xs:enumeration value="Hoofdbedrijfschap Agrarische Groothandel"/>
+					<xs:enumeration value="Hoofdbedrijfschap Ambachten"/>
+					<xs:enumeration value="Hoofdbedrijfschap Detailhandel"/>
+					<xs:enumeration value="Hoofdproductschap Akkerbouw"/>
+					<xs:enumeration value="Productschap Diervoeder"/>
+					<xs:enumeration value="Productschap Dranken"/>
+					<xs:enumeration value="Productschap Granen, Zaden en Peulvruchten"/>
+					<xs:enumeration value="Productschap Margarine, Vetten en Oliën"/>
+					<xs:enumeration value="Productschap Tuinbouw"/>
+					<xs:enumeration value="Productschap Vis"/>
+					<xs:enumeration value="Productschap Wijn"/>
+					<xs:enumeration value="Productschap Zuivel"/>
+					<xs:enumeration value="Productschappen Vee, Vlees en Eieren"/>
+					<xs:enumeration value="Raad voor het Zelfstandig Ondernemerschap"/>
+					<xs:enumeration value="Sociaal Economische Raad"/>
+					<xs:enumeration value="Koninklijk Nederlands Instituut van Registeraccountants"/>
+					<xs:enumeration value="Koninklijke Beroepsorganisatie van Gerechtsdeurwaarders"/>
+					<xs:enumeration value="Koninklijke Notariële Beroepsorganisatie"/>
+					<xs:enumeration value="Nederlandse Loodsencorporatie"/>
+					<xs:enumeration value="Nederlandse Orde van Accountants-Administratieconsulenten"/>
+					<xs:enumeration value="Nederlandse Orde van Advocaten"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.adviesoverheid.nl/metadata-project/deelgemeenten/" targetNamespace="http://www.adviesoverheid.nl/metadata-project/deelgemeenten/" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation xml:lang="nl">
+		  Lijst met typen deelgemeenten zoals die door de Nederlandse
+		  overheid wordt gehanteerd.
+		  Onderdeel van de Standaard voor Samenwerkende Catalogi versie 2.1		  
+	    </xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="deelgemeenten">
+		<xs:union>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Amsterdam - Bos en Lommer"/>
+					<xs:enumeration value="Amsterdam - Centrum"/>
+					<xs:enumeration value="Amsterdam - De Baarsjes"/>
+					<xs:enumeration value="Amsterdam - Geuzenveld-Slotermeer"/>
+					<xs:enumeration value="Amsterdam - Noord"/>
+					<xs:enumeration value="Amsterdam - Oost/Watergraafsmeer"/>
+					<xs:enumeration value="Amsterdam - Osdorp"/>
+					<xs:enumeration value="Amsterdam - Oud Zuid"/>
+					<xs:enumeration value="Amsterdam - Oud-West"/>
+					<xs:enumeration value="Amsterdam - Slotervaart"/>
+					<xs:enumeration value="Amsterdam - Westerpark"/>
+					<xs:enumeration value="Amsterdam - Westpoort"/>
+					<xs:enumeration value="Amsterdam - Zeeburg"/>
+					<xs:enumeration value="Amsterdam - Zuideramstel"/>
+					<xs:enumeration value="Amsterdam - Zuidoost"/>
+					<xs:enumeration value="Rotterdam - Centrumraad"/>
+					<xs:enumeration value="Rotterdam - Charlois"/>
+					<xs:enumeration value="Rotterdam - Delfshaven"/>
+					<xs:enumeration value="Rotterdam - Feijenoord"/>
+					<xs:enumeration value="Rotterdam - Hillegersberg-Schiebroek"/>
+					<xs:enumeration value="Rotterdam - Hoek van Holland"/>
+					<xs:enumeration value="Rotterdam - Hoogvliet"/>
+					<xs:enumeration value="Rotterdam - IJsselmonde"/>
+					<xs:enumeration value="Rotterdam - Kralingen-Crooswijk"/>
+					<xs:enumeration value="Rotterdam - Noord"/>
+					<xs:enumeration value="Rotterdam - Overschie"/>
+					<xs:enumeration value="Rotterdam - Pernis"/>
+					<xs:enumeration value="Rotterdam - Prins Alexander"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+</xs:schema>

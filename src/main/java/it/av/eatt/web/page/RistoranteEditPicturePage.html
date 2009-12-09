@@ -1,0 +1,36 @@
+<wicket:extend>
+
+    <div id="wrapper">
+    <div id="content">
+        <form wicket:id="ristorantePicturesForm">
+        	<fieldset>
+        	 <table class="upload-picture">
+    			<tr>
+	        	<th><label for="upload"><wicket:message key="addAPicture"/></label></th>
+	        	<td><input wicket:id="uploadField" id="upload" type="file" class="uploadfield"></input></td>
+	        	</tr>
+                <tr>
+                <td colspan="2"><span wicket:id="progressBar"></span></td>
+                </tr>
+	        	<tr>
+	        	<td  colspan="2"><input type="submit" wicket:id="submitForm" class="submitButton" value="upload" wicket:message="value:button.uploadPicture"></input></td>
+	        	</tr>
+	        </table>
+            
+            <ul class="picturesList">
+                <li wicket:id="picturesList">
+                <div id="picturesList">
+                <div id="picture"><img wicket:id="picture"></img></div>
+                <div id="pictureButton"><input type="submit" wicket:id="publish-unpublish" class="" value=""></input>
+                <input type="submit" wicket:id="remove" wicket:message="title:button.remove" title="" value="" class="deleteButton"></input>
+                </div>
+                </div>
+                </li>
+            </ul>
+        	</fieldset>
+        </form>
+       </div>
+       </div>
+    <div id="navigation">
+    </div>
+</wicket:extend>

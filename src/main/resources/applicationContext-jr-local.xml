@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+  
+	<bean id="jcrTransactionManager"
+		class="org.springframework.extensions.jcr.jackrabbit.LocalTransactionManager">
+		<property name="sessionFactory" ref="jcrSessionFactory"/>
+	</bean>
+	
+	<bean id="repository" class="org.springframework.extensions.jcr.jackrabbit.RepositoryFactoryBean">
+		<property name="configuration" value="classpath:${repositoryConf}"/>
+		<property name="homeDir" value="file:${repositoryHomeDir}"/>
+	</bean>
+	
+	
+	<!-- Repository Configuration -->
+	<!--<bean id="repository" class="org.springframework.jca.support.LocalConnectionFactoryBean">
+		<property name="managedConnectionFactory" ref="repositoryManagedConnectionFactory"/>
+		<property name="connectionManager" ref="connectionManager"/>
+	</bean>
+	
+	<bean id="repositoryManagedConnectionFactory" class="org.apache.jackrabbit.jca.JCAManagedConnectionFactory">
+		<property name="configFile" value="classpath:repository.xml"/>
+		<property name="homeDir" value="${repository.homeDir}"/>
+	</bean>
+	
+--></beans>

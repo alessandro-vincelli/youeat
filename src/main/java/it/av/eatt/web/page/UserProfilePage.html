@@ -1,0 +1,27 @@
+<wicket:extend>
+    <div id="wrapper">
+    <div id="content">
+    <form wicket:id="userProfileForm" class="cmxform">
+    <fieldset>
+    <table>
+        <tr>
+        <td>
+            <label for="name"><wicket:message key="name" /></label> <input type="text" wicket:id="name" /><label for="description"><wicket:message key="description" /></label>
+        </td>
+        <td>
+            <input type="text" wicket:id="description" />
+        </td>
+        <td>
+            <input type="submit" wicket:id="ajax-button" />
+            <button wicket:id="buttonClearForm"><wicket:message key="button.clean" /></button>
+        </td>
+        </tr>
+    </table>
+    </fieldset>
+    </form>
+    <table class="datatable" wicket:id="usersDataTable">
+        [table]
+    </table>
+    </div>
+    </div>
+</wicket:extend>

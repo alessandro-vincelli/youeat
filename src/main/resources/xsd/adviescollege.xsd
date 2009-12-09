@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.adviesoverheid.nl/metadata-project/adviescollege/" targetNamespace="http://www.adviesoverheid.nl/metadata-project/adviescollege/" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation xml:lang="nl">
+		  Lijst met adviescolleges in Nederland.
+		  Onderdeel van de Standaard voor Samenwerkende Catalogi versie 2.1		  
+	    </xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="adviescollege">
+		<xs:union>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Adviescollege toetsing administratieve lasten"/>
+					<xs:enumeration value="Adviescommissie vennootschapsrecht"/>
+					<xs:enumeration value="Adviescommissie voor Vreemdelingenzaken"/>
+					<xs:enumeration value="Adviescommissie voor burgerlijk procesrecht"/>
+					<xs:enumeration value="Adviesraad Internationale Vraagstukken"/>
+					<xs:enumeration value="Adviesraad gevaarlijke stoffen"/>
+					<xs:enumeration value="Adviesraad voor het Wetenschaps- en Technologiebeleid"/>
+					<xs:enumeration value="Algemene Energieraad"/>
+					<xs:enumeration value="College Bescherming Persoonsgegevens"/>
+					<xs:enumeration value="Commissie Ekkart"/>
+					<xs:enumeration value="Commissie bedreigde uitheemse dier- en plantensoorten"/>
+					<xs:enumeration value="Commissie van Advies inzake Volkenrechtelijke Vraagstukken"/>
+					<xs:enumeration value="Commissie voor de milieueffectrapportage"/>
+					<xs:enumeration value="Gezondheidsraad"/>
+					<xs:enumeration value="Nationale Raad voor Landbouwkundig Onderzoek"/>
+					<xs:enumeration value="Onderwijsraad"/>
+					<xs:enumeration value="Raad van deskundigen voor de nationale standaarden"/>
+					<xs:enumeration value="Raad voor Cultuur"/>
+					<xs:enumeration value="Raad voor Gezondheidsonderzoek"/>
+					<xs:enumeration value="Raad voor Maatschappelijke Ontwikkeling"/>
+					<xs:enumeration value="Raad voor Verkeer en Waterstaat"/>
+					<xs:enumeration value="Raad voor Werk en Inkomen"/>
+					<xs:enumeration value="Raad voor de Financiële Verhoudingen"/>
+					<xs:enumeration value="Raad voor de Volksgezondheid en Zorg"/>
+					<xs:enumeration value="Raad voor het Landelijk Gebied"/>
+					<xs:enumeration value="Raad voor het Openbaar bestuur"/>
+					<xs:enumeration value="Raad voor het Wetenschappelijk Onderzoek in het kader van Ontwikkelingssamenwerking"/>
+					<xs:enumeration value="Raad voor ruimtelijk, milieu- en natuuronderzoek"/>
+					<xs:enumeration value="Ruimtelijk Planbureau"/>
+					<xs:enumeration value="Sociaal Economische Raad"/>
+					<xs:enumeration value="Staatscommissie voor het Internationaal Privaatrecht"/>
+					<xs:enumeration value="Technische Adviescommissie Waterkeringen"/>
+					<xs:enumeration value="VROM-raad"/>
+					<xs:enumeration value="Waddenadviesraad"/>
+					<xs:enumeration value="Wetenschappelijke Raad voor het Regeringsbeleid"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+</xs:schema>

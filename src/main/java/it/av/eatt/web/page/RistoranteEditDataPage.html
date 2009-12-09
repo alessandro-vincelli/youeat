@@ -1,0 +1,75 @@
+<wicket:extend>
+
+    <div id="wrapper">
+    <div id="content">
+
+        <form wicket:id="ristoranteForm">
+        	<fieldset>
+        	 <table class="form-risto">
+    			<tr>
+	        	<th><label for="name"><wicket:message key="name"/></label></th>
+	        	<td><input type="text" wicket:id="name"></input></td>
+	        	</tr>
+                <tr>
+                <th></th>
+                <td class="risoTypeBox">
+                    <label for="type"><wicket:message key="type.Ristorante" /></label><input type="checkbox" wicket:id="types.ristorante"></input>
+                    <label for="type"><wicket:message key="type.Pizzeria" /></label><input type="checkbox" wicket:id="types.pizzeria"></input> 
+                    <label for="type"><wicket:message key="type.Bar" /></label><input type="checkbox" wicket:id="types.bar"></input>
+                </td>
+	        	</tr>
+	        	<tr>
+	        	<th><label for="www"><wicket:message key="www"/></label></th>
+	        	<td><input type="text" wicket:id="www"></input></td>
+	        	</tr>
+	        	<tr>
+	        	<th><label for="tagBox"><wicket:message key="addNewTag"/></label></th>
+	        	<td><input type="text" wicket:id="tagBox"></input>
+	        	<button wicket:id="addTag"><wicket:message key="button.addTag"/></button>
+                </td>
+	        	</tr>
+                <tr>
+                <th><label for="tags"><wicket:message key="tags"/></label></th>
+                <td>
+                <table>
+				  <tr wicket:id="tags">
+				    <td>
+                    <span wicket:id="tagItem"></span>
+                    <input class="deleteButton" type="submit" wicket:id="buttonTagItemRemove" title="remove" value=""></input>
+                    </td>
+				  </tr>
+				</table>
+                </td>
+				</tr>
+                <tr>
+                <th></th>
+                <td class="descriptionLinks">
+                    <ul wicket:id="descriptionLinksContainer">
+                    <li wicket:id="descriptionLinks"><button class="descriptionLink" href="#" wicket:id="descriptionLink"><span wicket:id="linkName"></span></button></li>
+                    </ul>
+                </td>
+                </tr>
+	        	<tr>
+                <th><label for="description"><wicket:message key="description"/></label></th>
+                <td>
+                <span wicket:id="descriptionsContainer">
+                <span wicket:id="descriptions">
+                    <textarea wicket:id="description" autocomplete="off" accesskey="u" name="description" rows="15" cols="60"></textarea>
+                </span>
+                </span>
+                </td>
+                </tr>
+	        	<tr>
+	        	<td colspan="2" class="submitarea"><input type="submit" wicket:id="submitRestaurant" class="submitButton"/> <button class="submit" wicket:id="buttonClearForm"><wicket:message key="button.clean"/></button></td>
+	        	</tr>
+	        </table>
+        	</fieldset>
+        </form>
+       </div>
+       </div>
+    <div id="navigation">
+    <p>
+    <input type="submit" wicket:id="submitRestaurantRight" class="submitButton"></input>
+    </p>
+    </div>
+</wicket:extend>

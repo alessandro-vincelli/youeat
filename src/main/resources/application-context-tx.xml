@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                           http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security-2.0.xsd">
+
+	<context:spring-configured />
+
+	<bean id="connectionTracker" class="org.apache.geronimo.connector.outbound.connectiontracking.ConnectionTrackingCoordinator" />
+
+	<bean id="transactionManagerImpl" class="org.jencks.factory.TransactionManagerFactoryBean">
+		<property name="defaultTransactionTimeoutSeconds" value="1800" />
+		<property name="transactionLog">
+			<bean class="org.apache.geronimo.transaction.log.UnrecoverableLog" />
+		</property>
+	</bean>
+
+	<bean id="transactionContextManager" class="org.jencks.factory.TransactionContextManagerFactoryBean">
+		<property name="transactionManager" ref="transactionManagerImpl" />
+	</bean>
+
+	<bean id="userTransaction" class="org.jencks.factory.UserTransactionFactoryBean">
+		<property name="transactionContextManager" ref="transactionContextManager" />
+		<property name="connectionTrackingCoordinator" ref="connectionTracker" />
+	</bean>
+
+	<bean id="transactionContextInitializer" class="org.jencks.interceptor.TransactionContextInitializer">
+		<property name="associator" ref="connectionTracker" />
+	</bean>
+
+	<!-- JCA configuration -->
+	<bean id="transactionSupport" class="org.jencks.factory.XATransactionFactoryBean">
+		<property name="useTransactionCaching" value="true" />
+		<property name="useThreadCaching" value="false" />
+	</bean>
+
+	<bean id="poolingSupport" class="org.jencks.factory.SinglePoolFactoryBean">
+		<property name="maxSize" value="50" />
+		<property name="minSize" value="5" />
+		<property name="blockingTimeoutMilliseconds" value="1000" />
+		<property name="idleTimeoutMinutes" value="60" />
+		<property name="matchOne" value="true" />
+		<property name="matchAll" value="true" />
+		<property name="selectOneAssumeMatch" value="true" />
+	</bean>
+
+	<bean id="connectionManager" class="org.jencks.factory.ConnectionManagerFactoryBean">
+		<property name="transactionSupport" ref="transactionSupport" />
+		<property name="poolingSupport" ref="poolingSupport" />
+		<property name="transactionContextManager" ref="transactionContextManager" />
+		<property name="connectionTracker" ref="connectionTracker" />
+	</bean>
+
+	<!-- common properties -->
+	<bean id="xaTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="userTransaction">
+			<ref local="userTransaction" />
+		</property>
+		<property name="transactionManager">
+			<ref local="transactionManagerImpl" />
+		</property>
+	</bean>
+
+	<!-- this is a custom class to mock a jndi directory holding the user tx -->
+	<bean class="it.av.eatt.web.util.UserTransactionJndiBindMock">
+		<constructor-arg index="0">
+			<ref bean="userTransaction" />
+		</constructor-arg>
+	</bean>
+</beans>

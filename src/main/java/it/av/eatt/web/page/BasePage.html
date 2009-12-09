@@ -1,0 +1,44 @@
+<html>
+<wicket:head>
+	<title>:: EatTogether ::</title>
+	<wicket:link>
+		<link rel="shortcut icon" href="resources/images/favicon.ico" />
+	</wicket:link>
+</wicket:head>
+<body>
+<div id="container">
+<div id="header">
+    <a class="titleAndGoHome" href="/" title="Eattogether"><img wicket:id="logo"></img></a>
+    <ul id="menu-languages">
+        <li>
+            <a wicket:id="goDutch"><wicket:message key="link.goDutch" /></a>
+            <a wicket:id="goEnglish"><wicket:message key="link.goEnglish" /></a>
+            <a wicket:id="goItalian"><wicket:message key="link.goItalian" /></a>
+        </li>
+    </ul>
+	<ul id="menu">
+		<li><a href="mailto:dev@mailing.antwoordvoorbedrijven.net">Help</a></li>
+		<li><a wicket:id="goUserPage"><wicket:message key="basepage.goUserPage" /></a></li>
+		<li><a wicket:id="goUserProfilePage"><wicket:message key="basepage.goUserProfilePage" /></a></li>
+        <li><a wicket:id="goSearchRistorantePage"><wicket:message key="basepage.goSearchRistorante" /></a></li>
+		<li><a wicket:id="goRistoranteAddNewPage"><wicket:message key="basepage.goRistorantePage" /></a></li>
+		<li><a wicket:id="goFriendPage"><wicket:message key="basepage.goFriendPage" /></a></li>
+		<li><a wicket:id="goSearchFriendPage"><wicket:message key="basepage.goSearchFriendPage" /></a></li>
+		<li>
+			<a wicket:id="goSignOut"><wicket:message key="basepage.goSignOut" /></a>
+			<a wicket:id="goSignIn"><wicket:message key="basepage.goSignIn" /></a>
+		</li>
+        <li>
+            <a wicket:id="goAccount"><wicket:message key="link.goAccount" /></a>
+        </li>
+	</ul>
+    
+</div>
+
+    	<span wicket:id="feedBackPanel">message will be here</span>
+		<wicket:child />
+
+<div id="footer"><p>© 2009 Alessandro Vincelli</p></div>
+</div>
+</body>
+</html>

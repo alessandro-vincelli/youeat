@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <body>
+  
+    <links>
+      <item name="Alessandro Vincelli's blog" href="http://www.alessandro.vincelli.name/"/>
+      <item name="EatTogether Demo" href="http://www.alessandro.vincelli.name/eattogether/"/>
+    </links>
+
+    <menu name="Overview">
+      <item name="Introduction" href="index.html"/>
+      <item name="Demo" href="demo.html"/>
+    </menu>
+   
+    <menu name="Docs">
+      <item name="Quickstart" href="quickstart.html"/>
+    </menu>
+    
+    <menu ref="reports"/>
+    
+  </body>
+</project>

@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                           http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security-2.0.xsd">
+
+	<context:annotation-config />
+	<context:spring-configured />
+
+	<!--<import resource="applicationContext-jr-jca.xml" />--> 
+	<import resource="applicationContext-jr-local.xml" />
+	<tx:jta-transaction-manager />
+	<tx:annotation-driven/>
+	
+	<!-- <bean id="connectionTracker" class="org.apache.geronimo.connector.outbound.connectiontracking.ConnectionTrackingCoordinator" />
+
+	<bean id="transactionManagerImpl" class="org.jencks.factory.TransactionManagerFactoryBean">
+		<property name="defaultTransactionTimeoutSeconds" value="1800" />
+		<property name="transactionLog">
+			<bean class="org.apache.geronimo.transaction.log.UnrecoverableLog" />
+		</property>
+	</bean>
+
+	<bean id="transactionContextManager" class="org.jencks.factory.TransactionContextManagerFactoryBean">
+		<property name="transactionManager" ref="transactionManagerImpl" />
+	</bean>
+
+	<bean id="userTransaction" class="org.jencks.factory.UserTransactionFactoryBean">
+		<property name="transactionContextManager" ref="transactionContextManager" />
+		<property name="connectionTrackingCoordinator" ref="connectionTracker" />
+	</bean>
+
+	<bean id="transactionContextInitializer" class="org.jencks.interceptor.TransactionContextInitializer">
+		<property name="associator" ref="connectionTracker" />
+	</bean> -->
+
+	<!-- JCA configuration -->
+	<!--<bean id="transactionSupport" class="org.jencks.factory.XATransactionFactoryBean">
+		<property name="useTransactionCaching" value="true" />
+		<property name="useThreadCaching" value="false" />
+	</bean>
+
+	<bean id="poolingSupport" class="org.jencks.factory.SinglePoolFactoryBean">
+		<property name="maxSize" value="50" />
+		<property name="minSize" value="5" />
+		<property name="blockingTimeoutMilliseconds" value="1000" />
+		<property name="idleTimeoutMinutes" value="60" />
+		<property name="matchOne" value="true" />
+		<property name="matchAll" value="true" />
+		<property name="selectOneAssumeMatch" value="true" />
+	</bean>
+
+	<bean id="connectionManager" class="org.jencks.factory.ConnectionManagerFactoryBean">
+		<property name="transactionSupport" ref="transactionSupport" />
+		<property name="poolingSupport" ref="poolingSupport" />
+		<property name="transactionContextManager" ref="transactionContextManager" />
+		<property name="connectionTracker" ref="connectionTracker" />
+	</bean>
+
+	--><!-- common properties -->
+	<!--<bean id="xaTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="userTransaction">
+			<ref local="userTransaction" />
+		</property>
+		<property name="transactionManager">
+			<ref local="transactionManagerImpl" />
+		</property>
+	</bean>
+	-->
+
+	<!--<bean id="transactionManagerImpl" class="org.jencks.factory.TransactionManagerFactoryBean"/>
+  
+  	<bean id="userTransaction" class="org.springframework.transaction.jta.UserTransactionAdapter">
+	</bean>
+  	
+  	<bean id="xaTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="transactionManager" ref="transactionManagerImpl" />
+		<property name="userTransaction" ref="userTransaction"/>
+	</bean>
+  
+  	--><!--<bean id="transactionManager" class="org.springframework.transaction.jta.SimpleTransactionFactory">
+		
+	</bean>
+	
+	-->
+	<!-- this is a custom class to mock a jndi directory holding the user tx --><!--
+	<bean class="it.av.eatt.web.util.UserTransactionJndiBindMock">
+		<constructor-arg index="0">
+			<ref bean="userTransaction" />
+		</constructor-arg>
+	</bean>
+	
+	--><bean
+		class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/properties/jackwicket.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="strongPasswordEncryptor" class="org.jasypt.util.password.StrongPasswordEncryptor" />
+	
+	<bean id="myDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/eattogether_app?autoReconnect=true&amp;characterEncoding=UTF-8" />
+		<property name="username" value="toeat" />
+		<property name="password" value="toeat" />
+	</bean>
+	
+	<bean id="sessionFactoryHibernate" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="myDataSource" />
+		<property name="packagesToScan" value="it.av.eatt.ocm.model" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<!-- <prop key="hibernate.cache.use_second_level_cache">false</prop>
+          <prop key="hibernate.cache.use_query_cache">false</prop> -->
+			</props>
+		</property>
+		<property name="schemaUpdate" value="true"></property>
+		<!--<property name="jtaTransactionManager" ref="xaTransactionManager"/>
+	--></bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<!--<property name="dataSource" ref="myDataSource"/>
+		--><property name="sessionFactory" ref="sessionFactoryHibernate"/>
+		<property name="autodetectDataSource" value="true"></property>
+	</bean>
+	
+	
+	<!-- <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactoryHibernate"/>
+		<property name="allowCreate" value="true"/>
+		<property name="flushMode" value="1"></property>
+	</bean> -->
+	
+	<bean id="jcrSessionFactory" class="org.springframework.extensions.jcr.jackrabbit.JackrabbitSessionFactory">
+		<property name="repository" ref="repository"/>
+		<property name="credentials">
+			<bean class="javax.jcr.SimpleCredentials">
+				<constructor-arg index="0" value="admin" />
+				<constructor-arg index="1" value="admin" />
+			</bean>
+		</property>
+		<!-- <property name="nodeDefinitions" value="classpath:custom_nodetypes.xml"/>
+		<property name="namespaces">
+			<props>
+				<prop key="ocm">http://jackrabbit.apache.org/ocm</prop>
+			</props>
+		</property>
+		<property name="keepNewNamespaces" value="true"></property> -->
+	</bean>
+
+	<bean id="mapper" class="org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl">
+		<constructor-arg>
+		<list value-type="java.lang.Class">
+	       	<value>it.av.eatt.ocm.model.Ristorante</value>
+	        <value>it.av.eatt.ocm.model.Folder</value>
+      	</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="jcrMappingTemplate" class="org.springframework.extensions.jcr.jackrabbit.ocm.JcrMappingTemplateGeneric">
+		<constructor-arg index="0" ref="jcrSessionFactory"/>
+		<constructor-arg index="1" ref="mapper"/>
+		<property name="allowCreate" value="true"/>
+	</bean>
+	
+	<!-- transaction proxy for Jcr services/facades --><!--
+	<bean id="txProxyTemplate" abstract="true"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="proxyTargetClass" value="true" />
+		<property name="transactionManager" ref="jcrTransactionManager" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="save*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>
+				<prop key="remove*">PROPAGATION_REQUIRED</prop>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="*">PROPAGATION_REQUIRED, readOnly</prop>
+			</props>
+		</property>
+	</bean>
+	
+	--><!-- <bean id="hibernateTransactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactoryHibernate"/>
+		<property name="entityInterceptor">
+     		<bean class="org.springframework.orm.hibernate3.support.ScopedBeanInterceptor"/>
+   		</property>
+	</bean> -->
+	
+	<bean id="hibernateInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	
+	
+	<!-- The next 3 beans are to support source-level Spring transaction configuration: -->
+<!--<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+<bean class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
+<property name="transactionInterceptor" ref="transactionInterceptor"/>
+<property name="order" value="0"/>
+</bean>
+
+<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+<property name="transactionManager" ref="xaTransactionManager"/>
+<property name="transactionAttributeSource">
+<bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"/>
+</property>
+</bean>
+	
+	--><!-- Repository Configuration -->
+	<!--<bean id="repository" class="org.springframework.jca.support.LocalConnectionFactoryBean">
+		<property name="managedConnectionFactory" ref="repositoryManagedConnectionFactory"/>
+		<property name="connectionManager" ref="connectionManager"/>
+	</bean>
+	
+	<bean id="repositoryManagedConnectionFactory" class="org.apache.jackrabbit.jca.JCAManagedConnectionFactory">
+		<property name="configFile" value="classpath:repository.xml"/>
+		<property name="homeDir" value="/tmp/repo"/>
+	</bean>
+	
+--><!-- 	<bean id="factoryDAO" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<list>
+				<value>it.av.eatt.service.ApplicationService</value>
+				<value>it.av.eatt.ocm.model.PersistentClass</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>hibernateInterceptor</value>
+				<value>commentService</value>
+				<value>ristoranteService</value>
+				<value>userProfileService</value>
+				<value>activityService</value>
+				<value>userRelationService</value>
+			</list>
+		</property>
+	</bean> -->
+	
+	<bean id="hibernateDaoSupport" class="org.springframework.orm.hibernate3.support.HibernateDaoSupport" abstract="true">
+		<property name="sessionFactory" ref="sessionFactoryHibernate"/>
+	</bean>
+	
+	<!-- transaction proxy for Jcr services/facades -->
+	<bean id="txProxyTemplateHibernate" abstract="true"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="proxyTargetClass" value="true" />
+		<property name="transactionManager" ref="hibernateTransactionManager" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="save*">PROPAGATION_REQUIRED</prop>
+				<prop key="remove*">PROPAGATION_REQUIRED</prop>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="perform*">PROPAGATION_REQUIRED</prop>
+				<prop key="*">PROPAGATION_REQUIRED, readOnly</prop>
+			</props>
+		</property>
+	</bean>
+ 	
+ 	<bean id="wicketApplication" class="it.av.eatt.web.WicketApplication">
+		<property name="configurationType" value="deployment" />
+	</bean>
+
+	<bean id="userService" class="it.av.eatt.service.impl.EaterServiceHibernate" parent="hibernateDaoSupport">
+		<property name="passwordEncoder" ref="strongPasswordEncryptor" />
+		<property name="userProfileService" ref="userProfileService" />
+		<property name="userRelationService" ref="userRelationService" />
+	</bean>
+
+	<bean id="commentService" class="it.av.eatt.service.impl.CommentServiceHibernate" parent="hibernateDaoSupport">
+	</bean>
+
+	<bean id="userProfileService" class="it.av.eatt.service.impl.EaterProfileServiceHibernate" parent="hibernateDaoSupport"></bean>
+
+	<bean id="activityService" class="it.av.eatt.service.impl.ActivityServiceHibernate" parent="hibernateDaoSupport"></bean>
+
+	<bean id="activityRistoranteService" class="it.av.eatt.service.impl.ActivityRistoranteServiceHibernate" parent="hibernateDaoSupport">
+		<property name="userRelationService" ref="userRelationService" />
+	</bean>
+
+	<bean id="ristoranteService" class="it.av.eatt.service.impl.RistoranteServiceHibernate" parent="hibernateDaoSupport">
+		<property name="activityRistoranteService" ref="activityRistoranteService" />
+	</bean>
+	
+	<!--<bean id="ristoranteService" class="it.av.eatt.service.impl.RistoranteServiceImpl">
+		<property name="jcrMappingtemplate" ref="jcrMappingTemplate" />
+		<property name="basePath" value="/ristoranti" />
+		<property name="activityRistoranteService" ref="activityRistoranteService" />
+	</bean>-->
+
+	<bean id="userRelationService" class="it.av.eatt.service.impl.EaterRelationServiceHibernate" parent="hibernateDaoSupport">
+	</bean>
+
+	<bean id="repositoryInitStructure" class="it.av.eatt.repo.util.RepositoryInitStructureImpl">
+		<property name="jcrMappingtemplate" ref="jcrMappingTemplate" />
+		<property name="paths">
+			<list value-type="java.lang.String">
+				<value>/comments</value>
+				<value>/ristoranti</value>
+				<value>/activities</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="applicationInit" class="it.av.eatt.init.ApplicationInit">
+		<constructor-arg ref="repositoryInitStructure" />
+	</bean>
+
+	<bean id="passwordEncoder" class="org.jasypt.spring.security2.PasswordEncoder">
+		<property name="passwordEncryptor" ref="strongPasswordEncryptor" />
+	</bean>
+
+	<bean id="userDetailsService" class="it.av.eatt.web.security.UserDetailsServiceImpl">
+		<property name="service" ref="userService" />
+	</bean>
+
+	<bean id="daoAuthenticationProvider" class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsService" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+	</bean>
+
+	<bean id="authenticationProvider" class="it.av.eatt.web.security.AuthenticationProvider">
+		<constructor-arg ref="daoAuthenticationProvider" />
+	</bean>
+</beans>

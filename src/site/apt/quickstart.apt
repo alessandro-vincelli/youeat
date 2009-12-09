@@ -1,0 +1,12 @@
+Quickstart
+ 
+  First ckeckout the code using these {{{http://www.alessandro.vincelli.name/project-eattogether/source-repository.html}istrunctions}}.\
+  Create the two DB, <eattogether_repo> and <eattogether_app>: (MySql commands)
+<  CREATE DATABASE eattogether_repo;
+  CREATE DATABASE eattogether_app;>
+  Create the user <toeat>
+  <CREATE USER 'toeat'@'localhost' IDENTIFIED BY 'toeat';
+  GRANT ALL PRIVILEGES ON eattogether_repo.* TO 'toeat'@'localhost'  WITH GRANT OPTION;
+  GRANT ALL PRIVILEGES ON eattogether_app.* TO 'toeat'@'localhost'  WITH GRANT OPTION;>
+  Then in <<<root>>> directory of the project run:\
+  <<<mvn jetty:run>>>

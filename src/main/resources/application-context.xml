@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                           http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security-2.0.xsd">
+
+	<context:annotation-config />
+	<context:spring-configured />
+	<tx:jta-transaction-manager />
+	
+	<!--<import resource="applicationContext-jr-jca.xml" />--> 
+	<!--  <import resource="applicationContext-jr-local.xml" />-->
+	
+	<bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
+		<property name="locations">
+			<list>
+				<value>${springPropertiesLocation}</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!--
+		Instruct Spring to perform declarative transaction management automatically
+		on annotated classes.
+	-->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="mainPersistance" />
+		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>		 
+	</bean>
+	
+	<!-- <bean id="entityManagerFactoryStaticData" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="staticDataPersistance" />
+		<property name="persistenceXmlLocation" value="classpath:META-INF/persistenceStaticData.xml"></property>
+	</bean> -->
+
+	<!--
+		PostProcessors to perform resource injection according to the JPA specification
+		(@PersistenceContext, @PersistenceUnit).
+	-->
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<!-- turn on @Required annotation checks -->
+	<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+
+	<!--
+		PostProcessors to perform exception translation on @Repository classes (from native
+		exceptions such as JPA PersistenceExceptions to Spring's DataAccessException hierarchy).
+	-->
+	<!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="nestedTransactionAllowed" value="false"></property>
+	</bean>
+	
+	<bean id="strongPasswordEncryptor" class="org.jasypt.util.password.StrongPasswordEncryptor" />
+	
+	<!-- <bean id="jcrSessionFactory" class="org.springframework.extensions.jcr.jackrabbit.JackrabbitSessionFactory">
+		<property name="repository" ref="repository"/>
+		<property name="credentials">
+			<bean class="javax.jcr.SimpleCredentials">
+				<constructor-arg index="0" value="admin" />
+				<constructor-arg index="1" value="admin" />
+			</bean>
+		</property> -->
+		<!-- <property name="nodeDefinitions" value="classpath:custom_nodetypes.xml"/>
+		<property name="namespaces">
+			<props>
+				<prop key="ocm">http://jackrabbit.apache.org/ocm</prop>
+			</props>
+		</property>
+		<property name="keepNewNamespaces" value="true"></property> -->
+	<!-- </bean> -->
+
+	<bean id="mapper" class="org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl">
+		<constructor-arg>
+		<list value-type="java.lang.Class">
+			<value>it.av.eatt.ocm.model.BasicEntity</value>
+	       	<value>it.av.eatt.ocm.model.Ristorante</value>
+	        <value>it.av.eatt.ocm.model.Folder</value>
+      	</list>
+		</constructor-arg>
+	</bean>
+	
+<!-- 	<bean id="jcrMappingTemplateGeneric" class="org.springframework.extensions.jcr.jackrabbit.ocm.JcrMappingTemplateGeneric">
+		<constructor-arg index="0" ref="jcrSessionFactory"/>
+		<constructor-arg index="1" ref="mapper"/>
+		<property name="allowCreate" value="false"/>
+	</bean>
+
+	<bean id="jcrMappingTemplate" class="org.springframework.extensions.jcr.jackrabbit.ocm.JcrMappingTemplate">
+		<constructor-arg index="0" ref="jcrSessionFactory"/>
+		<constructor-arg index="1" ref="mapper"/>
+		<property name="allowCreate" value="false"/>
+	</bean> -->
+
+	<bean id="jpaDaoSupport" class="org.springframework.orm.jpa.support.JpaDaoSupport" abstract="true"/>
+	
+ 	<bean id="wicketApplication" class="it.av.eatt.web.WicketApplication">
+		<property name="configurationType" value="deployment" />
+	</bean>
+
+	<bean id="userService" class="it.av.eatt.service.impl.EaterServiceHibernate" parent="jpaDaoSupport" >
+		<property name="passwordEncoder" ref="strongPasswordEncryptor" />
+		<property name="userProfileService" ref="userProfileService" />
+		<property name="userRelationService" ref="userRelationService" />
+	</bean>
+
+	<bean id="commentService" class="it.av.eatt.service.impl.CommentServiceHibernate" parent="jpaDaoSupport" />
+
+	<bean id="userProfileService" class="it.av.eatt.service.impl.EaterProfileServiceHibernate" parent="jpaDaoSupport" />
+
+	<bean id="activityService" class="it.av.eatt.service.impl.ActivityServiceHibernate" parent="jpaDaoSupport" />
+
+	<bean id="activityRistoranteService" class="it.av.eatt.service.impl.ActivityRistoranteServiceHibernate" parent="jpaDaoSupport"/>
+
+	<bean id="tagService" class="it.av.eatt.service.impl.TagServiceHibernate" parent="jpaDaoSupport" />
+
+	<bean id="ristoranteRevisionService" class="it.av.eatt.service.impl.RistoranteRevisionServiceHibernate"/>
+	
+	<bean id="rateRistoranteService" class="it.av.eatt.service.impl.RateRistoranteServiceHibernate"/>
+	
+	<bean id="ristoranteService" class="it.av.eatt.service.impl.RistoranteServiceHibernate" parent="jpaDaoSupport"/>
+	
+	
+	<!--<bean id="jcrRistoranteService" class="it.av.eatt.service.impl.JcrRistoranteServiceJackrabbit">
+		<property name="jcrMappingtemplate" ref="jcrMappingTemplateGeneric" />
+		<property name="basePath" value="/ristoranti" />
+	</bean>-->
+	
+	<bean id="userRelationService" class="it.av.eatt.service.impl.EaterRelationServiceHibernate" parent="jpaDaoSupport" />
+	
+	<bean id="dataRistoranteService" class="it.av.eatt.service.impl.DataRistoranteServiceHibernate" parent="jpaDaoSupport"/>
+	
+	<bean id="countryRegionService" class="it.av.eatt.service.impl.CountryRegionServiceHibernate" parent="jpaDaoSupport"/>
+	
+	<bean id="countryService" class="it.av.eatt.service.impl.CountryServiceHibernate" parent="jpaDaoSupport"/>
+	
+	<bean id="cityService" class="it.av.eatt.service.impl.CityServiceHibernate" parent="jpaDaoSupport"/>
+	
+	<bean id="languageService" class="it.av.eatt.service.impl.LanguageServiceHibernate" parent="jpaDaoSupport"/>
+	
+	<bean id="ristorantePictureHibernate" class="it.av.eatt.service.impl.RistorantePictureHibernate" parent="jpaDaoSupport"/>
+
+	<bean id="repositoryInitStructure" class="it.av.eatt.repo.util.RepositoryInitStructureImpl"/>
+
+	<bean id="applicationInit" class="it.av.eatt.init.ApplicationInit">
+		<constructor-arg ref="repositoryInitStructure" />
+	</bean>
+
+	<bean id="passwordEncoder" class="org.jasypt.spring.security2.PasswordEncoder">
+		<property name="passwordEncryptor" ref="strongPasswordEncryptor" />
+	</bean>
+
+	<bean id="userDetailsService" class="it.av.eatt.web.security.UserDetailsServiceImpl" scope="prototype">
+		<property name="service" ref="userService" />
+	</bean>
+
+	<bean id="daoAuthenticationProvider" class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsService" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+	</bean>
+
+	<bean id="authenticationProvider" class="it.av.eatt.web.security.AuthenticationProvider">
+		<constructor-arg ref="daoAuthenticationProvider" />
+	</bean>
+</beans>

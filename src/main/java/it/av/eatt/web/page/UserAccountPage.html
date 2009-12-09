@@ -1,0 +1,48 @@
+<wicket:extend>
+    <div id="wrapper">
+    <div id="content">
+    <form wicket:id="account">
+           <fieldset>
+             <table class="form-risto">
+                <tr>
+                <th><label for="email"><wicket:message key="email"/></label></th>
+                <td><span wicket:id="email"></span></td>
+                </tr>
+                <tr>
+                <th><label for="firstName"><wicket:message key="firstname"/></label></th>
+                <td><input type="text" wicket:id="firstname"></input></td>
+                </tr>
+                <tr>
+                <th><label for="lastName"><wicket:message key="lastname"/></label></th>
+                <td><input type="text" wicket:id="lastname"></input></td>
+                </tr>
+                <tr>
+                <th><label for="language"><wicket:message key="userLanguage"/></label></th>
+                <td><select wicket:id="language"></select></td>
+                </tr>
+                <tr>
+                <th><label for="password"><wicket:message key="oldPassword"/></label></th>
+                <td><input type="password" wicket:id="oldPassword"></input></td>
+                </tr>
+                <tr>
+                <th><label for="password"><wicket:message key="newPassword"/></label></th>
+                <td><input type="password" wicket:id="newPassword"></input></td>
+                </tr>
+                <tr>
+                <th><label for="password-confirm"><wicket:message key="confirmNewPassword"/></label></th>
+                <td><input type="password" wicket:id="password-confirm"></input></td>
+                </tr>
+                <tr>
+                <td colspan="2" class="submitarea"><input class="submitButton" type="submit" wicket:message="value:button.saveAccount" wicket:id="saveAccount"></input></td>
+                </tr>
+            </table>
+            </fieldset>
+         </form>
+    </div>
+    </div>
+    <div id="extra">
+    </div>
+    <div id="navigation">
+    
+    </div>
+</wicket:extend>

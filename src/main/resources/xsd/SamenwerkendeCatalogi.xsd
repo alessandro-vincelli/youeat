@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:adviescollege="http://www.adviesoverheid.nl/metadata-project/adviescollege/" xmlns:audiencesc="http://www.adviesoverheid.nl/metadata-project/audiencesc/" xmlns:deelgemeenten="http://www.adviesoverheid.nl/metadata-project/deelgemeenten/" xmlns:gemeenten="http://www.adviesoverheid.nl/metadata-project/gemeenten/" xmlns:language="http://www.adviesoverheid.nl/metadata-project/language/" xmlns:ministeries="http://www.adviesoverheid.nl/metadata-project/ministeries/" xmlns:metadatavelden="http://www.adviesoverheid.nl/metadata-project/metadatavelden/" xmlns:openbaarlichaam="http://www.adviesoverheid.nl/metadata-project/openbaarlichaam/" xmlns:provincies="http://www.adviesoverheid.nl/metadata-project/provincies/" xmlns:rechtmacht="http://www.adviesoverheid.nl/metadata-project/rechtmacht/" xmlns:regiosamenwerking="http://www.adviesoverheid.nl/metadata-project/regiosamenwerking/" xmlns:taxonomiesc="http://www.adviesoverheid.nl/metadata-project/taxonomiesc/" xmlns:waterschappen="http://www.adviesoverheid.nl/metadata-project/waterschappen/" xmlns:zbo="http://www.adviesoverheid.nl/metadata-project/zbo/" xmlns="http://www.adviesoverheid.nl/metadata-project/samenwerkende-catalogi/2007-1/" targetNamespace="http://www.adviesoverheid.nl/metadata-project/samenwerkende-catalogi/2007-1/" elementFormDefault="qualified">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="nl">
+			XML Schema voor het weergeven van een product en een lijst
+			van producten. Producten kunnen gebruikt worden om
+			informatie aan te leveren die opgenomen moet worden in de
+			database van Samenwerkende Catalogi of om resultaten van een
+			query weer te geven.
+		  	Onderdeel van de Standaard voor Samenwerkende Catalogi versie 2.1	
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:import namespace="http://www.adviesoverheid.nl/metadata-project/adviescollege/" schemaLocation="adviescollege.xsd"/>
+	<xsd:import namespace="http://www.adviesoverheid.nl/metadata-project/audiencesc/" schemaLocation="audiencesc.xsd"/>
+	<xsd:import namespace="http://www.adviesoverheid.nl/metadata-project/deelgemeenten/" schemaLocation="deelgemeenten.xsd"/>
+	<xsd:import namespace="http://www.adviesoverheid.nl/metadata-project/gemeenten/" schemaLocation="gemeenten.xsd"/>
+	<xsd:import namespace="http://www.adviesoverheid.nl/metadata-project/language/" schemaLocation="language.xsd"/>
+	<xsd:import namespace="http://www.adviesoverheid.nl/metadata-project/ministeries/" schemaLocation="ministeries.xsd"/>
+	<xsd:import namespace="http://www.adviesoverheid.nl/metadata-project/openbaarlichaam/" schemaLocation="openbaarlichaam.xsd"/>
+	<xsd:import namespace="http://www.adviesoverheid.nl/metadata-project/provincies/" schemaLocation="provincies.xsd"/>
+	<xsd:import namespace="http://www.adviesoverheid.nl/metadata-project/rechtmacht/" schemaLocation="rechtmacht.xsd"/>
+	<xsd:import namespace="http://www.adviesoverheid.nl/metadata-project/regiosamenwerking/" schemaLocation="regiosamenwerking.xsd"/>
+	<xsd:import namespace="http://www.adviesoverheid.nl/metadata-project/taxonomiesc/" schemaLocation="taxonomiesc.xsd"/>
+	<xsd:import namespace="http://www.adviesoverheid.nl/metadata-project/waterschappen/" schemaLocation="waterschappen.xsd"/>
+	<xsd:import namespace="http://www.adviesoverheid.nl/metadata-project/zbo/" schemaLocation="zbo.xsd"/>
+	<!-- Hieronder volgen de definities van elementen die in XML berichten gebaseerd op dit schema gebruikt kunnen worden. -->
+	<xsd:element name="indexfeed">
+		<xsd:complexType>
+			<xsd:annotation>
+				<xsd:documentation>
+					Een indexfeed is een lijst van producten met een een
+					aanmaakdatum. De aanmaakdatum geldt voor het
+					bericht. Gebruik documenten van dit type voor het
+					aanleveren van content aan de indexer. In het
+					architectuur overzicht in 'Technische documentatie
+					berichtformaten' komt het bericht element overeen
+					met datastroom '1'.
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:sequence>
+				<xsd:element name="aanmaakdatum" type="xsd:dateTime">
+					<xsd:annotation>
+						<xsd:documentation>
+							Datum waarop het bestand gemaakt is. Te
+							gebruiken om te bepalen of bestand wel of
+							niet geindexeerd moet worden.
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="typeInformatie">
+					<xsd:annotation>
+						<xsd:documentation>
+							Is in het kader van producten- en
+							dienstencatalogi altijd
+							'productbeschrijving'. Met behulp van deze
+							tag kan zeer betrouwbaar een deelverzameling
+							worden geidentificeerd van
+							productbeschrijvingen die door
+							overheidsorganisaties op internet wordt
+							aangeboden. In Herziening metadata staat dat
+							dit element beperkt moet blijven tot
+							OVERHEID.informatietype, maar dat type is
+							niet gedefinieerd. Dit is het type veld van
+							Dublin core.
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="productbeschrijving"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="lijst" type="productLijstType">
+					<xsd:annotation>
+						<xsd:documentation>
+							De lijst van producten die geindexeerd
+							moeten worden.
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="zoekvraag">
+		<xsd:annotation>
+			<xsd:documentation>
+				Het zoekvraag element wordt gebruikt om te zoeken in de
+				index. In het architectuur overzicht in 'Technische
+				documentatie berichtformaten' komt het bericht element
+				overeen met datastroom '2' van de zoekfuncties naar de
+				gemeenschappelijke index.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="zoekgebied" type="zoekgebiedType" minOccurs="0"/>
+				<xsd:element name="zoekargument" type="zoekargumentType"/>
+				<xsd:element name="volgorde" type="sorteervolgordeType" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:attribute name="start" type="xsd:integer" default="1"/>	
+			<xsd:attribute name="results" type="xsd:integer" default="500"/>	
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="zoekresultaat">
+		<xsd:annotation>
+			<xsd:documentation>
+				De lijst van zoekresultaten van de zoekactie.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="resultaatlijst" type="resultaatLijstType"/>
+			</xsd:sequence>
+			<xsd:attribute name="start" type="xsd:integer" use="required"/>	
+			<xsd:attribute name="results" type="xsd:integer" use="required"/>	
+			<xsd:attribute name="total" type="xsd:integer" use="required"/>	
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="status" type="statusType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Het resultaat van het aanbieden van een bericht aan de
+				indexer.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<!--  Hieronder volgen type definities die gebruikt worden bij de definitie van elementen. -->
+	<xsd:complexType name="statusType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Type voor de weergave van het resultaat van het
+				aanbieden van een bericht aan de indexer of het stellen
+				van een zoekvraag.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="statuscode">
+				<xsd:annotation>
+					<xsd:documentation>
+						Een statuscode waarmee het resultaat
+						gedefinieerd wordt.
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="ok"/>
+						<xsd:enumeration value="fout"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="meldingen" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>
+						Meldingen die door de validatie software, de
+						indexer of de zoekmachine gegeven worden.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="productType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Product bevat de basis informatie over een dienst.
+				Product is de eenheid die geindexeerd wordt en die
+				opgeleverd wordt als resultaat van een zoekactie.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element ref="auteur"/>
+			<xsd:element ref="publicerendeOrganisatie"/>
+			<xsd:element ref="productnaam"/>
+			<xsd:element ref="inhoud" minOccurs="0"/>
+			<xsd:element ref="mutatiedatum"/>
+			<xsd:element ref="onderwerp1" maxOccurs="unbounded"/>
+			<xsd:element ref="onderwerp2" minOccurs="0"/>
+			<xsd:element ref="onderwerp3" minOccurs="0"/>
+			<xsd:element ref="doelgroep" maxOccurs="unbounded"/>
+			<xsd:element ref="taal"/>
+			<xsd:element ref="url"/>
+			<xsd:element ref="productID"/>
+			<xsd:element ref="onlinedienst" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Types die gebruikt worden bij het maken van een product en een zoekvraag -->
+	<xsd:element name="auteur" type="governmentOrganisationType">
+		<xsd:annotation>
+			<xsd:documentation>
+				De overheidsorganisatie met eindverantwoordelijkheid
+				voor het creeren van de productbeschrijving. Dit is het
+				creator veld van Dublin Core.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="publicerendeOrganisatie" type="governmentOrganisationType">
+		<xsd:annotation>
+			<xsd:documentation>
+				De overheidsorganisatie verantwoordelijk voor het
+				beschikbaar maken van de productbeschrijving. Dit is het
+				publisher veld van Dublin Core.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="overheidsorganisatietype" type="overheidsOrganisatieType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Een element voor de referentie naar
+				overheidsorganisatietypes.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="productnaam" type="tekenreeksType">
+		<xsd:annotation>
+			<xsd:documentation>
+				De naam van het product of de dienst zoals deze in de
+				catalogus wordt genoemd. Dit is het title veld van
+				Dublin Core.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="inhoud" type="tekenreeksType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Bevat een korte voor burgers geschikte omschrijving van
+				het product. Bedoeld om te presenteren in het
+				zoekresultaat. De gehele productbeschrijving of een
+				deel/samenvatting daarvan. Dit is het description veld
+				van Dublin Core.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="mutatiedatum" type="xsd:dateTime">
+		<xsd:annotation>
+			<xsd:documentation>
+				De datum waarop de productbeschrijving of onderdelen
+				ervan voor het laatst is aangepast. Indien deze datum in
+				het systeem niet aanwezig is kan ook een dummy datum
+				worden meegegeven, namelijk de datum van aanbieden van
+				de informatie in een responsebericht dan wel via de
+				XML-feed. Dit is het modified veld van Dublin Core.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="onderwerp1" type="taxonomiesc:taxonomiesc">
+		<xsd:annotation>
+			<xsd:documentation>
+				Een of meer thema's waarmee het betreffende
+				overheidsproduct samenhangt. Dit is het
+				OVERHEID.category veld.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="onderwerp2" type="tekenreeksType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Wordt gebruikt als trefwoordenlijst om de vindbaarheid
+				van producten te verbeteren. Mag eventueel ook
+				beschrijvende tekst bevatten, of trefwoorden uit
+				gemeentespecifieke taxonomieen. Van belang is om
+				trefwoorden op te nemen die aansluiten bij vraagpatroon
+				van burger: een product over asbestverwijdering zal als
+				trefwoord ook 'bouwvergunning' kunnen hebben, omdat bij
+				bouwen vaak ook slopen en mogelijk dus ook
+				asbestverwijdering aan de orde kan zijn. De tekst dient
+				niet voor publicatiedoeleinden. Dit is het
+				OVERHEID.keyword veld.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="onderwerp3" type="tekenreeksType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Bevat beschrijvende tekst, of teksten uit
+				gemeentespecifieke taxonomieen. Doel van dit veld is de
+				vindbaarheid van het product te vergroten. Er wordt
+				gezocht in dit veld (kan bijvoorbeeld de gehele
+				productbeschrijving zijn). De tekst dient niet voor
+				publicatiedoeleinden.Dit is het subject veld van Dublin
+				Core.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="doelgroep" type="audiencesc:audiencesc">
+		<xsd:annotation>
+			<xsd:documentation>
+				Doelgroepen van het beschreven product. Dit is het
+				audience veld van Dublin core.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="taal" type="language:language">
+		<xsd:annotation>
+			<xsd:documentation>
+				De taal waarin het product beschreven is. Dit is
+				relevant vanwege het Fries, maar ook vanwege mogelijke
+				toekomstige ondersteuning van meer talen. Dit is het
+				language veld van Dublin core.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="url" type="tekenreeksType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Link naar de productbeschrijving. Dit is het identifier
+				veld van Dublin core.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="productID" type="tekenreeksType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Unieke ID gekoppeld aan producten.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="onlinedienst" type="aanvraagType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Met dit veld kan worden aangegeven of een product of dienst
+				online is aan te vragen en zo ja, wat de URL is van de 
+				betreffende pagina.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>	
+	<!--  Lijsten -->
+	<xsd:complexType name="productLijstType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Lijst van producten ten behoeve van indexering.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="product" type="productType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="resultaatLijstType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Lijst van producten als resultaat van een zoekvraag.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="resultaat" type="resultaatType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--  Online aanvragen -->
+	<xsd:complexType name="aanvraagType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Type waarmee kan worden aangeduid of een product of
+				dienst online kan worden aangevraagd en eventueel
+				op welke URL
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="online">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="ja"/>
+						<xsd:enumeration value="nee"/>
+						<xsd:enumeration value="digid"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="aanvraagurl" type="tekenreeksType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="governmentOrganisationType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Lijst van publicerende organisaties of auteurs. Dit is
+				een verzameling van een aantal andere organisatie types.
+				Deze lijst is overgenomen uit SC.xsd. In Herziening
+				metadata staan nog een aantal types waarvan echter geen
+				xsd beschikbaar is. De ontbrekende types zijn:
+				OVERHEID.dienst, agentschap, instelling of project
+				OVERHEID.eerste of tweede kamer OVERHEID.hoog college
+				van staat OVERHEID.koepelorganisatie OVERHEID.koninklijk
+				huis OVERHEID.politiekorps OVERHEID.regering
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="adviescollege" type="adviescollege:adviescollege"/>
+			<xsd:element name="deelgemeenten" type="deelgemeenten:deelgemeenten"/>
+			<xsd:element name="gemeenten" type="gemeenten:gemeenten"/>
+			<xsd:element name="ministeries" type="ministeries:ministeries"/>
+			<xsd:element name="openbaarlichaam" type="openbaarlichaam:openbaarlichaam"/>
+			<xsd:element name="provincies" type="provincies:provincies"/>
+			<xsd:element name="rechtmacht" type="rechtmacht:rechtmacht"/>
+			<xsd:element name="regiosamenwerking" type="regiosamenwerking:regiosamenwerking"/>
+			<xsd:element name="waterschappen" type="waterschappen:waterschappen"/>
+			<xsd:element name="zbo" type="zbo:zbo"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:simpleType name="overheidsOrganisatieType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Het type overheidsorganisatie dat de productbeschrijving
+				publiceert op internet. Het voorkomen moet gerelateerd
+				worden aan auteur of publicerende organisatie (b.v.
+				auteur=deel-gemeente de Baarsjes, publ.=gemeente
+				Amsterdam). Een volgorde is nodig in de metadata om deze
+				samenhang te krijgen (regel).
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:union>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="adviescollege"/>
+					<xsd:enumeration value="deelgemeenten"/>
+					<xsd:enumeration value="gemeenten"/>
+					<xsd:enumeration value="ministeries"/>
+					<xsd:enumeration value="openbaarlichaam"/>
+					<xsd:enumeration value="provincies"/>
+					<xsd:enumeration value="rechtmacht"/>
+					<xsd:enumeration value="regiosamenwerking"/>
+					<xsd:enumeration value="waterschappen"/>
+					<xsd:enumeration value="zbo"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:union>
+	</xsd:simpleType>
+	<xsd:complexType name="resultaatType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Type voor het weergeven van een resultaat in een lijst
+				van zoekresultaten. Dit type is productType uitgebreid
+				met een relevantie indicator
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="productType">
+				<xsd:sequence>
+					<xsd:element name="relevance" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>
+								Indicatie van de relevantie van het
+								zoekresultaat.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="tekenreeksType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Type voor het weergeven van tekst waarin een
+				deelverzameling van HTML tags voor mag komen. Dit type
+				moet nog beter gedefinieerd worden. Voorlopig is het een
+				string en kan dus willekeurige tekst opgenomen worden.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!-- Hieronder volgen type definities die te maken hebben met zoekargumenten -->
+	<xsd:complexType name="zoekargumentType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Type voor het weergeven van een zoekargument: een
+				samenstelling van enkelvoudige zoekargumenten en andere
+				operators met een AND of OR.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="operator" type="operatorType" minOccurs="0"/>
+			<xsd:element name="zoekveld" type="zoekveldType" minOccurs="0" maxOccurs="2"/>
+			<xsd:element name="zoekargument" type="zoekargumentType" minOccurs="0" maxOccurs="2"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="zoekveldType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Type voor het weergeven van een zoekargument in een
+				lijst van zoekcriteria
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="zoekcriterium" type="zoekcriteriumType"/>
+			<xsd:element name="metadataveld" type="metadataveldenType"/>
+			<xsd:element name="waarde" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="metadataveldenType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Lijst met kenmerken waarop gezocht kan worden. De lijst
+				van kenmerken omvat alle metadata velden, het woord
+				'keyword' en een selectie van publicerende organisaties
+				en auteurs.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element ref="auteur"/>
+			<xsd:element ref="publicerendeOrganisatie"/>
+			<xsd:element ref="overheidsorganisatietype"/>
+			<xsd:element ref="productnaam"/>
+			<xsd:element ref="inhoud" minOccurs="0"/>
+			<xsd:element ref="mutatiedatum"/>
+			<xsd:element ref="onderwerp1" maxOccurs="unbounded"/>
+			<xsd:element ref="onderwerp2" minOccurs="0"/>
+			<xsd:element ref="onderwerp3" minOccurs="0"/>
+			<xsd:element ref="doelgroep" maxOccurs="unbounded"/>
+			<xsd:element ref="taal"/>
+			<xsd:element ref="url"/>
+			<xsd:element ref="productID"/>
+			<xsd:element ref="onlinedienst" minOccurs="0"/>
+			<xsd:element name="keyword" type="xsd:string"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:simpleType name="operatorType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Type voor het weergeven van een AND of OR operator in
+				een zoekargument.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:union>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="OR"/>
+					<xsd:enumeration value="AND"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:union>
+	</xsd:simpleType>
+	<xsd:simpleType name="zoekcriteriumType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Type voor het weergeven van een match methode in een
+				zoekargument.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:union>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="MATCH-EXACT"/>
+					<xsd:enumeration value="MATCH"/>
+					<xsd:enumeration value="MATCH-EXCEPT"/>
+					<xsd:enumeration value="MATCH-EQ-LT"/>
+					<xsd:enumeration value="MATCH-EQ-GT"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:union>
+	</xsd:simpleType>
+	<xsd:complexType name="zoekgebiedType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Opgave van het zoekgebied.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="organisatie" type="governmentOrganisationType" minOccurs="0"/>
+				<xsd:element name="postcode" type="xsd:string" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:element name="bereik" type="overheidsOrganisatieType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="sorteervolgordeType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Lijst van mogelijke sorteervolgordes voor het
+				zoekresultaat.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:union>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="datum-meest-recente-eerst"/>
+					<xsd:enumeration value="datum-minst-recente-eerst"/>
+					<xsd:enumeration value="relevantie"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:union>
+	</xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.adviesoverheid.nl/metadata-project/ministeries/" targetNamespace="http://www.adviesoverheid.nl/metadata-project/ministeries/" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation xml:lang="nl">
+		  Lijst met Nederlandse ministeries.
+		  Onderdeel van de Standaard voor Samenwerkende Catalogi versie 2.1
+	    </xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="ministeries">
+		<xs:union>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Ministerie van Algemene Zaken"/>
+					<xs:enumeration value="Ministerie van Binnenlandse Zaken en Koninkrijksrelaties"/>
+					<xs:enumeration value="Ministerie van Buitenlandse Zaken"/>
+					<xs:enumeration value="Ministerie van Defensie"/>
+					<xs:enumeration value="Ministerie van Economische Zaken"/>
+					<xs:enumeration value="Ministerie van Financiën"/>
+					<xs:enumeration value="Ministerie van Justitie"/>
+					<xs:enumeration value="Ministerie van Landbouw, Natuur en Voedselkwaliteit"/>
+					<xs:enumeration value="Ministerie van Onderwijs, Cultuur en Wetenschap"/>
+					<xs:enumeration value="Ministerie van Sociale Zaken en Werkgelegenheid"/>
+					<xs:enumeration value="Ministerie van Volkshuisvesting, Ruimtelijke Ordening en Milieubeheer"/>
+					<xs:enumeration value="Ministerie van Verkeer en Waterstaat"/>
+					<xs:enumeration value="Ministerie van Volksgezondheid, Welzijn en Sport"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+</xs:schema>

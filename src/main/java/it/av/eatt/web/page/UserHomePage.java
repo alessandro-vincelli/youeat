@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -84,10 +85,20 @@ public class UserHomePage extends BasePage {
             public String getCssClass() {
                 return "ristoName";
             }
+
+            @Override
+            public Component getHeader(String componentId) {
+                return super.getHeader(componentId).setVisible(false);
+            }
         });
 
         columns.add(new PropertyColumn<Ristorante>(new Model<String>(new StringResourceModel("city", this, null)
-                .getString()), "city"));
+                .getString()), "city") {
+            @Override
+            public Component getHeader(String componentId) {
+                return super.getHeader(componentId).setVisible(false);
+            }
+        });
 
         RistoranteDataTable<Ristorante> ristoranteDataTable = new RistoranteDataTable<Ristorante>(
                 "ristoranteDataTable", columns, ristoranteSortableDataProvider, 10);
@@ -166,12 +177,13 @@ public class UserHomePage extends BasePage {
                                 + item.getModelObject().getRistorante().getId()));
                 ristoLink.add(new Label("ristorante.name"));
                 item.add(ristoLink);
-                item.add(new AjaxFallbackLink<String>("view-eater"){
+                item.add(new AjaxFallbackLink<String>("view-eater") {
                     @Override
                     public void onClick(AjaxRequestTarget target) {
-                        PageParameters pp = new PageParameters(YoueatHttpParams.PARAM_YOUEAT_ID +"="+item.getModelObject().getEater().getId());
+                        PageParameters pp = new PageParameters(YoueatHttpParams.PARAM_YOUEAT_ID + "="
+                                + item.getModelObject().getEater().getId());
                         setResponsePage(ViewUserPage.class, pp);
-                    } 
+                    }
                 }.add(new Label("eater.lastname")));
             }
         };
@@ -194,11 +206,11 @@ public class UserHomePage extends BasePage {
             @Override
             protected void onBeforeRender() {
                 super.onBeforeRender();
-                if(friendsActivities.size() == 0){
+                if (friendsActivities.size() == 0) {
                     setVisible(false);
                 }
             }
-            
+
         };
         friendsActivitiesListContainer.add(moreFriendsActivitiesLink);
     }

@@ -24,6 +24,7 @@ import it.av.eatt.web.data.RistoranteSortableDataProvider;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
@@ -64,10 +65,20 @@ public class HomePage extends BasePage {
             public String getCssClass() {
                 return "ristoName";
             }
+            
+            @Override
+            public Component getHeader(String componentId) {
+                return super.getHeader(componentId).setVisible(false);
+            }
         });
 
         columns.add(new PropertyColumn<Ristorante>(new Model<String>(new StringResourceModel("city", this, null)
-                .getString()), "city"));
+                .getString()), "city"){
+                    @Override
+                    public Component getHeader(String componentId) {
+                        return super.getHeader(componentId).setVisible(false);
+                    }
+        });
 
         RistoranteDataTable<Ristorante> ristoranteDataTable = new RistoranteDataTable<Ristorante>(
                 "ristoranteDataTable", columns, ristoranteSortableDataProvider, 10);

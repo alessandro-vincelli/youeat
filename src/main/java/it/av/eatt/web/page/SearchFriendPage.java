@@ -22,6 +22,7 @@ import it.av.eatt.web.data.SearchUserFriendSortableDataProvider;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.extensions.ajax.markup.html.repeater.data.table.AjaxFallbackDefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
@@ -62,11 +63,26 @@ public class SearchFriendPage extends BasePage {
             public void populateItem(Item<ICellPopulator<Eater>> cellItem, String componentId, IModel<Eater> model) {
                 cellItem.add(new SearchFriendTableActionPanel(componentId, model));
             }
+
+            @Override
+            public Component getHeader(String componentId) {
+                return super.getHeader(componentId).setVisible(false);
+            }
         });
         columns.add(new PropertyColumn<Eater>(new Model<String>(new StringResourceModel("firstname", this, null)
-                .getString()), "firstname"));
+                .getString()), "firstname") {
+            @Override
+            public Component getHeader(String componentId) {
+                return super.getHeader(componentId).setVisible(false);
+            }
+        });
         columns.add(new PropertyColumn<Eater>(new Model<String>(new StringResourceModel("lastname", this, null)
-                .getString()), "lastname"));
+                .getString()), "lastname") {
+            @Override
+            public Component getHeader(String componentId) {
+                return super.getHeader(componentId).setVisible(false);
+            }
+        });
         searchFriendsDataProvider = new SearchUserFriendSortableDataProvider(getLoggedInUser());
         AjaxFallbackDefaultDataTable<Eater> searchFriendsDataTable = new AjaxFallbackDefaultDataTable<Eater>(
                 "searchFriendsDataTable", columns, searchFriendsDataProvider, 20);

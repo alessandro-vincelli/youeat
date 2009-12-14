@@ -78,7 +78,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
         // THIS LINE IS IMPORTANT - IT INSTALLS THE COMPONENT INJECTOR THAT WILL
         // INJECT NEWLY CREATED COMPONENTS WITH THEIR SPRING DEPENDENCIES
         if(getSpringContext() != null){
-            addComponentInstantiationListener(new SpringComponentInjector(this, getSpringContext()));
+            addComponentInstantiationListener(new SpringComponentInjector(this, getSpringContext(), true));
         }
         mount(new IndexedParamUrlCodingStrategy("/signIn", SignIn.class));
         mount(new HybridUrlCodingStrategy("/userProfile", UserProfilePage.class));

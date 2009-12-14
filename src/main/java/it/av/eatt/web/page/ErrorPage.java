@@ -12,7 +12,7 @@ public class ErrorPage extends BasePage {
 	 * Constructor.
 	 */
 	public ErrorPage(Throwable e) {
-
+	    super();
         // Random delay to prevent attackers to get information from timing
 	    //TODO import  common library
         //ThreadUtils.randomSleep(200, 1000);

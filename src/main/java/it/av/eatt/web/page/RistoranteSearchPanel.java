@@ -67,7 +67,7 @@ public class RistoranteSearchPanel extends Panel {
         AutoCompleteSettings autoCompleteSettings = new AutoCompleteSettings();
         autoCompleteSettings.setCssClassName("autocomplete-risto");
         autoCompleteSettings.setAdjustInputWidth(false);
-        fc = new searchBox("searchData", autoCompleteSettings, dataProvider.getRistoranteService());
+        fc = new SearchBox("searchData", autoCompleteSettings, dataProvider.getRistoranteService());
         form.add(fc);
         // event and throttle it down to once per second
         AjaxFormValidatingBehavior.addToAllFormComponents(form, "onkeyup", Duration.ONE_SECOND);
@@ -119,11 +119,11 @@ public class RistoranteSearchPanel extends Panel {
         }
     }
 
-    private static class searchBox extends AutoCompleteTextField<String> {
+    private static class SearchBox extends AutoCompleteTextField<String> {
         private static final long serialVersionUID = 1L;
         private RistoranteService ristoranteService;
 
-        public searchBox(String id, AutoCompleteSettings autoCompleteSettings, RistoranteService ristoranteService) {
+        public SearchBox(String id, AutoCompleteSettings autoCompleteSettings, RistoranteService ristoranteService) {
             super(id, autoCompleteSettings);
             this.ristoranteService = ristoranteService;
         }
@@ -133,14 +133,13 @@ public class RistoranteSearchPanel extends Panel {
             Collection<String> choises = new ArrayList<String>();
             try {
                 if (!input.isEmpty() && input.length() > 2)
-                    for (Ristorante risto : ristoranteService.freeTextSearch(input + "*")) {
+                    for (Ristorante risto : ristoranteService.freeTextSearch(input + "~")) {
                         choises.add(risto.getName());
                     }
             } catch (JackWicketException e) {
             }
             return choises.iterator();
         }
-
     }
 
 }

@@ -120,4 +120,5 @@ public interface EaterService {
      */
     @Transactional(readOnly = true)
     Eater getByID(String id);
+
 }

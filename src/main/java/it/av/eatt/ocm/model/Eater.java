@@ -25,7 +25,16 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.apache.solr.analysis.ISOLatin1AccentFilterFactory;
+import org.apache.solr.analysis.LowerCaseFilterFactory;
+import org.apache.solr.analysis.StandardTokenizerFactory;
+import org.hibernate.search.annotations.AnalyzerDef;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
+import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.annotations.TokenizerDef;
 
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
@@ -36,6 +45,9 @@ import org.hibernate.search.annotations.Indexed;
         uniqueConstraints = {@UniqueConstraint(columnNames={"email"})}
 )
 @Indexed
+@AnalyzerDef(name = "eateranalyzer", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class), filters = {
+    @TokenFilterDef(factory = ISOLatin1AccentFilterFactory.class),
+    @TokenFilterDef(factory = LowerCaseFilterFactory.class)})
 public class Eater extends BasicEntity {
     
     public static final String ID = "id"; 
@@ -48,7 +60,9 @@ public class Eater extends BasicEntity {
     public static final String LANGUAGE = "language";
     
     private String password;
+    @Field(index = Index.NO_NORMS, store = Store.NO)
     private String firstname;
+    @Field(index = Index.NO_NORMS, store = Store.NO)
     private String lastname;
     private String email;
     private String country;

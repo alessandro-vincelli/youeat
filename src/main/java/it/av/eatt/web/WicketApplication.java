@@ -32,6 +32,10 @@ import it.av.eatt.web.security.SecuritySession;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.wicket.Application;
+import org.apache.wicket.Request;
+import org.apache.wicket.RequestCycle;
+import org.apache.wicket.Response;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadWebRequest;
@@ -119,6 +123,37 @@ public class WicketApplication extends AuthenticatedWebApplication {
     protected WebRequest newWebRequest(HttpServletRequest servletRequest) {
         return new UploadWebRequest(servletRequest);
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RequestCycle newRequestCycle(Request request, Response response) {
+        return new YouetRequestCycle(this, (WebRequest) request, response);
+    }
+    
+    /**
+     * Get Application for current thread.
+     *
+     * @return The current thread's BBoxApplication
+     */
+    public static WicketApplication get() {
+        return (WicketApplication) Application.get();
+    }
+    
+    /**
+     * @return true when running in deployment configuration, false for development configuration
+     */
+    public boolean inDeployment() {
+        return DEPLOYMENT.equals(getConfigurationType());
+    }
+
+    /**
+     * @return true when running in development configuration, false for deployment configuration
+     */
+    public boolean inDevelopment() {
+        return !inDeployment();
+    }    
     
     public final void setConfigurationType(String configurationType) {
         this.configurationType = configurationType;

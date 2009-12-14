@@ -72,7 +72,7 @@ public class SearchFriendPage extends BasePage {
                 "searchFriendsDataTable", columns, searchFriendsDataProvider, 20);
         searchFriendsContainer.add(searchFriendsDataTable);
         searchFriendPanel = new SearchFriendPanel(searchFriendsDataProvider, searchFriendsDataTable, "searchPanel",
-                getFeedbackPanel());
+                getFeedbackPanel(), getLoggedInUser());
         add(searchFriendPanel);
     }
 

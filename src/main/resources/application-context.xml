@@ -109,7 +109,7 @@
 	<bean id="jpaDaoSupport" class="org.springframework.orm.jpa.support.JpaDaoSupport" abstract="true"/>
 	
  	<bean id="wicketApplication" class="it.av.eatt.web.WicketApplication">
-		<property name="configurationType" value="deployment" />
+		<property name="configurationType" value="development" />
 	</bean>
 
 	<bean id="userService" class="it.av.eatt.service.impl.EaterServiceHibernate" parent="jpaDaoSupport" >

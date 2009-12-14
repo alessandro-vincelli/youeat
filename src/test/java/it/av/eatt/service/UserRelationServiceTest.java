@@ -153,10 +153,10 @@ public class UserRelationServiceTest {
             
             Collection<Eater> relatedUser = userService.findUserWithoutRelation(a);
             assertNotNull(relatedUser);
-            assertTrue(relatedUser.size() >= 0);
+            assertTrue(relatedUser.size() == 0);
             
-            relatedUser = userService.findUserWithoutRelation(a, "%Mario%");
+            relatedUser = userService.findUserWithoutRelation(a, "Mario");
             assertNotNull(relatedUser);
-            assertTrue(relatedUser.size() >= 0);
+            assertTrue(relatedUser.size() == 0);
     }
 } 

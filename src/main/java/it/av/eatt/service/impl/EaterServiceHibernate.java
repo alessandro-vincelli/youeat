@@ -19,6 +19,7 @@ import it.av.eatt.JackWicketException;
 import it.av.eatt.UserAlreadyExistsException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterRelation;
+import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.service.EaterProfileService;
 import it.av.eatt.service.EaterRelationService;
 import it.av.eatt.service.EaterService;
@@ -28,9 +29,12 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.lucene.queryParser.MultiFieldQueryParser;
+import org.apache.lucene.queryParser.QueryParser;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.search.jpa.FullTextEntityManager;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.dao.DataAccessException;
 
@@ -104,24 +108,43 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
      */
     @Override
     public Collection<Eater> findUserWithoutRelation(Eater forUser, String pattern) {
-        // TODO can be improved with an outer join
+        StringBuffer searchPattern = new StringBuffer("-id:(");
+        searchPattern.append(forUser.getId());
+        searchPattern.append(" ");
+        // collect eater already friends to exclude them from the results 
         Collection<EaterRelation> relatedUser = userRelationService.getAllRelations(forUser);
         ArrayList<String> relatedUserId = new ArrayList<String>(relatedUser.size());
         for (EaterRelation userRelation : relatedUser) {
             relatedUserId.add(userRelation.getToUser().getId());
+            searchPattern.append(userRelation.getToUser().getId());
+            searchPattern.append(" ");
         }
-        List<Criterion> criterions = new ArrayList<Criterion>(3);
+        searchPattern.append(")");
+        // use the search pattern on the firstname and lastname
         if (StringUtils.isNotBlank(pattern)) {
-            criterions.add(Restrictions.or(Restrictions.ilike(Eater.FIRSTNAME, pattern), Restrictions.ilike(
-                    Eater.LASTNAME, pattern)));
+            searchPattern.append(" %% (");
+            searchPattern.append(" firstname:(");
+            searchPattern.append(pattern);
+            searchPattern.append(") || ");
+            searchPattern.append(" lastname:(");
+            searchPattern.append(pattern);
+            searchPattern.append(")) ");
         }
-        if (relatedUserId.size() > 0) {
-            criterions.add(Restrictions.not(Restrictions.in(Eater.ID, relatedUserId)));
+
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
+                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+
+        QueryParser queryParser = new QueryParser("", fullTextEntityManager.getSearchFactory().getAnalyzer(
+                "ristoranteanalyzer"));
+
+        org.apache.lucene.search.Query query;
+        try {
+            query = queryParser.parse(searchPattern.toString());
+        } catch (Exception e) {
+            throw new JackWicketException(e);
         }
-        // escludes the forUser from the search
-        criterions.add(Restrictions.not(Restrictions.idEq(forUser.getId())));
-        List<Eater> results = super.findByCriteria(criterions.toArray(new Criterion[criterions.size()]));
-        return results;
+        javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Eater.class);
+        return persistenceQuery.getResultList();
     }
 
     /**
@@ -161,4 +184,5 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         List<Eater> results = findByCriteria(critByName);
         return results;
     }
+
 }

@@ -24,6 +24,7 @@ import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterProfile;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -90,6 +91,15 @@ public class UserServiceTest {
             a = userService.getByEmail("userServiceTest@test");
             assertNotNull("A is null", a);
             assertEquals("Invalid value for test", "Alessandro", a.getFirstname());
+            
+            /*List<Eater> found = userService.freeTextSearch("Ale*");
+            assertNotNull(found);
+            assertTrue(found.size() > 0);
+            
+            found = userService.freeTextSearch("vinc*");
+            assertNotNull(found);
+            assertTrue(found.size() > 0);
+            */
             
             userService.remove(a);
 

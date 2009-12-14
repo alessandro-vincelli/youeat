@@ -71,7 +71,7 @@ public interface RistoranteService {
     Collection<Ristorante> find(String pattern);
 
     /**
-     * Find the restaurant by the given pattern, using Lucene
+     * Find restaurants by the given pattern, using Lucene
      * 
      * @param pattern
      * @return List<Ristorante>

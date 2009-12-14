@@ -97,7 +97,7 @@ public class SearchUserFriendSortableDataProvider extends SortableDataProvider<E
      */
     public final void fetchResults(String pattern) throws JackWicketException {
         if (StringUtils.isNotBlank(pattern)) {
-            results = usersService.findUserWithoutRelation(forUser, pattern);
+            results = usersService.findUserWithoutRelation(forUser, pattern + "~");
         } else {
             results = usersService.findUserWithoutRelation(forUser);
         }

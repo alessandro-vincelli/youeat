@@ -1,6 +1,7 @@
 package it.av.eatt.todb;
 
 import it.av.eatt.JackWicketException;
+import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.Ristorante;
 
 import java.util.Collection;
@@ -25,6 +26,11 @@ public class IndexDB {
         Collection<Ristorante> ristos= em.createQuery("select risto from Ristorante as risto").getResultList();
         for (Ristorante risto : ristos) {
             fullTextEntityManager.index(risto);
+        }
+        
+        Collection<Eater> eaters = em.createQuery("select eater from Eater as eater").getResultList();
+        for (Eater eater : eaters) {
+            fullTextEntityManager.index(eater);
         }
        
 //        List<City> cities = em.createQuery("select city from City as city").getResultList();

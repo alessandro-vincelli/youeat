@@ -20,18 +20,19 @@ import it.av.eatt.ocm.model.ActivityRistorante;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.util.DateUtil;
 import it.av.eatt.service.ActivityRistoranteService;
+import it.av.eatt.web.commons.ActivityCommons;
+import it.av.eatt.web.commons.ActivityPaging;
+import it.av.eatt.web.commons.YoueatHttpParams;
 import it.av.eatt.web.components.RistoNameColumn;
 import it.av.eatt.web.components.RistoranteDataTable;
 import it.av.eatt.web.data.RistoranteSortableDataProvider;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
@@ -39,10 +40,8 @@ import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulato
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
-import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
@@ -125,10 +124,10 @@ public class UserHomePage extends BasePage {
 
             @Override
             protected void populateItem(final ListItem<ActivityRistorante> item) {
-                item.add(createActivityIcon(item));
+                item.add(ActivityCommons.createActivityIcon(getPage().getClass(), item));
                 item.add(new Label("date.time", DateUtil.getPeriod(item.getModelObject().getDate().getTime())));
                 BookmarkablePageLink<String> ristoLink = new BookmarkablePageLink<String>("ristorante.link",
-                        RistoranteViewPage.class, new PageParameters("ristoranteId="
+                        RistoranteViewPage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "="
                                 + item.getModelObject().getRistorante().getId()));
                 ristoLink.add(new Label("ristorante.name"));
                 item.add(ristoLink);
@@ -169,20 +168,20 @@ public class UserHomePage extends BasePage {
 
             @Override
             protected void populateItem(final ListItem<ActivityRistorante> item) {
-                item.add(createActivityIcon(item));
+                item.add(ActivityCommons.createActivityIcon(getPage().getClass(), item));
                 item.add(new Label("date.time", DateUtil.getPeriod(item.getModelObject().getDate().getTime())));
 
                 BookmarkablePageLink<String> ristoLink = new BookmarkablePageLink<String>("ristorante.link",
-                        RistoranteViewPage.class, new PageParameters("ristoranteId="
+                        RistoranteViewPage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "="
                                 + item.getModelObject().getRistorante().getId()));
                 ristoLink.add(new Label("ristorante.name"));
                 item.add(ristoLink);
                 item.add(new AjaxFallbackLink<String>("view-eater") {
                     @Override
                     public void onClick(AjaxRequestTarget target) {
-                        PageParameters pp = new PageParameters(YoueatHttpParams.PARAM_YOUEAT_ID + "="
+                        PageParameters pp = new PageParameters(YoueatHttpParams.USER_ID + "="
                                 + item.getModelObject().getEater().getId());
-                        setResponsePage(ViewUserPage.class, pp);
+                        setResponsePage(UserViewPage.class, pp);
                     }
                 }.add(new Label("eater.lastname")));
             }
@@ -215,96 +214,4 @@ public class UserHomePage extends BasePage {
         friendsActivitiesListContainer.add(moreFriendsActivitiesLink);
     }
 
-    private Image createActivityIcon(final ListItem<ActivityRistorante> item) {
-        // default activity icon is plus
-        ResourceReference img = new ResourceReference(this.getClass(), "resources/images/plus_64.png");
-        if (item.getModelObject().getType().equals(ActivityRistorante.TYPE_MODIFICATION)) {
-            img = new ResourceReference(this.getClass(), "resources/images/pencil_64.png");
-        } else if (item.getModelObject().getType().equals(ActivityRistorante.TYPE_VOTED)) {
-            img = new ResourceReference(this.getClass(), "resources/images/voted.gif");
-        } else if (item.getModelObject().getType().equals(ActivityRistorante.TYPE_TRIED)) {
-            img = new ResourceReference(this.getClass(), "resources/images/tick_64.png");
-        } else if (item.getModelObject().getType().equals(ActivityRistorante.TYPE_ADDED_AS_FAVOURITE)) {
-            img = new ResourceReference(this.getClass(), "resources/images/clip.png");
-        } else if (item.getModelObject().getType().equals(ActivityRistorante.TYPE_REMOVED_AS_FAVOURITE)) {
-            img = new ResourceReference(this.getClass(), "resources/images/removed-clip.png");
-        }
-        
-
-        return new Image("type", img) {
-            @Override
-            protected void onComponentTag(ComponentTag tag) {
-                super.onComponentTag(tag);
-                tag.getAttributes().put("alt", item.getModelObject().getType());
-                tag.getAttributes().put("title", item.getModelObject().getType());
-            }
-        };
-    }
-
-    private class ActivityPaging implements Serializable {
-        private int firstResult;
-        private int maxResults;
-        private int page;
-
-        /**
-         * @param firstResult
-         * @param maxResults
-         */
-        public ActivityPaging(int firstResult, int maxResults) {
-            super();
-            this.firstResult = firstResult;
-            this.maxResults = maxResults;
-            this.page = 0;
-        }
-
-        public ActivityPaging addNewPage() {
-            this.setPage(this.getPage() + 1);
-            int offset = this.getMaxResults() * this.getPage();
-            this.setFirstResult(this.getFirstResult() + offset);
-            return this;
-        }
-
-        /**
-         * @return the firstResult
-         */
-        public int getFirstResult() {
-            return firstResult;
-        }
-
-        /**
-         * @param firstResult the firstResult to set
-         */
-        public void setFirstResult(int firstResult) {
-            this.firstResult = firstResult;
-        }
-
-        /**
-         * @return the maxResults
-         */
-        public int getMaxResults() {
-            return maxResults;
-        }
-
-        /**
-         * @param maxResults the maxResults to set
-         */
-        public void setMaxResults(int maxResults) {
-            this.maxResults = maxResults;
-        }
-
-        /**
-         * @return the page
-         */
-        public int getPage() {
-            return page;
-        }
-
-        /**
-         * @param page the page to set
-         */
-        public void setPage(int page) {
-            this.page = page;
-        }
-
-    }
 }

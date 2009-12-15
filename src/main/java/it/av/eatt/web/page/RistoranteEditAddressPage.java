@@ -23,9 +23,11 @@ import it.av.eatt.service.CityService;
 import it.av.eatt.service.CountryService;
 import it.av.eatt.service.RistoranteService;
 import it.av.eatt.web.commons.AutocompleteUtils;
+import it.av.eatt.web.commons.YoueatHttpParams;
 import it.av.eatt.web.components.ButtonOpenRisto;
 import it.av.eatt.web.components.CityAutocompleteBox;
 
+import org.apache.commons.httpclient.params.HttpParams;
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -73,7 +75,7 @@ public class RistoranteEditAddressPage extends BasePage {
      * @throws JackWicketException
      */
     public RistoranteEditAddressPage(Ristorante ristorante) throws JackWicketException {
-        this(new PageParameters("ristoranteId=" + ristorante.getId()));
+        this(new PageParameters(YoueatHttpParams.RISTORANTE_ID +"=" + ristorante.getId()));
     }
 
     /**
@@ -83,7 +85,7 @@ public class RistoranteEditAddressPage extends BasePage {
      */
     public RistoranteEditAddressPage(PageParameters parameters) throws JackWicketException {
 
-        String ristoranteId = parameters.getString("ristoranteId", "");
+        String ristoranteId = parameters.getString(YoueatHttpParams.RISTORANTE_ID, "");
         if (StringUtils.isNotBlank(ristoranteId)) {
             this.ristorante = ristoranteService.getByID(ristoranteId);
         } else {

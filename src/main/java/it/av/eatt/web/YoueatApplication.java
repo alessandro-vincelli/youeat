@@ -27,7 +27,7 @@ import it.av.eatt.web.page.UserAccountPage;
 import it.av.eatt.web.page.UserHomePage;
 import it.av.eatt.web.page.UserManagerPage;
 import it.av.eatt.web.page.UserProfilePage;
-import it.av.eatt.web.page.ViewUserPage;
+import it.av.eatt.web.page.UserViewPage;
 import it.av.eatt.web.security.SecuritySession;
 
 import javax.servlet.http.HttpServletRequest;
@@ -90,7 +90,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/friends", FriendsPage.class)); 
         mount(new IndexedParamUrlCodingStrategy("/signUp", SignUpPage.class));
         mount(new IndexedParamUrlCodingStrategy("/userHomePage", UserHomePage.class));
-        mount(new HybridUrlCodingStrategy("/viewuser", ViewUserPage.class));
+        mount(new HybridUrlCodingStrategy("/viewuser", UserViewPage.class));
         mount(new HybridUrlCodingStrategy("/account", UserAccountPage.class));
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);

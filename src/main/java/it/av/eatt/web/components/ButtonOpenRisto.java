@@ -1,6 +1,7 @@
 package it.av.eatt.web.components;
 
 import it.av.eatt.ocm.model.Ristorante;
+import it.av.eatt.web.commons.YoueatHttpParams;
 import it.av.eatt.web.page.RistoranteViewPage;
 
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class ButtonOpenRisto extends AjaxFallbackLink<Ristorante> {
     @Override
     public void onClick(AjaxRequestTarget target) {
         HashMap<String, String> parameterMap = new HashMap<String, String>();
-        parameterMap.put("ristoranteId", getModelObject().getId());
+        parameterMap.put(YoueatHttpParams.RISTORANTE_ID, getModelObject().getId());
         setResponsePage(RistoranteViewPage.class, new PageParameters(parameterMap));
     }
 }

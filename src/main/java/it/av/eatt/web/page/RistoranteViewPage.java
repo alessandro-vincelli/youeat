@@ -26,6 +26,7 @@ import it.av.eatt.service.ActivityRistoranteService;
 import it.av.eatt.service.LanguageService;
 import it.av.eatt.service.RistoranteService;
 import it.av.eatt.web.Locales;
+import it.av.eatt.web.commons.YoueatHttpParams;
 
 import java.util.HashMap;
 import java.util.List;
@@ -91,11 +92,10 @@ public class RistoranteViewPage extends BasePage {
      */
     public RistoranteViewPage(PageParameters parameters) throws JackWicketException {
         actualDescriptionLanguage = getInitialLanguage();
-        String ristoranteId = parameters.getString("ristoranteId", "");
+        String ristoranteId = parameters.getString(YoueatHttpParams.RISTORANTE_ID, "");
         if (StringUtils.isNotBlank(ristoranteId)) {
             this.ristorante = ristoranteService.getByID(ristoranteId);
         } else {
-
             setRedirect(true);
             setResponsePage(getApplication().getHomePage());
         }
@@ -367,7 +367,7 @@ public class RistoranteViewPage extends BasePage {
     }
 
     public RistoranteViewPage(Ristorante ristorante) throws JackWicketException {
-        this(new PageParameters("ristoranteId=" + ristorante.getId()));
+        this(new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
     }
 
     public final Ristorante getRistorante() {

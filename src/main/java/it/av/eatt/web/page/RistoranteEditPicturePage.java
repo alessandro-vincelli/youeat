@@ -20,6 +20,7 @@ import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.RistorantePicture;
 import it.av.eatt.service.RistorantePictureService;
 import it.av.eatt.service.RistoranteService;
+import it.av.eatt.web.commons.YoueatHttpParams;
 import it.av.eatt.web.components.ButtonOpenRisto;
 
 import org.apache.commons.lang.StringUtils;
@@ -64,7 +65,7 @@ public class RistoranteEditPicturePage extends BasePage {
      * @throws JackWicketException
      */
     public RistoranteEditPicturePage(Ristorante ristorante) throws JackWicketException {
-        this(new PageParameters("ristoranteId=" + ristorante.getId()));
+        this(new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
     }
 
     /**
@@ -73,7 +74,7 @@ public class RistoranteEditPicturePage extends BasePage {
      */
     public RistoranteEditPicturePage(PageParameters parameters) throws JackWicketException {
 
-        String ristoranteId = parameters.getString("ristoranteId", "");
+        String ristoranteId = parameters.getString(YoueatHttpParams.RISTORANTE_ID, "");
         if (StringUtils.isNotBlank(ristoranteId)) {
             this.ristorante = ristoranteService.getByID(ristoranteId);
         } else {

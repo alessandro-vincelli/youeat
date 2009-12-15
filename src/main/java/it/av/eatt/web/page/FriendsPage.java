@@ -18,10 +18,13 @@ package it.av.eatt.web.page;
 import it.av.eatt.JackWicketException;
 import it.av.eatt.ocm.model.EaterRelation;
 import it.av.eatt.service.EaterRelationService;
+import it.av.eatt.web.commons.YoueatHttpParams;
 
 import java.util.List;
 
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -72,10 +75,19 @@ public class FriendsPage extends BasePage {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected void populateItem(ListItem<EaterRelation> item) {
+            protected void populateItem(final ListItem<EaterRelation> item) {
                 boolean isPendingFriendRequest = item.getModelObject().getStatus().equals(EaterRelation.STATUS_PENDING) && item.getModelObject().getToUser().equals(getLoggedInUser());
-                item.add(new Label(EaterRelation.TO_USER + ".firstname"));
-                item.add(new Label(EaterRelation.TO_USER + ".lastname"));
+                AjaxFallbackLink<String> linkToUser = new AjaxFallbackLink<String>("linkToUser") {
+                    @Override
+                    public void onClick(AjaxRequestTarget target) {
+                        PageParameters pp = new PageParameters(YoueatHttpParams.USER_ID + "="
+                                + item.getModelObject().getToUser().getId());
+                        setResponsePage(UserViewPage.class, pp);
+                    }
+                };
+                item.add(linkToUser);
+                linkToUser.add(new Label(EaterRelation.TO_USER + ".firstname"));
+                linkToUser.add(new Label(EaterRelation.TO_USER + ".lastname"));
                 item.add(new Label(EaterRelation.TYPE));
                 item.add(new Label(EaterRelation.STATUS));
 //                item.add(new Label(EaterRelation.TO_USER + ".userRelation"));

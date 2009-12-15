@@ -24,7 +24,6 @@ import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterProfile;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;

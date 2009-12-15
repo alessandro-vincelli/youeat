@@ -19,7 +19,6 @@ import it.av.eatt.JackWicketException;
 import it.av.eatt.UserAlreadyExistsException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterRelation;
-import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.service.EaterProfileService;
 import it.av.eatt.service.EaterRelationService;
 import it.av.eatt.service.EaterService;
@@ -29,7 +28,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.QueryParser;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;

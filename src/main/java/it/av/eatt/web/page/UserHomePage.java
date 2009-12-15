@@ -63,8 +63,8 @@ public class UserHomePage extends BasePage {
     @SpringBean(name = "activityRistoranteService")
     private ActivityRistoranteService activityRistoranteService;
 
-    private ActivityPaging activityPagingUser = new ActivityPaging(0, 3);
-    private ActivityPaging activityPagingFriends = new ActivityPaging(0, 3);
+    private ActivityPaging activityPagingUser = new ActivityPaging(0, 15);
+    private ActivityPaging activityPagingFriends = new ActivityPaging(0, 15);
     private List<ActivityRistorante> activities;
     private WebMarkupContainer activitiesListContainer;
     private PropertyListView<ActivityRistorante> activitiesList;
@@ -221,8 +221,16 @@ public class UserHomePage extends BasePage {
         if (item.getModelObject().getType().equals(ActivityRistorante.TYPE_MODIFICATION)) {
             img = new ResourceReference(this.getClass(), "resources/images/pencil_64.png");
         } else if (item.getModelObject().getType().equals(ActivityRistorante.TYPE_VOTED)) {
+            img = new ResourceReference(this.getClass(), "resources/images/voted.gif");
+        } else if (item.getModelObject().getType().equals(ActivityRistorante.TYPE_TRIED)) {
             img = new ResourceReference(this.getClass(), "resources/images/tick_64.png");
+        } else if (item.getModelObject().getType().equals(ActivityRistorante.TYPE_ADDED_AS_FAVOURITE)) {
+            img = new ResourceReference(this.getClass(), "resources/images/clip.png");
+        } else if (item.getModelObject().getType().equals(ActivityRistorante.TYPE_REMOVED_AS_FAVOURITE)) {
+            img = new ResourceReference(this.getClass(), "resources/images/removed-clip.png");
         }
+        
+
         return new Image("type", img) {
             @Override
             protected void onComponentTag(ComponentTag tag) {

@@ -80,9 +80,20 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      */
     @Transactional(readOnly = true)
     List<ActivityRistorante> findByUsers(List<Eater> users, int firstResult, int maxResults);
+    
+    /**
+     * Is the given ristorante favourite for the given user 
+     * 
+     * @param user
+     * @param ristorante
+     * @return true if the risto is favourite
+     */
+    @Transactional(readOnly = true)
+    boolean isFavouriteRisto(Eater user, Ristorante ristorante);
 
     /**
      * {@inheritDoc}
      */
+    @Transactional
     ActivityRistorante save(ActivityRistorante activityRistorante);
 }

@@ -30,6 +30,7 @@ import it.av.eatt.service.LanguageService;
 import it.av.eatt.service.RistoranteService;
 import it.av.eatt.web.Locales;
 import it.av.eatt.web.commons.AutocompleteUtils;
+import it.av.eatt.web.components.ButtonOpenRisto;
 import it.av.eatt.web.components.CityAutocompleteBox;
 import it.av.eatt.web.components.RistoranteAutocompleteBox;
 import it.av.eatt.web.security.SecuritySession;
@@ -91,6 +92,8 @@ public class RistoranteAddNewPage extends BasePage {
     private Form<Ristorante> form;
     private SubmitButton submitRestaurantRight;
     private String cityName = "";
+    private AjaxFallbackLink<Ristorante> buttonOpenAddedRisto;
+    private AjaxFallbackLink<Ristorante> buttonOpenAddedRistoRight;
 
     /**
      * Constructor that is invoked when page is invoked without a session.
@@ -181,8 +184,10 @@ public class RistoranteAddNewPage extends BasePage {
         ListView<RistoranteDescriptionI18n> descriptions = new ListView<RistoranteDescriptionI18n>("descriptions") {
             @Override
             protected void populateItem(ListItem<RistoranteDescriptionI18n> item) {
-                item.add(new Label(RistoranteDescriptionI18n.LANGUAGE, getString(item.getModelObject().getLanguage().getCountry())));
-                item.add(new TextArea<String>(RistoranteDescriptionI18n.DESCRIPTION, new PropertyModel<String>(item.getModelObject(), RistoranteDescriptionI18n.DESCRIPTION)));
+                item.add(new Label(RistoranteDescriptionI18n.LANGUAGE, getString(item.getModelObject().getLanguage()
+                        .getCountry())));
+                item.add(new TextArea<String>(RistoranteDescriptionI18n.DESCRIPTION, new PropertyModel<String>(item
+                        .getModelObject(), RistoranteDescriptionI18n.DESCRIPTION)));
             }
         };
         descriptions.setReuseItems(true);
@@ -197,6 +202,13 @@ public class RistoranteAddNewPage extends BasePage {
         };
 
         form.add(buttonClearForm);
+
+        buttonOpenAddedRisto = new ButtonOpenRisto("buttonOpenAddedRisto", new Model<Ristorante>(ristorante), false);
+        add(buttonOpenAddedRisto);
+
+        buttonOpenAddedRistoRight = new ButtonOpenRisto("buttonOpenAddedRistoRight", new Model<Ristorante>(ristorante),
+                false);
+        add(buttonOpenAddedRistoRight);
 
         form.add(new SubmitButton("submitRestaurant", form));
         submitRestaurantRight = new SubmitButton("submitRestaurantRight", form);
@@ -228,7 +240,7 @@ public class RistoranteAddNewPage extends BasePage {
                 Ristorante ristorante = (Ristorante) form.getModelObject();
                 City city = cityService.getByNameAndCountry(cityName, ristorante.getCountry());
                 if (city == null) {
-                    error("The city doesn't exist");
+                    error(getString("validatioError.city"));
                     invalid();
                 }
                 ristorante.setCity(city);
@@ -239,12 +251,17 @@ public class RistoranteAddNewPage extends BasePage {
                 getFeedbackPanel().error("ERROR" + e.getMessage());
             }
             getForm().setEnabled(false);
-            submitRestaurantRight.setVisible(false);
             setVisible(false);
+            submitRestaurantRight.setVisible(false);
             buttonClearForm.setVisible(false);
+            buttonOpenAddedRisto.setVisible(true);
+            buttonOpenAddedRistoRight.setVisible(true);
             if (target != null) {
+                target.addComponent(submitRestaurantRight);
                 target.addComponent(getForm());
                 target.addComponent(getFeedbackPanel());
+                target.addComponent(buttonOpenAddedRistoRight);
+                target.addComponent(buttonOpenAddedRisto);
             }
         }
 
@@ -254,7 +271,7 @@ public class RistoranteAddNewPage extends BasePage {
             target.addComponent(getFeedbackPanel());
         }
     }
-   
+
     public final Form<Ristorante> getForm() {
         return form;
     }
@@ -291,11 +308,11 @@ public class RistoranteAddNewPage extends BasePage {
 
     private RistoranteDescriptionI18n getDescriptionI18n() throws JackWicketException {
         Locale locale = Locales.getSupportedLocale(getLocale());
-        //TODO create a getByLanguage or Country
+        // TODO create a getByLanguage or Country
         List<Language> langs = languageService.getAll();
         Language lang = null;
         for (Language language : langs) {
-            if(language.getCountry().equals(locale.getCountry())){
+            if (language.getCountry().equals(locale.getCountry())) {
                 lang = language;
             }
         }

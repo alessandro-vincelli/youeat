@@ -23,6 +23,7 @@ import it.av.eatt.service.CityService;
 import it.av.eatt.service.CountryService;
 import it.av.eatt.service.RistoranteService;
 import it.av.eatt.web.commons.AutocompleteUtils;
+import it.av.eatt.web.components.ButtonOpenRisto;
 import it.av.eatt.web.components.CityAutocompleteBox;
 
 import org.apache.commons.lang.StringUtils;
@@ -146,6 +147,14 @@ public class RistoranteEditAddressPage extends BasePage {
         form.add(new SubmitButton("submitRestaurant", form));
         add(form);
         add(new SubmitButton("submitRestaurantRight", form));
+
+        ButtonOpenRisto buttonOpenAddedRisto = new ButtonOpenRisto("buttonOpenAddedRisto", new Model<Ristorante>(
+                ristorante), true);
+        add(buttonOpenAddedRisto);
+
+        ButtonOpenRisto buttonOpenAddedRistoRight = new ButtonOpenRisto("buttonOpenAddedRistoRight",
+                new Model<Ristorante>(ristorante), true);
+        add(buttonOpenAddedRistoRight);
     }
 
     private class SubmitButton extends AjaxFallbackButton {

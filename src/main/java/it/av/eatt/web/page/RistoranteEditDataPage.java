@@ -25,6 +25,7 @@ import it.av.eatt.service.LanguageService;
 import it.av.eatt.service.RistoranteService;
 import it.av.eatt.service.TagService;
 import it.av.eatt.web.Locales;
+import it.av.eatt.web.components.ButtonOpenRisto;
 import it.av.eatt.web.components.TagBox;
 
 import java.util.List;
@@ -136,12 +137,12 @@ public class RistoranteEditDataPage extends BasePage {
             @Override
             protected void populateItem(final ListItem<Language> item) {
                 item.add(new AjaxFallbackButton("descriptionLink", form) {
-                    
+
                     @Override
                     protected void onComponentTag(ComponentTag tag) {
                         super.onComponentTag(tag);
-                        if(actualDescriptionLanguage.getCountry().equals(item.getModelObject().getCountry())){
-                            tag.getAttributes().put("class", "descriptionLink descriptionLinkActive");    
+                        if (actualDescriptionLanguage.getCountry().equals(item.getModelObject().getCountry())) {
+                            tag.getAttributes().put("class", "descriptionLink descriptionLinkActive");
                         }
                     }
 
@@ -233,6 +234,13 @@ public class RistoranteEditDataPage extends BasePage {
         form.add(new SubmitButton("submitRestaurant", form));
         add(form);
         add(new SubmitButton("submitRestaurantRight", form));
+        ButtonOpenRisto buttonOpenAddedRisto = new ButtonOpenRisto("buttonOpenAddedRisto", new Model<Ristorante>(
+                ristorante), true);
+        add(buttonOpenAddedRisto);
+
+        ButtonOpenRisto buttonOpenAddedRistoRight = new ButtonOpenRisto("buttonOpenAddedRistoRight",
+                new Model<Ristorante>(ristorante), true);
+        add(buttonOpenAddedRistoRight);
     }
 
     private class SubmitButton extends AjaxFallbackButton {

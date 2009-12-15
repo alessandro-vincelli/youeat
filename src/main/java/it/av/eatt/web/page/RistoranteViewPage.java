@@ -16,11 +16,13 @@
 package it.av.eatt.web.page;
 
 import it.av.eatt.JackWicketException;
+import it.av.eatt.ocm.model.ActivityRistorante;
 import it.av.eatt.ocm.model.Language;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.RistoranteDescriptionI18n;
 import it.av.eatt.ocm.model.RistorantePicture;
 import it.av.eatt.ocm.model.Tag;
+import it.av.eatt.service.ActivityRistoranteService;
 import it.av.eatt.service.LanguageService;
 import it.av.eatt.service.RistoranteService;
 import it.av.eatt.web.Locales;
@@ -67,7 +69,9 @@ public class RistoranteViewPage extends BasePage {
     private RistoranteService ristoranteService;
     @SpringBean
     private LanguageService languageService;
-
+    @SpringBean
+    private ActivityRistoranteService activityService;
+    
     private Ristorante ristorante = new Ristorante();;
 
     private ModalWindow revisionsPanel;
@@ -78,6 +82,7 @@ public class RistoranteViewPage extends BasePage {
     private Form<Ristorante> form;
     private WebMarkupContainer descriptionLinksContainer;
     private ListView<RistorantePicture> picturesList;
+    private Label asfavouriteLabel;
 
     /**
      * Constructor that is invoked when page is invoked without a session.
@@ -313,6 +318,48 @@ public class RistoranteViewPage extends BasePage {
                 revisionsPanel.show(target);
             }
         });
+        
+        add(new AjaxFallbackLink<String>("tried") {
+            public void onClick(AjaxRequestTarget target) {
+                if (getLoggedInUser() != null){
+                    activityService.save(new ActivityRistorante(getLoggedInUser(), ristorante, ActivityRistorante.TYPE_TRIED));
+                    info(getString("info.IateHere", new Model<Ristorante>(ristorante)));
+                }
+                else {
+                    info(getString("action.notlogged"));
+                }
+                target.addComponent(getFeedbackPanel());
+            }
+        });
+        
+        AjaxLink<String> asfavourite =  new AjaxLink<String>("asfavourite") {
+            public void onClick(AjaxRequestTarget target) {
+                if (getLoggedInUser() != null){
+                    if(activityService.isFavouriteRisto(getLoggedInUser(), ristorante)){
+                        activityService.save(new ActivityRistorante(getLoggedInUser(), ristorante, ActivityRistorante.TYPE_REMOVED_AS_FAVOURITE));
+                        info(getString("action.removedAsFavourite", new Model<Ristorante>(ristorante)));
+                        asfavouriteLabel.setDefaultModelObject(getString("button.addAsFavourite"));
+                    }
+                    else{
+                        activityService.save(new ActivityRistorante(getLoggedInUser(), ristorante, ActivityRistorante.TYPE_ADDED_AS_FAVOURITE));
+                        info(getString("action.addedAsFavourite", new Model<Ristorante>(ristorante)));
+                        asfavouriteLabel.setDefaultModelObject(getString("button.removeAsFavourite"));
+                    }                    
+                }
+                else {
+                    info(getString("action.notlogged"));
+                }
+                target.addComponent(asfavouriteLabel);
+                target.addComponent(getFeedbackPanel());
+            }
+        };
+        add(asfavourite);
+        asfavouriteLabel = new Label("asfavouriteLabel", getString("button.addAsFavourite"));
+        if(activityService.isFavouriteRisto(getLoggedInUser(), ristorante)){
+            asfavouriteLabel.setDefaultModelObject(getString("button.removeAsFavourite"));
+        }
+        asfavouriteLabel.setOutputMarkupId(true);
+        asfavourite.add(asfavouriteLabel);
 
         setHasVoted(ristoranteService.hasUsersAlreadyRated(getRistorante(), getLoggedInUser())
                 || getLoggedInUser() == null);

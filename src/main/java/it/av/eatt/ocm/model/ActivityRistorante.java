@@ -60,6 +60,10 @@ public class ActivityRistorante extends Activity {
      * Removed as favourite
      */
     public static final String TYPE_REMOVED_AS_FAVOURITE = "removed as favourite";
+    /**
+     * Restaurant tried, the user ate in the risto
+     */
+    public static final String TYPE_TRIED = "ate here";
 
     @ManyToOne(optional=false)
     private Ristorante ristorante;

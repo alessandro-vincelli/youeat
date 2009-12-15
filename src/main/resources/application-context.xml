@@ -108,7 +108,7 @@
 
 	<bean id="jpaDaoSupport" class="org.springframework.orm.jpa.support.JpaDaoSupport" abstract="true"/>
 	
- 	<bean id="wicketApplication" class="it.av.eatt.web.WicketApplication">
+ 	<bean id="wicketApplication" class="it.av.eatt.web.YoueatApplication">
 		<property name="configurationType" value="development" />
 	</bean>
 

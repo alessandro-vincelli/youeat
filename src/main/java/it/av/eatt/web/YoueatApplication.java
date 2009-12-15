@@ -54,14 +54,14 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class WicketApplication extends AuthenticatedWebApplication {
+public class YoueatApplication extends AuthenticatedWebApplication {
     @SpringBean
     private String configurationType; 
     
     /**
      * Constructor
      */
-    public WicketApplication() {
+    public YoueatApplication() {
     }
 
     protected Class<? extends AuthenticatedWebSession> getWebSessionClass() {
@@ -137,8 +137,8 @@ public class WicketApplication extends AuthenticatedWebApplication {
      *
      * @return The current thread's BBoxApplication
      */
-    public static WicketApplication get() {
-        return (WicketApplication) Application.get();
+    public static YoueatApplication get() {
+        return (YoueatApplication) Application.get();
     }
     
     /**

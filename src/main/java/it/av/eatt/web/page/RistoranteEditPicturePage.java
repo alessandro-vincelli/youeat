@@ -20,6 +20,7 @@ import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.RistorantePicture;
 import it.av.eatt.service.RistorantePictureService;
 import it.av.eatt.service.RistoranteService;
+import it.av.eatt.web.components.ButtonOpenRisto;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
@@ -35,6 +36,7 @@ import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.resource.DynamicImageResource;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Bytes;
 
@@ -150,7 +152,13 @@ public class RistoranteEditPicturePage extends BasePage {
         picturesList.setOutputMarkupId(true);
         picturesList.setReuseItems(true);
         form.add(picturesList);
+        
+        ButtonOpenRisto buttonOpenAddedRisto = new ButtonOpenRisto("buttonOpenAddedRisto", new Model<Ristorante>(ristorante), true);
+        add(buttonOpenAddedRisto);
 
+        ButtonOpenRisto buttonOpenAddedRistoRight = new ButtonOpenRisto("buttonOpenAddedRistoRight", new Model<Ristorante>(ristorante),
+                true);
+        add(buttonOpenAddedRistoRight);
     }
 
     private class SubmitButton extends AjaxFallbackButton {

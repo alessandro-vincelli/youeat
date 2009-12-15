@@ -15,10 +15,12 @@
  */
 package it.av.eatt.ocm.model;
 
+import it.av.eatt.JackWicketException;
+
 import javax.persistence.Entity;
 
 /**
- * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a> 
+ * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
 @Entity
 public class RistorantePicture extends BasicEntity {
@@ -27,18 +29,21 @@ public class RistorantePicture extends BasicEntity {
     private boolean active;
     private String description;
     private String title;
-    
+
     public RistorantePicture() {
         super();
     }
-    
+
     /**
-     * @param picture
+     * @param picture (not null)
      * @param active
      */
     public RistorantePicture(byte[] picture, boolean active) {
         super();
-        this.picture = picture;
+        if (picture == null) {
+            throw new JackWicketException("array picture is null");
+        }
+        this.picture = picture.clone();
         this.active = active;
     }
 
@@ -50,10 +55,13 @@ public class RistorantePicture extends BasicEntity {
     }
 
     /**
-     * @param picture the picture to set
+     * @param picture the picture to set (not null)
      */
     public void setPicture(byte[] picture) {
-        this.picture = picture;
+        if (picture == null) {
+            throw new JackWicketException("array picture is null");
+        }
+        this.picture = picture.clone();
     }
 
     /**
@@ -97,5 +105,5 @@ public class RistorantePicture extends BasicEntity {
     public void setTitle(String title) {
         this.title = title;
     }
-    
+
 }

@@ -284,7 +284,6 @@ button {
 }
 
 .form-risto {
-    text-align: left;
     float: left;
     display: block;
 }
@@ -318,6 +317,11 @@ div .friendsList {
     height: 35px;
     border-bottom: 1px solid #EEEEEE;
     padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    padding-left:60px;
+    background-image: url("images/avatar.gif");
+    background-repeat: no-repeat;
 }
 
 div .friendName {
@@ -338,7 +342,7 @@ div .friendCenterColumn {
 
 div .friendStatus {
     float: left;
-    width: 20px;
+    width: 200px;
     font-style: oblique;
 }
 
@@ -650,4 +654,22 @@ input.unpublishPictureButton {
 }
 .descriptionNotAvailableLang{
     color: gray;
+}
+
+.feedbackPanel{
+    text-align: center;
+}
+.feedbackPanel{
+    text-align: center;
+    font-size: medium;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: circle;
+}
+.feedbackPanelINFO{
+    text-shadow: 1px gray;
+    font-style: italic;
+}
+feedbackPanelERROR{
+    color: red;
 }

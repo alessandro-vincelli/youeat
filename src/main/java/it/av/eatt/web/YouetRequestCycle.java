@@ -19,7 +19,7 @@ public class YouetRequestCycle extends WebRequestCycle {
 
     @Override
     public Page onRuntimeException(Page page, RuntimeException e) {
-        if (WicketApplication.get().inDevelopment()) {
+        if (YoueatApplication.get().inDevelopment()) {
             // Let Wicket show the error.
             return null;
         }

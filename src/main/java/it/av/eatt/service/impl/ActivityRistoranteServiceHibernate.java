@@ -114,4 +114,35 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         Order orderByDate = Order.desc(Activity.DATE);
         return findByCriteria(orderByDate, firstResult, maxResults, orUSer);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isFavouriteRisto(Eater user, Ristorante ristorante) {
+        List<ActivityRistorante> removedAsFavourite = new ArrayList<ActivityRistorante>();
+        List<ActivityRistorante> addedAsFavourite = findByUserRistoType(user, ristorante,
+                ActivityRistorante.TYPE_ADDED_AS_FAVOURITE);
+        if (addedAsFavourite.size() > 0) {
+            removedAsFavourite = findByUserRistoType(user, ristorante, ActivityRistorante.TYPE_REMOVED_AS_FAVOURITE);
+        }
+        if (removedAsFavourite.size() > 0 && addedAsFavourite.size() > 0) {
+            ActivityRistorante mostRecentAsFavourite = null;
+            for (ActivityRistorante activityRistorante : addedAsFavourite) {
+                if(mostRecentAsFavourite == null || activityRistorante.getDate().after(mostRecentAsFavourite.getDate())){
+                    mostRecentAsFavourite = activityRistorante;
+                }
+            }
+            ActivityRistorante mostRecentRemovedAsFavourite = null;
+            for (ActivityRistorante activityRistorante : removedAsFavourite) {
+                if(mostRecentRemovedAsFavourite == null || activityRistorante.getDate().after(mostRecentRemovedAsFavourite.getDate())){
+                    mostRecentRemovedAsFavourite = activityRistorante;
+                }
+            }
+            if(mostRecentRemovedAsFavourite.getDate().after(mostRecentAsFavourite.getDate())){
+               return false; 
+            }
+        }
+        return addedAsFavourite.size() > 0;
+    }
 }

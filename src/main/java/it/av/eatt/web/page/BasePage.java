@@ -62,16 +62,17 @@ public class BasePage extends WebPage {
         }
 
         loggedInUser = ((SecuritySession) getSession()).getLoggedInUser();
-        if(getWebRequestCycle().getWebRequest().getCookie(CookieUtil.LANGUAGE) != null){
-            getSession().setLocale(new Locale(getWebRequestCycle().getWebRequest().getCookie(CookieUtil.LANGUAGE).getValue()));
-        }
-        else{
-            if(loggedInUser != null){
-                getWebRequestCycle().getWebResponse().addCookie(new Cookie(CookieUtil.LANGUAGE, loggedInUser.getLanguage().getLanguage()));
-                getSession().setLocale(new Locale(loggedInUser.getLanguage().getLanguage()));    
+        if (getWebRequestCycle().getWebRequest().getCookie(CookieUtil.LANGUAGE) != null) {
+            getSession().setLocale(
+                    new Locale(getWebRequestCycle().getWebRequest().getCookie(CookieUtil.LANGUAGE).getValue()));
+        } else {
+            if (loggedInUser != null) {
+                getWebRequestCycle().getWebResponse().addCookie(
+                        new Cookie(CookieUtil.LANGUAGE, loggedInUser.getLanguage().getLanguage()));
+                getSession().setLocale(new Locale(loggedInUser.getLanguage().getLanguage()));
             }
         }
-        
+
         // add(JavascriptPackageResource.getHeaderContribution(BASEPAGE_JS));
         add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
 
@@ -149,7 +150,7 @@ public class BasePage extends WebPage {
                         .isInstantiationAuthorized(UserHomePage.class)));
             }
         });
-        
+
         add(new AjaxLink<String>("goRistoranteAddNewPage") {
             private static final long serialVersionUID = 1L;
 
@@ -207,52 +208,55 @@ public class BasePage extends WebPage {
             }
         });
 
-        Link<String> goItalian = new Link<String>("goItalian"){
+        Link<String> goItalian = new Link<String>("goItalian") {
             @Override
             public void onClick() {
                 getSession().setLocale(Locales.ITALIAN);
-                getWebRequestCycle().getWebResponse().addCookie(new Cookie(CookieUtil.LANGUAGE, Locales.ITALIAN.getLanguage()));
+                getWebRequestCycle().getWebResponse().addCookie(
+                        new Cookie(CookieUtil.LANGUAGE, Locales.ITALIAN.getLanguage()));
             }
-            
+
             @Override
             protected void onComponentTag(ComponentTag tag) {
                 super.onComponentTag(tag);
-                if(getSession().getLocale().getLanguage().equals(Locales.ITALIAN.getLanguage())){
-                    tag.getAttributes().put("class", "selected");    
+                if (getSession().getLocale().getLanguage().equals(Locales.ITALIAN.getLanguage())) {
+                    tag.getAttributes().put("class", "selected");
                 }
             }
         };
         add(goItalian);
-        
-        Link<String> goEnglish = new Link<String>("goEnglish"){
+
+        Link<String> goEnglish = new Link<String>("goEnglish") {
             @Override
             public void onClick() {
                 getSession().setLocale(Locales.ENGLISH);
-                getWebRequestCycle().getWebResponse().addCookie(new Cookie(CookieUtil.LANGUAGE, Locales.ENGLISH.getLanguage()));
+                getWebRequestCycle().getWebResponse().addCookie(
+                        new Cookie(CookieUtil.LANGUAGE, Locales.ENGLISH.getLanguage()));
             }
-            
+
             @Override
             protected void onComponentTag(ComponentTag tag) {
                 super.onComponentTag(tag);
-                if(getSession().getLocale().getLanguage().equals(Locales.ENGLISH.getLanguage())){
-                    tag.getAttributes().put("class", "selected");    
+                if (getSession().getLocale().getLanguage().equals(Locales.ENGLISH.getLanguage())) {
+                    tag.getAttributes().put("class", "selected");
                 }
             }
         };
         add(goEnglish);
-        
-        Link<String> goDutch = new Link<String>("goDutch"){
+
+        Link<String> goDutch = new Link<String>("goDutch") {
             @Override
             public void onClick() {
-                getWebRequestCycle().getWebResponse().addCookie(new Cookie(CookieUtil.LANGUAGE, Locales.DUTCH.getLanguage()));
+                getWebRequestCycle().getWebResponse().addCookie(
+                        new Cookie(CookieUtil.LANGUAGE, Locales.DUTCH.getLanguage()));
                 getSession().setLocale(Locales.DUTCH);
             }
 
             @Override
             protected void onComponentTag(ComponentTag tag) {
                 super.onComponentTag(tag);
-                if(getSession().getLocale().getLanguage().equals(Locales.DUTCH.getLanguage())){
-                    tag.getAttributes().put("class", "selected");    
+                if (getSession().getLocale().getLanguage().equals(Locales.DUTCH.getLanguage())) {
+                    tag.getAttributes().put("class", "selected");
                 }
             }
         };
@@ -275,7 +279,7 @@ public class BasePage extends WebPage {
                 setResponsePage(SignIn.class);
             }
         };
-        
+
         goSignIn.setOutputMarkupId(true);
         goSignOut.setOutputMarkupId(true);
 
@@ -295,17 +299,19 @@ public class BasePage extends WebPage {
             @Override
             public void onClick() {
                 Eater eater = getLoggedInUser();
-                if(eater != null){
+                if (eater != null) {
                     PageParameters pp = new PageParameters(YoueatHttpParams.PARAM_YOUEAT_ID + "=" + eater.getId());
-                    setResponsePage(UserAccountPage.class, pp);    
-                }                
+                    setResponsePage(UserAccountPage.class, pp);
+                }
             }
+
             @Override
             protected void onBeforeRender() {
                 super.onBeforeRender();
                 setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
                         .isInstantiationAuthorized(UserAccountPage.class)));
             }
+
             @Override
             protected boolean callOnBeforeRenderIfNotVisible() {
                 return true;

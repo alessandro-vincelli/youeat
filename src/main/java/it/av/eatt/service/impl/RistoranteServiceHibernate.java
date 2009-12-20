@@ -165,7 +165,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     public List<Ristorante> freeTextSearch(String pattern) {
         FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
                 .getFullTextEntityManager(getJpaTemplate().getEntityManager());
-        String[] fields = new String[] { "name" };
+        String[] fields = new String[] { "name", "city.name" };
         MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, fullTextEntityManager.getSearchFactory()
                 .getAnalyzer("ristoranteanalyzer"));
         org.apache.lucene.search.Query query;

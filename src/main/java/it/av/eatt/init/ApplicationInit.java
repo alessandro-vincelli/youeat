@@ -31,6 +31,6 @@ public class ApplicationInit {
 
     public ApplicationInit(RepositoryInitStructure repositoryInitStructure) throws JackWicketException {
         this.repositoryInitStructure = repositoryInitStructure;
-        this.repositoryInitStructure.checkBaseData();
+        //this.repositoryInitStructure.checkBaseData();
     }
 }

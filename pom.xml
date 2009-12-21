@@ -7,7 +7,7 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>YouEat</name>
 	<description>Wiki and social network to share food experiences</description>
-	<url>http://code.google.com/p/eattogether</url>
+	<url>http://code.google.com/p/youeat</url>
 	<ciManagement>
 		<system>Hudson</system>
 		<url>http://www.youeat.org:8080/hudson/</url>
@@ -354,7 +354,7 @@
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>8.3-603.jdbc4</version>
+			<version>8.4-701.jdbc4</version>
 		</dependency>
 		
 		<!-- LOGGING DEPENDENCIES - LOG4J -->
@@ -364,9 +364,9 @@
 		<!--  JETTY DEPENDENCIES FOR TESTING  -->
 	</dependencies>
 	<scm>
-		<url>https://eattogether.googlecode.com/svn/trunk/eattogether</url>
-		<connection>scm:svn:https://eattogether.googlecode.com/svn/trunk/eattogether</connection>
-    	<developerConnection>scm:svn:https://eattogether.googlecode.com/svn/trunk/eattogether</developerConnection>
+		<url>https://youeat.googlecode.com/svn/trunk</url>
+		<connection>scm:svn:https://youeat.googlecode.com/svn/trunk</connection>
+    	<developerConnection>scm:svn:https://youeat.googlecode.com/svn/trunk</developerConnection>
 	</scm>
 	<build>
 		<resources>

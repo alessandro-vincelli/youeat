@@ -24,8 +24,10 @@ import it.av.eatt.service.DataRistoranteService;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
@@ -70,7 +72,7 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
      */
     @Override
     public Collection<DataRistorante> find(String pattern, int maxResults){
-        Criterion critByName = Restrictions.ilike(Ristorante.NAME, "%" + pattern + "%");
+        Criterion critByName = Restrictions.ilike(Ristorante.NAME, pattern, MatchMode.ANYWHERE);
         Order orderByName = Order.asc(DataRistorante.NAME);
         return findByCriteria(orderByName, 0, maxResults, critByName);        
     }
@@ -97,7 +99,7 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
      */
     @Override
     public Collection<DataRistorante> find(String pattern, String city, Country country, int maxResults){
-        Criterion critByName = Restrictions.ilike(Ristorante.NAME, "%" + pattern + "%");
+        Criterion critByName = Restrictions.ilike(Ristorante.NAME, pattern, MatchMode.ANYWHERE);
         Criterion critByCity = Restrictions.eq(Ristorante.CITY, city);
         Criterion critByCountry = Restrictions.eq(Ristorante.COUNTRY, country.getIso2());
         Order orderByName = Order.asc(DataRistorante.NAME);

@@ -27,6 +27,7 @@ import it.av.eatt.service.ActivityRistoranteService;
 import it.av.eatt.service.RateRistoranteService;
 import it.av.eatt.service.RistoranteRevisionService;
 import it.av.eatt.service.RistoranteService;
+import it.av.eatt.util.LuceneUtil;
 
 import java.util.Collection;
 import java.util.List;
@@ -165,12 +166,12 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     public List<Ristorante> freeTextSearch(String pattern) {
         FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
                 .getFullTextEntityManager(getJpaTemplate().getEntityManager());
-        String[] fields = new String[] { "name", "city.name" };
+        String[] fields = new String[] { "name", "city.name", "tags.tag" };
         MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, fullTextEntityManager.getSearchFactory()
                 .getAnalyzer("ristoranteanalyzer"));
         org.apache.lucene.search.Query query;
         try {
-            query = parser.parse(pattern);
+            query = parser.parse(LuceneUtil.escapeSpecialChars(pattern));
         } catch (ParseException e) {
             throw new JackWicketException(e);
         }

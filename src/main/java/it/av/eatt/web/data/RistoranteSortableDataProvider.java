@@ -18,6 +18,7 @@ package it.av.eatt.web.data;
 import it.av.eatt.JackWicketException;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.service.RistoranteService;
+import it.av.eatt.util.LuceneUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -97,15 +98,8 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
      */
     public final void fetchResults(String pattern) throws JackWicketException {
         if (StringUtils.isNotBlank(pattern)) {
-            results = ristoranteService.freeTextSearch(pattern + "~");
+            results = ristoranteService.freeTextSearch(LuceneUtil.removeSpecialChars(pattern) + "~");
         }
-    }
-
-    /**
-     * @return the ristoranteService
-     */
-    public RistoranteService getRistoranteService() {
-        return ristoranteService;
     }
 
 }

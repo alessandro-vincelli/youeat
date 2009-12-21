@@ -21,7 +21,7 @@ public class City extends BasicEntity {
     @ManyToOne(optional=false)
     private Country country;
     private String nameSimplified;
-    @Field(index=Index.TOKENIZED, store=Store.YES)
+    @Field(index=Index.TOKENIZED, store=Store.NO)
     private String name;
     private String region;
     private String latitude;

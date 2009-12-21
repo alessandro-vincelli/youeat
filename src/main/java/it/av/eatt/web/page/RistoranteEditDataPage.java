@@ -110,9 +110,9 @@ public class RistoranteEditDataPage extends BasePage {
         form.add(new TextField<String>(Ristorante.WWW).setOutputMarkupId(true));
         form.add(new TagBox(new Model<String>(""), "tagBox", ristorante));
 
-        form.add(new CheckBox("types.ristorante"));
-        form.add(new CheckBox("types.pizzeria"));
-        form.add(new CheckBox("types.bar"));
+        //form.add(new CheckBox("types.ristorante"));
+        //form.add(new CheckBox("types.pizzeria"));
+        //form.add(new CheckBox("types.bar"));
 
         form.add(new ListView<Tag>(Ristorante.TAGS) {
             private static final long serialVersionUID = 1L;

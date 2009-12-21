@@ -35,10 +35,12 @@ import it.av.eatt.web.components.CityAutocompleteBox;
 import it.av.eatt.web.components.RistoranteAutocompleteBox;
 import it.av.eatt.web.security.SecuritySession;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
@@ -46,7 +48,6 @@ import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
@@ -112,6 +113,7 @@ public class RistoranteAddNewPage extends BasePage {
             protected void onUpdate(AjaxRequestTarget arg0) {
                 try {
                     String ristoName = form.get(Ristorante.NAME).getDefaultModelObjectAsString();
+                    ristoName = StringEscapeUtils.unescapeHtml(ristoName);
                     Country ristoCountry = ((DropDownChoice<Country>) form.get(Ristorante.COUNTRY)).getModelObject();
                     List<DataRistorante> ristosFound = new ArrayList<DataRistorante>(dataRistoranteService.getBy(
                             ristoName, cityName, ristoCountry));
@@ -177,9 +179,9 @@ public class RistoranteAddNewPage extends BasePage {
         form.add(new TextField<String>(Ristorante.FAX_NUMBER));
         form.add(new TextField<String>(Ristorante.MOBILE_PHONE_NUMBER));
         form.add(new TextField<String>(Ristorante.WWW));
-        form.add(new CheckBox("types.ristorante"));
-        form.add(new CheckBox("types.pizzeria"));
-        form.add(new CheckBox("types.bar"));
+        //form.add(new CheckBox("types.ristorante"));
+        //form.add(new CheckBox("types.pizzeria"));
+        //form.add(new CheckBox("types.bar"));
 
         ListView<RistoranteDescriptionI18n> descriptions = new ListView<RistoranteDescriptionI18n>("descriptions") {
             @Override
@@ -245,7 +247,7 @@ public class RistoranteAddNewPage extends BasePage {
                 }
                 ristorante.setCity(city);
                 ristorante = ristoranteService.insert(ristorante, ((SecuritySession) getSession()).getLoggedInUser());
-                getFeedbackPanel().info(new StringResourceModel("info.ristoranteadded", this, null).getString());
+                getFeedbackPanel().info(getString("info.ristoranteadded", new Model<Ristorante>(ristorante)));
                 form.setModelObject(ristorante);
             } catch (JackWicketException e) {
                 getFeedbackPanel().error("ERROR" + e.getMessage());

@@ -131,6 +131,7 @@ public class Ristorante extends BasicEntity implements BasicNode {
     // @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private List<RateOnRistorante> rates;
     // @Collection(collectionConverter = MultiValueCollectionConverterImpl.class)
+    @IndexedEmbedded
     @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     // @JoinTable

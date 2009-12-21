@@ -31,11 +31,13 @@ import org.apache.wicket.ajax.form.AjaxFormValidatingBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteSettings;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
+import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.time.Duration;
 
 /**
@@ -67,7 +69,7 @@ public class RistoranteSearchPanel extends Panel {
         AutoCompleteSettings autoCompleteSettings = new AutoCompleteSettings();
         autoCompleteSettings.setCssClassName("autocomplete-risto");
         autoCompleteSettings.setAdjustInputWidth(false);
-        fc = new SearchBox("searchData", autoCompleteSettings, dataProvider.getRistoranteService());
+        fc = new SearchBox("searchData", autoCompleteSettings);
         form.add(fc);
         // event and throttle it down to once per second
         AjaxFormValidatingBehavior.addToAllFormComponents(form, "onkeyup", Duration.ONE_SECOND);
@@ -97,8 +99,6 @@ public class RistoranteSearchPanel extends Panel {
      * 
      * Simple Bean to store the Form data
      * 
-     * @author Alessandro Vincelli
-     * 
      */
     public static class SearchBean implements IClusterable {
         private static final long serialVersionUID = 1L;
@@ -121,11 +121,12 @@ public class RistoranteSearchPanel extends Panel {
 
     private static class SearchBox extends AutoCompleteTextField<String> {
         private static final long serialVersionUID = 1L;
+        @SpringBean
         private RistoranteService ristoranteService;
 
-        public SearchBox(String id, AutoCompleteSettings autoCompleteSettings, RistoranteService ristoranteService) {
+        public SearchBox(String id, AutoCompleteSettings autoCompleteSettings) {
             super(id, autoCompleteSettings);
-            this.ristoranteService = ristoranteService;
+            InjectorHolder.getInjector().inject(this);
         }
 
         @Override

@@ -85,13 +85,15 @@ public class Ristorante extends BasicEntity implements BasicNode {
     public static final String MOBILE_PHONE_NUMBER = "mobilePhoneNumber";
     public static final String FAX_NUMBER = "faxNumber";
 
+    @Deprecated
     private String path;
-
+    @Deprecated
     private String uuid;
     @Deprecated
     private String version;
     @Field(index = Index.TOKENIZED, store = Store.NO)
     @Analyzer(definition = "ristoranteanalyzer")
+    @org.hibernate.annotations.Index(name="risto_name_index")
     private String name;
     @Field
     private String address;
@@ -116,6 +118,7 @@ public class Ristorante extends BasicEntity implements BasicNode {
 
     private Timestamp creationTime;
 
+    @org.hibernate.annotations.Index(name="risto_modificationtime_index")
     private Timestamp modificationTime;
 
     private String phoneNumber;
@@ -123,32 +126,21 @@ public class Ristorante extends BasicEntity implements BasicNode {
     private String mobilePhoneNumber;
 
     private String faxNumber;
+    @org.hibernate.annotations.Index(name="risto_revisionNumber_index")
     private Integer revisionNumber;
-    // @Collection(collectionConverter = MultiValueCollectionConverterImpl.class)
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
-    // @JoinTable
-    // @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private List<RateOnRistorante> rates;
-    // @Collection(collectionConverter = MultiValueCollectionConverterImpl.class)
     @IndexedEmbedded
     @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
-    // @JoinTable
-    // @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private List<Tag> tags;
-    // @OneToMany(mappedBy = "ristorante", cascade = { CascadeType.ALL })
-    // @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     @JoinTable
-    // @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private List<ActivityRistorante> activities;
-    // @OneToMany(mappedBy = "ristorante", cascade = { CascadeType.ALL })
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
-    // @JoinTable
-    // @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @OrderBy("ristoranteRevision.revisionNumber DESC")
     private List<RistoranteRevision> revisions;
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

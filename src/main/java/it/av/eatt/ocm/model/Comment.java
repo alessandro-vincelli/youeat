@@ -18,6 +18,8 @@ package it.av.eatt.ocm.model;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.ForeignKey;
+
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  *
@@ -29,6 +31,7 @@ public class Comment extends BasicEntity {
     private String body;
     private String ristorantePath;
     @ManyToOne
+    @ForeignKey(name="comment_to_author_fk")
     private Eater author;
 
     public final String getTitle() {

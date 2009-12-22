@@ -28,6 +28,7 @@ import javax.persistence.UniqueConstraint;
 import org.apache.solr.analysis.ISOLatin1AccentFilterFactory;
 import org.apache.solr.analysis.LowerCaseFilterFactory;
 import org.apache.solr.analysis.StandardTokenizerFactory;
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.search.annotations.AnalyzerDef;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
@@ -67,15 +68,19 @@ public class Eater extends BasicEntity {
     private String email;
     private String country;
     @ManyToOne
+    @ForeignKey(name="eater_to_langiage_fk")
     private Language language;
     @ManyToOne
+    @ForeignKey(name="eater_to_profile_fk")
     private EaterProfile userProfile;
     @OneToMany//( cascade = {CascadeType.ALL} , mappedBy="user")
     @OrderBy(Activity.DATE)
+    @ForeignKey(name="eater_to_activities_fk")
     private List<Activity> activities;
     //@Collection(collectionClassName=EaterRelation.class)// The proxy doesn't work the session is closed (proxy=true)
     //@NaturalId
     @OneToMany(mappedBy="fromUser", cascade = {CascadeType.ALL})
+    @ForeignKey(name="eater_to_eaterRelation_fk")
     private List<EaterRelation> userRelation;
     
     /** default constructor */

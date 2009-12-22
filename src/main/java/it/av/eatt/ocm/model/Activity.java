@@ -22,8 +22,11 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
@@ -34,6 +37,7 @@ import javax.persistence.UniqueConstraint;
 @Table(
         uniqueConstraints = {@UniqueConstraint(columnNames={"id"})}
 )
+@MappedSuperclass
 public class Activity extends BasicEntity {
 
     public static final String DATE = "date";
@@ -41,6 +45,7 @@ public class Activity extends BasicEntity {
     @Column(nullable=false)
     private Timestamp date;
     @ManyToOne(optional=false)
+    @ForeignKey(name="activity_to_eater_fk")
     private Eater eater;
     
     /** default constructor */

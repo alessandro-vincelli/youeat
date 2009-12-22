@@ -96,7 +96,8 @@ public class SignUpPanel extends Panel {
             }
         }
         DropDownChoice<Country> country = new DropDownChoice<Country>(Eater.COUNTRY, countryService.getAll());
-        // country.setDefaultModelObject(userCountry);
+        country.setRequired(true);
+        country.setModel(new Model<Country>(userCountry));
         signUpForm.add(country);
         signUpForm.add(new DropDownChoice<Language>("language", languageService.getAll(), new LanguageRenderer()).setRequired(true));
         PasswordTextField pwd1 = new PasswordTextField(Eater.PASSWORD);

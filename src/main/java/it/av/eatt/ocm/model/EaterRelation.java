@@ -26,6 +26,7 @@ import javax.persistence.Table;
 import org.apache.jackrabbit.ocm.manager.beanconverter.impl.ReferenceBeanConverterImpl;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
@@ -60,9 +61,11 @@ public class EaterRelation extends BasicEntity{
     private String type;
     @Bean(converter = ReferenceBeanConverterImpl.class, jcrMandatory=true, jcrType = "nt:unstructured")
     @ManyToOne
+    @ForeignKey(name="eaterrelation_to_fromeater_fk")
     private Eater fromUser;
     @Bean(converter = ReferenceBeanConverterImpl.class, jcrMandatory=true, jcrType = "nt:unstructured")
     @OneToOne
+    @ForeignKey(name="eaterrelation_to_toeater_fk")
     private Eater toUser;
 
     

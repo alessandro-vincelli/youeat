@@ -22,23 +22,29 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.AssociationOverride;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Table;
 
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
 @Entity
+@javax.persistence.Table(name = "ristorante_revision")
+@Table(appliesTo = "ristorante_revision", indexes = {
+        @Index(name = "ristoRevision_revisionnumber_index", columnNames = { "revisionNumber" }),
+        @Index(name = "ristoRevision_modificationtime_index", columnNames = { "modificationTime" }) })
 public class RistoranteRevision extends BasicEntity implements Cloneable {
 
     public static final String VERSION = "version";
     public static final String ID_RISTORANTE = "ristorante_id";
 
     @Embedded
-    // @Column(updatable = false, nullable = false)
-    // @AttributeOverrides( { @AttributeOverride(name = "id", column = @Column(name = "id_risto", nullable=true))})
     private Ristorante ristoranteRevision;
 
     public RistoranteRevision() {

@@ -5,6 +5,7 @@ import it.av.eatt.ocm.model.BasicEntity;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
@@ -19,6 +20,7 @@ public class City extends BasicEntity {
     public static final String COUNTRY_FIELD = "country";
 
     @ManyToOne(optional=false)
+    @ForeignKey(name="city_to_country_fk")
     private Country country;
     private String nameSimplified;
     @Field(index=Index.TOKENIZED, store=Store.NO)

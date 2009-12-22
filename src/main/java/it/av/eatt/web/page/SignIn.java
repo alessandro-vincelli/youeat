@@ -15,8 +15,6 @@
  */
 package it.av.eatt.web.page;
 
-import java.util.Locale;
-
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -41,7 +39,6 @@ public class SignIn extends SignInPage {
         add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
         ResourceReference img = new ResourceReference(this.getClass(), "resources/images/logo-mela.png");
         add(new Image("logo", img));
-        getSession().setLocale(new Locale("en", "US"));
         add(new AjaxLink<String>("signUp") {
             private static final long serialVersionUID = 1L;
 

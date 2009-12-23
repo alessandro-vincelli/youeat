@@ -16,10 +16,11 @@
 package it.av.eatt.ocm.model;
 
 import it.av.eatt.ocm.model.data.City;
+
 import it.av.eatt.ocm.model.data.Country;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,6 +34,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.apache.solr.analysis.ISOLatin1AccentFilterFactory;
@@ -116,10 +119,12 @@ public class Ristorante extends BasicEntity implements BasicNode {
 
     private String www;
 
-    private Timestamp creationTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationTime;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @org.hibernate.annotations.Index(name="risto_modificationtime_index")
-    private Timestamp modificationTime;
+    private Date modificationTime;
 
     private String phoneNumber;
 
@@ -153,6 +158,9 @@ public class Ristorante extends BasicEntity implements BasicNode {
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
     @Fetch(FetchMode.SELECT)
     private List<RistorantePicture> pictures;
+    @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+    @Fetch(FetchMode.SELECT)
+    private List<Comment> comments;
 
     public Ristorante() {
         rates = new ArrayList<RateOnRistorante>();
@@ -306,25 +314,25 @@ public class Ristorante extends BasicEntity implements BasicNode {
         this.activities.add(activity);
     }
 
-    public Timestamp getCreationTime() {
+    public Date getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(Timestamp creationTime) {
+    public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
     }
 
     /**
      * @return the modificationTime
      */
-    public Timestamp getModificationTime() {
+    public Date getModificationTime() {
         return modificationTime;
     }
 
     /**
      * @param modificationTime the modificationTime to set
      */
-    public void setModificationTime(Timestamp modificationTime) {
+    public void setModificationTime(Date modificationTime) {
         this.modificationTime = modificationTime;
     }
 
@@ -462,6 +470,32 @@ public class Ristorante extends BasicEntity implements BasicNode {
             pictures = new ArrayList<RistorantePicture>();
         }
         this.pictures.add(picture);
+    }
+
+    /**
+     * @return the comments
+     */
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    /**
+     * @param comments
+     */
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+    
+    /**
+     * Add a new comment
+     * 
+     * @param comment
+     */
+    public void addComment(Comment comment) {
+        if (comments == null) {
+            comments = new ArrayList<Comment>();
+        }
+        this.comments.add(comment);
     }
 
     /**

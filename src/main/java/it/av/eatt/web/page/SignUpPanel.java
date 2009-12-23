@@ -108,7 +108,7 @@ public class SignUpPanel extends Panel {
         EqualPasswordInputValidator passwordInputValidator = new EqualPasswordInputValidator(pwd1, pwd2);
         signUpForm.add(passwordInputValidator);
         SubmitButton submitButton = new SubmitButton("buttonCreateNewAccount", signUpForm);
-        signUpForm.add(submitButton);
+        add(submitButton);
         signUpForm.setDefaultButton(submitButton);
 
         goSignInAfterSignUp = new Link<String>("goSignInAfterSignUp") {

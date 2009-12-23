@@ -17,11 +17,13 @@ package it.av.eatt.web.page;
 
 import it.av.eatt.JackWicketException;
 import it.av.eatt.ocm.model.ActivityRistorante;
+import it.av.eatt.ocm.model.Comment;
 import it.av.eatt.ocm.model.Language;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.RistoranteDescriptionI18n;
 import it.av.eatt.ocm.model.RistorantePicture;
 import it.av.eatt.ocm.model.Tag;
+import it.av.eatt.ocm.util.DateUtil;
 import it.av.eatt.service.ActivityRistoranteService;
 import it.av.eatt.service.LanguageService;
 import it.av.eatt.service.RistoranteService;
@@ -46,6 +48,8 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextArea;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.resource.DynamicImageResource;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -55,6 +59,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.validation.validator.StringValidator;
 import org.springframework.util.Assert;
 
 /**
@@ -72,7 +77,7 @@ public class RistoranteViewPage extends BasePage {
     private LanguageService languageService;
     @SpringBean
     private ActivityRistoranteService activityService;
-    
+
     private Ristorante ristorante = new Ristorante();;
 
     private ModalWindow revisionsPanel;
@@ -84,6 +89,8 @@ public class RistoranteViewPage extends BasePage {
     private WebMarkupContainer descriptionLinksContainer;
     private ListView<RistorantePicture> picturesList;
     private Label asfavouriteLabel;
+    private Form<Comment> formComment;
+    private ListView<Comment> commentsList;
 
     /**
      * Constructor that is invoked when page is invoked without a session.
@@ -318,35 +325,35 @@ public class RistoranteViewPage extends BasePage {
                 revisionsPanel.show(target);
             }
         });
-        
-        add(new AjaxFallbackLink<String>("tried") {
+
+        add(new AjaxLink<String>("tried") {
             public void onClick(AjaxRequestTarget target) {
-                if (getLoggedInUser() != null){
-                    activityService.save(new ActivityRistorante(getLoggedInUser(), ristorante, ActivityRistorante.TYPE_TRIED));
+                if (getLoggedInUser() != null) {
+                    activityService.save(new ActivityRistorante(getLoggedInUser(), ristorante,
+                            ActivityRistorante.TYPE_TRIED));
                     info(getString("info.IateHere", new Model<Ristorante>(ristorante)));
-                }
-                else {
+                } else {
                     info(getString("action.notlogged"));
                 }
                 target.addComponent(getFeedbackPanel());
             }
         });
-        
-        AjaxLink<String> asfavourite =  new AjaxLink<String>("asfavourite") {
+
+        AjaxLink<String> asfavourite = new AjaxLink<String>("asfavourite") {
             public void onClick(AjaxRequestTarget target) {
-                if (getLoggedInUser() != null){
-                    if(activityService.isFavouriteRisto(getLoggedInUser(), ristorante)){
-                        activityService.save(new ActivityRistorante(getLoggedInUser(), ristorante, ActivityRistorante.TYPE_REMOVED_AS_FAVOURITE));
+                if (getLoggedInUser() != null) {
+                    if (activityService.isFavouriteRisto(getLoggedInUser(), ristorante)) {
+                        activityService.save(new ActivityRistorante(getLoggedInUser(), ristorante,
+                                ActivityRistorante.TYPE_REMOVED_AS_FAVOURITE));
                         info(getString("action.removedAsFavourite", new Model<Ristorante>(ristorante)));
                         asfavouriteLabel.setDefaultModelObject(getString("button.addAsFavourite"));
-                    }
-                    else{
-                        activityService.save(new ActivityRistorante(getLoggedInUser(), ristorante, ActivityRistorante.TYPE_ADDED_AS_FAVOURITE));
+                    } else {
+                        activityService.save(new ActivityRistorante(getLoggedInUser(), ristorante,
+                                ActivityRistorante.TYPE_ADDED_AS_FAVOURITE));
                         info(getString("action.addedAsFavourite", new Model<Ristorante>(ristorante)));
                         asfavouriteLabel.setDefaultModelObject(getString("button.removeAsFavourite"));
-                    }                    
-                }
-                else {
+                    }
+                } else {
                     info(getString("action.notlogged"));
                 }
                 target.addComponent(asfavouriteLabel);
@@ -354,8 +361,104 @@ public class RistoranteViewPage extends BasePage {
             }
         };
         add(asfavourite);
+        
+        formComment = new Form<Comment>("formComment", new CompoundPropertyModel<Comment>(new Comment()));
+        formComment.setOutputMarkupId(true);
+        add(formComment);
+        final TextField<String> newCommentTitle = new TextField<String>(Comment.TITLE_FIELD);
+        newCommentTitle.setVisible(false);
+        newCommentTitle.add(StringValidator.maximumLength(Comment.TITLE_MAX_LENGTH));
+        newCommentTitle.setOutputMarkupPlaceholderTag(true);
+        formComment.add(newCommentTitle);
+        final TextArea<String> newCommentBody = new TextArea<String>(Comment.BODY_FIELD);
+        newCommentBody.setRequired(true);
+        newCommentBody.add(StringValidator.maximumLength(Comment.BODY_MAX_LENGTH));
+        newCommentBody.setVisible(false);
+        newCommentBody.setOutputMarkupPlaceholderTag(true);
+        formComment.add(newCommentBody);
+        final Label newCommentTitleLabel = new Label("newCommentTitleLabel", getString("label.newCommentTitle"));
+        newCommentTitleLabel.setOutputMarkupPlaceholderTag(true);
+        newCommentTitleLabel.setVisible(false);
+        formComment.add(newCommentTitleLabel);
+        final AjaxFallbackButton submitNewComment = new AjaxFallbackButton("submitNewComment", formComment) {
+            @Override
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                if (getLoggedInUser() != null) {
+                    Comment comment = (Comment) getForm().getModelObject();
+                    comment.setAuthor(getLoggedInUser());
+                    comment.setCreationTime(DateUtil.getTimestamp());
+                    ristorante.addComment(comment);
+                    try {
+                        ristoranteService.updateNoRevision(ristorante);
+                        activityService.save(new ActivityRistorante(getLoggedInUser(), ristorante,
+                                ActivityRistorante.TYPE_NEW_COMMENT));
+                        ristorante = ristoranteService.getByID(ristorante.getId());
+                        commentsList.setModelObject(ristorante.getComments());
+                        formComment.setModelObject(new Comment());
+                        newCommentBody.setVisible(false);
+                        newCommentTitle.setVisible(false);
+                        newCommentTitleLabel.setVisible(false);
+                        this.setVisible(false);
+                        newCommentTitleLabel.setVisible(false);
+                        info(getString("message.newCommentAdded", new Model<Comment>(comment)));
+                        if (target != null) {
+                            target.addComponent(formComment);
+                        }
+                    } catch (JackWicketException e) {
+                        getFeedbackPanel().error(getString("An error occurred"));
+                    }
+                    if (target != null) {
+                        target.addComponent(getFeedbackPanel());
+                    }
+                }
+            }
+            @Override
+            protected void onError(AjaxRequestTarget target, Form<?> form) {
+                super.onError(target, form);
+                if (target != null) {
+                    target.addComponent(getFeedbackPanel());
+                }
+            }
+        };
+        submitNewComment.setOutputMarkupPlaceholderTag(true);
+        submitNewComment.setVisible(false);
+        formComment.add(submitNewComment);
+        commentsList = new ListView<Comment>("commentsList", ristorante.getComments()) {
+
+            @Override
+            protected void populateItem(final ListItem<Comment> item) {
+                item.add(new Label(Comment.AUTHOR_FIELD, item.getModelObject().getAuthor().getFirstname() + " "
+                        + item.getModelObject().getAuthor().getLastname()));
+                item.add(new Label(Comment.TITLE_FIELD, item.getModelObject().getTitle()));
+                item.add(new Label(Comment.CREATIONTIME_FIELD, DateUtil.SDF2SHOW.print(item.getModelObject().getCreationTime().getTime())));
+                item.add(new MultiLineLabel(Comment.BODY_FIELD, item.getModelObject().getBody()));
+            }
+        };
+        formComment.add(commentsList);
+        add(new AjaxFallbackLink<String>("newComment") {
+            public void onClick(AjaxRequestTarget target) {
+                // comment allowed only for logged user
+                if (getLoggedInUser() != null) {
+                    newCommentBody.setVisible(true);
+                    submitNewComment.setVisible(true);
+                    newCommentTitle.setVisible(true);
+                    newCommentTitleLabel.setVisible(true);
+                    if (target != null) {
+                        target.addComponent(formComment);
+                    }
+                }
+                else{
+                    if (target != null) {
+                        info(getString("basePage.notLogged"));    
+                    }
+                }
+                if (target != null) {
+                    target.addComponent(getFeedbackPanel());
+                }
+            }
+        });
         asfavouriteLabel = new Label("asfavouriteLabel", getString("button.addAsFavourite"));
-        if(activityService.isFavouriteRisto(getLoggedInUser(), ristorante)){
+        if (activityService.isFavouriteRisto(getLoggedInUser(), ristorante)) {
             asfavouriteLabel.setDefaultModelObject(getString("button.removeAsFavourite"));
         }
         asfavouriteLabel.setOutputMarkupId(true);

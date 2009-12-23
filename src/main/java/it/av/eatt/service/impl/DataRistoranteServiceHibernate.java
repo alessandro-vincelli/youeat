@@ -24,7 +24,6 @@ import it.av.eatt.service.DataRistoranteService;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;

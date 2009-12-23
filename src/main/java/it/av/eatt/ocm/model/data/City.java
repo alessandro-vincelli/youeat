@@ -24,6 +24,7 @@ public class City extends BasicEntity {
     private Country country;
     private String nameSimplified;
     @Field(index=Index.TOKENIZED, store=Store.NO)
+    @org.hibernate.annotations.Index(name="city-name-idx")
     private String name;
     private String region;
     private String latitude;

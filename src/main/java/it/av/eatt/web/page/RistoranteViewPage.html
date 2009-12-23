@@ -62,7 +62,42 @@
     <p class="edit">
     <button wicket:id="editDataRistorante"><wicket:message key="button.editRistorante" /></button>
     <button wicket:id="editPictures"><wicket:message key="button.editRistorantePictures" /></button>
+    <button wicket:id="newComment"><wicket:message key="button.newComment" /></button>
     </p>
+    <div>
+        <form wicket:id="formComment">
+        <fieldset>
+        <table class="form-comment">
+        <tr>
+            <th><span wicket:id="newCommentTitleLabel"></span></th>
+            <td><input type="text" wicket:id="title"></input></td>
+        </tr>
+        <tr>
+            <td colspan="2"><textarea wicket:id="body" autocomplete="off" accesskey="u" name="description" rows="4" cols="70"></textarea></td>
+        </tr>
+        </table>
+        
+        <p class="submitarea"> 
+        <button wicket:id="submitNewComment"><wicket:message key="button.postNewComment" /></button>
+        </p>
+        
+        <ul class="commentsList">
+            <li wicket:id="commentsList">
+            <div id="commentsList">
+            <div id="commentHeader">
+                <span class="commentAuthor" wicket:id="author"></span>
+                <span class="commentTitle" wicket:id="title"></span>
+                <div class="commentTime" wicket:id="creationTime"></div>
+            </div>
+            <div id="commentBody">
+                <span wicket:id="body"></span>
+            </div>
+            </div>
+            </li>
+        </ul>
+        </fieldset>
+       </form>
+    </div>
     </div>
     </div>
     <div id="extra">

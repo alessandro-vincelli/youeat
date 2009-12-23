@@ -22,12 +22,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.AssociationOverride;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Table;
 
@@ -61,6 +59,7 @@ public class RistoranteRevision extends BasicEntity implements Cloneable {
             this.ristoranteRevision.setRevisions(null);
             this.ristoranteRevision.setTypes(null);
             this.ristoranteRevision.setPictures(null);
+            this.ristoranteRevision.setComments(null);
             List<RistoranteDescriptionI18n> copiedDescriptionI18ns = new ArrayList<RistoranteDescriptionI18n>(risto
                     .getDescriptions().size());
             for (RistoranteDescriptionI18n descriptionI18n : risto.getDescriptions()) {

@@ -35,7 +35,6 @@ import it.av.eatt.web.components.CityAutocompleteBox;
 import it.av.eatt.web.components.RistoranteAutocompleteBox;
 import it.av.eatt.web.security.SecuritySession;
 
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;

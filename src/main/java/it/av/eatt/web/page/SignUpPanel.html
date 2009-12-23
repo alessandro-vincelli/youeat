@@ -1,7 +1,7 @@
 <wicket:panel>
-       <form wicket:id="signUpForm" class="form-signup">
+       <form wicket:id="signUpForm">
        	<fieldset>
-       	 <table>
+       	 <table class="form-signup">
         	<tr>
         	<th><label for="firstname"><wicket:message key="firstname"/></label></th>
         	<td><input type="text" wicket:id="firstname"/></td>
@@ -32,17 +32,13 @@
             </tr>
         </table>
         <div class="captchaArea" wicket:id="captcha" ></div>
-        <table class="form-signup">
-        	<tr>
-        	<td class="submitarea"><input type="submit" wicket:id="buttonCreateNewAccount" wicket:message="title:signUp.buttonCreateNewAccount,value:signUp.buttonCreateNewAccount"/>
-        	<!-- <button wicket:id="buttonClearForm"><wicket:message key="button.clean"/></button>
-        	-->
-            </td>
-            </tr>
-        </table>
        	</fieldset>
-        
        </form>
+       <p class="submitarea">
+            <input type="submit" wicket:id="buttonCreateNewAccount" wicket:message="title:signUp.buttonCreateNewAccount,value:signUp.buttonCreateNewAccount"></input>
+            <!-- <button wicket:id="buttonClearForm"><wicket:message key="button.clean"/></button>
+            -->
+        </p>
        <button wicket:id="goSignInAfterSignUp"><wicket:message key="goSignInAfterSignUp"/></button>
 	
 </wicket:panel>

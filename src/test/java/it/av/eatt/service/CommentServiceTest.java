@@ -63,12 +63,10 @@ public class CommentServiceTest{
 
             Comment comment = new Comment();
             comment.setTitle("ArticleTest");
-            comment.setRistorantePath(rist.getPath());
             comment.setAuthor(a);
 			commentService.save(comment);
 			
 			assertEquals(comment.getTitle(), "ArticleTest");
-			assertEquals(comment.getRistorantePath(), rist.getPath());
 			assertEquals(comment.getAuthor().getFirstname(), "Alessandro");
 			
 			commentService.remove(comment);

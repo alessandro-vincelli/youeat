@@ -64,6 +64,10 @@ public class ActivityRistorante extends Activity {
      * Restaurant tried, the user ate in the risto
      */
     public static final String TYPE_TRIED = "ate here";
+    /**
+     * Aded a new comment on the risto
+     */
+    public static final String TYPE_NEW_COMMENT = "new comment";
 
     @ManyToOne(optional=false)
     private Ristorante ristorante;

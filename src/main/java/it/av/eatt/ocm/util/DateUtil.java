@@ -29,7 +29,7 @@ public class DateUtil {
     /**
      * Format used in the UI. dd/MM/yyyy HH:mm:ss
      */
-    public static final DateTimeFormatter  sdf2Show =  DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
+    public static final DateTimeFormatter  SDF2SHOW =  DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
     private static PeriodFormatter cStandard;
 
     /**

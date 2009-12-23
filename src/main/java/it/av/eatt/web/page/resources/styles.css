@@ -39,7 +39,10 @@ div#content {
     text-align: center;
 }
 
-div#content fieldset {
+div#content fieldset{
+    border: none;
+}
+div#content {
     border: none;
     border-left: 1px solid #C8C8DE;
     border-right: 1px solid #C8C8DE;
@@ -234,7 +237,7 @@ div#footer p {
     width: 22em;
 }
 
-fieldset input[type="text"],fieldset input[type="password"],fieldset textarea,fieldset select,fieldset checkbox
+input[type="text"],fieldset input[type="password"],fieldset textarea,fieldset select,fieldset checkbox
     {
     border: 1px solid #AAAAAA;
     padding: 4px 2px;
@@ -469,11 +472,22 @@ button.descriptionLinkActive {
 
 .captchaArea {
     text-align: center;
+    width: 100%;
+    float: left;
+    display: block;
+    font-size: medium;
+    padding-top: 5px;
 }
 
 .form-signup input {
     width: 300px;
     text-align: left;
+}
+
+.form-signup-submitarea {
+    text-align: center;
+    float: left;
+    display: block;
 }
 
 td.submitarea {
@@ -673,4 +687,65 @@ input.unpublishPictureButton {
 }
 feedbackPanelERROR{
     color: red;
+}
+
+.commentsList{
+    list-style-image: none;
+    list-style-position: inside;
+    list-style-type: none;
+}
+
+#commentsList {
+    float: left;
+    display: block;
+    width: 100%;
+    vertical-align: bottom;
+    border-bottom: 1px solid #EEEEEE;
+    margin-top: 10px;
+    margin-bottom: 7px;
+    text-align: left;
+}
+
+#commentsList ul {
+    width: 100%;
+}
+
+#commentsList li {
+    border: transparent;
+    display: inline-block;
+    font-size: 1em;
+}
+
+#comment .comnentBody {
+    background-color: blue;
+}
+#commentHeader{
+    font-size: small;
+}
+
+#commentHeader .commentTitle{
+    font-style: italic;
+}
+
+#commentHeader .commentTime{
+    text-align: right;
+    font-size: smaller;
+}
+
+#commentBody{
+    font-size: small;
+}
+
+.form-comment {
+    float: left;
+    display: block;
+}
+
+.form-comment th {
+    text-align: right;
+}
+
+.form-comment input {
+    width: 300px;
+    text-align: left;
 }

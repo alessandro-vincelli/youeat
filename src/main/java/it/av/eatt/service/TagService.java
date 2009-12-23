@@ -57,6 +57,15 @@ public interface TagService {
      */
     @Transactional(readOnly = true)
     List<Tag> find(String pattern);
+    
+    /**
+     * Free text search by Lucene
+     * 
+     * @param pattern
+     * @return List<Tag>
+     */
+    @Transactional(readOnly = true)
+    List<Tag> freeTextSearch(String pattern);
 
     /**
      * Find tags by the given criterions

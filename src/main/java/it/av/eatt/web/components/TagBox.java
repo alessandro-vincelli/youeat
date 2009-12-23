@@ -4,6 +4,7 @@ import it.av.eatt.JackWicketException;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.Tag;
 import it.av.eatt.service.TagService;
+import it.av.eatt.util.LuceneUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,7 +46,7 @@ public class TagBox extends AutoCompleteTextField<String> {
     protected Iterator<String> getChoices(String input) {
         Collection<String> choises = new ArrayList<String>();
         try {
-            List<Tag> tags = tagService.find(input + "%");
+            List<Tag> tags = tagService.freeTextSearch(LuceneUtil.removeSpecialChars(input) + "~");
             tags.removeAll(ristorante.getTags());
             for (Tag tag : tags) {
                 choises.add(tag.getTag());

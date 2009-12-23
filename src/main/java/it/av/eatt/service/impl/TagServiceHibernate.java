@@ -15,13 +15,20 @@
  */
 package it.av.eatt.service.impl;
 
+import it.av.eatt.JackWicketException;
+import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.Tag;
 import it.av.eatt.service.TagService;
+import it.av.eatt.util.LuceneUtil;
 
 import java.util.List;
 
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.queryParser.MultiFieldQueryParser;
+import org.apache.lucene.queryParser.ParseException;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.search.jpa.FullTextEntityManager;
 
 /**
  * 
@@ -64,5 +71,24 @@ public class TagServiceHibernate extends ApplicationServiceHibernate<Tag> implem
         } else {
             return null;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Tag> freeTextSearch(String pattern) {
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
+                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+        String[] fields = new String[] { "tag" };
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, new StandardAnalyzer());
+        org.apache.lucene.search.Query query;
+        try {
+            query = parser.parse(LuceneUtil.escapeSpecialChars(pattern));
+        } catch (ParseException e) {
+            throw new JackWicketException(e);
+        }
+        javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Tag.class);
+        return persistenceQuery.getResultList();
     }
 }

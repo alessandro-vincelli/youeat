@@ -27,7 +27,6 @@ import it.av.eatt.web.commons.YoueatHttpParams;
 import it.av.eatt.web.components.ButtonOpenRisto;
 import it.av.eatt.web.components.CityAutocompleteBox;
 
-import org.apache.commons.httpclient.params.HttpParams;
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;

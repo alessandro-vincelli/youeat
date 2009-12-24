@@ -24,7 +24,6 @@ import it.av.eatt.service.LanguageService;
 import it.av.eatt.web.commons.ImagesCommons;
 
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
@@ -40,7 +39,6 @@ import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.form.validation.EqualPasswordInputValidator;
 import org.apache.wicket.markup.html.image.Image;
-import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.image.resource.DynamicImageResource;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
@@ -112,8 +110,7 @@ public class EaterAccountPage extends BasePage {
         imagecontatiner.setOutputMarkupId(true);
         formAvatar.add(imagecontatiner);
         avatar = ImagesCommons.getAvatar("avatar", eater, this.getPage(), false);
-        add(formAvatar);
-
+        imagecontatiner.add(avatar);
     }
 
     private class SubmitButton extends AjaxFallbackButton {

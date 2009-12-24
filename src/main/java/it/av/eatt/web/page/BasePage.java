@@ -170,25 +170,6 @@ public class BasePage extends WebPage {
             }
         });
 
-        add(new AjaxLink<String>("goSearchFriendPage") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                if (getApplication().getSecuritySettings().getAuthorizationStrategy().isInstantiationAuthorized(
-                        SearchFriendPage.class)) {
-                    setResponsePage(SearchFriendPage.class);
-                }
-            }
-
-            @Override
-            protected void onBeforeRender() {
-                super.onBeforeRender();
-                setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
-                        .isInstantiationAuthorized(SearchFriendPage.class)));
-            }
-        });
-
         add(new AjaxLink<String>("goFriendPage") {
             private static final long serialVersionUID = 1L;
 
@@ -301,7 +282,7 @@ public class BasePage extends WebPage {
                 Eater eater = getLoggedInUser();
                 if (eater != null) {
                     PageParameters pp = new PageParameters(YoueatHttpParams.PARAM_YOUEAT_ID + "=" + eater.getId());
-                    setResponsePage(UserAccountPage.class, pp);
+                    setResponsePage(EaterAccountPage.class, pp);
                 }
             }
 
@@ -309,7 +290,7 @@ public class BasePage extends WebPage {
             protected void onBeforeRender() {
                 super.onBeforeRender();
                 setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
-                        .isInstantiationAuthorized(UserAccountPage.class)));
+                        .isInstantiationAuthorized(EaterAccountPage.class)));
             }
 
             @Override

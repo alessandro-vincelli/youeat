@@ -42,7 +42,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Bytes;
 
 /**
- * Add and Remove picture of {@link Ristorante}.
+ * Add and Remove picture on {@link Ristorante}.
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
@@ -95,7 +95,7 @@ public class RistoranteEditPicturePage extends BasePage {
         picturesList = new ListView<RistorantePicture>("picturesList", ristorante.getPictures()) {
             @Override
             protected void populateItem(final ListItem<RistorantePicture> item) {
-                //Button disabled, because the getPicture is not yet implemented
+                // Button disabled, because the getPicture is not yet implemented
                 item.add(new AjaxFallbackButton("publish-unpublish", form) {
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
@@ -111,14 +111,14 @@ public class RistoranteEditPicturePage extends BasePage {
                             target.addComponent(form);
                         }
                     }
+
                     @Override
                     protected void onComponentTag(ComponentTag tag) {
                         super.onComponentTag(tag);
-                        if(item.getModelObject().isActive()){
+                        if (item.getModelObject().isActive()) {
                             tag.getAttributes().put("title", getString("button.unpublish"));
                             tag.getAttributes().put("class", "unpublishPictureButton");
-                        }
-                        else{
+                        } else {
                             tag.getAttributes().put("title", getString("button.publish"));
                             tag.getAttributes().put("class", "publishPictureButton");
                         }
@@ -153,12 +153,13 @@ public class RistoranteEditPicturePage extends BasePage {
         picturesList.setOutputMarkupId(true);
         picturesList.setReuseItems(true);
         form.add(picturesList);
-        
-        ButtonOpenRisto buttonOpenAddedRisto = new ButtonOpenRisto("buttonOpenAddedRisto", new Model<Ristorante>(ristorante), true);
+
+        ButtonOpenRisto buttonOpenAddedRisto = new ButtonOpenRisto("buttonOpenAddedRisto", new Model<Ristorante>(
+                ristorante), true);
         add(buttonOpenAddedRisto);
 
-        ButtonOpenRisto buttonOpenAddedRistoRight = new ButtonOpenRisto("buttonOpenAddedRistoRight", new Model<Ristorante>(ristorante),
-                true);
+        ButtonOpenRisto buttonOpenAddedRistoRight = new ButtonOpenRisto("buttonOpenAddedRistoRight",
+                new Model<Ristorante>(ristorante), true);
         add(buttonOpenAddedRistoRight);
     }
 

@@ -15,6 +15,8 @@
  */
 package it.av.eatt.ocm.model;
 
+import it.av.eatt.JackWicketException;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -59,6 +61,7 @@ public class Eater extends BasicEntity {
     public static final String USERPROFILE = "userProfile";
     public static final String COUNTRY = "country";
     public static final String LANGUAGE = "language";
+    public static final String AVATAR = "avatar";
     
     private String password;
     @Field(index = Index.NO_NORMS, store = Store.NO)
@@ -67,6 +70,8 @@ public class Eater extends BasicEntity {
     private String lastname;
     private String email;
     private String country;
+    private byte[] avatar;
+    
     @ManyToOne
     @ForeignKey(name="eater_to_langiage_fk")
     private Language language;
@@ -171,5 +176,16 @@ public class Eater extends BasicEntity {
 
     public void setLanguage(Language language) {
         this.language = language;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        if (avatar == null) {
+            throw new JackWicketException("array avatar is null");
+        }
+        this.avatar = avatar.clone();
     }
 }

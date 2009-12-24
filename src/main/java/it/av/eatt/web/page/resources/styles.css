@@ -318,44 +318,60 @@ fieldset input[type="file"] {
 div .friendsList {
     text-align: left;
     display: block;
-    height: 35px;
+    height: 50px;
     border-bottom: 1px solid #EEEEEE;
     padding-top: 10px;
     padding-bottom: 10px;
     margin-bottom: 10px;
     padding-left:60px;
-    background-image: url("images/avatar.gif");
+    /*background-image: url("images/avatar.gif");*/
     background-repeat: no-repeat;
 }
 
 div .friendName {
-    width: 200px;
+    width: 150px;
     float: left;
+}
+
+div .friendAvatar{
+    float: left;
+    width: 50px;
+    display: block;
+    padding-right: 6px;
+}
+
+.friendAvatar img{
+    width: 50px;
+    height: 50px;
 }
 
 div .friendType {
     float: left;
-    width: 40px;
+    width: 150px;
     font-style: oblique;
 }
 
 div .friendCenterColumn {
-    width: 200px;
+    width: 250px;
     float: left;
 }
 
 div .friendStatus {
     float: left;
-    width: 200px;
+    width: 150px;
     font-style: oblique;
 }
 
 div .friendRemoveButton {
     float: right;
-    width: 20px;
     font-style: oblique;
+    padding-right: 5px;
 }
 
+.friend-action{
+    display: block;
+}
+    
 .autocomplete-risto ul {
     list-style-position: outside;
     list-style-type: none;
@@ -748,4 +764,9 @@ feedbackPanelERROR{
 .form-comment input {
     width: 300px;
     text-align: left;
+}
+
+.avatar{
+    width: 50px;
+    height: 50px;
 }

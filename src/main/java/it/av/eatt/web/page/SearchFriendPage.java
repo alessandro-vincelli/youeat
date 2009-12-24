@@ -65,6 +65,11 @@ public class SearchFriendPage extends BasePage {
             }
 
             @Override
+            public String getCssClass() {
+                return "friend-action";
+            }
+
+            @Override
             public Component getHeader(String componentId) {
                 return super.getHeader(componentId).setVisible(false);
             }

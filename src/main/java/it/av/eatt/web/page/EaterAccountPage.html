@@ -38,6 +38,22 @@
             </table>
             </fieldset>
          </form>
+         <form wicket:id="formAvatar">
+            <fieldset>
+            <ul>
+                <div wicket:id="imageContainer"><img class="avatar" wicket:id="avatar"></img></div>
+            </ul>
+            <table class="upload-picture">
+                <tr>
+                <td><input wicket:id="uploadField" id="upload" type="file" class="uploadfield"></input></td>
+                <td><input type="submit" wicket:id="submitForm" class="submitButton" value="upload" wicket:message="value:button.uploadAvatar"></input></td>
+                </tr>
+                <tr>
+                <td colspan="2"><span wicket:id="progressBar"></span></td>
+                </tr>
+            </table>
+            </fieldset>
+        </form>
     </div>
     </div>
     <div id="extra">

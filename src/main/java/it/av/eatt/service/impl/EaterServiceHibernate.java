@@ -22,6 +22,7 @@ import it.av.eatt.ocm.model.EaterRelation;
 import it.av.eatt.service.EaterProfileService;
 import it.av.eatt.service.EaterRelationService;
 import it.av.eatt.service.EaterService;
+import it.av.eatt.util.LuceneUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -120,6 +121,8 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         searchPattern.append(")");
         // use the search pattern on the firstname and lastname
         if (StringUtils.isNotBlank(pattern)) {
+            String patternClean = LuceneUtil.escapeSpecialChars(pattern);
+            patternClean = patternClean + "~";
             searchPattern.append(" %% (");
             searchPattern.append(" firstname:(");
             searchPattern.append(pattern);

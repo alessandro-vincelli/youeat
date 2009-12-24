@@ -16,6 +16,7 @@
 package it.av.eatt.web.page;
 
 import it.av.eatt.JackWicketException;
+import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterRelation;
 import it.av.eatt.service.EaterRelationService;
 import it.av.eatt.web.commons.YoueatHttpParams;
@@ -41,7 +42,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@AuthorizeInstantiation( { "USER", "ADMIN", "EDITOR" })
+@AuthorizeInstantiation( { "USER", "ADMIN"})
 public class FriendsPage extends BasePage {
 
     private static final long serialVersionUID = 1L;
@@ -86,8 +87,13 @@ public class FriendsPage extends BasePage {
                     }
                 };
                 item.add(linkToUser);
-                linkToUser.add(new Label(EaterRelation.TO_USER + ".firstname"));
-                linkToUser.add(new Label(EaterRelation.TO_USER + ".lastname"));
+                Eater eaterToshow = item.getModelObject().getToUser();
+                if(getLoggedInUser().equals(item.getModelObject().getToUser())){
+                    eaterToshow = item.getModelObject().getFromUser();
+                }
+                linkToUser.add(new Label(EaterRelation.TO_USER + ".firstname", eaterToshow.getFirstname()));
+                linkToUser.add(new Label(EaterRelation.TO_USER + ".lastname", eaterToshow.getLastname()));
+                
                 item.add(new Label(EaterRelation.TYPE));
                 item.add(new Label(EaterRelation.STATUS));
 //                item.add(new Label(EaterRelation.TO_USER + ".userRelation"));

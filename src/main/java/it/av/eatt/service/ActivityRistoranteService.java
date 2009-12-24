@@ -96,4 +96,13 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      */
     @Transactional
     ActivityRistorante save(ActivityRistorante activityRistorante);
+    
+    /**
+     * Return the last activities on risto 
+     * 
+     * @param numberOfResult number of result to return
+     * @return lasts activities
+     */
+    @Transactional(readOnly = true)
+    List<ActivityRistorante> getLasts(int numberOfResult);
 }

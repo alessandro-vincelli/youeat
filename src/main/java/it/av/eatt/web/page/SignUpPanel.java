@@ -34,9 +34,12 @@ import org.apache.wicket.extensions.captcha.kittens.KittenCaptchaPanel;
 import org.apache.wicket.extensions.validation.validator.RfcCompliantEmailAddressValidator;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.FormComponent;
+import org.apache.wicket.markup.html.form.HiddenField;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 import org.apache.wicket.markup.html.form.validation.EqualPasswordInputValidator;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -108,6 +111,7 @@ public class SignUpPanel extends Panel {
         EqualPasswordInputValidator passwordInputValidator = new EqualPasswordInputValidator(pwd1, pwd2);
         signUpForm.add(passwordInputValidator);
         SubmitButton submitButton = new SubmitButton("buttonCreateNewAccount", signUpForm);
+        submitButton.setOutputMarkupId(true);
         add(submitButton);
         signUpForm.setDefaultButton(submitButton);
 
@@ -124,7 +128,31 @@ public class SignUpPanel extends Panel {
         add(goSignInAfterSignUp);
 
         signUpForm.add(captcha = new KittenCaptchaPanel("captcha", new Dimension(400, 200)));
+        //used to show error message
+        final HiddenField<String> captchaHidden = new HiddenField<String>("captchaHidden", new Model());
+        signUpForm.add(captchaHidden);
+        signUpForm.add(new KittenCaptchaValidator(captchaHidden));
         add(signUpForm);
+    }
+
+    private final class KittenCaptchaValidator extends AbstractFormValidator {
+        private final HiddenField<String> captchaHidden;
+
+        private KittenCaptchaValidator(HiddenField<String> captchaHidden) {
+            this.captchaHidden = captchaHidden;
+        }
+
+        @Override
+        public void validate(Form<?> form) {
+            if(!captcha.allKittensSelected()){
+                error(captchaHidden);
+            }
+        }
+
+        @Override
+        public FormComponent<?>[] getDependentFormComponents() {
+            return new FormComponent[] { captchaHidden};
+        }
     }
 
     private class SubmitButton extends AjaxButton {
@@ -133,46 +161,38 @@ public class SignUpPanel extends Panel {
         public SubmitButton(String id, Form<Eater> form) {
             super(id, form);
         }
-        @Override
-        public void validate() {
-            super.validate();
-            if (!captcha.allKittensSelected()) {
-                captcha.reset();
-                getParent().error(getString("validatioError.kittencaptcha"));
-            }
-        }
-
+        
         @Override
         protected void onSubmit(AjaxRequestTarget target, Form form) {
-            SignUpPanel panel = (SignUpPanel) getParent().getParent();
             try {
                 Eater user = (Eater) form.getModelObject();
                 if (StringUtils.isNotBlank(user.getId())) {
-                    panel.getFeedbackPanel().info(
+                    getFeedbackPanel().info(
                             new StringResourceModel("info.operationNotPermitted", this, null).getString());
                 } else {
                     System.out.println(target.getPage().getRequest().getLocale());
-                    user = panel.userService.addRegolarUser(user);
-                    panel.signUpForm.setVisible(false);
-                    panel.goSignInAfterSignUp.setVisible(true);
+                    userService.addRegolarUser(user);
+                    signUpForm.setVisible(false);
+                    this.setVisible(false);
+                    goSignInAfterSignUp.setVisible(true);
                 }
             } catch (UserAlreadyExistsException e) {
-                panel.getFeedbackPanel().error(
+                getFeedbackPanel().error(
                         new StringResourceModel("error.userAlreadyExistsException", this, null).getString());
             } catch (JackWicketException e) {
-                panel.getFeedbackPanel().error(
+                getFeedbackPanel().error(
                         new StringResourceModel("error.operationNotPermitted", this, null).getString());
             }
-            target.addComponent(getPage());
+            if(target !=null){
+                target.addComponent(getPage());    
+            }
         }
 
         @Override
         protected void onError(AjaxRequestTarget target, Form form) {
-            SignUpPanel panel = (SignUpPanel) getParent().getParent();
-            panel.getFeedbackPanel().anyErrorMessage();
-            target.addComponent(panel.getFeedbackPanel());
+            getFeedbackPanel().anyErrorMessage();
+            target.addComponent(getFeedbackPanel());
             target.addComponent(form);
-
         }
     }
 

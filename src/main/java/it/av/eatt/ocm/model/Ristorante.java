@@ -87,6 +87,8 @@ public class Ristorante extends BasicEntity implements BasicNode {
     public static final String PHONE_NUMBER = "phoneNumber";
     public static final String MOBILE_PHONE_NUMBER = "mobilePhoneNumber";
     public static final String FAX_NUMBER = "faxNumber";
+    public static final String CREATION_TIME = "creationTime";
+    public static final String MODIFICATION_TIME = "modificationTime";
 
     @Deprecated
     private String path;

@@ -18,21 +18,17 @@ package it.av.eatt.web.page;
 import it.av.eatt.JackWicketException;
 import it.av.eatt.ocm.model.ActivityRistorante;
 import it.av.eatt.ocm.model.Ristorante;
-import it.av.eatt.ocm.util.DateUtil;
 import it.av.eatt.service.ActivityRistoranteService;
-import it.av.eatt.web.commons.ActivityCommons;
 import it.av.eatt.web.commons.ActivityPaging;
-import it.av.eatt.web.commons.YoueatHttpParams;
+import it.av.eatt.web.components.ActivitiesListView;
 import it.av.eatt.web.components.RistoNameColumn;
 import it.av.eatt.web.components.RistoranteDataTable;
 import it.av.eatt.web.data.RistoranteSortableDataProvider;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
@@ -41,9 +37,6 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColu
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
@@ -67,7 +60,7 @@ public class UserHomePage extends BasePage {
     private List<ActivityRistorante> activities;
     private WebMarkupContainer activitiesListContainer;
     private PropertyListView<ActivityRistorante> activitiesList;
-    Collection<ActivityRistorante> friendsActivities;
+    private List<ActivityRistorante> friendsActivities;
     private WebMarkupContainer friendsActivitiesListContainer;
 
     public UserHomePage() {
@@ -119,20 +112,7 @@ public class UserHomePage extends BasePage {
         activitiesListContainer = new WebMarkupContainer("activitiesListContainer");
         activitiesListContainer.setOutputMarkupId(true);
         add(activitiesListContainer);
-        activitiesList = new PropertyListView<ActivityRistorante>("activitiesList", activities) {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected void populateItem(final ListItem<ActivityRistorante> item) {
-                item.add(ActivityCommons.createActivityIcon(getPage().getClass(), item));
-                item.add(new Label("date.time", DateUtil.getPeriod(item.getModelObject().getDate().getTime())));
-                BookmarkablePageLink<String> ristoLink = new BookmarkablePageLink<String>("ristorante.link",
-                        RistoranteViewPage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "="
-                                + item.getModelObject().getRistorante().getId()));
-                ristoLink.add(new Label("ristorante.name"));
-                item.add(ristoLink);
-            }
-        };
+        activitiesList = new ActivitiesListView("activitiesList", activities, false);
         activitiesList.setOutputMarkupId(true);
         activitiesListContainer.add(activitiesList);
         AjaxFallbackLink<String> moreActivitiesLink = new AjaxFallbackLink<String>("moreActivities") {
@@ -162,30 +142,8 @@ public class UserHomePage extends BasePage {
         friendsActivitiesListContainer = new WebMarkupContainer("friendsActivitiesListContainer");
         friendsActivitiesListContainer.setOutputMarkupId(true);
         add(friendsActivitiesListContainer);
-        PropertyListView<ActivityRistorante> friendsActivitiesList = new PropertyListView<ActivityRistorante>(
-                "friendsActivitiesList", new ArrayList<ActivityRistorante>(friendsActivities)) {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected void populateItem(final ListItem<ActivityRistorante> item) {
-                item.add(ActivityCommons.createActivityIcon(getPage().getClass(), item));
-                item.add(new Label("date.time", DateUtil.getPeriod(item.getModelObject().getDate().getTime())));
-
-                BookmarkablePageLink<String> ristoLink = new BookmarkablePageLink<String>("ristorante.link",
-                        RistoranteViewPage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "="
-                                + item.getModelObject().getRistorante().getId()));
-                ristoLink.add(new Label("ristorante.name"));
-                item.add(ristoLink);
-                item.add(new AjaxFallbackLink<String>("view-eater") {
-                    @Override
-                    public void onClick(AjaxRequestTarget target) {
-                        PageParameters pp = new PageParameters(YoueatHttpParams.USER_ID + "="
-                                + item.getModelObject().getEater().getId());
-                        setResponsePage(UserViewPage.class, pp);
-                    }
-                }.add(new Label("eater.lastname")));
-            }
-        };
+        PropertyListView<ActivityRistorante> friendsActivitiesList = new ActivitiesListView(
+                "friendsActivitiesList", new ArrayList<ActivityRistorante>(friendsActivities), true);
         friendsActivitiesListContainer.add(friendsActivitiesList);
         AjaxFallbackLink<String> moreFriendsActivitiesLink = new AjaxFallbackLink<String>("moreFriendsActivitiesLink") {
             @Override

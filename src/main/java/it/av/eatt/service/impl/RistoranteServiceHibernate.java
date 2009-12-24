@@ -22,6 +22,7 @@ import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.RateOnRistorante;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.RistoranteRevision;
+import it.av.eatt.ocm.model.data.City;
 import it.av.eatt.ocm.util.DateUtil;
 import it.av.eatt.service.ActivityRistoranteService;
 import it.av.eatt.service.RateRistoranteService;
@@ -35,6 +36,7 @@ import java.util.List;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,5 +179,33 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         }
         javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Ristorante.class);
         return persistenceQuery.getResultList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Ristorante> getLastsAdded(int numberOfResult) {
+        Order orderBy = Order.desc(Ristorante.CREATION_TIME);
+        return findByCriteria(orderBy, 0, numberOfResult);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Ristorante> getLastsModified(int numberOfResult) {
+        Order orderBy = Order.desc(Ristorante.MODIFICATION_TIME);
+        return findByCriteria(orderBy, 0, numberOfResult);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Ristorante> getByCity(City city, int firsResult, int maxResults) {
+        Order orderBy = Order.desc(Ristorante.NAME);
+        Criterion critByCity = Restrictions.eq(Ristorante.CITY, city);
+        return findByCriteria(orderBy, firsResult, maxResults, critByCity);
     }
 }

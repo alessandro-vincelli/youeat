@@ -16,7 +16,10 @@
 package it.av.eatt.web.page;
 
 import it.av.eatt.JackWicketException;
+import it.av.eatt.ocm.model.ActivityRistorante;
 import it.av.eatt.ocm.model.Ristorante;
+import it.av.eatt.service.ActivityRistoranteService;
+import it.av.eatt.web.components.ActivitiesListView;
 import it.av.eatt.web.components.RistoNameColumn;
 import it.av.eatt.web.components.RistoranteDataTable;
 import it.av.eatt.web.data.RistoranteSortableDataProvider;
@@ -29,10 +32,12 @@ import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulato
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
  * The page provides the home page.
@@ -44,6 +49,9 @@ public class HomePage extends BasePage {
 
     private static final long serialVersionUID = 1L;
     private RistoranteSortableDataProvider ristoranteSortableDataProvider;
+    private PropertyListView<ActivityRistorante> lastActivitiesList;
+    @SpringBean
+    private ActivityRistoranteService activityRistoranteService;
 
     /**
      * Constructor that is invoked when page is invoked without a session.
@@ -65,7 +73,7 @@ public class HomePage extends BasePage {
             public String getCssClass() {
                 return "ristoName";
             }
-            
+
             @Override
             public Component getHeader(String componentId) {
                 return super.getHeader(componentId).setVisible(false);
@@ -73,11 +81,11 @@ public class HomePage extends BasePage {
         });
 
         columns.add(new PropertyColumn<Ristorante>(new Model<String>(new StringResourceModel("city", this, null)
-                .getString()), "city"){
-                    @Override
-                    public Component getHeader(String componentId) {
-                        return super.getHeader(componentId).setVisible(false);
-                    }
+                .getString()), "city") {
+            @Override
+            public Component getHeader(String componentId) {
+                return super.getHeader(componentId).setVisible(false);
+            }
         });
 
         RistoranteDataTable<Ristorante> ristoranteDataTable = new RistoranteDataTable<Ristorante>(
@@ -87,6 +95,9 @@ public class HomePage extends BasePage {
         RistoranteSearchPanel ristoranteSearchPanel = new RistoranteSearchPanel("ristoranteSearchPanel",
                 ristoranteSortableDataProvider, ristoranteDataTable, getFeedbackPanel());
         add(ristoranteSearchPanel);
+        
+        lastActivitiesList = new ActivitiesListView("activitiesList", activityRistoranteService.getLasts(5), true);          
+        add(lastActivitiesList);
     }
 
 }

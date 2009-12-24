@@ -17,6 +17,7 @@ package it.av.eatt.service;
 
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.Ristorante;
+import it.av.eatt.ocm.model.data.City;
 
 import java.util.Collection;
 import java.util.List;
@@ -125,4 +126,33 @@ public interface RistoranteService {
      */
     @Transactional
     Ristorante updateNoRevision(Ristorante ristorante);
+    
+    /**
+     * Return the last added risto 
+     * 
+     * @param numberOfResult number of result to return
+     * @return lasts risto added
+     */
+    @Transactional(readOnly = true)
+    List<Ristorante> getLastsAdded(int numberOfResult);
+   
+    /**
+     * Return the last modified risto 
+     * 
+     * @param numberOfResult number of result to return
+     * @return lasts risto modified
+     */
+    @Transactional(readOnly = true)
+    List<Ristorante> getLastsModified(int numberOfResult);
+
+    /**
+     * Return the risto in the given city
+     * 
+     * @param city
+     * @param firstResult first result
+     * @param maxResults number of results
+     * @return found ristos
+     */
+    @Transactional(readOnly = true)
+    List<Ristorante> getByCity(City city, int firsResult, int maxResults);
 }

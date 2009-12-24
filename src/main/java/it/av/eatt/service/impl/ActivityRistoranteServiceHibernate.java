@@ -129,20 +129,31 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         if (removedAsFavourite.size() > 0 && addedAsFavourite.size() > 0) {
             ActivityRistorante mostRecentAsFavourite = null;
             for (ActivityRistorante activityRistorante : addedAsFavourite) {
-                if(mostRecentAsFavourite == null || activityRistorante.getDate().after(mostRecentAsFavourite.getDate())){
+                if (mostRecentAsFavourite == null
+                        || activityRistorante.getDate().after(mostRecentAsFavourite.getDate())) {
                     mostRecentAsFavourite = activityRistorante;
                 }
             }
             ActivityRistorante mostRecentRemovedAsFavourite = null;
             for (ActivityRistorante activityRistorante : removedAsFavourite) {
-                if(mostRecentRemovedAsFavourite == null || activityRistorante.getDate().after(mostRecentRemovedAsFavourite.getDate())){
+                if (mostRecentRemovedAsFavourite == null
+                        || activityRistorante.getDate().after(mostRecentRemovedAsFavourite.getDate())) {
                     mostRecentRemovedAsFavourite = activityRistorante;
                 }
             }
-            if(mostRecentRemovedAsFavourite.getDate().after(mostRecentAsFavourite.getDate())){
-               return false; 
+            if (mostRecentRemovedAsFavourite.getDate().after(mostRecentAsFavourite.getDate())) {
+                return false;
             }
         }
         return addedAsFavourite.size() > 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ActivityRistorante> getLasts(int numberOfResult) {
+        Order orderBy = Order.desc(ActivityRistorante.DATE);
+        return findByCriteria(orderBy, 0, numberOfResult);
     }
 }

@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterProfile;
 
@@ -67,7 +67,7 @@ public class UserProfileTableActionPanel extends Panel {
                     page.refreshDataTable();
                     target.addComponent(page.getUsersProfileDataTable());
                     page.getFeedbackPanel().info("Profile \"" + profileName + "\" removed");
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     page.getFeedbackPanel().error(e.getMessage());
                 }
                 target.addComponent(page.getFeedbackPanel());

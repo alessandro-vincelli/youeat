@@ -23,7 +23,7 @@ import java.util.List;
 import org.hibernate.criterion.Order;
 
 /**
- * Implements the operation on {@link Country}
+ * Implements operations on {@link Country}
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 

@@ -15,7 +15,7 @@
  */
 package it.av.eatt.ocm.model;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 
 import java.util.List;
 
@@ -184,7 +184,7 @@ public class Eater extends BasicEntity {
 
     public void setAvatar(byte[] avatar) {
         if (avatar == null) {
-            throw new JackWicketException("array avatar is null");
+            throw new YoueatException("array avatar is null");
         }
         this.avatar = avatar.clone();
     }

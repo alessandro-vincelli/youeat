@@ -1,6 +1,6 @@
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.RistoranteRevision;
 import it.av.eatt.web.util.RistoranteRevisionUtil;
@@ -56,7 +56,7 @@ public class RistoranteRevisionsPanel extends Panel {
     /**
      * Fill with fresh data the repeater
      * 
-     * @throws JackWicketException
+     * @throws YoueatException
      */
     public void refreshRevisionsList(Ristorante ristoSelected) {
         try {
@@ -73,7 +73,7 @@ public class RistoranteRevisionsPanel extends Panel {
             } else {
                 productsVersionsList.setModelObject(revisions);
             }
-        } catch (JackWicketException e) {
+        } catch (YoueatException e) {
             feedbackPanel.error(e.getMessage());
         }
     }
@@ -86,7 +86,7 @@ public class RistoranteRevisionsPanel extends Panel {
         this.productsVersionsList = productsVersionsList;
     }
 
-    private void performDiff(Ristorante ori, Ristorante newVer) throws JackWicketException {
+    private void performDiff(Ristorante ori, Ristorante newVer) throws YoueatException {
         TextDiffRender diffRender = new TextDiffRender();
 
         String[] diff = diffRender.render(ori.getDescription(), newVer.getDescription());

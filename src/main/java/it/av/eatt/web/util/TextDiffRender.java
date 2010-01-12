@@ -1,6 +1,6 @@
 package it.av.eatt.web.util;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.util.diff.Diff;
@@ -27,7 +27,7 @@ public class TextDiffRender {
 	 * @return String[]
 	 * @throws FeedException 
 	 */
-	public String[] render(String ori, String newVer) throws JackWicketException {
+	public String[] render(String ori, String newVer) throws YoueatException {
 		if(ori == null){
 			ori = "";
 		}
@@ -63,7 +63,7 @@ public class TextDiffRender {
 			ori = StringUtils.join(oriArray, " ");
 			newVer = StringUtils.join(newRevArray, " ");
 		} catch (DifferentiationFailedException e) {
-			throw new JackWicketException(e);
+			throw new YoueatException(e);
 		}
 		return new String[] {ori, newVer};
 	}

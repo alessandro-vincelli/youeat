@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.data;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.EaterProfile;
 import it.av.eatt.service.EaterProfileService;
 
@@ -83,9 +83,9 @@ public class UserProfileSortableDataProvider extends SortableDataProvider<EaterP
     /**
      * Performs the search
      * 
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public final void fetchResults() throws JackWicketException {
+    public final void fetchResults() throws YoueatException {
         results = userProfileService.getAll();
     }
 

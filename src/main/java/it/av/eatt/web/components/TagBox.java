@@ -1,6 +1,6 @@
 package it.av.eatt.web.components;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.Tag;
 import it.av.eatt.service.TagService;
@@ -51,7 +51,7 @@ public class TagBox extends AutoCompleteTextField<String> {
             for (Tag tag : tags) {
                 choises.add(tag.getTag());
             }
-        } catch (JackWicketException e) {
+        } catch (YoueatException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

@@ -2,6 +2,7 @@
     <div id="wrapper">
     <div id="content">
     <span wicket:id="noYetFriends"></span>
+    <div wicket:id="sendMessagePanel"></div>
     <span wicket:id="friendsListContainer">
     <div wicket:id="friendsList" class="friendsList">
     <div class="friendCenterColumn">
@@ -11,6 +12,7 @@
     <div class="friendType"><span wicket:id="type"></span></div>
     </div>
     <div class="friendRemoveButton">
+    <button wicket:id="sendMessage"><span><wicket:message key="button.sendMessageToAFriend" /></span></button>
     <button wicket:id="remove"><span><wicket:message key="button.remove" /></span></button>
     <button wicket:id="acceptFriend"><wicket:message key="button.acceptFriend" /></button>
     <button wicket:id="ignoreFriendRequest"><wicket:message key="button.ignoreFriendRequest" /></button>

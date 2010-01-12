@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.ActivityRistorante;
 import it.av.eatt.ocm.model.Comment;
 import it.av.eatt.ocm.model.Language;
@@ -95,9 +95,9 @@ public class RistoranteViewPage extends BasePage {
     /**
      * Constructor that is invoked when page is invoked without a session.
      * 
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public RistoranteViewPage(PageParameters parameters) throws JackWicketException {
+    public RistoranteViewPage(PageParameters parameters) throws YoueatException {
         actualDescriptionLanguage = getInitialLanguage();
         String ristoranteId = parameters.getString(YoueatHttpParams.RISTORANTE_ID, "");
         if (StringUtils.isNotBlank(ristoranteId)) {
@@ -227,7 +227,7 @@ public class RistoranteViewPage extends BasePage {
                 try {
                     setHasVoted(Boolean.TRUE);
                     ristoranteService.addRate(getRistorante(), getLoggedInUser(), rating);
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     error(e);
                 }
             }
@@ -240,7 +240,7 @@ public class RistoranteViewPage extends BasePage {
             public void onClick(AjaxRequestTarget target) {
                 try {
                     setResponsePage(new RistoranteEditAddressPage(getRistorante()));
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     error(new StringResourceModel("genericErrorMessage", this, null).getString());
                 }
             }
@@ -261,7 +261,7 @@ public class RistoranteViewPage extends BasePage {
             public void onClick(AjaxRequestTarget target) {
                 try {
                     setResponsePage(new RistoranteEditDataPage(getRistorante()));
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     error(new StringResourceModel("genericErrorMessage", this, null).getString());
                 }
             }
@@ -276,7 +276,7 @@ public class RistoranteViewPage extends BasePage {
             public void onClick(AjaxRequestTarget target) {
                 try {
                     setResponsePage(new RistoranteEditPicturePage(getRistorante()));
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     error(new StringResourceModel("genericErrorMessage", this, null).getString());
                 }
             }
@@ -404,7 +404,7 @@ public class RistoranteViewPage extends BasePage {
                         if (target != null) {
                             target.addComponent(formComment);
                         }
-                    } catch (JackWicketException e) {
+                    } catch (YoueatException e) {
                         getFeedbackPanel().error(getString("An error occurred"));
                     }
                     if (target != null) {
@@ -469,7 +469,7 @@ public class RistoranteViewPage extends BasePage {
 
     }
 
-    public RistoranteViewPage(Ristorante ristorante) throws JackWicketException {
+    public RistoranteViewPage(Ristorante ristorante) throws YoueatException {
         this(new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
     }
 
@@ -495,7 +495,7 @@ public class RistoranteViewPage extends BasePage {
         this.hasVoted = hasVoted;
     }
 
-    private Language getInitialLanguage() throws JackWicketException {
+    private Language getInitialLanguage() throws YoueatException {
         Locale locale = Locales.getSupportedLocale(getLocale());
         // TODO create a getByLanguage or Country
         List<Language> langs = languageService.getAll();

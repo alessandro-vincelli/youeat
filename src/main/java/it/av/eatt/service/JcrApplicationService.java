@@ -15,7 +15,7 @@
  */
 package it.av.eatt.service;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.BasicNode;
 
 import java.util.Collection;
@@ -37,76 +37,76 @@ public interface JcrApplicationService<T extends BasicNode> {
      * 
      * @param item
      * @return just updated item
-     * @throws JackWicketException
+     * @throws YoueatException
      */
     @Transactional
-    T update(T item) throws JackWicketException;
+    T update(T item) throws YoueatException;
     
     /**
      * Insert a new item of type T in the repo
      * 
      * @param item
      * @return just inserted item
-     * @throws JackWicketException
+     * @throws YoueatException
      */
     @Transactional
-    T insert(T item) throws JackWicketException;
+    T insert(T item) throws YoueatException;
 
     /**
      * Return oll item of the type T
      * 
      * @return all the T components
-     * @throws JackWicketException
+     * @throws YoueatException
      */
     @Transactional(readOnly = true)
-    Collection<T> getAll() throws JackWicketException;
+    Collection<T> getAll() throws YoueatException;
 
     /**
      * Search on the T item by the given text value
      * 
      * @param pattern
      * @return found T item
-     * @throws JackWicketException
+     * @throws YoueatException
      */
     @Transactional(readOnly = true)
-    Collection<T> find(String pattern) throws JackWicketException;
+    Collection<T> find(String pattern) throws YoueatException;
 
     /**
      * Remove the T item
      * 
      * @param item
-     * @throws JackWicketException
+     * @throws YoueatException
      */
     @Transactional
-    void remove(T item) throws JackWicketException;
+    void remove(T item) throws YoueatException;
 
     /**
      * If the T item is versionable return all the revisions
      * 
      * @param path
      * @return all the revisions
-     * @throws JackWicketException
+     * @throws YoueatException
      */
     @Transactional(readOnly = true)
-    List<T> getAllRevisions(String path) throws JackWicketException;
+    List<T> getAllRevisions(String path) throws YoueatException;
 
     /**
      * Return the T item by the path
      * 
      * @param path
      * @return 
-     * @throws JackWicketException
+     * @throws YoueatException
      */
     @Transactional(readOnly = true)
-    T getByPath(String path) throws JackWicketException;
+    T getByPath(String path) throws YoueatException;
 
     /**
      * If the T item has an uuid return the T object with the given uuid
      * @param uuid
      * @return the object with the given uuid
-     * @throws JackWicketException
+     * @throws YoueatException
      */
     @Transactional(readOnly = true)
-    T getByUuid(String uuid) throws JackWicketException;
+    T getByUuid(String uuid) throws YoueatException;
 
 }

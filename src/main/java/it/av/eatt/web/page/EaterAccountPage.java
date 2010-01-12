@@ -15,13 +15,13 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.Language;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.service.EaterService;
 import it.av.eatt.service.LanguageService;
-import it.av.eatt.web.commons.ImagesCommons;
+import it.av.eatt.web.components.ImagesAvatar;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -67,9 +67,9 @@ public class EaterAccountPage extends BasePage {
     private Eater eater;
     private Image avatar;
 
-    public EaterAccountPage(PageParameters pageParameters) throws JackWicketException {
+    public EaterAccountPage(PageParameters pageParameters) throws YoueatException {
         if (!pageParameters.containsKey(YoueatHttpParams.PARAM_YOUEAT_ID)) {
-            throw new JackWicketException("Missing user id");
+            throw new YoueatException("Missing user id");
         }
         String eaterId = pageParameters.getString(YoueatHttpParams.PARAM_YOUEAT_ID, "");
         StringValidator pwdValidator = StringValidator.LengthBetweenValidator.lengthBetween(6, 20);
@@ -109,7 +109,7 @@ public class EaterAccountPage extends BasePage {
         WebMarkupContainer imagecontatiner = new WebMarkupContainer("imageContainer");
         imagecontatiner.setOutputMarkupId(true);
         formAvatar.add(imagecontatiner);
-        avatar = ImagesCommons.getAvatar("avatar", eater, this.getPage(), false);
+        avatar = ImagesAvatar.getAvatar("avatar", eater, this.getPage(), false);
         imagecontatiner.add(avatar);
     }
 
@@ -157,7 +157,7 @@ public class EaterAccountPage extends BasePage {
                     eaterService.update(eater);
                     eater = eaterService.getByID(eater.getId());
                     getFeedbackPanel().info("picture changed");
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     getFeedbackPanel().error(getString("An error occurred"));
                 }
             }

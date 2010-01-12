@@ -18,25 +18,25 @@ package it.av.eatt;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class JackWicketException extends RuntimeException {
+public class YoueatException extends RuntimeException {
 
     private static final long serialVersionUID = -2549208951901428566L;
-    private static Log log = LogFactory.getLog(JackWicketException.class);
+    private static Log log = LogFactory.getLog(YoueatException.class);
 
-    public JackWicketException() {
+    public YoueatException() {
     }
 
-    public JackWicketException(String s) {
+    public YoueatException(String s) {
         super(s);
         log.error(s);
     }
 
-    public JackWicketException(String s, Throwable throwable) {
+    public YoueatException(String s, Throwable throwable) {
         super(s, throwable);
         log.error(s, throwable);
     }
 
-    public JackWicketException(Throwable throwable) {
+    public YoueatException(Throwable throwable) {
         super(throwable);
         log.error("Error on JackWicket", throwable);
     }

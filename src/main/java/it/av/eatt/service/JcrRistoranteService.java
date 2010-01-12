@@ -15,7 +15,7 @@
  */
 package it.av.eatt.service;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Ristorante;
 
 import java.util.List;
@@ -39,39 +39,39 @@ public interface JcrRistoranteService {
      * 
      * @param risto the Risto to be committed
      * @return Ristorante
-     * @throws JackWicketException
+     * @throws YoueatException
      */
 	@Transactional
-    void commit(Ristorante risto) throws JackWicketException;
+    void commit(Ristorante risto) throws YoueatException;
         
     /**
      * Get all the revision of the restaurant on this path 
      * 
      * @param path
      * @return List<Ristorante>
-     * @throws JackWicketException
+     * @throws YoueatException
      */
     @Transactional(readOnly = true)
-    List<Ristorante> getAllRevisions(String path) throws JackWicketException;
+    List<Ristorante> getAllRevisions(String path) throws YoueatException;
  
     /**
      * Get all the revisions of restaurant by ID 
      * 
      * @param id
      * @return List<Ristorante>
-     * @throws JackWicketException
+     * @throws YoueatException
      */
     @Transactional(readOnly = true)
-    List<Ristorante> getAllRevisionsById(long id) throws JackWicketException;
+    List<Ristorante> getAllRevisionsById(long id) throws YoueatException;
  
     /**
      * Remove the given restaurant from the repo
      * 
      * @param risto the Risto to be removed
-     * @throws JackWicketException
+     * @throws YoueatException
      */
     @Transactional
-    void remove(Ristorante risto) throws JackWicketException;
+    void remove(Ristorante risto) throws YoueatException;
 
     
 }

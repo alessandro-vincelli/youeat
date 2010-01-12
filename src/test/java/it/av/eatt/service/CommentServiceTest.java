@@ -16,11 +16,10 @@
 package it.av.eatt.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import it.av.eatt.JackWicketException;
 import it.av.eatt.ocm.model.Comment;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.Ristorante;
+import it.av.eatt.ocm.util.DateUtil;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,50 +32,44 @@ import org.springframework.transaction.annotation.Transactional;
 
 @ContextConfiguration(locations = "classpath:application-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-@TransactionConfiguration(transactionManager="transactionManager", defaultRollback=true)
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
-public class CommentServiceTest{
-	@Autowired
-	@Qualifier("userService")
-	private EaterService userService;
-	@Autowired
-	private RistoranteService ristoranteService;
-	@Autowired
-	private CommentService commentService;
-	@Autowired
-	@Qualifier("activityRistoranteService")
-    private ActivityRistoranteService activityRistoranteService;
-	
-	@Test
-	public void testUsersBasic() throws JackWicketException {
-		try {
-			Eater a = new Eater();
-            a.setFirstname("Alessandro");
-            a.setLastname("Vincelli");
-            a.setPassword("secret");
-            a.setEmail("a.commentService@test.com");
-			a = userService.addRegolarUser(a);
-			
-			Ristorante rist = new Ristorante();
-            rist.setName("RistoTest");
-            rist = ristoranteService.insert(rist, a);
+public class CommentServiceTest {
+    @Autowired
+    @Qualifier("userService")
+    private EaterService userService;
+    @Autowired
+    private RistoranteService ristoranteService;
+    @Autowired
+    private CommentService commentService;
+    
+    @Test
+    public void testUsersBasic() {
 
-            Comment comment = new Comment();
-            comment.setTitle("ArticleTest");
-            comment.setAuthor(a);
-			commentService.save(comment);
-			
-			assertEquals(comment.getTitle(), "ArticleTest");
-			assertEquals(comment.getAuthor().getFirstname(), "Alessandro");
-			
-			commentService.remove(comment);
-	       
-			ristoranteService.remove(rist);
-			userService.remove(a);
-			
-		} 
-		catch (JackWicketException e) {
-			fail(e.getMessage());
-		}
-	}
+        Eater a = new Eater();
+        a.setFirstname("Alessandro");
+        a.setLastname("Vincelli");
+        a.setPassword("secret");
+        a.setEmail("a.commentService@test.com");
+        a = userService.addRegolarUser(a);
+
+        Ristorante rist = new Ristorante();
+        rist.setName("RistoTest");
+        rist = ristoranteService.insert(rist, a);
+
+        Comment comment = new Comment();
+        comment.setTitle("ArticleTest");
+        comment.setAuthor(a);
+        comment.setCreationTime(DateUtil.getTimestamp());
+        commentService.save(comment);
+
+        assertEquals(comment.getTitle(), "ArticleTest");
+        assertEquals(comment.getAuthor().getFirstname(), "Alessandro");
+
+        commentService.remove(comment);
+
+        ristoranteService.remove(rist);
+        userService.remove(a);
+
+    }
 }

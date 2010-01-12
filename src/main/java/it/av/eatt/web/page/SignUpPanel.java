@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.UserAlreadyExistsException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.Language;
@@ -73,10 +73,10 @@ public class SignUpPanel extends Panel {
      * @param id
      * @param feedbackPanel
      * @param userService
-     * @throws JackWicketException
+     * @throws YoueatException
      */
     public SignUpPanel(String id, FeedbackPanel feedbackPanel, EaterService userService, CountryService countryService)
-            throws JackWicketException {
+            throws YoueatException {
         super(id);
         this.userService = userService;
         this.feedbackPanel = feedbackPanel;
@@ -179,7 +179,7 @@ public class SignUpPanel extends Panel {
             } catch (UserAlreadyExistsException e) {
                 getFeedbackPanel().error(
                         new StringResourceModel("error.userAlreadyExistsException", this, null).getString());
-            } catch (JackWicketException e) {
+            } catch (YoueatException e) {
                 getFeedbackPanel().error(
                         new StringResourceModel("error.operationNotPermitted", this, null).getString());
             }

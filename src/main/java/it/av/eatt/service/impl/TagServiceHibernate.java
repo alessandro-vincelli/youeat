@@ -15,7 +15,7 @@
  */
 package it.av.eatt.service.impl;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.Tag;
 import it.av.eatt.service.TagService;
@@ -86,7 +86,7 @@ public class TagServiceHibernate extends ApplicationServiceHibernate<Tag> implem
         try {
             query = parser.parse(LuceneUtil.escapeSpecialChars(pattern));
         } catch (ParseException e) {
-            throw new JackWicketException(e);
+            throw new YoueatException(e);
         }
         javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Tag.class);
         return persistenceQuery.getResultList();

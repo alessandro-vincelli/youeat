@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.data;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.service.RistoranteService;
 
@@ -88,7 +88,7 @@ public class RistoranteDetachableModel extends LoadableDetachableModel<Ristorant
     protected final Ristorante load() {
         try {
             return ristoranteService.getByID(id);
-        } catch (JackWicketException e) {
+        } catch (YoueatException e) {
             return null;
         }
     }

@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.service.RistoranteService;
 import it.av.eatt.web.components.RistoranteDataTable;
@@ -82,7 +82,7 @@ public class RistoranteSearchPanel extends Panel {
                 try {
                     String pattern = getRequest().getParameter("searchData");
                     dataProvider.fetchResults(pattern);
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     feedbackPanel.error(e.getMessage());
                 }
                 target.addComponent(dataTable);
@@ -137,7 +137,7 @@ public class RistoranteSearchPanel extends Panel {
                     for (Ristorante risto : ristoranteService.freeTextSearch(input + "~")) {
                         choises.add(risto.getName() + " <i>(" + risto.getCity() + ")</i>" );
                     }
-            } catch (JackWicketException e) {
+            } catch (YoueatException e) {
             }
             return choises.iterator();
         }

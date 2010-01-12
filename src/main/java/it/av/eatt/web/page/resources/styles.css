@@ -770,3 +770,28 @@ feedbackPanelERROR{
     width: 50px;
     height: 50px;
 }
+
+.form-send-message {
+    float: left;
+    display: block;
+}
+
+.form-send-message-title th {
+    text-align: right;
+}
+
+.form-send-message-title input {
+    width: 200px;
+}
+
+.form-send-message-isprivate th {
+    text-align: left;
+}
+.form-send-message-isprivate td {
+    text-align: right;
+}
+
+.closeButton{
+    text-align: center;
+    display: block;   
+}

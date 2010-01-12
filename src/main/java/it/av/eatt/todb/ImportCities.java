@@ -1,6 +1,6 @@
 package it.av.eatt.todb;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.data.City;
 import it.av.eatt.ocm.model.data.Country;
 import it.av.eatt.service.CityService;
@@ -18,7 +18,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ImportCities {
 
-    private void runImportCountryRegion() throws JackWicketException, IOException {
+    private void runImportCountryRegion() throws YoueatException, IOException {
         ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
         CityService cityService = (CityService) context.getBean("cityService");
         CountryService countryService = (CountryService) context.getBean("countryService");
@@ -57,7 +57,7 @@ public class ImportCities {
 
     }
 
-    public static void main(String[] arg0) throws JackWicketException, IOException {
+    public static void main(String[] arg0) throws YoueatException, IOException {
         ImportCities importCities = new ImportCities();
         importCities.runImportCountryRegion();
     }

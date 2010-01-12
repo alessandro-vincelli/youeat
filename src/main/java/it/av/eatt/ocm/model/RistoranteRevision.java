@@ -15,8 +15,7 @@
  */
 package it.av.eatt.ocm.model;
 
-import it.av.eatt.JackWicketException;
-import it.av.eatt.JackWicketRunTimeException;
+import it.av.eatt.YoueatException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class RistoranteRevision extends BasicEntity implements Cloneable {
     public RistoranteRevision() {
     }
 
-    public RistoranteRevision(Ristorante risto) throws JackWicketException {
+    public RistoranteRevision(Ristorante risto) throws YoueatException {
         super();
         this.ristoranteRevision = new Ristorante();
         try {
@@ -69,9 +68,9 @@ public class RistoranteRevision extends BasicEntity implements Cloneable {
             }
             this.ristoranteRevision.setDescriptions(copiedDescriptionI18ns);
         } catch (IllegalAccessException e) {
-            throw new JackWicketException(e);
+            throw new YoueatException(e);
         } catch (InvocationTargetException e) {
-            throw new JackWicketException(e);
+            throw new YoueatException(e);
         }
     }
 
@@ -91,11 +90,7 @@ public class RistoranteRevision extends BasicEntity implements Cloneable {
 
     @Override
     public RistoranteRevision clone() {
-        try {
-            return (RistoranteRevision) new RistoranteRevision(getRistoranteRevision());
-        } catch (JackWicketException e) {
-            throw new JackWicketRunTimeException();
-        }
+        return (RistoranteRevision) new RistoranteRevision(getRistoranteRevision());
     }
 
 }

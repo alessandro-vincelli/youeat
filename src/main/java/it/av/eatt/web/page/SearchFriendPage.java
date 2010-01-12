@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.web.data.SearchUserFriendSortableDataProvider;
 
@@ -51,9 +51,9 @@ public class SearchFriendPage extends BasePage {
     /**
      * Constructor that is invoked when page is invoked without a session.
      * 
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public SearchFriendPage() throws JackWicketException {
+    public SearchFriendPage() throws YoueatException {
         searchFriendsContainer = new WebMarkupContainer("searchFriendsContainer");
         searchFriendsContainer.setOutputMarkupId(true);
         add(searchFriendsContainer);
@@ -100,9 +100,9 @@ public class SearchFriendPage extends BasePage {
     /**
      * Fill with fresh data the repeater
      * 
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public final void refreshDataTable() throws JackWicketException {
+    public final void refreshDataTable() throws YoueatException {
         String pattern = searchFriendPanel.getSearchBean().getSearchData();
         searchFriendsDataProvider.fetchResults(pattern);
     }

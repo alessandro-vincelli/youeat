@@ -1,6 +1,6 @@
 package it.av.eatt.todb;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.Ristorante;
 
@@ -16,7 +16,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class IndexDB {
 
-    public void performIndex() throws JackWicketException {
+    public void performIndex() throws YoueatException {
         ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
         EntityManagerFactory entityManagerFactory = (EntityManagerFactory) context.getBean("entityManagerFactory");
         EntityManager em = entityManagerFactory.createEntityManager();
@@ -40,7 +40,7 @@ public class IndexDB {
         em.getTransaction().commit();
         em.close();
     }
-    public static void main(String[] main) throws JackWicketException{
+    public static void main(String[] main) throws YoueatException{
         IndexDB indexDB = new IndexDB();
         indexDB.performIndex();
     }

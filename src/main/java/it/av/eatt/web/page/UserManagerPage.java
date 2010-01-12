@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterProfile;
 import it.av.eatt.service.EaterProfileService;
@@ -70,9 +70,9 @@ public class UserManagerPage extends BasePage {
     /**
      * Constructor that is invoked when page is invoked without a session.
      * 
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public UserManagerPage() throws JackWicketException {
+    public UserManagerPage() throws YoueatException {
 
         form = new Form<Eater>("userForm", new CompoundPropertyModel<Eater>(new Eater()));
         form.setOutputMarkupId(true);
@@ -147,7 +147,7 @@ public class UserManagerPage extends BasePage {
                 refreshDataTable();
                 target.addComponent(usersDataTable);
                 target.addComponent(form);
-            } catch (JackWicketException e) {
+            } catch (YoueatException e) {
                 getFeedbackPanel().error("ERROR" + e.getMessage());
             }
             target.addComponent(getFeedbackPanel());
@@ -163,9 +163,9 @@ public class UserManagerPage extends BasePage {
     /**
      * Fill with fresh data the repetear
      * 
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public final void refreshDataTable() throws JackWicketException {
+    public final void refreshDataTable() throws YoueatException {
         dataProvider.fetchResults(searchPanel.getForm().getModelObject().getSearchData());
     }
 

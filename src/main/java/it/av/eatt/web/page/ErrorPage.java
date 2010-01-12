@@ -1,6 +1,6 @@
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.markup.html.basic.Label;
@@ -17,16 +17,16 @@ public class ErrorPage extends BasePage {
 	    //TODO import  common library
         //ThreadUtils.randomSleep(200, 1000);
 
-		JackWicketException exception;
+		YoueatException exception;
 		if (e == null) {
             // Note the side effect: logging.
-            exception = new JackWicketException("unknown");
-		} else if (!(e instanceof JackWicketException)) {
+            exception = new YoueatException("unknown");
+		} else if (!(e instanceof YoueatException)) {
 			// If it is not a BBoxException, make it one with most general error code.
             // Note the side effect: logging.
-			exception = new JackWicketException(e);
+			exception = new YoueatException(e);
 		} else {
-			exception = (JackWicketException) e;
+			exception = (YoueatException) e;
 		}
 
 		add(new Label("errorMessage", "internal error"));

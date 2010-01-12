@@ -15,7 +15,7 @@
  */
 package it.av.eatt.service.impl;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.service.JcrRistoranteService;
 
@@ -38,7 +38,7 @@ public class JcrRistoranteServiceJackrabbit extends JcrApplicationServiceJackrab
      * @see it.av.eatt.service.JcrRistoranteService#commit(it.av.eatt.ocm.model.Ristorante)
      */
     @Override
-    public void commit(Ristorante risto) throws JackWicketException {
+    public void commit(Ristorante risto) throws YoueatException {
         if (StringUtils.isBlank(risto.getPath())) {
             risto.setPath(getBasePath() + "/" + risto.getId());
             super.insert(risto);
@@ -53,7 +53,7 @@ public class JcrRistoranteServiceJackrabbit extends JcrApplicationServiceJackrab
      * @see it.av.eatt.service.JcrRistoranteService#getAllRevisionsById(long)
      */
     @Override
-    public List<Ristorante> getAllRevisionsById(long id) throws JackWicketException {
+    public List<Ristorante> getAllRevisionsById(long id) throws YoueatException {
         return super.getAllRevisions(getBasePath() + "/" + id);
     }
 

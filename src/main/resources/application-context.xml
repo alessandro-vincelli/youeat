@@ -152,6 +152,8 @@
 	
 	<bean id="languageService" class="it.av.eatt.service.impl.LanguageServiceHibernate" parent="jpaDaoSupport"/>
 	
+	<bean id="messageService" class="it.av.eatt.service.impl.MessageServiceHibernate" parent="jpaDaoSupport"/>
+	
 	<bean id="ristorantePictureHibernate" class="it.av.eatt.service.impl.RistorantePictureHibernate" parent="jpaDaoSupport"/>
 
 	<bean id="repositoryInitStructure" class="it.av.eatt.repo.util.RepositoryInitStructureImpl"/>

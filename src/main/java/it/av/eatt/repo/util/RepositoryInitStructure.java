@@ -15,7 +15,7 @@
  */
 package it.av.eatt.repo.util;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 
 /**
  * Adds base nodes and data
@@ -24,5 +24,5 @@ import it.av.eatt.JackWicketException;
  *
  */
 public interface RepositoryInitStructure {
-    void checkBaseData() throws JackWicketException;
+    void checkBaseData() throws YoueatException;
 }

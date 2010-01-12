@@ -15,7 +15,7 @@
  */
 package it.av.eatt.service.impl;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.BasicEntity;
 import it.av.eatt.service.ApplicationService;
 
@@ -57,7 +57,7 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
     @Override
     public T save(T obj) {
         if (obj == null) {
-            throw new JackWicketException("Object is null");
+            throw new YoueatException("Object is null");
         }
 
         try {
@@ -68,9 +68,9 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
             }
             return obj;
         } catch (OptimisticLockingFailureException e) {
-            throw new JackWicketException(e);
+            throw new YoueatException(e);
         } catch (DataAccessException e) {
-            throw new JackWicketException(e);
+            throw new YoueatException(e);
         }
     }
 
@@ -110,7 +110,7 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
                 } catch (ParseException e) {
                     throw new JackWicketException(e);
                 }*/
-        throw new JackWicketException("not implememted yet");
+        throw new YoueatException("not implememted yet");
     }
 
     /**
@@ -122,7 +122,7 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
             getJpaTemplate().remove(object);
             // getJpaTemplate().flush();
         } catch (DataAccessException e) {
-            throw new JackWicketException(e);
+            throw new YoueatException(e);
         }
     }
 

@@ -16,7 +16,7 @@
 package it.av.eatt;
 
 
-public class UserAlreadyExistsException extends JackWicketException {
+public class UserAlreadyExistsException extends YoueatException {
 
     private static final long serialVersionUID = 1L;
 

@@ -1,7 +1,5 @@
 package it.av.eatt.web.components;
 
-import it.av.eatt.JackWicketException;
-import it.av.eatt.JackWicketRunTimeException;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.data.Country;
 import it.av.eatt.service.CityService;
@@ -45,15 +43,11 @@ public class CityAutocompleteBox extends AutoCompleteTextField<String> {
     protected Iterator<String> getChoices(String input) {
         List<String> choises = new ArrayList<String>();
         if (input.length() > 2) {
-            try {
-                Country country = ((DropDownChoice<Country>) getForm().get(Ristorante.COUNTRY)).getModelObject();
-                if (country != null) {
-                    choises.addAll(cityService.findName(input, (Country) country, 25));
-                } else {
-                    choises.addAll(cityService.findName(input, 25));
-                }
-            } catch (JackWicketException e) {
-                throw new JackWicketRunTimeException(e);
+            Country country = ((DropDownChoice<Country>) getForm().get(Ristorante.COUNTRY)).getModelObject();
+            if (country != null) {
+                choises.addAll(cityService.findName(input, (Country) country, 25));
+            } else {
+                choises.addAll(cityService.findName(input, 25));
             }
         }
         return choises.iterator();

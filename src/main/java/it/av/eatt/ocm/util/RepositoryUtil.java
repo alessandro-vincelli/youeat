@@ -33,7 +33,7 @@ package it.av.eatt.ocm.util;
  */
 
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 
 import javax.jcr.Session;
 
@@ -63,10 +63,10 @@ public final class RepositoryUtil {
      * Setup the session. Until now, we check only if the namespace prefix exist
      * in the repository
      * 
-     * @throws JackWicketException
+     * @throws YoueatException
      * 
      */
-    public static void setupSession(Session session) throws JackWicketException {
+    public static void setupSession(Session session) throws YoueatException {
         try {
 
             String[] jcrNamespaces = session.getWorkspace().getNamespaceRegistry().getPrefixes();
@@ -82,7 +82,7 @@ public final class RepositoryUtil {
             }
 
         } catch (Exception e) {
-            throw new JackWicketException(e);
+            throw new YoueatException(e);
         }
     }
 

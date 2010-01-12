@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.web.data.UserSortableDataProvider;
 
 import org.apache.wicket.IClusterable;
@@ -69,7 +69,7 @@ public class SearchPanel extends Panel {
             protected void onSubmit(AjaxRequestTarget target, Form form) {
                 try {
                     dataProvider.fetchResults(((SearchBean) getForm().getModelObject()).getSearchData());
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     feedbackPanel.error(e.getMessage());
                 }
                 target.addComponent(dataTable);

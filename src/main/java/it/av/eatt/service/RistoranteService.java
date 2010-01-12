@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface RistoranteService {
     /**
-     * Update a restaurant
+     * Update a ristorante
      * 
      * @param risto the Risto to be modified
      * @param user the user that is performing the modification
@@ -45,7 +45,7 @@ public interface RistoranteService {
     Ristorante update(Ristorante risto, Eater user);
 
     /**
-     * Insert a new restaurant
+     * Insert a new ristorante
      * 
      * @param risto the Risto to be inserted
      * @param user the user that is performing the modification
@@ -55,7 +55,7 @@ public interface RistoranteService {
     Ristorante insert(Ristorante risto, Eater user);
 
     /**
-     * Return all the restaurant
+     * Return all the ristoranti
      * 
      * @return Collection<Ristorante>
      */
@@ -63,7 +63,7 @@ public interface RistoranteService {
     Collection<Ristorante> getAll();
 
     /**
-     * Find the restaurant by the given pattern
+     * Find the ristorante by the given pattern
      * 
      * @param pattern
      * @return Collection<Ristorante>
@@ -81,7 +81,7 @@ public interface RistoranteService {
     List<Ristorante> freeTextSearch(String pattern);
 
     /**
-     * Remove a restaurant from the repository
+     * Remove a ristorante
      * 
      * @param risto
      */
@@ -89,16 +89,16 @@ public interface RistoranteService {
     void remove(Ristorante risto);
 
     /**
-     * Get a restaurant by ID
+     * Get a ristorante by ID
      * 
-     * @param id the id of the restaurant
+     * @param id the id of the ristorante
      * @return Ristorante ristorante
      */
     @Transactional(readOnly = true)
     Ristorante getByID(String id);
 
     /**
-     * Add a rate on the given restaurant by the given user
+     * Add a rate on the given ristoranti by the given user
      * 
      * @param risto
      * @param user
@@ -109,7 +109,7 @@ public interface RistoranteService {
     Ristorante addRate(Ristorante risto, Eater user, int rate);
 
     /**
-     * check if the given user has already voted the given risto
+     * check if the given user has already voted the given ristorante
      * 
      * @param risto
      * @param user
@@ -119,7 +119,7 @@ public interface RistoranteService {
     boolean hasUsersAlreadyRated(Ristorante risto, Eater user);
 
     /**
-     * Update a restaurant without create a new revision
+     * Update a ristorante without create a new revision
      * 
      * @param ristorante
      * @return just saved ristorante
@@ -128,7 +128,7 @@ public interface RistoranteService {
     Ristorante updateNoRevision(Ristorante ristorante);
     
     /**
-     * Return the last added risto 
+     * Return the last added ristoranti 
      * 
      * @param numberOfResult number of result to return
      * @return lasts risto added
@@ -137,7 +137,7 @@ public interface RistoranteService {
     List<Ristorante> getLastsAdded(int numberOfResult);
    
     /**
-     * Return the last modified risto 
+     * Return the last modified ristoranti 
      * 
      * @param numberOfResult number of result to return
      * @return lasts risto modified
@@ -146,7 +146,7 @@ public interface RistoranteService {
     List<Ristorante> getLastsModified(int numberOfResult);
 
     /**
-     * Return the risto in the given city
+     * Return ristoranti in the given city
      * 
      * @param city
      * @param firstResult first result
@@ -155,4 +155,13 @@ public interface RistoranteService {
      */
     @Transactional(readOnly = true)
     List<Ristorante> getByCity(City city, int firsResult, int maxResults);
+
+    /**
+     * Return random list of ristoranti 
+     * 
+     * @param numberOfResult number of result to return
+     * @return lasts risto modified
+     */
+    @Transactional(readOnly = true)
+    List<Ristorante> getRandom(int numberOfResult);
 }

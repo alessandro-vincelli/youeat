@@ -499,7 +499,7 @@
 					</components>
 					<componentProperties>
 						<persistenceunit>mainPersistance</persistenceunit>
-						<outputfilename>bbox-schema.ddl</outputfilename>
+						<outputfilename>youeat-schema.ddl</outputfilename>
 						<drop>false</drop>
 						<create>true</create>
 						<export>false</export>

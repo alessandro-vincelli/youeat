@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -71,7 +71,7 @@ public class UserTableActionPanel extends Panel {
                     page.refreshDataTable();
                     target.addComponent(page.getUsersDataTable());
                     page.getFeedbackPanel().info("Eater \"" + userName + "\" removed");
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     page.getFeedbackPanel().error(e.getMessage());
                 }
                 target.addComponent(page.getFeedbackPanel());

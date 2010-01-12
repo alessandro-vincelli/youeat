@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.data;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.service.EaterService;
 
@@ -93,9 +93,9 @@ public class SearchUserFriendSortableDataProvider extends SortableDataProvider<E
      * Performs the search
      * 
      * @param pattern the text to use in the search
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public final void fetchResults(String pattern) throws JackWicketException {
+    public final void fetchResults(String pattern) throws YoueatException {
         if (StringUtils.isNotBlank(pattern)) {
             results = usersService.findUserWithoutRelation(forUser, pattern + "~");
         } else {

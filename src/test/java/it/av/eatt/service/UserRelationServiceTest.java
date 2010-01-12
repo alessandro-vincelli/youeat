@@ -17,7 +17,7 @@ package it.av.eatt.service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterProfile;
 import it.av.eatt.ocm.model.EaterRelation;
@@ -37,7 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @ContextConfiguration(locations = "classpath:application-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-@TransactionConfiguration(transactionManager="transactionManager", defaultRollback=true)
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
 public class UserRelationServiceTest {
 
@@ -53,11 +53,11 @@ public class UserRelationServiceTest {
     private Eater b;
 
     @Before
-    public void setUp() throws JackWicketException {
+    public void setUp() throws YoueatException {
         profile = new EaterProfile();
         profile.setName("testProfile");
         profile = userProfileService.save(profile);
-        
+
         a = new Eater();
         a.setFirstname("Alessandro");
         a.setLastname("Vincelli");
@@ -78,85 +78,84 @@ public class UserRelationServiceTest {
     }
 
     @After
-    public void tearDown() throws JackWicketException {
+    public void tearDown() throws YoueatException {
         userProfileService.remove(profile);
         userService.remove(a);
         userService.remove(b);
     }
 
     @Test
-    public void testUserWithFriend() throws JackWicketException {
+    public void testUserWithFriend() throws YoueatException {
 
+        EaterRelation relationFollow = userRelationService.addFollowUser(a, b);
+        assertNotNull(relationFollow);
+        assertNotNull(relationFollow.getFromUser().getEmail());
+        assertNotNull(relationFollow.getToUser().getEmail());
 
-            EaterRelation relationFollow = userRelationService.addFollowUser(a, b);
-            assertNotNull(relationFollow);
-            assertNotNull(relationFollow.getFromUser().getEmail());
-            assertNotNull(relationFollow.getToUser().getEmail());
-            
-            //refresh the user a
-            a = userService.getByEmail(a.getEmail());
-            // fix the lazy load
-            //assertNotNull(a.getUserRelation());
-            //assertTrue(a.getUserRelation().get(0).getType() == EaterRelation.TYPE_FOLLOW);
-            
-            Collection<EaterRelation> friends = userRelationService.getAllFollowUsers(a);
-            assertNotNull(friends);
-            assertTrue(friends.size() == 1);
-            
-            friends = userRelationService.getAllRelations(a);
-            assertNotNull(friends);
-            assertTrue(friends.size() == 1);
-            
-            userRelationService.remove(relationFollow);
-            friends = userRelationService.getAllRelations(a);
-            assertNotNull(friends);
-            assertTrue(friends.size() == 0);
-            
-            EaterRelation relation = userRelationService.addFriendRequest(a, b);
-            assertNotNull(relation);
-            
-            friends = userRelationService.getAllRelations(a);
-            assertNotNull(friends);
-            assertTrue(friends.size() == 1);
-            
+        // refresh the user a
+        a = userService.getByEmail(a.getEmail());
+        // fix the lazy load
+        // assertNotNull(a.getUserRelation());
+        // assertTrue(a.getUserRelation().get(0).getType() == EaterRelation.TYPE_FOLLOW);
+
+        Collection<EaterRelation> friends = userRelationService.getAllFollowUsers(a);
+        assertNotNull(friends);
+        assertTrue(friends.size() == 1);
+
+        friends = userRelationService.getAllRelations(a);
+        assertNotNull(friends);
+        assertTrue(friends.size() == 1);
+
+        userRelationService.remove(relationFollow);
+        friends = userRelationService.getAllRelations(a);
+        assertNotNull(friends);
+        assertTrue(friends.size() == 0);
+
+        EaterRelation relation = userRelationService.addFriendRequest(a, b);
+        assertNotNull(relation);
+
+        friends = userRelationService.getAllRelations(a);
+        assertNotNull(friends);
+        assertTrue(friends.size() == 1);
+
+        userRelationService.performFriendRequestIgnore(relation);
+        friends = userRelationService.getAllFriendUsers(a);
+        assertNotNull(friends);
+        assertTrue(friends.size() == 0);
+        friends = userRelationService.getAllRelations(a);
+        assertNotNull(friends);
+        assertTrue(friends.size() == 1);
+        try {
             userRelationService.performFriendRequestIgnore(relation);
-            friends = userRelationService.getAllFriendUsers(a);
-            assertNotNull(friends);
-            assertTrue(friends.size() == 0);
-            friends = userRelationService.getAllRelations(a);
-            assertNotNull(friends);
-            assertTrue(friends.size() == 1);
-            try {
-                userRelationService.performFriendRequestIgnore(relation);
-            } catch (Exception e) {
-                //expected
-            }
-            userRelationService.remove(relation);
-            
-            relation = userRelationService.addFriendRequest(a, b);
-            assertNotNull(relation);
-            
+        } catch (Exception e) {
+            // expected
+        }
+        userRelationService.remove(relation);
+
+        relation = userRelationService.addFriendRequest(a, b);
+        assertNotNull(relation);
+
+        userRelationService.performFriendRequestConfirm(relation);
+        friends = userRelationService.getAllFriendUsers(a);
+        assertNotNull(friends);
+        assertTrue(friends.size() == 1);
+        try {
             userRelationService.performFriendRequestConfirm(relation);
-            friends = userRelationService.getAllFriendUsers(a);
-            assertNotNull(friends);
-            assertTrue(friends.size() == 1);
-            try {
-                userRelationService.performFriendRequestConfirm(relation);
-            } catch (Exception e) {
-                //expected
-            }
-            
-            userRelationService.remove(relation);
-            friends = userRelationService.getAllFriendUsers(a);
-            assertNotNull(friends);
-            assertTrue(friends.size() == 0);
-            
-            Collection<Eater> relatedUser = userService.findUserWithoutRelation(a);
-            assertNotNull(relatedUser);
-            assertTrue(relatedUser.size() == 0);
-            
-            relatedUser = userService.findUserWithoutRelation(a, "Mario");
-            assertNotNull(relatedUser);
-            assertTrue(relatedUser.size() == 0);
+        } catch (Exception e) {
+            // expected
+        }
+
+        userRelationService.remove(relation);
+        friends = userRelationService.getAllFriendUsers(a);
+        assertNotNull(friends);
+        assertTrue(friends.size() == 0);
+
+        Collection<Eater> relatedUser = userService.findUserWithoutRelation(a);
+        assertNotNull(relatedUser);
+        assertTrue(relatedUser.size() == 0);
+
+        relatedUser = userService.findUserWithoutRelation(a, "Mario");
+        assertNotNull(relatedUser);
+        assertTrue(relatedUser.size() == 0);
     }
-} 
+}

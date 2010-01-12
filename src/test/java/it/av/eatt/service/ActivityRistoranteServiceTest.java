@@ -2,8 +2,6 @@ package it.av.eatt.service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import it.av.eatt.JackWicketException;
 import it.av.eatt.ocm.model.ActivityRistorante;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterRelation;
@@ -48,7 +46,7 @@ public class ActivityRistoranteServiceTest {
 
     @Before
     @Transactional
-    public void setUp() throws JackWicketException {
+    public void setUp() {
         user = new Eater();
         user.setFirstname("Alessandro");
         user.setLastname("Vincelli");
@@ -78,70 +76,58 @@ public class ActivityRistoranteServiceTest {
 
     @Test
     @Transactional
-    public void testRistoActivity() throws JackWicketException {
-        try {
-            // Manual
-            ActivityRistorante activity = new ActivityRistorante();
-            activity.setDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-            activity.setEater(user);
-            activity.setRistorante(risto);
-            activity.setType(ActivityRistorante.TYPE_ADDED);
-            activityRistoranteService.save(activity);
+    public void testRistoActivity() {
+        // Manual
+        ActivityRistorante activity = new ActivityRistorante();
+        activity.setDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        activity.setEater(user);
+        activity.setRistorante(risto);
+        activity.setType(ActivityRistorante.TYPE_ADDED);
+        activityRistoranteService.save(activity);
 
-            assertNotNull("Activity is null", activity);
-            // assertEquals("Invalid value for test", risto.getUuid(), activity.getRistorante().getUuid());
-            // assertEquals("Invalid value for test", user.getEmail(), activity.getUser().getEmail());
+        assertNotNull("Activity is null", activity);
+        // assertEquals("Invalid value for test", risto.getUuid(), activity.getRistorante().getUuid());
+        // assertEquals("Invalid value for test", user.getEmail(), activity.getUser().getEmail());
 
-            // Collection<RistoEditActivity> activities = activityService.findByDate(activity.getDate());
-            // assertNotNull(activities);
-            // assertTrue(activities.size() > 0);
-            user = userService.getByEmail(user.getEmail());
-            // userService.remove(user);
-            activityRistoranteService.remove(activity);
+        // Collection<RistoEditActivity> activities = activityService.findByDate(activity.getDate());
+        // assertNotNull(activities);
+        // assertTrue(activities.size() > 0);
+        user = userService.getByEmail(user.getEmail());
+        // userService.remove(user);
+        activityRistoranteService.remove(activity);
 
-        } catch (JackWicketException e) {
-            fail("Failed on manual test" + e.getMessage());
-        }
-        try {
-            // Using the service
-            List<ActivityRistorante> activities = activityRistoranteService.findByRistorante(risto);
-            assertNotNull("Activity is null", activities);
-            assertTrue(activities.size() > 0);
+        // Using the service
+        List<ActivityRistorante> activities = activityRistoranteService.findByRistorante(risto);
+        assertNotNull("Activity is null", activities);
+        assertTrue(activities.size() > 0);
 
-            activities = activityRistoranteService.findByUser(user);
-            assertNotNull("Activity is null", activities);
-            assertTrue(activities.size() > 0);
+        activities = activityRistoranteService.findByUser(user);
+        assertNotNull("Activity is null", activities);
+        assertTrue(activities.size() > 0);
 
-            activities = activityRistoranteService.findByUser(userFriend);
-            assertNotNull("Activity is null", activities);
-            assertTrue(activities.size() > 0);
+        activities = activityRistoranteService.findByUser(userFriend);
+        assertNotNull("Activity is null", activities);
+        assertTrue(activities.size() > 0);
 
-            /*activities = activityRistoranteService.getAll();
-            for (ActivityRistorante activityRistorante : activities) {
-                activityRistoranteService.remove(activityRistorante);
-            }*/
+        /*activities = activityRistoranteService.getAll();
+        for (ActivityRistorante activityRistorante : activities) {
+            activityRistoranteService.remove(activityRistorante);
+        }*/
 
-        } catch (JackWicketException e) {
-            fail("Failed using serivice" + e.getMessage());
-        }
     }
 
     @After
     @Transactional
     public void tearDown() {
-        try {
-            System.out.println("teardown start");
-            List<EaterRelation> friends = new ArrayList<EaterRelation>(userRelationService.getAllFollowUsers(user));
-            for (EaterRelation userRelation : friends) {
-                userRelationService.remove(userRelation);
-            }
-            ristoranteService.remove(risto);
-            userService.remove(user);
-            userService.remove(userFriend);
-            System.out.println("teardown finish");
-        } catch (JackWicketException e) {
-            fail("Failed on tear down" + e.getMessage());
+        System.out.println("teardown start");
+        List<EaterRelation> friends = new ArrayList<EaterRelation>(userRelationService.getAllFollowUsers(user));
+        for (EaterRelation userRelation : friends) {
+            userRelationService.remove(userRelation);
         }
+        ristoranteService.remove(risto);
+        userService.remove(user);
+        userService.remove(userFriend);
+        System.out.println("teardown finish");
     }
 
 }

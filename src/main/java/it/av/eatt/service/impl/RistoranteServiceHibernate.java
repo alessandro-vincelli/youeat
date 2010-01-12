@@ -15,8 +15,7 @@
  */
 package it.av.eatt.service.impl;
 
-import it.av.eatt.JackWicketException;
-import it.av.eatt.JackWicketRunTimeException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.ActivityRistorante;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.RateOnRistorante;
@@ -32,6 +31,8 @@ import it.av.eatt.util.LuceneUtil;
 
 import java.util.Collection;
 import java.util.List;
+
+import javax.persistence.Query;
 
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
@@ -73,14 +74,15 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      */
     @Override
     public Ristorante insert(Ristorante risto, Eater user) {
-        risto.setCreationTime(DateUtil.getTimestamp());
-        risto.setModificationTime(DateUtil.getTimestamp());
-        risto.setRevisionNumber(1);
-        risto = save(risto);
-        risto.addRevision(ristoranteRevisionService.insert(new RistoranteRevision(risto)));
-        risto.addActivity(activityRistoranteService.save(new ActivityRistorante(DateUtil.getTimestamp(), user, risto,
-                ActivityRistorante.TYPE_ADDED)));
-        return save(risto);
+        Ristorante ristoToSave = risto;
+        ristoToSave.setCreationTime(DateUtil.getTimestamp());
+        ristoToSave.setModificationTime(DateUtil.getTimestamp());
+        ristoToSave.setRevisionNumber(1);
+        ristoToSave = save(ristoToSave);
+        ristoToSave.addRevision(ristoranteRevisionService.insert(new RistoranteRevision(ristoToSave)));
+        ristoToSave.addActivity(activityRistoranteService.save(new ActivityRistorante(DateUtil.getTimestamp(), user,
+                ristoToSave, ActivityRistorante.TYPE_ADDED)));
+        return save(ristoToSave);
     }
 
     /**
@@ -95,10 +97,10 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
                 risto.addARate(rateRistoranteService.insert(new RateOnRistorante(rate, activity)));
                 return save(risto);
             } else {
-                throw new JackWicketRunTimeException("Rate non valid");
+                throw new YoueatException("Rate non valid");
             }
         } else {
-            throw new JackWicketRunTimeException("Probably the given user has already voted on the given restaurant");
+            throw new YoueatException("Probably the given user has already voted on the given restaurant");
         }
     }
 
@@ -109,10 +111,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     public boolean hasUsersAlreadyRated(Ristorante risto, Eater user) {
         List<ActivityRistorante> results = activityRistoranteService.findByUserRistoType(user, risto,
                 ActivityRistorante.TYPE_VOTED);
-        if (results.size() == 0) {
-            return false;
-        } else
-            return true;
+        return (results.size() != 0);
     }
 
     /**
@@ -121,8 +120,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     @Override
     public Collection<Ristorante> find(String pattern) {
         Criterion critByName = Restrictions.ilike(Ristorante.NAME, pattern);
-        List<Ristorante> results = findByCriteria(critByName);
-        return results;
+        return findByCriteria(critByName);
     }
 
     /**
@@ -175,7 +173,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         try {
             query = parser.parse(LuceneUtil.escapeSpecialChars(pattern));
         } catch (ParseException e) {
-            throw new JackWicketException(e);
+            throw new YoueatException(e);
         }
         javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Ristorante.class);
         return persistenceQuery.getResultList();
@@ -198,7 +196,18 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         Order orderBy = Order.desc(Ristorante.MODIFICATION_TIME);
         return findByCriteria(orderBy, 0, numberOfResult);
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Ristorante> getRandom(int numberOfResult) {
+        Query query = getJpaTemplate().getEntityManager().createQuery(
+                "select risto from Ristorante as risto order by random()");
+        query.setMaxResults(numberOfResult);
+        return query.getResultList();
+    }
+
     /**
      * {@inheritDoc}
      */

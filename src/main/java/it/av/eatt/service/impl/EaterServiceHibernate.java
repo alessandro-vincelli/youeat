@@ -15,7 +15,7 @@
  */
 package it.av.eatt.service.impl;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.UserAlreadyExistsException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterRelation;
@@ -66,7 +66,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
     @Override
     public Eater add(Eater object) {
         if (object == null || StringUtils.isBlank(object.getEmail())) {
-            throw new JackWicketException("Eater is null or email is empty");
+            throw new YoueatException("Eater is null or email is empty");
         }
         object.setPassword(passwordEncoder.encryptPassword(object.getPassword()));
         if (object.getUserProfile() == null) {
@@ -83,7 +83,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         try {
             super.save(object);
         } catch (DataAccessException e) {
-            throw new JackWicketException(e);
+            throw new YoueatException(e);
         }
         return object;
     }
@@ -142,7 +142,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         try {
             query = queryParser.parse(searchPattern.toString());
         } catch (Exception e) {
-            throw new JackWicketException(e);
+            throw new YoueatException(e);
         }
         javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Eater.class);
         return persistenceQuery.getResultList();

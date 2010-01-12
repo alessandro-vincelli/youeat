@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.data;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.service.EaterService;
 
@@ -81,9 +81,9 @@ public class UserSortableDataProvider extends SortableDataProvider<Eater> {
      * Performs the search
      * 
      * @param searchData the string to use for the search
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public final void fetchResults(String searchData) throws JackWicketException {
+    public final void fetchResults(String searchData) throws YoueatException {
         if (StringUtils.isNotBlank(searchData)) {
             results = usersService.find(searchData);
         } else {

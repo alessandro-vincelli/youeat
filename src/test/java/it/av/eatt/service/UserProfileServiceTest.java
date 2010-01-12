@@ -10,7 +10,7 @@ package it.av.eatt.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.EaterProfile;
 
 import java.util.Collection;
@@ -33,7 +33,7 @@ public class UserProfileServiceTest {
     private EaterProfileService userProfileService;
 
     @Test
-    public void testUsersBasic() throws JackWicketException {
+    public void testUsersBasic() throws YoueatException {
         EaterProfile a = new EaterProfile();
         a.setName("ProfileTest");
 

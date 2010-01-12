@@ -15,7 +15,7 @@
  */
 package it.av.eatt.service.impl;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.UserAlreadyExistsException;
 import it.av.eatt.ocm.model.BasicNode;
 import it.av.eatt.service.JcrApplicationService;
@@ -57,9 +57,9 @@ public class JcrApplicationServiceJackrabbit<T extends BasicNode> implements Jcr
      * @see it.av.eatt.service.JcrApplicationService#update(it.av.eatt.ocm.model.BasicNode)
      */
     @Transactional
-    public T update(T object) throws JackWicketException {
+    public T update(T object) throws YoueatException {
         if(object == null || object.getPath() == null){
-            throw new JackWicketException("Object or/and object's path is null");
+            throw new YoueatException("Object or/and object's path is null");
         }
         jcrMappingtemplate.checkout(object.getPath());
         jcrMappingtemplate.update(object);
@@ -77,7 +77,7 @@ public class JcrApplicationServiceJackrabbit<T extends BasicNode> implements Jcr
      * @see it.av.eatt.service.JcrApplicationService#insert(it.av.eatt.ocm.model.BasicNode)
      */
     @Transactional
-    public T insert(T object) throws JackWicketException, UserAlreadyExistsException {  
+    public T insert(T object) throws YoueatException, UserAlreadyExistsException {  
         if(!(StringUtils.startsWith(object.getPath(), basePath))){
             object.setPath(basePath + object.getPath());    
         }
@@ -97,7 +97,7 @@ public class JcrApplicationServiceJackrabbit<T extends BasicNode> implements Jcr
      * @see it.av.eatt.service.JcrApplicationService#getAll()
      */
     @Transactional(readOnly=true)
-    public List<T> getAll() throws JackWicketException{
+    public List<T> getAll() throws YoueatException{
         //FIXME doescn'work on the current session
         QueryManager queryManager = jcrMappingtemplate.createQueryManager();
         Filter filter = queryManager.createFilter(getPersistentClass());
@@ -112,7 +112,7 @@ public class JcrApplicationServiceJackrabbit<T extends BasicNode> implements Jcr
      * @see it.av.eatt.service.JcrApplicationService#find(java.lang.String)
      */
     @Transactional(readOnly=true)
-    public List<T> find(String pattern) throws JackWicketException {
+    public List<T> find(String pattern) throws YoueatException {
         QueryManager queryManager = this.jcrMappingtemplate.createQueryManager();
         Filter filter = queryManager.createFilter(getPersistentClass());
         // scope ends with double slash // to search in all sub nodes and fields 
@@ -126,7 +126,7 @@ public class JcrApplicationServiceJackrabbit<T extends BasicNode> implements Jcr
      * @see it.av.eatt.service.JcrApplicationService#remove(it.av.eatt.ocm.model.BasicNode)
      */
     @Transactional
-    public void remove(T object) throws JackWicketException {
+    public void remove(T object) throws YoueatException {
         jcrMappingtemplate.remove(object.getPath());
         jcrMappingtemplate.save();
         jcrMappingtemplate.refresh(true);
@@ -136,7 +136,7 @@ public class JcrApplicationServiceJackrabbit<T extends BasicNode> implements Jcr
      * @see it.av.eatt.service.JcrApplicationService#getAllRevisions(java.lang.String)
      */
     @Transactional(readOnly=true)
-    public List<T> getAllRevisions(String path) throws JackWicketException {
+    public List<T> getAllRevisions(String path) throws YoueatException {
         ArrayList<T> revisions = new ArrayList<T>();
         if (StringUtils.isNotEmpty(path)) {
             VersionIterator versionIterator = jcrMappingtemplate.getAllRevisions(path);
@@ -158,7 +158,7 @@ public class JcrApplicationServiceJackrabbit<T extends BasicNode> implements Jcr
     /* (non-Javadoc)
      * @see it.av.eatt.service.JcrApplicationService#getByPath(java.lang.String)
      */
-    public T getByPath(String path) throws JackWicketException {
+    public T getByPath(String path) throws YoueatException {
         T object = jcrMappingtemplate.getObject(path);
         object.setVersion(jcrMappingtemplate.getBaseVersion(path));
         return object;
@@ -168,12 +168,12 @@ public class JcrApplicationServiceJackrabbit<T extends BasicNode> implements Jcr
      * @see it.av.eatt.service.JcrApplicationService#getByUuid(java.lang.String)
      */
     @Override
-    public T getByUuid(String uuid) throws JackWicketException {
+    public T getByUuid(String uuid) throws YoueatException {
         Node node = jcrMappingtemplate.getNodeByUUID(uuid);
         try {
             return jcrMappingtemplate.getObject(node.getPath());
         } catch (RepositoryException e) {
-           throw new JackWicketException(e);
+           throw new YoueatException(e);
         }
     }
 

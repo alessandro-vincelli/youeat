@@ -1,6 +1,6 @@
 package it.av.eatt.todb;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.data.Country;
 import it.av.eatt.ocm.model.data.CountryRegion;
 import it.av.eatt.service.CountryService;
@@ -72,7 +72,7 @@ public class ImportCountry {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (JackWicketException e) {
+        } catch (YoueatException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

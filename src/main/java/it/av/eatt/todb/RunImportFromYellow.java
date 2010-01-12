@@ -1,6 +1,6 @@
 package it.av.eatt.todb;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.DataRistorante;
 import it.av.eatt.ocm.model.ProvIta;
 import it.av.eatt.service.DataRistoranteService;
@@ -22,11 +22,11 @@ public class RunImportFromYellow {
     private DataRistoranteService dataRistoranteService;
     
     
-    public void setUp() throws JackWicketException {
+    public void setUp() throws YoueatException {
     }
 
 
-    public void tearDown() throws JackWicketException {
+    public void tearDown() throws YoueatException {
     }
 
     //@Test
@@ -99,7 +99,7 @@ public class RunImportFromYellow {
         } catch (TransformerException e) {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
-        } catch (JackWicketException e) {
+        } catch (YoueatException e) {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
         }

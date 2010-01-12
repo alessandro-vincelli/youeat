@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Language;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.RistoranteDescriptionI18n;
@@ -81,18 +81,18 @@ public class RistoranteEditDataPage extends BasePage {
     /**
      * 
      * @param ristorante
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public RistoranteEditDataPage(Ristorante ristorante) throws JackWicketException {
+    public RistoranteEditDataPage(Ristorante ristorante) throws YoueatException {
         this(new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
     }
 
     /**
      * 
      * @param parameters
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public RistoranteEditDataPage(PageParameters parameters) throws JackWicketException {
+    public RistoranteEditDataPage(PageParameters parameters) throws YoueatException {
 
         String ristoranteId = parameters.getString(YoueatHttpParams.RISTORANTE_ID, "");
         if (StringUtils.isNotBlank(ristoranteId)) {
@@ -200,7 +200,7 @@ public class RistoranteEditDataPage extends BasePage {
                         if (target != null) {
                             target.addComponent(form);
                         }
-                    } catch (JackWicketException e) {
+                    } catch (YoueatException e) {
                         error("ERROR: " + e.getMessage());
                         if (target != null) {
                             target.addComponent(getFeedbackPanel());
@@ -266,7 +266,7 @@ public class RistoranteEditDataPage extends BasePage {
                     getFeedbackPanel().error(getString("error.onUpdate"));
                 }
                 form.setModelObject(ristorante);
-            } catch (JackWicketException e) {
+            } catch (YoueatException e) {
                 getFeedbackPanel().error("ERROR" + e.getMessage());
             }
             if (target != null) {
@@ -300,7 +300,7 @@ public class RistoranteEditDataPage extends BasePage {
 
     }
 
-    private Language getInitialLanguage() throws JackWicketException {
+    private Language getInitialLanguage() throws YoueatException {
         Locale locale = Locales.getSupportedLocale(getLocale());
         // TODO create a getByLanguage or Country
         List<Language> langs = languageService.getAll();

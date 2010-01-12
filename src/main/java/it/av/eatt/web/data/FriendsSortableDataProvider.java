@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.data;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterRelation;
 import it.av.eatt.service.EaterRelationService;
@@ -94,9 +94,9 @@ public class FriendsSortableDataProvider extends SortableDataProvider<EaterRelat
      * Performs the search
      * 
      * @param request
-     * @throws JackWicketException 
+     * @throws YoueatException 
      */
-    public final void fetchResults(Eater ofUser) throws JackWicketException { 
+    public final void fetchResults(Eater ofUser) throws YoueatException { 
        results = userRelationService.getAllRelations(ofUser);
     }
 

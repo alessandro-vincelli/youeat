@@ -15,8 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
-import it.av.eatt.JackWicketRunTimeException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.DataRistorante;
 import it.av.eatt.ocm.model.Language;
 import it.av.eatt.ocm.model.Ristorante;
@@ -98,9 +97,9 @@ public class RistoranteAddNewPage extends BasePage {
     /**
      * Constructor that is invoked when page is invoked without a session.
      * 
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public RistoranteAddNewPage() throws JackWicketException {
+    public RistoranteAddNewPage() throws YoueatException {
         ristorante = new Ristorante();
         ristorante.addDescriptions(getDescriptionI18n());
         form = new Form<Ristorante>("ristoranteForm", new CompoundPropertyModel<Ristorante>(ristorante));
@@ -109,7 +108,7 @@ public class RistoranteAddNewPage extends BasePage {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected void onUpdate(AjaxRequestTarget arg0) {
+            protected void onUpdate(AjaxRequestTarget target) {
                 try {
                     String ristoName = form.get(Ristorante.NAME).getDefaultModelObjectAsString();
                     ristoName = StringEscapeUtils.unescapeHtml(ristoName);
@@ -125,13 +124,12 @@ public class RistoranteAddNewPage extends BasePage {
                         form.get(Ristorante.PROVINCE).setDefaultModelObject(dataRistorante.getProvince());
                         form.get(Ristorante.WWW).setDefaultModelObject(dataRistorante.getWww());
                         info(new StringResourceModel("info.autocompletedRistoSucces", form, null).getString());
-                        arg0.addComponent(getFeedbackPanel());
-                        arg0.addComponent(form);
+                        target.addComponent(getFeedbackPanel());
+                        target.addComponent(form);
                     }
                 } catch (Exception e) {
                     error(new StringResourceModel("genericErrorMessage", form, null).getString());
-                    new JackWicketRunTimeException(e);
-                    arg0.addComponent(getFeedbackPanel());
+                    target.addComponent(getFeedbackPanel());
                 }
             }
         };
@@ -178,9 +176,9 @@ public class RistoranteAddNewPage extends BasePage {
         form.add(new TextField<String>(Ristorante.FAX_NUMBER));
         form.add(new TextField<String>(Ristorante.MOBILE_PHONE_NUMBER));
         form.add(new TextField<String>(Ristorante.WWW));
-        //form.add(new CheckBox("types.ristorante"));
-        //form.add(new CheckBox("types.pizzeria"));
-        //form.add(new CheckBox("types.bar"));
+        // form.add(new CheckBox("types.ristorante"));
+        // form.add(new CheckBox("types.pizzeria"));
+        // form.add(new CheckBox("types.bar"));
 
         ListView<RistoranteDescriptionI18n> descriptions = new ListView<RistoranteDescriptionI18n>("descriptions") {
             @Override
@@ -248,7 +246,7 @@ public class RistoranteAddNewPage extends BasePage {
                 ristorante = ristoranteService.insert(ristorante, ((SecuritySession) getSession()).getLoggedInUser());
                 getFeedbackPanel().info(getString("info.ristoranteadded", new Model<Ristorante>(ristorante)));
                 form.setModelObject(ristorante);
-            } catch (JackWicketException e) {
+            } catch (YoueatException e) {
                 getFeedbackPanel().error("ERROR" + e.getMessage());
             }
             getForm().setEnabled(false);
@@ -300,14 +298,14 @@ public class RistoranteAddNewPage extends BasePage {
                     if (cityValue == null) {
                         validatable.error(new ValidationError().addMessageKey("validatioError.city"));
                     }
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     validatable.error(new ValidationError().addMessageKey("validatioError.city.error"));
                 }
             }
         }
     }
 
-    private RistoranteDescriptionI18n getDescriptionI18n() throws JackWicketException {
+    private RistoranteDescriptionI18n getDescriptionI18n() throws YoueatException {
         Locale locale = Locales.getSupportedLocale(getLocale());
         // TODO create a getByLanguage or Country
         List<Language> langs = languageService.getAll();

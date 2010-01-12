@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.service.EaterService;
 import it.av.eatt.web.data.SearchUserFriendSortableDataProvider;
@@ -84,7 +84,7 @@ public class SearchFriendPanel extends Panel {
                 String pattern = getRequest().getParameter("searchData");
                 try {
                     dataProvider.fetchResults(pattern);
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     feedbackPanel.error(e.getMessage());
                 }
                 target.addComponent(dataTable);
@@ -151,7 +151,7 @@ public class SearchFriendPanel extends Panel {
                     for (Eater eater : eaterService.findUserWithoutRelation(loggedUser, input + "~")) {
                         choises.add(eater.getFirstname() + " " + eater.getLastname() );
                     }
-            } catch (JackWicketException e) {
+            } catch (YoueatException e) {
             }
             return choises.iterator();
         }

@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.ActivityRistorante;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.util.DateUtil;
@@ -61,9 +61,9 @@ public class UserViewPage extends BasePage {
     Collection<ActivityRistorante> friendsActivities;
 
 
-    public UserViewPage(PageParameters pageParameters) throws JackWicketException {
+    public UserViewPage(PageParameters pageParameters) throws YoueatException {
         if (!pageParameters.containsKey(YoueatHttpParams.USER_ID)) {
-            throw new JackWicketException("Missing user id");
+            throw new YoueatException("Missing user id");
         }
 
         String eaterId = pageParameters.getString(YoueatHttpParams.USER_ID, "");        
@@ -75,7 +75,7 @@ public class UserViewPage extends BasePage {
         try {
             activities = activityRistoranteService.findByUser(eater, activityPagingUser.getFirstResult(),
                     activityPagingUser.getMaxResults());
-        } catch (JackWicketException e) {
+        } catch (YoueatException e) {
             activities = new ArrayList<ActivityRistorante>();
             error(new StringResourceModel("error.errorGettingListActivities", this, null).getString());
         }
@@ -109,7 +109,7 @@ public class UserViewPage extends BasePage {
                     if (target != null) {
                         target.addComponent(activitiesListContainer);
                     }
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     error(new StringResourceModel("error.errorGettingListActivities", this, null).getString());
                 }
             }

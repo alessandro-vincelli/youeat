@@ -15,7 +15,7 @@
  */
 package it.av.eatt.service.impl;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterRelation;
 import it.av.eatt.ocm.util.DateUtil;
@@ -70,7 +70,7 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
             save(inverseRelation);
             return save(relation);
         } else {
-            throw new JackWicketException("Relation cannot be updated");
+            throw new YoueatException("Relation cannot be updated");
         }
     }
 
@@ -84,7 +84,7 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
             relation.setStatus(EaterRelation.STATUS_IGNORED);
             return save(relation);
         } else {
-            throw new JackWicketException("Relation cannot be updated");
+            throw new YoueatException("Relation cannot be updated");
         }
     }
 

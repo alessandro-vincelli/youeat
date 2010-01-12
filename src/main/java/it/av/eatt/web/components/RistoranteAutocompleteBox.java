@@ -1,7 +1,5 @@
 package it.av.eatt.web.components;
 
-import it.av.eatt.JackWicketException;
-import it.av.eatt.JackWicketRunTimeException;
 import it.av.eatt.ocm.model.DataRistorante;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.data.Country;
@@ -45,22 +43,18 @@ public class RistoranteAutocompleteBox extends AutoCompleteTextField<DataRistora
     @Override
     protected Iterator<DataRistorante> getChoices(String input) {
         Collection<DataRistorante> choises = new ArrayList<DataRistorante>();
-        if (input.length() > 2) {   
-            try {
-                String city = ((RistoranteAddNewPage)getPage()).getCityName();
-                Country country = ((DropDownChoice<Country>)getForm().get(Ristorante.COUNTRY)).getModelObject();
-                List<DataRistorante> lists = new ArrayList<DataRistorante>();
-                if (city != null && country != null) {
-                    lists.addAll(dataRistoranteService.find(input + "%", city, (Country) country, 25));
-                } else {
-                    lists.addAll(dataRistoranteService.find(input + "%", 25));
-                }
-                choises.addAll(lists);
-            } catch (JackWicketException e) {
-                throw new JackWicketRunTimeException(e);
+        if (input.length() > 2) {
+            String city = ((RistoranteAddNewPage) getPage()).getCityName();
+            Country country = ((DropDownChoice<Country>) getForm().get(Ristorante.COUNTRY)).getModelObject();
+            List<DataRistorante> lists = new ArrayList<DataRistorante>();
+            if (city != null && country != null) {
+                lists.addAll(dataRistoranteService.find(input + "%", city, (Country) country, 25));
+            } else {
+                lists.addAll(dataRistoranteService.find(input + "%", 25));
             }
+            choises.addAll(lists);
+
         }
         return choises.iterator();
     }
-
 }

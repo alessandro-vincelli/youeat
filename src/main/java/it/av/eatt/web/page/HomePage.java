@@ -15,13 +15,14 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
-import it.av.eatt.ocm.model.ActivityRistorante;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.service.ActivityRistoranteService;
+import it.av.eatt.service.RistoranteService;
 import it.av.eatt.web.components.ActivitiesListView;
 import it.av.eatt.web.components.RistoNameColumn;
 import it.av.eatt.web.components.RistoranteDataTable;
+import it.av.eatt.web.components.RistosListView;
 import it.av.eatt.web.data.RistoranteSortableDataProvider;
 
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulato
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
-import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -49,16 +49,17 @@ public class HomePage extends BasePage {
 
     private static final long serialVersionUID = 1L;
     private RistoranteSortableDataProvider ristoranteSortableDataProvider;
-    private PropertyListView<ActivityRistorante> lastActivitiesList;
     @SpringBean
     private ActivityRistoranteService activityRistoranteService;
+    @SpringBean
+    private RistoranteService ristoranteService;
 
     /**
      * Constructor that is invoked when page is invoked without a session.
      * 
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public HomePage() throws JackWicketException {
+    public HomePage() throws YoueatException {
         ristoranteSortableDataProvider = new RistoranteSortableDataProvider();
 
         List<IColumn<Ristorante>> columns = new ArrayList<IColumn<Ristorante>>();
@@ -96,8 +97,11 @@ public class HomePage extends BasePage {
                 ristoranteSortableDataProvider, ristoranteDataTable, getFeedbackPanel());
         add(ristoranteSearchPanel);
         
-        lastActivitiesList = new ActivitiesListView("activitiesList", activityRistoranteService.getLasts(5), true);          
+        ActivitiesListView lastActivitiesList = new ActivitiesListView("activitiesList", activityRistoranteService.getLasts(10), true);          
         add(lastActivitiesList);
+        
+        RistosListView lastRistosList = new RistosListView("ristosList", ristoranteService.getRandom(10));          
+        add(lastRistosList);
     }
 
 }

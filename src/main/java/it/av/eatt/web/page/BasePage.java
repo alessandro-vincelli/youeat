@@ -78,6 +78,7 @@ public class BasePage extends WebPage {
 
         feedbackPanel = new FeedbackPanel("feedBackPanel");
         feedbackPanel.setOutputMarkupId(true);
+        feedbackPanel.setOutputMarkupPlaceholderTag(true);
         add(feedbackPanel);
         ResourceReference img = new ResourceReference(this.getClass(), "resources/images/logo-mela.png");
         add(new Image("logo", img));

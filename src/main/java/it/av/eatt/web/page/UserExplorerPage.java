@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.ActivityRistorante;
 import it.av.eatt.service.ActivityRistoranteService;
 
@@ -47,7 +47,7 @@ public class UserExplorerPage extends BasePage {
         try {
             // FIXME pass the correct user
             activities = activityRistoranteService.findByUser(null);
-        } catch (JackWicketException e) {
+        } catch (YoueatException e) {
             activities = new ArrayList<ActivityRistorante>();
             error(new StringResourceModel("error.errorGettingListActivities", this, null).getString());
         }

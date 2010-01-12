@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.data.City;
 import it.av.eatt.ocm.model.data.Country;
@@ -71,18 +71,18 @@ public class RistoranteEditAddressPage extends BasePage {
     /**
      * 
      * @param ristorante
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public RistoranteEditAddressPage(Ristorante ristorante) throws JackWicketException {
+    public RistoranteEditAddressPage(Ristorante ristorante) throws YoueatException {
         this(new PageParameters(YoueatHttpParams.RISTORANTE_ID +"=" + ristorante.getId()));
     }
 
     /**
      * 
      * @param parameters
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public RistoranteEditAddressPage(PageParameters parameters) throws JackWicketException {
+    public RistoranteEditAddressPage(PageParameters parameters) throws YoueatException {
 
         String ristoranteId = parameters.getString(YoueatHttpParams.RISTORANTE_ID, "");
         if (StringUtils.isNotBlank(ristoranteId)) {
@@ -187,7 +187,7 @@ public class RistoranteEditAddressPage extends BasePage {
                     getFeedbackPanel().error(getString("error.onUpdate"));
                 }
                 form.setModelObject(ristorante);
-            } catch (JackWicketException e) {
+            } catch (YoueatException e) {
                 getFeedbackPanel().error("ERROR" + e.getMessage());
             }
             if (target != null) {
@@ -229,7 +229,7 @@ public class RistoranteEditAddressPage extends BasePage {
                     if (cityValue == null) {
                         validatable.error(new ValidationError().addMessageKey("validatioError.city"));
                     }
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     validatable.error(new ValidationError().addMessageKey("validatioError.city.error"));
                 }
             }

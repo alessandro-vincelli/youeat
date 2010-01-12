@@ -15,7 +15,7 @@
  */
 package it.av.eatt.ocm.model;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 
 import javax.persistence.Entity;
 
@@ -41,7 +41,7 @@ public class RistorantePicture extends BasicEntity {
     public RistorantePicture(byte[] picture, boolean active) {
         super();
         if (picture == null) {
-            throw new JackWicketException("array picture is null");
+            throw new YoueatException("array picture is null");
         }
         this.picture = picture.clone();
         this.active = active;
@@ -59,7 +59,7 @@ public class RistorantePicture extends BasicEntity {
      */
     public void setPicture(byte[] picture) {
         if (picture == null) {
-            throw new JackWicketException("array picture is null");
+            throw new YoueatException("array picture is null");
         }
         this.picture = picture.clone();
     }

@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.Language;
 import it.av.eatt.ocm.model.Ristorante;
@@ -69,13 +69,13 @@ public class RistoranteServiceTest {
 
         try {
             user = userService.addRegolarUser(user);
-        } catch (JackWicketException e) {
+        } catch (YoueatException e) {
             fail(e.getMessage());
         }
     }
 
     @After
-    public void tearDown() throws JackWicketException {
+    public void tearDown(){
 
         // user = userService.getByEmail(user.getEmail());
         // userService.remove(user);
@@ -83,7 +83,7 @@ public class RistoranteServiceTest {
     }
 
     @Test
-    public void testRistoranteService() throws JackWicketException, IOException {
+    public void testRistoranteService() throws YoueatException, IOException {
 
         Ristorante a = new Ristorante();
         a.setName("RistoAlessandro");
@@ -143,7 +143,7 @@ public class RistoranteServiceTest {
 
     }
 
-    private List<RistoranteDescriptionI18n> getDescriptionI18ns() throws JackWicketException {
+    private List<RistoranteDescriptionI18n> getDescriptionI18ns() throws YoueatException {
         List<Language> languages = languageService.getAll();
         List<RistoranteDescriptionI18n> descriptionI18ns = new ArrayList<RistoranteDescriptionI18n>(languages.size());
         for (Language language : languages) {

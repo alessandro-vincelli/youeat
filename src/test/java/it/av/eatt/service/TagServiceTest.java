@@ -18,7 +18,7 @@ package it.av.eatt.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Tag;
 
 import java.util.List;
@@ -40,7 +40,7 @@ public class TagServiceTest {
     private TagService tagService;
 
     @Test
-    public void testUsersBasic() throws JackWicketException {
+    public void testUsersBasic() throws YoueatException {
         Tag tag = tagService.insert("tag1");
         assertNotNull(tag);
         List<Tag> tags = tagService.find("tag1");

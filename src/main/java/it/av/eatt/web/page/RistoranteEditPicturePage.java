@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.RistorantePicture;
 import it.av.eatt.service.RistorantePictureService;
@@ -62,17 +62,17 @@ public class RistoranteEditPicturePage extends BasePage {
 
     /**
      * @param ristorante
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public RistoranteEditPicturePage(Ristorante ristorante) throws JackWicketException {
+    public RistoranteEditPicturePage(Ristorante ristorante) throws YoueatException {
         this(new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
     }
 
     /**
      * @param parameters
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public RistoranteEditPicturePage(PageParameters parameters) throws JackWicketException {
+    public RistoranteEditPicturePage(PageParameters parameters) throws YoueatException {
 
         String ristoranteId = parameters.getString(YoueatHttpParams.RISTORANTE_ID, "");
         if (StringUtils.isNotBlank(ristoranteId)) {
@@ -103,7 +103,7 @@ public class RistoranteEditPicturePage extends BasePage {
                         try {
                             ristorantePictureService.save(item.getModelObject());
                             ristorante = ristoranteService.getByID(ristorante.getId());
-                        } catch (JackWicketException e) {
+                        } catch (YoueatException e) {
                             error(getString("genericErrorMessage"));
                         }
                         if (target != null) {
@@ -133,7 +133,7 @@ public class RistoranteEditPicturePage extends BasePage {
                             ristoranteService.updateNoRevision(ristorante);
                             ristorantePictureService.remove(picture);
                             ristorante = ristoranteService.getByID(ristorante.getId());
-                        } catch (JackWicketException e) {
+                        } catch (YoueatException e) {
                             error(getString("genericErrorMessage"));
                         }
                         if (target != null) {
@@ -179,7 +179,7 @@ public class RistoranteEditPicturePage extends BasePage {
                     ristoranteService.updateNoRevision(ristorante);
                     ristorante = ristoranteService.getByID(ristorante.getId());
                     picturesList.setModelObject(ristorante.getPictures());
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     getFeedbackPanel().error(getString("An error occurred"));
                 }
             }

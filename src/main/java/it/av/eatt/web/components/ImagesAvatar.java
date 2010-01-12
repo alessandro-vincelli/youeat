@@ -1,4 +1,4 @@
-package it.av.eatt.web.commons;
+package it.av.eatt.web.components;
 
 import it.av.eatt.ocm.model.Eater;
 
@@ -14,7 +14,7 @@ import org.apache.wicket.markup.html.image.resource.DynamicImageResource;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class ImagesCommons {
+public class ImagesAvatar {
 
     /**
      * Return the avatar for the given user, the default image if no avatar presents

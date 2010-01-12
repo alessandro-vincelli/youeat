@@ -15,7 +15,7 @@
  */
 package it.av.eatt.init;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.repo.util.RepositoryInitStructure;
 
 /**
@@ -29,7 +29,7 @@ public class ApplicationInit {
 
     private RepositoryInitStructure repositoryInitStructure;
 
-    public ApplicationInit(RepositoryInitStructure repositoryInitStructure) throws JackWicketException {
+    public ApplicationInit(RepositoryInitStructure repositoryInitStructure) throws YoueatException {
         this.repositoryInitStructure = repositoryInitStructure;
         //this.repositoryInitStructure.checkBaseData();
     }

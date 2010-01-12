@@ -15,7 +15,7 @@
  */
 package it.av.eatt.service;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +38,7 @@ public class DataRistoranteServiceTest {
     
     
     @Test
-    public void DataRistoranteServiceTest() throws JackWicketException {
+    public void DataRistoranteServiceTest() throws YoueatException {
         System.out.println(dataRistoranteService.getAll().size());    
     }
 

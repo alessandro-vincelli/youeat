@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.service.CountryService;
 import it.av.eatt.service.EaterService;
 
@@ -38,9 +38,9 @@ public class SignUpPage extends BasePage {
     /**
      * Constructor that is invoked when page is invoked without a session.
      * 
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public SignUpPage() throws JackWicketException {
+    public SignUpPage() throws YoueatException {
         setOutputMarkupId(true);
         SignUpPanel signUpPanel = new SignUpPanel("userSignUpPanel", getFeedbackPanel(), userService, countryService);
         signUpPanel.setOutputMarkupId(true);

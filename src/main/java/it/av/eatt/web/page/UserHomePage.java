@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.ActivityRistorante;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.service.ActivityRistoranteService;
@@ -104,7 +104,7 @@ public class UserHomePage extends BasePage {
         try {
             activities = activityRistoranteService.findByUser(getLoggedInUser(), activityPagingUser.getFirstResult(),
                     activityPagingUser.getMaxResults());
-        } catch (JackWicketException e) {
+        } catch (YoueatException e) {
             activities = new ArrayList<ActivityRistorante>();
             error(new StringResourceModel("error.errorGettingListActivities", this, null).getString());
         }
@@ -125,7 +125,7 @@ public class UserHomePage extends BasePage {
                     if (target != null) {
                         target.addComponent(activitiesListContainer);
                     }
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     error(new StringResourceModel("error.errorGettingListActivities", this, null).getString());
                 }
             }
@@ -134,7 +134,7 @@ public class UserHomePage extends BasePage {
         // Friends activities
         try {
             friendsActivities = activityRistoranteService.findByUserFriend(getLoggedInUser(), 0, 3);
-        } catch (JackWicketException e) {
+        } catch (YoueatException e) {
             friendsActivities = new ArrayList<ActivityRistorante>();
             error(new StringResourceModel("error.errorGettingListActivities", this, null).getString());
         }
@@ -155,7 +155,7 @@ public class UserHomePage extends BasePage {
                     if (target != null) {
                         target.addComponent(friendsActivitiesListContainer);
                     }
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     error(new StringResourceModel("error.errorGettingListActivities", this, null).getString());
                 }
             }

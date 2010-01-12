@@ -15,7 +15,7 @@
  */
 package it.av.eatt.repo.util;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterProfile;
 import it.av.eatt.ocm.model.Language;
@@ -46,7 +46,7 @@ public class RepositoryInitStructureImpl implements RepositoryInitStructure {
 
 
     @Override
-    public void checkBaseData() throws JackWicketException {
+    public void checkBaseData() throws YoueatException {
         if(languageService.getAll().size() == 0){
             Language it = new Language(Locales.ITALIAN.getLanguage(), Locales.ITALIAN.getCountry());
             Language en = new Language(Locales.ENGLISH.getLanguage(), Locales.ENGLISH.getCountry());

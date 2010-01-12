@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.service.EaterRelationService;
 
@@ -54,7 +54,7 @@ public class SearchFriendTableActionPanel extends Panel {
                     page.refreshDataTable();
                     target.addComponent(page.getSearchFriendsContainer());
                     info(new StringResourceModel("friendRequestSent", this, null).getString());
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     error(new StringResourceModel("genericErrorMessage", this, null).getString());
                 }
                 target.addComponent(page.getFeedbackPanel());
@@ -71,7 +71,7 @@ public class SearchFriendTableActionPanel extends Panel {
                     page.refreshDataTable();
                     target.addComponent(page.getSearchFriendsContainer());
                     info(new StringResourceModel("followUserDone", this, null).getString());
-                } catch (JackWicketException e) {
+                } catch (YoueatException e) {
                     error(new StringResourceModel("genericErrorMessage", this, null).getString());
                 }
                 target.addComponent(page.getFeedbackPanel());

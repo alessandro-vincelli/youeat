@@ -15,7 +15,7 @@
  */
 package it.av.eatt.web.data;
 
-import it.av.eatt.JackWicketException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.service.RistoranteService;
 import it.av.eatt.util.LuceneUtil;
@@ -94,9 +94,9 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
      * Performs the search
      * 
      * @param pattern the string to use in the search
-     * @throws JackWicketException
+     * @throws YoueatException
      */
-    public final void fetchResults(String pattern) throws JackWicketException {
+    public final void fetchResults(String pattern) throws YoueatException {
         if (StringUtils.isNotBlank(pattern)) {
             results = ristoranteService.freeTextSearch(LuceneUtil.removeSpecialChars(pattern) + "~");
         }

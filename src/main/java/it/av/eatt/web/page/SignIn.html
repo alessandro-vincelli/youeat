@@ -1,40 +1,13 @@
-<html>
-<wicket:head>
-	<title>:: YouEat ::</title>
-	<wicket:link>
-		<link rel="shortcut icon" href="resources/images/favicon.ico" />
-	</wicket:link>
-</wicket:head>
-<body>
-<div id="container">
-<div id="header">
-    <a class="titleAndGoHome" href="/" title="YouEat"><img wicket:id="logo"></img></a>
-	<ul id="menu">
-		<li><a href="mailto:dev@mailing.antwoordvoorbedrijven.net">Help</a></li>
-		<!-- <li><a wicket:id="goUserPage"><wicket:message key="basepage.goUserPage" /></a></li>
-		<li><a wicket:id="goUserProfilePage"><wicket:message key="basepage.goUserProfilePage" /></a></li>
-		<li><a wicket:id="goRistoranteAddNewPage"><wicket:message key="basepage.goRistorantePage" /></a></li>
-		<li><a wicket:id="goFriendPage"><wicket:message key="basepage.goFriendPage" /></a></li>
-		<li><a wicket:id="goSearchFriendPage"><wicket:message key="basepage.goSearchFriendPage" /></a></li>
-		<li>
-			<a wicket:id="goSignOut"><wicket:message key="basepage.goSignOut" /></a>
-			<a wicket:id="goSignIn"><wicket:message key="basepage.goSignIn" /></a>
-		</li> -->
-	</ul>
-</div>
-
-		<div id="wrapper">
-        <div id="content">
-        <div id="login">
-			<h2 class="sbtitle">Sign in</h2>
-			<span wicket:id="signInPanel"></span>
-            <wicket:message key="message.join"></wicket:message> 
-			<button title="" wicket:id="signUp" wicket:message="title:signIn.signUpLinkTitle"><wicket:message key="signIn.signUpLink"/></button>
-		</div>
+<wicket:extend>
+	<div id="wrapper">
+    <div id="content">
+    <div id="login">
+    	<h2 class="sbtitle">Sign in</h2>
+		<span wicket:id="signInPanel"></span>
+        <wicket:message key="message.join"></wicket:message> 
+	   <button title="" wicket:id="signUp" wicket:message="title:signIn.signUpLinkTitle"><wicket:message key="signIn.signUpLink"/></button>
+	</div>
     </div>
     </div>
-<div id="footer"><p>&#169; 2009 Alessandro Vincelli</p></div>
-</div>
-</body>
-</html>
+</wicket:extend>
 

@@ -16,10 +16,12 @@
 package it.av.eatt.ocm.model;
 
 import it.av.eatt.YoueatException;
+import it.av.eatt.ocm.model.data.Country;
 
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -41,19 +43,17 @@ import org.hibernate.search.annotations.TokenizerDef;
 
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
- *
+ * 
  */
 @Entity
-@Table(
-        uniqueConstraints = {@UniqueConstraint(columnNames={"email"})}
-)
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }) })
 @Indexed
 @AnalyzerDef(name = "eateranalyzer", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class), filters = {
-    @TokenFilterDef(factory = ISOLatin1AccentFilterFactory.class),
-    @TokenFilterDef(factory = LowerCaseFilterFactory.class)})
+        @TokenFilterDef(factory = ISOLatin1AccentFilterFactory.class),
+        @TokenFilterDef(factory = LowerCaseFilterFactory.class) })
 public class Eater extends BasicEntity {
-    
-    public static final String ID = "id"; 
+
+    public static final String ID = "id";
     public static final String PASSWORD = "password";
     public static final String FIRSTNAME = "firstname";
     public static final String LASTNAME = "lastname";
@@ -62,34 +62,48 @@ public class Eater extends BasicEntity {
     public static final String COUNTRY = "country";
     public static final String LANGUAGE = "language";
     public static final String AVATAR = "avatar";
-    
+    @Column(nullable = false)
     private String password;
     @Field(index = Index.NO_NORMS, store = Store.NO)
+    @Column(nullable = false)
     private String firstname;
     @Field(index = Index.NO_NORMS, store = Store.NO)
+    @Column(nullable = false)
     private String lastname;
+    @Column(nullable = false)
     private String email;
-    private String country;
+    @Column(nullable = false)
+    private Country country;
     private byte[] avatar;
-    
+    /**
+     * used in sign up confirmation
+     */
+    private boolean confirmed;
+    /**
+     * used for security reason
+     */
+    private boolean blocked;
+
     @ManyToOne
-    @ForeignKey(name="eater_to_langiage_fk")
+    @ForeignKey(name = "eater_to_langiage_fk")
     private Language language;
-    @ManyToOne
-    @ForeignKey(name="eater_to_profile_fk")
+    @ManyToOne(optional=false)
+    @ForeignKey(name = "eater_to_profile_fk")
     private EaterProfile userProfile;
-    @OneToMany//( cascade = {CascadeType.ALL} , mappedBy="user")
+    @OneToMany
+    // ( cascade = {CascadeType.ALL} , mappedBy="user")
     @OrderBy(Activity.DATE)
-    @ForeignKey(name="eater_to_activities_fk")
+    @ForeignKey(name = "eater_to_activities_fk")
     private List<Activity> activities;
-    //@Collection(collectionClassName=EaterRelation.class)// The proxy doesn't work the session is closed (proxy=true)
-    //@NaturalId
-    @OneToMany(mappedBy="fromUser", cascade = {CascadeType.ALL})
-    @ForeignKey(name="eater_to_eaterRelation_fk")
+    // @Collection(collectionClassName=EaterRelation.class)// The proxy doesn't work the session is closed (proxy=true)
+    // @NaturalId
+    @OneToMany(mappedBy = "fromUser", cascade = { CascadeType.ALL })
+    @ForeignKey(name = "eater_to_eaterRelation_fk")
     private List<EaterRelation> userRelation;
-    
+
     /** default constructor */
     public Eater() {
+        super();
     }
 
     /** minimal constructor */
@@ -162,12 +176,12 @@ public class Eater extends BasicEntity {
         this.userRelation = userRelation;
     }
 
-    public String getCountry() {
-    	return country;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setCountry(String country) {
-    	this.country = country;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
     public Language getLanguage() {
@@ -187,5 +201,29 @@ public class Eater extends BasicEntity {
             throw new YoueatException("array avatar is null");
         }
         this.avatar = avatar.clone();
+    }
+
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return getFirstname() + " " + getLastname();
     }
 }

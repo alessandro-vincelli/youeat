@@ -21,11 +21,9 @@ import it.av.eatt.ocm.model.Message;
 import it.av.eatt.ocm.util.DateUtil;
 import it.av.eatt.service.MessageService;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -73,28 +71,34 @@ public class MessageServiceHibernate extends ApplicationServiceHibernate<Message
         Assert.notNull(message.getSender());
         Assert.notNull(message.getBody());
         Assert.isTrue(message.getId() == null);
-        Message messageSent = new Message();
-        try {
-            BeanUtils.copyProperties(messageSent, message);
-            messageSent.setSentTime(DateUtil.getTimestamp());
-            Message messageReceived = new Message();
-            BeanUtils.copyProperties(messageReceived, messageSent);
-            messageReceived.setReceived(true);
-            super.save(messageReceived);
-            return super.save(messageSent);
-        } catch (IllegalAccessException e) {
-            throw new YoueatException(e);
-        } catch (InvocationTargetException e) {
-            throw new YoueatException(e);
-        }
+        message.setSentTime(DateUtil.getTimestamp());
+        return super.save(message);
     }
 
     /**
-     * 
+     * {@inheritDoc}
      */
     @Override
-    public void delete(Message message) {
-        message.setDeleted(true);
+    public Message reply(Message message, Message receivedMessage) {
+        message.setReplyto(receivedMessage);
+        Message sentMessage = send(message);
+        receivedMessage.setReplyfrom(sentMessage);
+        save(receivedMessage);
+        return sentMessage;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void delete(Message message, Eater eater) {
+        if (message.getReceiver().equals(eater)) {
+            message.setDeletedFromReceiver(true);
+        } else if (message.getSender().equals(eater)) {
+            message.setDeletedFromSender(true);
+        } else {
+            throw new YoueatException("Given eater is not an owner of the given message");
+        }
         super.save(message);
     }
 
@@ -118,20 +122,27 @@ public class MessageServiceHibernate extends ApplicationServiceHibernate<Message
 
     protected List<Message> find(Eater eater, boolean isReceived, boolean deleted) {
         Criterion critByUser;
-        Criterion critIsDeletd = Restrictions.eq(Message.DELETED_FIELD, false);
-        Criterion critIsReceived = Restrictions.eq(Message.ISRECEIVED_FIELD, true);
+        Criterion critIsDeleted = null;
         if (isReceived) {
             critByUser = Restrictions.eq(Message.RECEIVER_FIELD, eater);
         } else {
             critByUser = Restrictions.eq(Message.SENDER_FIELD, eater);
         }
         if (deleted) {
-            critIsDeletd = Restrictions.eq(Message.DELETED_FIELD, true);
+            if (isReceived) {
+                critIsDeleted = Restrictions.eq(Message.DELETED_FROM_RECEIVER_FIELD, true);
+            } else {
+                critIsDeleted = Restrictions.eq(Message.DELETED_FROM_SENDER_FIELD, true);
+            }
         }
-        if (!isReceived) {
-            critIsReceived = Restrictions.eq(Message.ISRECEIVED_FIELD, false);
+        if (!deleted) {
+            if (isReceived) {
+                critIsDeleted = Restrictions.eq(Message.DELETED_FROM_RECEIVER_FIELD, false);
+            } else {
+                critIsDeleted = Restrictions.eq(Message.DELETED_FROM_SENDER_FIELD, false);
+            }
         }
         Order orderBYDate = Order.asc(Message.SENTTIME_FIELD);
-        return findByCriteria(orderBYDate, critByUser, critIsReceived, critIsDeletd);
+        return findByCriteria(orderBYDate, critByUser, critIsDeleted);
     }
 }

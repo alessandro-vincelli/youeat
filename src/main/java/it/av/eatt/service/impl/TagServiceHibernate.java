@@ -16,7 +16,6 @@
 package it.av.eatt.service.impl;
 
 import it.av.eatt.YoueatException;
-import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.Tag;
 import it.av.eatt.service.TagService;
 import it.av.eatt.util.LuceneUtil;

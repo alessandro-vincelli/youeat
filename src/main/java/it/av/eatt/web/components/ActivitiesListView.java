@@ -1,13 +1,13 @@
 package it.av.eatt.web.components;
 
-import java.util.List;
-
 import it.av.eatt.ocm.model.ActivityRistorante;
 import it.av.eatt.ocm.util.DateUtil;
 import it.av.eatt.web.commons.ActivityCommons;
 import it.av.eatt.web.commons.YoueatHttpParams;
 import it.av.eatt.web.page.RistoranteViewPage;
 import it.av.eatt.web.page.UserViewPage;
+
+import java.util.List;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;

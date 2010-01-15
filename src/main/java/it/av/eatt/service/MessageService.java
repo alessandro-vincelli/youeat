@@ -45,6 +45,18 @@ public interface MessageService {
     Message send(Message message);
 
     /**
+     * Reply to a message, store two message in the DB.<br>
+     * One of the message is saved has <i>isReceived=true</i>.<br>
+     * The <i>receivedMessage.replyfrom</i> is set with the given <i>message</i>
+     * 
+     * @param message message to send
+     * @param receivedMessage the message to be replied
+     * @return the sent message
+     */
+    @Transactional
+    Message reply(Message message, Message receivedMessage);
+
+    /**
      * Return the activity on the given date
      * 
      * @param date
@@ -61,7 +73,7 @@ public interface MessageService {
      */
     @Transactional(readOnly = true)
     List<Message> findReceived(Eater eater);
-    
+
     /**
      * Find deleted messages received from the given user
      * 
@@ -70,7 +82,7 @@ public interface MessageService {
      */
     @Transactional(readOnly = true)
     List<Message> findReceivedDeleted(Eater eater);
-    
+
     /**
      * Find messages sent by the given user
      * 
@@ -79,7 +91,7 @@ public interface MessageService {
      */
     @Transactional(readOnly = true)
     List<Message> findSent(Eater eater);
-    
+
     /**
      * Find deleted messages sent by the given user
      * 
@@ -91,14 +103,19 @@ public interface MessageService {
 
     /**
      * Remove logically the Message
+     * 
+     * @param message the message to delete
      */
     @Transactional
     void purge(Message message);
-    
+
     /**
      * Remove the message from the database
+     * 
+     * @param message the message to delete;
+     * @param eater one of the owner of the message
      */
     @Transactional
-    void delete(Message message);
+    void delete(Message message, Eater eater);
 
 }

@@ -21,6 +21,25 @@ public class Country extends BasicEntity{
     private String iso3;
     @Index(name="countryname")
     private String name;
+    
+    
+    /**
+     * @param iso2
+     * @param iso3
+     * @param name
+     */
+    public Country(String iso2, String iso3, String name) {
+        super();
+        this.iso2 = iso2;
+        this.iso3 = iso3;
+        this.name = name;
+    }
+    /**
+     * default constructor 
+     */
+    public Country() {
+        super();
+    }
     /**
      * @return the iso2
      */

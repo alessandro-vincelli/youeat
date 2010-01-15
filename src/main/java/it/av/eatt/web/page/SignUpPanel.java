@@ -15,8 +15,8 @@
  */
 package it.av.eatt.web.page;
 
-import it.av.eatt.YoueatException;
 import it.av.eatt.UserAlreadyExistsException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.Language;
 import it.av.eatt.ocm.model.data.Country;
@@ -106,7 +106,7 @@ public class SignUpPanel extends Panel {
         PasswordTextField pwd1 = new PasswordTextField(Eater.PASSWORD);
         pwd1.add(pwdValidator);
         signUpForm.add(pwd1);
-        PasswordTextField pwd2 = new PasswordTextField("password-confirm", new Model(passwordConfirm));
+        PasswordTextField pwd2 = new PasswordTextField("password-confirm", new Model<String>(passwordConfirm));
         signUpForm.add(pwd2);
         EqualPasswordInputValidator passwordInputValidator = new EqualPasswordInputValidator(pwd1, pwd2);
         signUpForm.add(passwordInputValidator);

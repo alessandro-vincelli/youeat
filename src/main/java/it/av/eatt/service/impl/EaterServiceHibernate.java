@@ -15,8 +15,8 @@
  */
 package it.av.eatt.service.impl;
 
-import it.av.eatt.YoueatException;
 import it.av.eatt.UserAlreadyExistsException;
+import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterRelation;
 import it.av.eatt.service.EaterProfileService;

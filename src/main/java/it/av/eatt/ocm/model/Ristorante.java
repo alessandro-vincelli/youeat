@@ -16,7 +16,6 @@
 package it.av.eatt.ocm.model;
 
 import it.av.eatt.ocm.model.data.City;
-
 import it.av.eatt.ocm.model.data.Country;
 
 import java.util.ArrayList;

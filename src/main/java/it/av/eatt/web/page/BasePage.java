@@ -27,7 +27,7 @@ import javax.servlet.http.Cookie;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.WebPage;
@@ -82,7 +82,7 @@ public class BasePage extends WebPage {
         add(feedbackPanel);
         ResourceReference img = new ResourceReference(this.getClass(), "resources/images/logo-mela.png");
         add(new Image("logo", img));
-        add(new AjaxLink<String>("goUserPage") {
+        add(new AjaxFallbackLink<String>("goUserPage") {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -114,7 +114,7 @@ public class BasePage extends WebPage {
             }*/
         });
 
-        add(new AjaxLink<String>("goUserProfilePage") {
+        add(new AjaxFallbackLink<String>("goUserProfilePage") {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -133,7 +133,7 @@ public class BasePage extends WebPage {
             }
         });
 
-        add(new AjaxLink<String>("goSearchRistorantePage") {
+        add(new AjaxFallbackLink<String>("goSearchRistorantePage") {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -152,7 +152,7 @@ public class BasePage extends WebPage {
             }
         });
 
-        add(new AjaxLink<String>("goRistoranteAddNewPage") {
+        add(new AjaxFallbackLink<String>("goRistoranteAddNewPage") {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -171,7 +171,7 @@ public class BasePage extends WebPage {
             }
         });
 
-        add(new AjaxLink<String>("goFriendPage") {
+        add(new AjaxFallbackLink<String>("goFriendPage") {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -187,6 +187,25 @@ public class BasePage extends WebPage {
                 super.onBeforeRender();
                 setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
                         .isInstantiationAuthorized(FriendsPage.class)));
+            }
+        });
+        
+        add(new AjaxFallbackLink<String>("goMessagesPage") {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                if (getApplication().getSecuritySettings().getAuthorizationStrategy().isInstantiationAuthorized(
+                        MessagesPage.class)) {
+                    setResponsePage(MessagesPage.class);
+                }
+            }
+
+            @Override
+            protected void onBeforeRender() {
+                super.onBeforeRender();
+                setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
+                        .isInstantiationAuthorized(MessagesPage.class)));
             }
         });
 

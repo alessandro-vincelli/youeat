@@ -1,0 +1,26 @@
+<wicket:extend>
+    <div id="wrapper">
+    <div id="content">
+    <span wicket:id="noYetMessages"></span>
+    <div wicket:id="sendMessagePanel"></div>
+    <span wicket:id="messagesListContainer">
+    <div wicket:id="messagesList" class="friendsList">
+    <div class="friendCenterColumn">
+    <div class="friendAvatar"><img src="#" ></img> </div>
+    <div class="friendName"><strong><span wicket:id="title"></span></strong></div>
+    <div class="friendStatus"><span wicket:id="sender"> <span wicket:id="sentTime"></span></div>
+    <div class="friendType"><span wicket:id="body"></span></div>
+    </div>
+    <div class="friendRemoveButton">
+    <button wicket:id="reply"><span><wicket:message key="button.sendMessageToAFriend" /></span></button>
+    <button wicket:id="remove"><span><wicket:message key="button.remove" /></span></button>
+    </div>
+    <!--<li style="padding: 10px;"><span wicket:id="toUser.userRelation"></span></li>-->
+    </div>
+    </span>
+    </div>
+    </div>
+    <div id="navigation">
+        <p><button wicket:id="goSearchFriendPage"><wicket:message key="basepage.goSearchFriendPage" /></button></p>
+    </div>
+</wicket:extend>

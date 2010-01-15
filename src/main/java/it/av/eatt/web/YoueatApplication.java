@@ -15,6 +15,7 @@
  */
 package it.av.eatt.web;
 
+import it.av.eatt.web.page.EaterAccountPage;
 import it.av.eatt.web.page.ErrorPage;
 import it.av.eatt.web.page.FriendsPage;
 import it.av.eatt.web.page.HomePage;
@@ -23,7 +24,6 @@ import it.av.eatt.web.page.RistoranteViewPage;
 import it.av.eatt.web.page.SearchFriendPage;
 import it.av.eatt.web.page.SignIn;
 import it.av.eatt.web.page.SignUpPage;
-import it.av.eatt.web.page.EaterAccountPage;
 import it.av.eatt.web.page.UserHomePage;
 import it.av.eatt.web.page.UserManagerPage;
 import it.av.eatt.web.page.UserProfilePage;

@@ -17,9 +17,12 @@ package it.av.eatt.ocm.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -39,10 +42,9 @@ public class Message extends BasicEntity {
     public static final String READTIME_FIELD = "readTime";
     public static final String SENDER_FIELD = "sender";
     public static final String RECEIVER_FIELD = "receiver";
-    public static final String DELETED_FIELD = "deleted";
-    public static final String ISRECEIVED_FIELD = "isReceived";
+    public static final String DELETED_FROM_RECEIVER_FIELD = "deletedFromReceiver";
+    public static final String DELETED_FROM_SENDER_FIELD = "deletedFromSender";
     public static final String ISPRIVATE_FIELD = "isPrivate";
-
 
     public static final int BODY_MAX_LENGTH = 10000;
     public static final int TITLE_MAX_LENGTH = 160;
@@ -57,15 +59,15 @@ public class Message extends BasicEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date readTime;
     /**
-     * to logic delete
+     * to logic delete for sender
      */
-    private boolean deleted;
-    private boolean isPrivate;
+    private boolean deletedFromSender;
     /**
-     * true if  received, false if sent 
+     * to logic delete for receiver
      */
-    private boolean isReceived;
-
+    private boolean deletedFromReceiver;
+    private boolean isPrivate;
+    
     @ManyToOne
     @ForeignKey(name = "message_to_sender_author_fk")
     private Eater sender;
@@ -73,6 +75,13 @@ public class Message extends BasicEntity {
     @ManyToOne
     @ForeignKey(name = "message_to_receiver_author_fk")
     private Eater receiver;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "replyfrom_fk")
+    private Message replyto;
+
+    @OneToOne(mappedBy = "replyto")
+    private Message replyfrom;
 
     /**
      * the default constructor
@@ -113,12 +122,20 @@ public class Message extends BasicEntity {
         this.readTime = readTime;
     }
 
-    public boolean isDeleted() {
-        return deleted;
+    public boolean isDeletedFromSender() {
+        return deletedFromSender;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+    public void setDeletedFromSender(boolean deletedFromSender) {
+        this.deletedFromSender = deletedFromSender;
+    }
+
+    public boolean isDeletedFromReceiver() {
+        return deletedFromReceiver;
+    }
+
+    public void setDeletedFromReceiver(boolean deletedFromReceiver) {
+        this.deletedFromReceiver = deletedFromReceiver;
     }
 
     public Eater getSender() {
@@ -145,11 +162,20 @@ public class Message extends BasicEntity {
         this.isPrivate = isPrivate;
     }
 
-    public boolean isReceived() {
-        return isReceived;
+    public Message getReplyto() {
+        return replyto;
     }
 
-    public void setReceived(boolean isReceived) {
-        this.isReceived = isReceived;
+    public void setReplyto(Message replyto) {
+        this.replyto = replyto;
     }
+
+    public Message getReplyfrom() {
+        return replyfrom;
+    }
+
+    public void setReplyfrom(Message replyfrom) {
+        this.replyfrom = replyfrom;
+    }
+
 }

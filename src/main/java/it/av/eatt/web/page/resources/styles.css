@@ -695,7 +695,7 @@ input.unpublishPictureButton {
     font-size: medium;
     list-style-image: none;
     list-style-position: outside;
-    list-style-type: circle;
+    list-style-type: none;
 }
 .feedbackPanelINFO{
     text-shadow: 1px gray;

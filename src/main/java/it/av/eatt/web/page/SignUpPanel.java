@@ -48,6 +48,8 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.validation.IValidatable;
+import org.apache.wicket.validation.validator.AbstractValidator;
 import org.apache.wicket.validation.validator.StringValidator;
 
 /**
@@ -90,22 +92,25 @@ public class SignUpPanel extends Panel {
         }
         RfcCompliantEmailAddressValidator emailAddressValidator = RfcCompliantEmailAddressValidator.getInstance();
         StringValidator pwdValidator = StringValidator.LengthBetweenValidator.lengthBetween(6, 20);
+        EmailPresentValidator emailPresentValidator = new EmailPresentValidator();
 
         Eater user = new Eater();
         user.setCountry(userCountry);
-        
+
         signUpForm = new Form<Eater>("signUpForm", new CompoundPropertyModel<Eater>(user));
 
         signUpForm.setOutputMarkupId(true);
         signUpForm.add(new RequiredTextField<String>(Eater.FIRSTNAME));
         signUpForm.add(new RequiredTextField<String>(Eater.LASTNAME));
-        signUpForm.add(new RequiredTextField<String>(Eater.EMAIL).add(emailAddressValidator));
-        
+        signUpForm
+                .add(new RequiredTextField<String>(Eater.EMAIL).add(emailAddressValidator).add(emailPresentValidator));
+
         DropDownChoice<Country> country = new DropDownChoice<Country>(Eater.COUNTRY, countryService.getAll());
         country.setRequired(true);
         country.setModel(new Model<Country>(userCountry));
         signUpForm.add(country);
-        signUpForm.add(new DropDownChoice<Language>("language", languageService.getAll(), new LanguageRenderer()).setRequired(true));
+        signUpForm.add(new DropDownChoice<Language>("language", languageService.getAll(), new LanguageRenderer())
+                .setRequired(true));
         PasswordTextField pwd1 = new PasswordTextField(Eater.PASSWORD);
         pwd1.add(pwdValidator);
         signUpForm.add(pwd1);
@@ -131,7 +136,7 @@ public class SignUpPanel extends Panel {
         add(goSignInAfterSignUp);
 
         signUpForm.add(captcha = new KittenCaptchaPanel("captcha", new Dimension(400, 200)));
-        //used to show error message
+        // used to show error message
         final HiddenField<String> captchaHidden = new HiddenField<String>("captchaHidden", new Model());
         signUpForm.add(captchaHidden);
         signUpForm.add(new KittenCaptchaValidator(captchaHidden));
@@ -147,14 +152,27 @@ public class SignUpPanel extends Panel {
 
         @Override
         public void validate(Form<?> form) {
-            if(!captcha.allKittensSelected()){
+            if (!captcha.allKittensSelected()) {
                 error(captchaHidden);
             }
         }
 
         @Override
         public FormComponent<?>[] getDependentFormComponents() {
-            return new FormComponent[] { captchaHidden};
+            return new FormComponent[] { captchaHidden };
+        }
+    }
+
+    /**
+     * Check if another user is already register with the given email
+     */
+    private class EmailPresentValidator extends AbstractValidator<String> {
+
+        @Override
+        protected void onValidate(IValidatable<String> validatable) {
+            if (userService.getByEmail(validatable.getValue()) != null) {
+                error(validatable);
+            }
         }
     }
 
@@ -164,7 +182,7 @@ public class SignUpPanel extends Panel {
         public SubmitButton(String id, Form<Eater> form) {
             super(id, form);
         }
-        
+
         @Override
         protected void onSubmit(AjaxRequestTarget target, Form form) {
             try {
@@ -183,11 +201,11 @@ public class SignUpPanel extends Panel {
                 getFeedbackPanel().error(
                         new StringResourceModel("error.userAlreadyExistsException", this, null).getString());
             } catch (YoueatException e) {
-                getFeedbackPanel().error(
-                        new StringResourceModel("error.operationNotPermitted", this, null).getString());
+                getFeedbackPanel()
+                        .error(new StringResourceModel("error.operationNotPermitted", this, null).getString());
             }
-            if(target !=null){
-                target.addComponent(getPage());    
+            if (target != null) {
+                target.addComponent(getPage());
             }
         }
 
@@ -202,12 +220,13 @@ public class SignUpPanel extends Panel {
     public final FeedbackPanel getFeedbackPanel() {
         return feedbackPanel;
     }
-    
-    private class LanguageRenderer implements IChoiceRenderer<Language>{
+
+    private class LanguageRenderer implements IChoiceRenderer<Language> {
         @Override
         public Object getDisplayValue(Language object) {
             return getString(object.getLanguage());
         }
+
         @Override
         public String getIdValue(Language object, int index) {
             return object.getId();

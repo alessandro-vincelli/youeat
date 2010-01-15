@@ -81,16 +81,6 @@ public class SignUpPanel extends Panel {
         this.userService = userService;
         this.feedbackPanel = feedbackPanel;
 
-        RfcCompliantEmailAddressValidator emailAddressValidator = RfcCompliantEmailAddressValidator.getInstance();
-        StringValidator pwdValidator = StringValidator.LengthBetweenValidator.lengthBetween(6, 20);
-
-        Eater user = new Eater();
-        signUpForm = new Form<Eater>("signUpForm", new CompoundPropertyModel<Eater>(user));
-
-        signUpForm.setOutputMarkupId(true);
-        signUpForm.add(new RequiredTextField<String>(Eater.FIRSTNAME));
-        signUpForm.add(new RequiredTextField<String>(Eater.LASTNAME));
-        signUpForm.add(new RequiredTextField<String>(Eater.EMAIL).add(emailAddressValidator));
         List<Country> countriyList = countryService.getAll();
         Country userCountry = null;
         for (Country country : countriyList) {
@@ -98,6 +88,19 @@ public class SignUpPanel extends Panel {
                 userCountry = country;
             }
         }
+        RfcCompliantEmailAddressValidator emailAddressValidator = RfcCompliantEmailAddressValidator.getInstance();
+        StringValidator pwdValidator = StringValidator.LengthBetweenValidator.lengthBetween(6, 20);
+
+        Eater user = new Eater();
+        user.setCountry(userCountry);
+        
+        signUpForm = new Form<Eater>("signUpForm", new CompoundPropertyModel<Eater>(user));
+
+        signUpForm.setOutputMarkupId(true);
+        signUpForm.add(new RequiredTextField<String>(Eater.FIRSTNAME));
+        signUpForm.add(new RequiredTextField<String>(Eater.LASTNAME));
+        signUpForm.add(new RequiredTextField<String>(Eater.EMAIL).add(emailAddressValidator));
+        
         DropDownChoice<Country> country = new DropDownChoice<Country>(Eater.COUNTRY, countryService.getAll());
         country.setRequired(true);
         country.setModel(new Model<Country>(userCountry));

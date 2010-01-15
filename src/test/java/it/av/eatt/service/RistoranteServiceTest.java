@@ -25,6 +25,7 @@ import it.av.eatt.ocm.model.Language;
 import it.av.eatt.ocm.model.Ristorante;
 import it.av.eatt.ocm.model.RistoranteDescriptionI18n;
 import it.av.eatt.ocm.model.RistorantePicture;
+import it.av.eatt.ocm.model.data.Country;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,16 +57,27 @@ public class RistoranteServiceTest {
     private EaterService userService;
     @Autowired
     private LanguageService languageService;
+    @Autowired
+    private CountryService countryService;
 
     private Eater user;
+    private Country nocountry;
 
     @Before
     public void setUp() {
+        nocountry = new Country("xx", "xxx", "test country");
+        countryService.save(nocountry);
+
         user = new Eater();
         user.setFirstname("Alessandro");
         user.setLastname("Vincelli");
         user.setPassword("secret");
         user.setEmail("a.ristoranteService@test.com");
+        user.setCountry(nocountry);
+        Language italian = new Language();
+        italian.setLanguage("xx");
+        italian.setCountry("xx");
+        languageService.save(italian);
 
         try {
             user = userService.addRegolarUser(user);
@@ -75,7 +87,7 @@ public class RistoranteServiceTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
 
         // user = userService.getByEmail(user.getEmail());
         // userService.remove(user);
@@ -128,10 +140,11 @@ public class RistoranteServiceTest {
         a = ristoranteService.getByID(a.getId());
         assertNotNull("A is null", a);
         assertEquals("Invalid value for test", "newName", a.getName());
-        
-        //add a picture
+
+        // add a picture
         RistorantePicture img = new RistorantePicture();
-        img.setPicture(FileUtils.readFileToByteArray(new File(this.getClass().getResource("images/test.png").getFile())));
+        img.setPicture(FileUtils
+                .readFileToByteArray(new File(this.getClass().getResource("images/test.png").getFile())));
         a.addPicture(img);
         a = ristoranteService.update(a, user);
 

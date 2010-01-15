@@ -18,10 +18,10 @@ package it.av.eatt.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterProfile;
+import it.av.eatt.ocm.model.data.Country;
 
 import java.util.Collection;
 
@@ -31,7 +31,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -48,13 +47,18 @@ public class UserServiceTest {
     private EaterService userService;
     @Autowired
     private EaterProfileService userProfileService;
+    @Autowired
+    private CountryService countryService;
     private EaterProfile profile;
+    private Country nocountry;
 
     @Before
     public void setUp() throws YoueatException {
         profile = new EaterProfile();
         profile.setName("testProfile");
         profile = userProfileService.save(profile);
+        nocountry = new Country("xx", "xxx", "test country");
+        countryService.save(nocountry);
     }
 
     @After
@@ -72,6 +76,7 @@ public class UserServiceTest {
         a.setPassword("secret");
         a.setEmail("userServiceTest@test");
         a.setUserProfile(profile);
+        a.setCountry(nocountry);
 
         userService.add(a);
 
@@ -109,6 +114,7 @@ public class UserServiceTest {
         b.setPassword("secret");
         b.setEmail("userServiceTest@test.com");
         b.setUserProfile(profile);
+        b.setCountry(nocountry);
         b = userService.add(b);
         assertNotNull("A is null", b);
 
@@ -117,6 +123,8 @@ public class UserServiceTest {
         c.setLastname("Vincelli");
         c.setPassword("secret");
         c.setEmail("userServiceTest@test2.com");
+        c.setCountry(nocountry);
+        c.setUserProfile(profile);
         c = userService.addRegolarUser(c);
         assertNotNull("C is null", c);
 

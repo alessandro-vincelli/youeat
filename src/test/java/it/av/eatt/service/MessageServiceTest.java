@@ -17,10 +17,10 @@ package it.av.eatt.service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterProfile;
 import it.av.eatt.ocm.model.Message;
+import it.av.eatt.ocm.model.data.Country;
 
 import java.util.List;
 
@@ -49,12 +49,24 @@ public class MessageServiceTest {
     @Autowired
     @Qualifier("messageService")
     private MessageService messageService;
+    @Autowired
+    private CountryService countryService;
+    @Autowired
+    private EaterProfileService eaterProfileService;
     private EaterProfile profile;
     private Eater userB;
     private Eater userC;
+    
 
     @Before
-    public void setUp(){
+    public void setUp() {
+        EaterProfile eaterProfile = new EaterProfile();
+        eaterProfile.setName("ProfileTest");
+        eaterProfileService.save(eaterProfile);
+        
+        Country nocountry = new Country("xx", "xxx", "test country");
+        countryService.save(nocountry);
+        
         profile = new EaterProfile();
         profile.setName("testProfile");
         profile = userProfileService.save(profile);
@@ -64,6 +76,8 @@ public class MessageServiceTest {
         userB.setPassword("secret");
         userB.setEmail("userServiceTest@test.com");
         userB.setUserProfile(profile);
+        userB.setCountry(nocountry);
+        userB.setUserProfile(eaterProfile);
         userB = userService.add(userB);
         assertNotNull("A is null", userB);
 
@@ -72,6 +86,8 @@ public class MessageServiceTest {
         userC.setLastname("Vincelli");
         userC.setPassword("secret");
         userC.setEmail("userServiceTest@test2.com");
+        userC.setCountry(nocountry);
+        userC.setUserProfile(eaterProfile);
         userC = userService.addRegolarUser(userC);
         assertNotNull("C is null", userC);
 
@@ -93,29 +109,57 @@ public class MessageServiceTest {
         msg = messageService.send(msg);
         assertNotNull(msg);
         assertNotNull(msg.getId());
-        assertTrue(!msg.isReceived());
 
         List<Message> msgsRcv = messageService.findReceived(userC);
         assertTrue("The messages received are not 1", msgsRcv.size() == 1);
         msg = msgsRcv.get(0);
         assertTrue(msg.getBody() == "body");
-        assertTrue(msg.isReceived());
-        messageService.delete(msg);
+        messageService.delete(msg, userC);
         msgsRcv = messageService.findReceivedDeleted(userC);
         assertTrue("The messages received deleted are not 1", msgsRcv.size() == 1);
-        messageService.purge(msg);
-        msgsRcv = messageService.findReceived(userC);
-        assertTrue("The messages received deleted are not 0", msgsRcv.size() == 0);
-
+        
         List<Message> msgsSent = messageService.findSent(userB);
         assertTrue("The messages sent are not 1", msgsSent.size() == 1);
         msg = msgsSent.get(0);
         assertTrue(msg.getBody() == "body");
-        assertTrue(!msg.isReceived());
         messageService.purge(msg);
         msgsSent = messageService.findSent(userC);
         assertTrue("The messages received deleted are not 0", msgsSent.size() == 0);
 
     }
 
+    @Test
+    public void testReplyToMessage() {
+
+        Message msg = new Message();
+        msg.setSender(userB);
+        msg.setReceiver(userC);
+        msg.setBody("body");
+        msg.setTitle("title");
+        msg = messageService.send(msg);
+        assertNotNull(msg);
+        assertNotNull(msg.getId());
+
+        Message newMsg = new Message();
+        newMsg.setSender(userC);
+        newMsg.setReceiver(userB);
+        newMsg.setBody("body reply");
+        newMsg.setTitle("title reply");
+        newMsg = messageService.reply(newMsg, msg);
+
+        assertNotNull(newMsg);
+        assertNotNull(newMsg.getId());
+
+        List<Message> msgsRcv = messageService.findReceived(userB);
+        assertTrue("The messages received are not 1", msgsRcv.size() == 1);
+        msg = msgsRcv.get(0);
+        assertTrue(msg.getBody() == "body reply");
+        assertNotNull(msg.getReplyto());
+
+        msgsRcv = messageService.findReceived(userC);
+        assertTrue("The messages received are not 1", msgsRcv.size() == 1);
+        msg = msgsRcv.get(0);
+        assertTrue(msg.getBody() == "body");
+        assertNotNull(msg.getReplyfrom());
+    }
 }

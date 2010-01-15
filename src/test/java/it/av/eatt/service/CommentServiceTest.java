@@ -18,7 +18,9 @@ package it.av.eatt.service;
 import static org.junit.Assert.assertEquals;
 import it.av.eatt.ocm.model.Comment;
 import it.av.eatt.ocm.model.Eater;
+import it.av.eatt.ocm.model.EaterProfile;
 import it.av.eatt.ocm.model.Ristorante;
+import it.av.eatt.ocm.model.data.Country;
 import it.av.eatt.ocm.util.DateUtil;
 
 import org.junit.Test;
@@ -42,15 +44,26 @@ public class CommentServiceTest {
     private RistoranteService ristoranteService;
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private CountryService countryService;
+    @Autowired EaterProfileService eaterProfileService;
     
     @Test
     public void testUsersBasic() {
+        EaterProfile eaterProfile = new EaterProfile();
+        eaterProfile.setName("ProfileTest");
+        eaterProfileService.save(eaterProfile);
+
+        Country nocountry = new Country("xx", "xxx", "test country");
+        countryService.save(nocountry);
 
         Eater a = new Eater();
         a.setFirstname("Alessandro");
         a.setLastname("Vincelli");
         a.setPassword("secret");
         a.setEmail("a.commentService@test.com");
+        a.setCountry(nocountry);
+        a.setUserProfile(eaterProfile);
         a = userService.addRegolarUser(a);
 
         Ristorante rist = new Ristorante();

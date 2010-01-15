@@ -21,6 +21,7 @@ import it.av.eatt.YoueatException;
 import it.av.eatt.ocm.model.Eater;
 import it.av.eatt.ocm.model.EaterProfile;
 import it.av.eatt.ocm.model.EaterRelation;
+import it.av.eatt.ocm.model.data.Country;
 
 import java.util.Collection;
 
@@ -48,12 +49,19 @@ public class UserRelationServiceTest {
     private EaterProfileService userProfileService;
     @Autowired
     private EaterRelationService userRelationService;
+    @Autowired
+    private CountryService countryService;
     private EaterProfile profile;
     private Eater a;
     private Eater b;
+    private Country nocountry;
 
     @Before
     public void setUp() throws YoueatException {
+
+        nocountry = new Country("xx", "xxx", "test country");
+        countryService.save(nocountry);
+
         profile = new EaterProfile();
         profile.setName("testProfile");
         profile = userProfileService.save(profile);
@@ -64,6 +72,7 @@ public class UserRelationServiceTest {
         a.setPassword("secret");
         a.setEmail("a.userRelationService@test.com");
         a.setUserProfile(profile);
+        a.setCountry(nocountry);
         a = userService.add(a);
         assertNotNull("A is null", a);
 
@@ -73,6 +82,7 @@ public class UserRelationServiceTest {
         b.setPassword("secret");
         b.setEmail("m.userRelationService@test2.com");
         b.setUserProfile(profile);
+        b.setCountry(nocountry);
         b = userService.add(b);
         assertNotNull("B is null", b);
     }

@@ -517,9 +517,9 @@
 	        <groupId>org.apache.maven.plugins</groupId>
 	        <artifactId>maven-project-info-reports-plugin</artifactId>
 	        <configuration>
-	          <webAccessUrl>https://eattogether.googlecode.com/svn/trunk/eattogether</webAccessUrl>
-	          <anonymousConnection>scm:svn:https://eattogether.googlecode.com/svn/trunk/eattogether</anonymousConnection>
-	          <developerConnection>scm:svn:https://eattogether.googlecode.com/svn/trunk/eattogether</developerConnection>
+	          <webAccessUrl>https://youeat.googlecode.com/svn/trunk</webAccessUrl>
+	          <anonymousConnection>scm:svn:https://youeat.googlecode.com/svn/trunk</anonymousConnection>
+	          <developerConnection>scm:svn:https://youeat.googlecode.com/svn/trunk</developerConnection>
 	        </configuration>
 	      </plugin>
 	      <plugin>

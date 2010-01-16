@@ -34,6 +34,21 @@ public class EaterProfile extends BasicEntity {
     private String name;
     private String description;
 
+    /**
+     * Constructor
+     */
+    public EaterProfile() {
+        super();
+    }
+
+    /**
+     * @param name
+     */
+    public EaterProfile(String name) {
+        super();
+        this.name = name;
+    }
+
     public final String getName() {
         return name;
     }

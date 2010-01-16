@@ -18,17 +18,10 @@ package it.av.youeat.service;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import it.av.youeat.ocm.model.Eater;
-import it.av.youeat.ocm.model.EaterProfile;
 import it.av.youeat.ocm.model.Message;
-import it.av.youeat.ocm.model.data.Country;
-import it.av.youeat.service.CountryService;
-import it.av.youeat.service.EaterProfileService;
-import it.av.youeat.service.EaterService;
-import it.av.youeat.service.MessageService;
 
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,46 +36,29 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
-public class MessageServiceTest {
+public class MessageServiceTest extends YoueatTest{
 
     @Autowired
     @Qualifier("userService")
     private EaterService userService;
     @Autowired
-    private EaterProfileService userProfileService;
-    @Autowired
     @Qualifier("messageService")
     private MessageService messageService;
-    @Autowired
-    private CountryService countryService;
-    @Autowired
-    private EaterProfileService eaterProfileService;
-    private EaterProfile profile;
+    
     private Eater userB;
     private Eater userC;
     
 
     @Before
     public void setUp() {
-        EaterProfile eaterProfile = new EaterProfile();
-        eaterProfile.setName("ProfileTest");
-        eaterProfileService.save(eaterProfile);
-        
-        Country nocountry = new Country("xx", "xxx", "test country");
-        countryService.save(nocountry);
-        
-        profile = new EaterProfile();
-        profile.setName("testProfile");
-        profile = userProfileService.save(profile);
+        super.setUp();    
         userB = new Eater();
         userB.setFirstname("Alessandro");
         userB.setLastname("Vincelli");
         userB.setPassword("secret");
         userB.setEmail("userServiceTest@test.com");
-        userB.setUserProfile(profile);
-        userB.setCountry(nocountry);
-        userB.setUserProfile(eaterProfile);
-        userB = userService.add(userB);
+        userB.setCountry(getNocountry());
+        userB = userService.addRegolarUser(userB);
         assertNotNull("A is null", userB);
 
         userC = new Eater();
@@ -90,18 +66,12 @@ public class MessageServiceTest {
         userC.setLastname("Vincelli");
         userC.setPassword("secret");
         userC.setEmail("userServiceTest@test2.com");
-        userC.setCountry(nocountry);
-        userC.setUserProfile(eaterProfile);
+        userC.setCountry(getNocountry());
         userC = userService.addRegolarUser(userC);
         assertNotNull("C is null", userC);
-
     }
 
-    @After
-    public void tearDown() {
-        userProfileService.remove(profile);
-    }
-
+    
     @Test
     public void testMessageBasic() {
 

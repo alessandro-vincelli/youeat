@@ -16,7 +16,6 @@
 package it.av.youeat.service;
 
 import it.av.youeat.YoueatException;
-import it.av.youeat.service.DataRistoranteService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

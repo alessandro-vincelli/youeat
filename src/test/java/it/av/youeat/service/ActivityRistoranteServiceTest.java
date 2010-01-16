@@ -4,16 +4,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import it.av.youeat.ocm.model.ActivityRistorante;
 import it.av.youeat.ocm.model.Eater;
-import it.av.youeat.ocm.model.EaterProfile;
 import it.av.youeat.ocm.model.EaterRelation;
 import it.av.youeat.ocm.model.Ristorante;
-import it.av.youeat.ocm.model.data.Country;
-import it.av.youeat.service.ActivityRistoranteService;
-import it.av.youeat.service.CountryService;
-import it.av.youeat.service.EaterProfileService;
-import it.av.youeat.service.EaterRelationService;
-import it.av.youeat.service.EaterService;
-import it.av.youeat.service.RistoranteService;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -36,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
-public class ActivityRistoranteServiceTest {
+public class ActivityRistoranteServiceTest extends YoueatTest{
     @Autowired
     @Qualifier("activityRistoranteService")
     private ActivityRistoranteService activityRistoranteService;
@@ -48,32 +40,21 @@ public class ActivityRistoranteServiceTest {
     private EaterRelationService userRelationService;
     @Autowired
     private RistoranteService ristoranteService;
-    @Autowired
-    private CountryService countryService;
-    @Autowired
-    private EaterProfileService eaterProfileService;
     private Eater user;
     private Eater userFriend;
     private Ristorante risto;
-    private Country nocountry;
+   
 
     @Before
     @Transactional
     public void setUp() {
-        EaterProfile eaterProfile = new EaterProfile();
-        eaterProfile.setName("ProfileTest");
-        eaterProfileService.save(eaterProfile);
-
-        nocountry = new Country("xx", "xxx", "test country");
-        countryService.save(nocountry);
-
+        super.setUp();
         user = new Eater();
         user.setFirstname("Alessandro");
         user.setLastname("Vincelli");
         user.setPassword("secret");
         user.setEmail("a.test@test.test");
-        user.setCountry(nocountry);
-        user.setUserProfile(eaterProfile);
+        user.setCountry(getNocountry());
         user = userService.addRegolarUser(user);
         assertNotNull("user is null", user);
 
@@ -82,8 +63,7 @@ public class ActivityRistoranteServiceTest {
         userFriend.setLastname("Giansanti");
         userFriend.setPassword("secret");
         userFriend.setEmail("userfriend.test@test.test");
-        userFriend.setCountry(nocountry);
-        userFriend.setUserProfile(eaterProfile);
+        userFriend.setCountry(getNocountry());
         userFriend = userService.addRegolarUser(userFriend);
         assertNotNull("userFriend is null", userFriend);
 

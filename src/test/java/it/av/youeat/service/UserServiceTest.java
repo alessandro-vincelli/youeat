@@ -20,15 +20,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
-import it.av.youeat.ocm.model.EaterProfile;
-import it.av.youeat.ocm.model.data.Country;
-import it.av.youeat.service.CountryService;
-import it.av.youeat.service.EaterProfileService;
-import it.av.youeat.service.EaterService;
 
 import java.util.Collection;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,30 +37,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
-public class UserServiceTest {
+public class UserServiceTest extends YoueatTest {
 
     @Autowired
     @Qualifier("userService")
     private EaterService userService;
-    @Autowired
-    private EaterProfileService userProfileService;
-    @Autowired
-    private CountryService countryService;
-    private EaterProfile profile;
-    private Country nocountry;
 
     @Before
-    public void setUp() throws YoueatException {
-        profile = new EaterProfile();
-        profile.setName("testProfile");
-        profile = userProfileService.save(profile);
-        nocountry = new Country("xx", "xxx", "test country");
-        countryService.save(nocountry);
-    }
-
-    @After
-    public void tearDown() throws YoueatException {
-        userProfileService.remove(profile);
+    public void setUp() {
+        super.setUp();
     }
 
     @Test
@@ -78,8 +57,8 @@ public class UserServiceTest {
         a.setLastname("Vincelli");
         a.setPassword("secret");
         a.setEmail("userServiceTest@test");
-        a.setUserProfile(profile);
-        a.setCountry(nocountry);
+        a.setUserProfile(getProfile());
+        a.setCountry(getNocountry());
 
         userService.add(a);
 
@@ -116,8 +95,8 @@ public class UserServiceTest {
         b.setLastname("Vincelli");
         b.setPassword("secret");
         b.setEmail("userServiceTest@test.com");
-        b.setUserProfile(profile);
-        b.setCountry(nocountry);
+        b.setUserProfile(getProfile());
+        b.setCountry(getNocountry());
         b = userService.add(b);
         assertNotNull("A is null", b);
 
@@ -126,8 +105,7 @@ public class UserServiceTest {
         c.setLastname("Vincelli");
         c.setPassword("secret");
         c.setEmail("userServiceTest@test2.com");
-        c.setCountry(nocountry);
-        c.setUserProfile(profile);
+        c.setCountry(getNocountry());
         c = userService.addRegolarUser(c);
         assertNotNull("C is null", c);
 

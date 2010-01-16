@@ -18,16 +18,10 @@ package it.av.youeat.service;
 import static org.junit.Assert.assertEquals;
 import it.av.youeat.ocm.model.Comment;
 import it.av.youeat.ocm.model.Eater;
-import it.av.youeat.ocm.model.EaterProfile;
 import it.av.youeat.ocm.model.Ristorante;
-import it.av.youeat.ocm.model.data.Country;
 import it.av.youeat.ocm.util.DateUtil;
-import it.av.youeat.service.CommentService;
-import it.av.youeat.service.CountryService;
-import it.av.youeat.service.EaterProfileService;
-import it.av.youeat.service.EaterService;
-import it.av.youeat.service.RistoranteService;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
-public class CommentServiceTest {
+public class CommentServiceTest extends YoueatTest{
     @Autowired
     @Qualifier("userService")
     private EaterService userService;
@@ -49,26 +43,21 @@ public class CommentServiceTest {
     private RistoranteService ristoranteService;
     @Autowired
     private CommentService commentService;
-    @Autowired
-    private CountryService countryService;
-    @Autowired EaterProfileService eaterProfileService;
+    
+    @Before
+    @Transactional
+    public void setUp() {
+        super.setUp();
+    }
     
     @Test
-    public void testUsersBasic() {
-        EaterProfile eaterProfile = new EaterProfile();
-        eaterProfile.setName("ProfileTest");
-        eaterProfileService.save(eaterProfile);
-
-        Country nocountry = new Country("xx", "xxx", "test country");
-        countryService.save(nocountry);
-
+    public void testCommentsBasic() {
         Eater a = new Eater();
         a.setFirstname("Alessandro");
         a.setLastname("Vincelli");
         a.setPassword("secret");
         a.setEmail("a.commentService@test.com");
-        a.setCountry(nocountry);
-        a.setUserProfile(eaterProfile);
+        a.setCountry(getNocountry());
         a = userService.addRegolarUser(a);
 
         Ristorante rist = new Ristorante();

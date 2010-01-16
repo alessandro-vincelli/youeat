@@ -12,7 +12,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.EaterProfile;
-import it.av.youeat.service.EaterProfileService;
 
 import java.util.Collection;
 

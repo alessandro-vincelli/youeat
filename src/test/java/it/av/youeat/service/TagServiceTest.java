@@ -20,7 +20,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Tag;
-import it.av.youeat.service.TagService;
 
 import java.util.List;
 

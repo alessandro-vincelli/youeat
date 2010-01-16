@@ -16,7 +16,6 @@
 package it.av.youeat.service;
 
 import static org.junit.Assert.assertTrue;
-import it.av.youeat.service.EaterService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

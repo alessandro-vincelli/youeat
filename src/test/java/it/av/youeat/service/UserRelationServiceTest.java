@@ -19,13 +19,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
-import it.av.youeat.ocm.model.EaterProfile;
 import it.av.youeat.ocm.model.EaterRelation;
-import it.av.youeat.ocm.model.data.Country;
-import it.av.youeat.service.CountryService;
-import it.av.youeat.service.EaterProfileService;
-import it.av.youeat.service.EaterRelationService;
-import it.av.youeat.service.EaterService;
 
 import java.util.Collection;
 
@@ -44,40 +38,28 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
-public class UserRelationServiceTest {
+public class UserRelationServiceTest extends YoueatTest{
 
     @Autowired
     @Qualifier("userService")
     private EaterService userService;
     @Autowired
-    private EaterProfileService userProfileService;
-    @Autowired
     private EaterRelationService userRelationService;
-    @Autowired
-    private CountryService countryService;
-    private EaterProfile profile;
+    
     private Eater a;
     private Eater b;
-    private Country nocountry;
+    ;
 
     @Before
-    public void setUp() throws YoueatException {
-
-        nocountry = new Country("xx", "xxx", "test country");
-        countryService.save(nocountry);
-
-        profile = new EaterProfile();
-        profile.setName("testProfile");
-        profile = userProfileService.save(profile);
-
+    public void setUp(){
+        super.setUp();
         a = new Eater();
         a.setFirstname("Alessandro");
         a.setLastname("Vincelli");
         a.setPassword("secret");
         a.setEmail("a.userRelationService@test.com");
-        a.setUserProfile(profile);
-        a.setCountry(nocountry);
-        a = userService.add(a);
+        a.setCountry(getNocountry());
+        a = userService.addRegolarUser(a);
         assertNotNull("A is null", a);
 
         b = new Eater();
@@ -85,15 +67,13 @@ public class UserRelationServiceTest {
         b.setLastname("Vincelli");
         b.setPassword("secret");
         b.setEmail("m.userRelationService@test2.com");
-        b.setUserProfile(profile);
-        b.setCountry(nocountry);
-        b = userService.add(b);
+        b.setCountry(getNocountry());
+        b = userService.addRegolarUser(b);
         assertNotNull("B is null", b);
     }
 
     @After
     public void tearDown() throws YoueatException {
-        userProfileService.remove(profile);
         userService.remove(a);
         userService.remove(b);
     }

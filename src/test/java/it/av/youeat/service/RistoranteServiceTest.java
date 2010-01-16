@@ -25,11 +25,6 @@ import it.av.youeat.ocm.model.Language;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.RistoranteDescriptionI18n;
 import it.av.youeat.ocm.model.RistorantePicture;
-import it.av.youeat.ocm.model.data.Country;
-import it.av.youeat.service.CountryService;
-import it.av.youeat.service.EaterService;
-import it.av.youeat.service.LanguageService;
-import it.av.youeat.service.RistoranteService;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +48,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
-public class RistoranteServiceTest {
+public class RistoranteServiceTest extends YoueatTest {
     @Autowired
     private RistoranteService ristoranteService;
     @Autowired
@@ -61,33 +56,25 @@ public class RistoranteServiceTest {
     private EaterService userService;
     @Autowired
     private LanguageService languageService;
-    @Autowired
-    private CountryService countryService;
 
     private Eater user;
-    private Country nocountry;
 
     @Before
     public void setUp() {
-        nocountry = new Country("xx", "xxx", "test country");
-        countryService.save(nocountry);
+        super.setUp();
 
         user = new Eater();
         user.setFirstname("Alessandro");
         user.setLastname("Vincelli");
         user.setPassword("secret");
         user.setEmail("a.ristoranteService@test.com");
-        user.setCountry(nocountry);
+        user.setCountry(getNocountry());
         Language italian = new Language();
         italian.setLanguage("xx");
         italian.setCountry("xx");
         languageService.save(italian);
+        user = userService.addRegolarUser(user);
 
-        try {
-            user = userService.addRegolarUser(user);
-        } catch (YoueatException e) {
-            fail(e.getMessage());
-        }
     }
 
     @After

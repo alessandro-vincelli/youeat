@@ -17,6 +17,7 @@ package it.av.youeat.service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import it.av.youeat.ocm.model.Dialog;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 
@@ -36,22 +37,20 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
-public class MessageServiceTest extends YoueatTest{
+public class MessageServiceTest extends YoueatTest {
 
     @Autowired
     @Qualifier("userService")
     private EaterService userService;
     @Autowired
-    @Qualifier("messageService")
-    private MessageService messageService;
-    
+    private DialogService dialogService;
+
     private Eater userB;
     private Eater userC;
-    
 
     @Before
     public void setUp() {
-        super.setUp();    
+        super.setUp();
         userB = new Eater();
         userB.setFirstname("Alessandro");
         userB.setLastname("Vincelli");
@@ -71,69 +70,34 @@ public class MessageServiceTest extends YoueatTest{
         assertNotNull("C is null", userC);
     }
 
-    
     @Test
     public void testMessageBasic() {
-
         Message msg = new Message();
         msg.setSender(userB);
-        msg.setReceiver(userC);
         msg.setBody("body");
         msg.setTitle("title");
-        msg = messageService.send(msg);
-        assertNotNull(msg);
-        assertNotNull(msg.getId());
-
-        List<Message> msgsRcv = messageService.findReceived(userC);
-        assertTrue("The messages received are not 1", msgsRcv.size() == 1);
-        msg = msgsRcv.get(0);
-        assertTrue(msg.getBody() == "body");
-        messageService.delete(msg, userC);
-        msgsRcv = messageService.findReceivedDeleted(userC);
-        assertTrue("The messages received deleted are not 1", msgsRcv.size() == 1);
         
-        List<Message> msgsSent = messageService.findSent(userB);
-        assertTrue("The messages sent are not 1", msgsSent.size() == 1);
-        msg = msgsSent.get(0);
-        assertTrue(msg.getBody() == "body");
-        messageService.purge(msg);
-        msgsSent = messageService.findSent(userC);
-        assertTrue("The messages received deleted are not 0", msgsSent.size() == 0);
-
+        Dialog dialog = dialogService.startNewDialog(userB, userC, msg);
+        assertTrue("Created null dialog", dialog != null);
+        assertTrue("Created dialog without creation time", dialog.getCreationTime() != null);
+        assertTrue("Created dialog without sender", dialog.getReceiver() != null);
+        assertTrue("Created dialog without receiver", dialog.getSender() != null);
+        assertTrue("Created dialog without messages", dialog.getMessages() != null);
+        assertTrue("Created dialog without messages", dialog.getMessages().size() == 1);
+        
+        Message msg2 = new Message();
+        msg2.setSender(userC);
+        msg2.setBody("body2");
+        msg2.setTitle("title2");
+        
+        dialog = dialogService.reply(msg2, dialog);
+        assertTrue("Dialog contains wrong number of messages", dialog.getMessages().size() == 2);
+        assertTrue(dialog.equals(dialog.getMessages().first().getDialog()));
+        List<Dialog> dialogs = dialogService.getDialogs(userB);
+        assertTrue("dialogs list empty", dialogs.size() == 1);
+        
+        dialogs = dialogService.getDialogs(userC);
+        assertTrue("dialogs list empty", dialogs.size() == 1);
     }
 
-    @Test
-    public void testReplyToMessage() {
-
-        Message msg = new Message();
-        msg.setSender(userB);
-        msg.setReceiver(userC);
-        msg.setBody("body");
-        msg.setTitle("title");
-        msg = messageService.send(msg);
-        assertNotNull(msg);
-        assertNotNull(msg.getId());
-
-        Message newMsg = new Message();
-        newMsg.setSender(userC);
-        newMsg.setReceiver(userB);
-        newMsg.setBody("body reply");
-        newMsg.setTitle("title reply");
-        newMsg = messageService.reply(newMsg, msg);
-
-        assertNotNull(newMsg);
-        assertNotNull(newMsg.getId());
-
-        List<Message> msgsRcv = messageService.findReceived(userB);
-        assertTrue("The messages received are not 1", msgsRcv.size() == 1);
-        msg = msgsRcv.get(0);
-        assertTrue(msg.getBody() == "body reply");
-        assertNotNull(msg.getReplyto());
-
-        msgsRcv = messageService.findReceived(userC);
-        assertTrue("The messages received are not 1", msgsRcv.size() == 1);
-        msg = msgsRcv.get(0);
-        assertTrue(msg.getBody() == "body");
-        assertNotNull(msg.getReplyfrom());
-    }
 }

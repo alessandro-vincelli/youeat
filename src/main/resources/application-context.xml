@@ -154,6 +154,8 @@
 	
 	<bean id="messageService" class="it.av.youeat.service.impl.MessageServiceHibernate" parent="jpaDaoSupport"/>
 	
+	<bean id="dialogService" class="it.av.youeat.service.impl.DialogServiceHibernate" parent="jpaDaoSupport"/>
+	
 	<bean id="ristorantePictureHibernate" class="it.av.youeat.service.impl.RistorantePictureHibernate" parent="jpaDaoSupport"/>
 
 	<bean id="repositoryInitStructure" class="it.av.youeat.repo.util.RepositoryInitStructureImpl"/>

@@ -15,11 +15,7 @@
  */
 package it.av.youeat.service;
 
-import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
-
-import java.util.Date;
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,87 +31,11 @@ import org.springframework.transaction.annotation.Transactional;
 public interface MessageService {
 
     /**
-     * Send a message, store two message in the DB.<br>
-     * One of the message is saved has <i>isReceived=true</i>.
+     * Mark a message as read if unread
      * 
-     * @param message to send
-     * @return the sent message
+     * @param msg the message to mark
+     * @return just mrked message
      */
     @Transactional
-    Message send(Message message);
-
-    /**
-     * Reply to a message, store two message in the DB.<br>
-     * One of the message is saved has <i>isReceived=true</i>.<br>
-     * The <i>receivedMessage.replyfrom</i> is set with the given <i>message</i>
-     * 
-     * @param message message to send
-     * @param receivedMessage the message to be replied
-     * @return the sent message
-     */
-    @Transactional
-    Message reply(Message message, Message receivedMessage);
-
-    /**
-     * Return the activity on the given date
-     * 
-     * @param date
-     * @return activities on the given date
-     */
-    @Transactional(readOnly = true)
-    List<Message> findByDate(Date date);
-
-    /**
-     * Find messages received from the given user
-     * 
-     * @param eater
-     * @return message for the given user
-     */
-    @Transactional(readOnly = true)
-    List<Message> findReceived(Eater eater);
-
-    /**
-     * Find deleted messages received from the given user
-     * 
-     * @param eater
-     * @return message for the given user
-     */
-    @Transactional(readOnly = true)
-    List<Message> findReceivedDeleted(Eater eater);
-
-    /**
-     * Find messages sent by the given user
-     * 
-     * @param eater
-     * @return message for the given user
-     */
-    @Transactional(readOnly = true)
-    List<Message> findSent(Eater eater);
-
-    /**
-     * Find deleted messages sent by the given user
-     * 
-     * @param eater
-     * @return message for the given user
-     */
-    @Transactional(readOnly = true)
-    List<Message> findSentDeleted(Eater eater);
-
-    /**
-     * Remove logically the Message
-     * 
-     * @param message the message to delete
-     */
-    @Transactional
-    void purge(Message message);
-
-    /**
-     * Remove the message from the database
-     * 
-     * @param message the message to delete;
-     * @param eater one of the owner of the message
-     */
-    @Transactional
-    void delete(Message message, Eater eater);
-
+    public Message markMessageAsRead(Message msg);
 }

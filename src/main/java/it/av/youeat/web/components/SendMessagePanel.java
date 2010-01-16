@@ -2,14 +2,13 @@ package it.av.youeat.web.components;
 
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
-import it.av.youeat.service.MessageService;
+import it.av.youeat.service.DialogService;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.injection.web.InjectorHolder;
-import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
@@ -24,7 +23,7 @@ import org.springframework.util.Assert;
 public class SendMessagePanel extends Panel {
 
     @SpringBean
-    private MessageService messageService;
+    private DialogService dialogService;
 
     /**
      * 
@@ -32,7 +31,7 @@ public class SendMessagePanel extends Panel {
      * @param sender the sender of the message (not null)
      * @param recipient the recipient to send a message (not null)
      */
-    public SendMessagePanel(String id, final ModalWindow container, Eater sender, final Eater recipient) {
+    public SendMessagePanel(String id, final ModalWindow container, final Eater sender, final Eater recipient) {
         super(id);
         Assert.notNull(sender);
         Assert.notNull(recipient);
@@ -52,7 +51,6 @@ public class SendMessagePanel extends Panel {
         closeAfterSent.setVisible(false);
         add(closeAfterSent);
         Message msg = new Message();
-        msg.setReceiver(recipient);
         msg.setSender(sender);
         final Form<Message> sendMessageForm = new Form<Message>("sendMessageForm", new CompoundPropertyModel<Message>(
                 msg));
@@ -62,11 +60,10 @@ public class SendMessagePanel extends Panel {
                 .add(new TextField<String>("title").add(StringValidator.maximumLength(Message.TITLE_MAX_LENGTH)));
         sendMessageForm.add(new TextArea<String>("body").setRequired(true).add(
                 StringValidator.maximumLength(Message.BODY_MAX_LENGTH)));
-        sendMessageForm.add(new CheckBox("isPrivate"));
         sendMessageForm.add(new AjaxButton("submit", sendMessageForm) {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                messageService.send((Message) form.getModelObject());
+                dialogService.startNewDialog(sender, recipient, (Message) form.getModelObject());
                 feedbackPanelSMP.info(getString("message.messageSent", new Model<Eater>(recipient)));
                 target.addComponent(feedbackPanelSMP);
                 sendMessageForm.setVisible(false);

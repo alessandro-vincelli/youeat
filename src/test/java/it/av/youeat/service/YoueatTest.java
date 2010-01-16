@@ -21,10 +21,14 @@ public abstract class YoueatTest {
         profile = userProfileService.save(profile);
         nocountry = new Country("xx", "xxx", "test country");
         nocountry = countryService.save(nocountry);
-        EaterProfile userProfile = new EaterProfile("USER");
-        userProfile = userProfileService.save(userProfile);
-        EaterProfile adminProfile = new EaterProfile("ADMIN");
-        adminProfile = userProfileService.save(adminProfile);
+        if (userProfileService.getByName("USER") == null) {
+            EaterProfile userProfile = new EaterProfile("USER");
+            userProfile = userProfileService.save(userProfile);
+        }
+        if (userProfileService.getByName("ADMIN") == null) {
+            EaterProfile adminProfile = new EaterProfile("ADMIN");
+            adminProfile = userProfileService.save(adminProfile);
+        }
     }
 
     public EaterProfile getProfile() {

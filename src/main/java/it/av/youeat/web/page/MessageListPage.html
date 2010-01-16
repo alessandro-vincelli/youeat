@@ -6,13 +6,13 @@
     <span wicket:id="messagesListContainer">
     <div wicket:id="messagesList" class="friendsList">
     <div class="friendCenterColumn">
-    <div class="friendAvatar"><img src="#" ></img> </div>
+    <div class="friendAvatar"><img src="#" wicket:id="avatar"></img> </div>
     <div class="friendName"><strong><span wicket:id="title"></span></strong></div>
     <div class="friendStatus"><span wicket:id="sender"></span> <span wicket:id="sentTime"></span></div>
-    <div class="friendType"><span wicket:id="body"></span></div>
+    <div class="friendType"><a href="#" wicket:id="openMessage"><span wicket:id="body"></span></a></div>
     </div>
     <div class="friendRemoveButton">
-    <button wicket:id="reply"><span><wicket:message key="button.sendMessageToAFriend" /></span></button>
+    <button wicket:id="open"><span><wicket:message key="button.openMessage" /></span></button>
     <button wicket:id="remove"><span><wicket:message key="button.remove" /></span></button>
     </div>
     <!--<li style="padding: 10px;"><span wicket:id="toUser.userRelation"></span></li>-->

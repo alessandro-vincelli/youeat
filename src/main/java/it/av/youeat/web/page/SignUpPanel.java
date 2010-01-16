@@ -132,6 +132,7 @@ public class SignUpPanel extends Panel {
             }
         };
         goSignInAfterSignUp.setOutputMarkupId(true);
+        goSignInAfterSignUp.setOutputMarkupPlaceholderTag(true);
         goSignInAfterSignUp.setVisible(false);
         add(goSignInAfterSignUp);
 
@@ -205,7 +206,10 @@ public class SignUpPanel extends Panel {
                         .error(new StringResourceModel("error.operationNotPermitted", this, null).getString());
             }
             if (target != null) {
-                target.addComponent(getPage());
+                target.addComponent(getFeedbackPanel());
+                target.addComponent(signUpForm);
+                target.addComponent(goSignInAfterSignUp);
+                target.addComponent(this);
             }
         }
 

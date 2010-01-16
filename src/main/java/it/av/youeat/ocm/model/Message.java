@@ -17,12 +17,10 @@ package it.av.youeat.ocm.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -41,14 +39,17 @@ public class Message extends BasicEntity {
     public static final String SENTTIME_FIELD = "sentTime";
     public static final String READTIME_FIELD = "readTime";
     public static final String SENDER_FIELD = "sender";
-    public static final String RECEIVER_FIELD = "receiver";
-    public static final String DELETED_FROM_RECEIVER_FIELD = "deletedFromReceiver";
-    public static final String DELETED_FROM_SENDER_FIELD = "deletedFromSender";
-    public static final String ISPRIVATE_FIELD = "isPrivate";
+    
 
     public static final int BODY_MAX_LENGTH = 10000;
     public static final int TITLE_MAX_LENGTH = 160;
-
+    
+    @ManyToOne
+    @JoinColumn(name="dialog_id", insertable=false, updatable=false, nullable=false)
+    private Dialog dialog;
+    @ManyToOne
+    @ForeignKey(name = "message_to_sender_author_fk")
+    private Eater sender;
     @Column(length = TITLE_MAX_LENGTH)
     private String title;
     @Column(length = BODY_MAX_LENGTH)
@@ -58,31 +59,7 @@ public class Message extends BasicEntity {
     private Date sentTime;
     @Temporal(TemporalType.TIMESTAMP)
     private Date readTime;
-    /**
-     * to logic delete for sender
-     */
-    private boolean deletedFromSender;
-    /**
-     * to logic delete for receiver
-     */
-    private boolean deletedFromReceiver;
-    private boolean isPrivate;
     
-    @ManyToOne
-    @ForeignKey(name = "message_to_sender_author_fk")
-    private Eater sender;
-
-    @ManyToOne
-    @ForeignKey(name = "message_to_receiver_author_fk")
-    private Eater receiver;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "replyfrom_fk")
-    private Message replyto;
-
-    @OneToOne(mappedBy = "replyto")
-    private Message replyfrom;
-
     /**
      * the default constructor
      */
@@ -122,22 +99,6 @@ public class Message extends BasicEntity {
         this.readTime = readTime;
     }
 
-    public boolean isDeletedFromSender() {
-        return deletedFromSender;
-    }
-
-    public void setDeletedFromSender(boolean deletedFromSender) {
-        this.deletedFromSender = deletedFromSender;
-    }
-
-    public boolean isDeletedFromReceiver() {
-        return deletedFromReceiver;
-    }
-
-    public void setDeletedFromReceiver(boolean deletedFromReceiver) {
-        this.deletedFromReceiver = deletedFromReceiver;
-    }
-
     public Eater getSender() {
         return sender;
     }
@@ -146,36 +107,12 @@ public class Message extends BasicEntity {
         this.sender = sender;
     }
 
-    public Eater getReceiver() {
-        return receiver;
+    public Dialog getDialog() {
+        return dialog;
     }
 
-    public void setReceiver(Eater receiver) {
-        this.receiver = receiver;
-    }
-
-    public boolean isPrivate() {
-        return isPrivate;
-    }
-
-    public void setPrivate(boolean isPrivate) {
-        this.isPrivate = isPrivate;
-    }
-
-    public Message getReplyto() {
-        return replyto;
-    }
-
-    public void setReplyto(Message replyto) {
-        this.replyto = replyto;
-    }
-
-    public Message getReplyfrom() {
-        return replyfrom;
-    }
-
-    public void setReplyfrom(Message replyfrom) {
-        this.replyfrom = replyfrom;
+    public void setDialog(Dialog dialog) {
+        this.dialog = dialog;
     }
 
 }

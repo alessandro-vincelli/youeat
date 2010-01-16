@@ -16,13 +16,16 @@
 package it.av.youeat.web.page;
 
 import it.av.youeat.YoueatException;
+import it.av.youeat.ocm.model.Dialog;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
-import it.av.youeat.service.MessageService;
-import it.av.youeat.web.components.SendMessagePanel;
+import it.av.youeat.service.DialogService;
+import it.av.youeat.web.components.ImagesAvatar;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
@@ -31,6 +34,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -46,7 +50,7 @@ public class MessageListPage extends BasePage {
 
     private static final long serialVersionUID = 1L;
     @SpringBean
-    private MessageService messageService;
+    private DialogService dialogService;
     private PropertyListView<Message> messageList;
     private List<Message> allMessages;
 
@@ -58,7 +62,7 @@ public class MessageListPage extends BasePage {
     public MessageListPage() throws YoueatException {
         super();
         add(getFeedbackPanel());
-        allMessages = messageService.findReceived(getLoggedInUser());
+        allMessages = getLastMessages();
         final Label noYetFriends = new Label("noYetMessages", getString("noYetFriends")) {
             @Override
             protected void onBeforeRender() {
@@ -96,18 +100,21 @@ public class MessageListPage extends BasePage {
             @Override
             protected void populateItem(final ListItem<Message> item) {
                 Eater sender = item.getModelObject().getSender();
+                item.add(ImagesAvatar.getAvatar("avatar", sender, this.getPage(), true));
                 item.add(new Label(Message.SENDER_FIELD));
                 item.add(new Label(Message.SENTTIME_FIELD));
-                item.add(new Label(Message.BODY_FIELD));
                 item.add(new Label(Message.TITLE_FIELD));
+                item.add(new OpenMessage("openMessage", new Model<Message>(item.getModelObject()), item).add(new Label(
+                        Message.BODY_FIELD)));
                 item.add(new AjaxFallbackLink<Message>("remove", new Model<Message>(item.getModelObject())) {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void onClick(AjaxRequestTarget target) {
                         try {
-                            ((MessageListPage) getPage()).messageService.delete(getModelObject(), getLoggedInUser());
-                            allMessages = messageService.findReceived(getLoggedInUser());
+                            ((MessageListPage) getPage()).dialogService.delete(getModelObject().getDialog(),
+                                    getLoggedInUser());
+                            allMessages = getLastMessages();
                             ((MessageListPage) target.getPage()).messageList.setModelObject(allMessages);
                             noYetFriends.setVisible(allMessages.size() == 0);
                             info(getString("info.userRelationRemoved"));
@@ -122,20 +129,7 @@ public class MessageListPage extends BasePage {
                         }
                     }
                 });
-                item.add(new AjaxFallbackLink<Message>("reply", new Model<Message>(item.getModelObject())) {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void onClick(AjaxRequestTarget target) {
-                        sendMessageMW.setContent(new SendMessagePanel(sendMessageMW.getContentId(), sendMessageMW,
-                                getLoggedInUser(), getModelObject().getSender()));
-                        sendMessageMW.setTitle(getString("mw.sendMessageTitle", new Model<Eater>(getModelObject()
-                                .getSender())));
-
-                        sendMessageMW.show(target);
-                    }
-                });
-
+                item.add(new OpenMessage("open", new Model<Message>(item.getModelObject()), item));
             }
         };
         friendsListContainer.add(messageList);
@@ -145,6 +139,35 @@ public class MessageListPage extends BasePage {
                 setResponsePage(SearchFriendPage.class);
             }
         });
+    }
 
+    /**
+     * get the last messages for all the dialogs of the logged user
+     * 
+     * @return list of messages
+     */
+    private List<Message> getLastMessages() {
+        List<Dialog> dialogs = dialogService.getDialogs(getLoggedInUser());
+        List<Message> messages = new ArrayList<Message>(dialogs.size());
+        for (Dialog dialog : dialogs) {
+            messages.add(dialog.getMessages().last());
+        }
+        return messages;
+    }
+
+    private final class OpenMessage extends AjaxFallbackLink<Message> {
+        private final ListItem<Message> item;
+
+        private OpenMessage(String id, IModel<Message> model, ListItem<Message> item) {
+            super(id, model);
+            this.item = item;
+        }
+
+        @Override
+        public void onClick(AjaxRequestTarget target) {
+            PageParameters pp = new PageParameters();
+            pp.add(YoueatHttpParams.PARAM_DIALOG_ID, item.getModelObject().getDialog().getId());
+            setResponsePage(MessagePage.class, pp);
+        }
     }
 }

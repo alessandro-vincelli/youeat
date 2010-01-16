@@ -24,6 +24,8 @@ import it.av.youeat.service.EaterService;
 import it.av.youeat.web.commons.ActivityCommons;
 import it.av.youeat.web.commons.ActivityPaging;
 import it.av.youeat.web.commons.YoueatHttpParams;
+import it.av.youeat.web.components.SendMessageButton;
+import it.av.youeat.web.components.SendMessageModalWindow;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,6 +35,7 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -47,7 +50,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
 @AuthorizeInstantiation( { "USER" })
-public class UserViewPage extends BasePage {
+public class EaterViewPage extends BasePage {
     private static final long serialVersionUID = 1L;
     @SpringBean(name = "activityRistoranteService")
     private ActivityRistoranteService activityRistoranteService;
@@ -59,18 +62,17 @@ public class UserViewPage extends BasePage {
     private WebMarkupContainer activitiesListContainer;
     private PropertyListView<ActivityRistorante> activitiesList;
     Collection<ActivityRistorante> friendsActivities;
-
-
-    public UserViewPage(PageParameters pageParameters) throws YoueatException {
+    
+    public EaterViewPage(PageParameters pageParameters) throws YoueatException {
         if (!pageParameters.containsKey(YoueatHttpParams.USER_ID)) {
             throw new YoueatException("Missing user id");
         }
 
-        String eaterId = pageParameters.getString(YoueatHttpParams.USER_ID, "");        
+        String eaterId = pageParameters.getString(YoueatHttpParams.USER_ID, "");
         Eater eater = eaterService.getByID(eaterId);
 
-        add(new Label("eater", eater.getFirstname() + " "+ eater.getLastname()));
-        
+        add(new Label("eater", eater.getFirstname() + " " + eater.getLastname()));
+
         // User activities
         try {
             activities = activityRistoranteService.findByUser(eater, activityPagingUser.getFirstResult(),
@@ -115,5 +117,8 @@ public class UserViewPage extends BasePage {
             }
         };
         activitiesListContainer.add(moreActivitiesLink);
+        final ModalWindow sendMessageMW = SendMessageModalWindow.getNewModalWindow("sendMessagePanel");
+        add(sendMessageMW);
+        add(new SendMessageButton("sendMessage", getLoggedInUser(), eater, sendMessageMW));
     }
 }

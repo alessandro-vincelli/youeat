@@ -16,6 +16,7 @@
 package it.av.youeat.web;
 
 import it.av.youeat.web.page.EaterAccountPage;
+import it.av.youeat.web.page.EaterViewPage;
 import it.av.youeat.web.page.ErrorPage;
 import it.av.youeat.web.page.FriendsPage;
 import it.av.youeat.web.page.HomePage;
@@ -27,7 +28,6 @@ import it.av.youeat.web.page.SignUpPage;
 import it.av.youeat.web.page.UserHomePage;
 import it.av.youeat.web.page.UserManagerPage;
 import it.av.youeat.web.page.UserProfilePage;
-import it.av.youeat.web.page.UserViewPage;
 import it.av.youeat.web.security.SecuritySession;
 
 import javax.servlet.http.HttpServletRequest;
@@ -90,7 +90,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/friends", FriendsPage.class)); 
         mount(new IndexedParamUrlCodingStrategy("/signUp", SignUpPage.class));
         mount(new IndexedParamUrlCodingStrategy("/userHomePage", UserHomePage.class));
-        mount(new HybridUrlCodingStrategy("/viewuser", UserViewPage.class));
+        mount(new HybridUrlCodingStrategy("/viewuser", EaterViewPage.class));
         mount(new HybridUrlCodingStrategy("/account", EaterAccountPage.class));
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);

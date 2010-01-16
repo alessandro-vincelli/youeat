@@ -93,11 +93,14 @@ public class MessageServiceTest extends YoueatTest {
         dialog = dialogService.reply(msg2, dialog);
         assertTrue("Dialog contains wrong number of messages", dialog.getMessages().size() == 2);
         assertTrue(dialog.equals(dialog.getMessages().first().getDialog()));
-        List<Dialog> dialogs = dialogService.getDialogs(userB);
+        List<Dialog> dialogs = dialogService.getCreatedDialogs(userB);
         assertTrue("dialogs list empty", dialogs.size() == 1);
         
         dialogs = dialogService.getDialogs(userC);
         assertTrue("dialogs list empty", dialogs.size() == 1);
+        
+        dialogs = dialogService.getCreatedDialogs(userC);
+        assertTrue("dialogs list empty", dialogs.size() == 0);
     }
 
 }

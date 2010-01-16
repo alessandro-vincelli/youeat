@@ -56,14 +56,23 @@ public interface DialogService {
     Dialog reply(Message message, Dialog dialog);
 
     /**
-     * Returns dialogs where the user is involved
+     * Returns dialogs created(sent) by the given user
+     * 
+     * @param eater
+     * @return dialogs for the given user
+     */
+    @Transactional(readOnly = true)
+    List<Dialog> getCreatedDialogs(Eater eater);
+    
+    /**
+     * Returns dialogs where the user is involved.
+     * The dialog sent by the user with only 1 message are excluded.
      * 
      * @param eater
      * @return dialogs for the given user
      */
     @Transactional(readOnly = true)
     List<Dialog> getDialogs(Eater eater);
-
 
     /**
      * Remove logically a dialog

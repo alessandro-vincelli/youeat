@@ -60,6 +60,16 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      * {@inheritDoc}
      */
     @Override
+    public List<Dialog> getCreatedDialogs(Eater eater) {
+        Criterion critBySender = Restrictions.eq(Dialog.SENDER_FIELD, eater);
+        Order orderBYDate = Order.asc(Dialog.CREATION_TIME_FIELD);
+        return findByCriteria(orderBYDate, critBySender);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<Dialog> getDialogs(Eater eater) {
         Criterion critByReceiver = Restrictions.eq(Dialog.RECEIVER_FIELD, eater);
         Criterion critBySender = Restrictions.eq(Dialog.SENDER_FIELD, eater);
@@ -67,7 +77,13 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         or.add(critBySender);
         or.add(critByReceiver);
         Order orderBYDate = Order.asc(Dialog.CREATION_TIME_FIELD);
-        return findByCriteria(orderBYDate, or);
+        List<Dialog> results = findByCriteria(orderBYDate, or);
+        for (int i = 0; i < results.size(); i++) {
+            if(results.get(i).getSender().equals(eater) && results.get(i).getMessages().size() == 1){
+                results.remove(i);
+            }
+        }
+        return results;
     }
 
     /**

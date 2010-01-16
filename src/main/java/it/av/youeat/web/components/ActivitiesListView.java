@@ -4,8 +4,8 @@ import it.av.youeat.ocm.model.ActivityRistorante;
 import it.av.youeat.ocm.util.DateUtil;
 import it.av.youeat.web.commons.ActivityCommons;
 import it.av.youeat.web.commons.YoueatHttpParams;
+import it.av.youeat.web.page.EaterViewPage;
 import it.av.youeat.web.page.RistoranteViewPage;
-import it.av.youeat.web.page.UserViewPage;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class ActivitiesListView extends PropertyListView<ActivityRistorante> {
             public void onClick(AjaxRequestTarget target) {
                 PageParameters pp = new PageParameters(YoueatHttpParams.USER_ID + "="
                         + item.getModelObject().getEater().getId());
-                setResponsePage(UserViewPage.class, pp);
+                setResponsePage(EaterViewPage.class, pp);
             }
         };
         eater.add(new Label("eater.lastname"));

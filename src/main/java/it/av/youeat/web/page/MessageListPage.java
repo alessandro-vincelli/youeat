@@ -21,6 +21,7 @@ import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 import it.av.youeat.service.DialogService;
 import it.av.youeat.web.components.ImagesAvatar;
+import it.av.youeat.web.components.OpenFriendPageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,6 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
-import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -53,47 +53,29 @@ public class MessageListPage extends BasePage {
     private DialogService dialogService;
     private PropertyListView<Message> messageList;
     private List<Message> allMessages;
-
     /**
-     * Constructor that is invoked when page is invoked without a session.
-     * 
-     * @throws YoueatException
+     * default true, used to get correct list of dialog/messages
      */
-    public MessageListPage() throws YoueatException {
+    private boolean inBox = true;
+
+    public MessageListPage() {
         super();
         add(getFeedbackPanel());
         allMessages = getLastMessages();
-        final Label noYetFriends = new Label("noYetMessages", getString("noYetFriends")) {
+        final Label noYetMessages = new Label("noYetMessages", getString("noMessages")) {
             @Override
             protected void onBeforeRender() {
                 super.onBeforeRender();
                 setVisible(allMessages.size() == 0);
             }
         };
-        noYetFriends.setOutputMarkupId(true);
-        noYetFriends.setOutputMarkupPlaceholderTag(true);
-        add(noYetFriends);
-        final ModalWindow sendMessageMW = new ModalWindow("sendMessagePanel");
-        sendMessageMW.setInitialHeight(200);
-        sendMessageMW.setCssClassName(ModalWindow.CSS_CLASS_GRAY);
-        sendMessageMW.setCookieName("youeat-sendMessageModalWindow");
+        noYetMessages.setOutputMarkupId(true);
+        noYetMessages.setOutputMarkupPlaceholderTag(true);
+        add(noYetMessages);
 
-        sendMessageMW.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
-            public boolean onCloseButtonClicked(AjaxRequestTarget target) {
-                // setResult("Modal window 2 - close button");
-                return true;
-            }
-        });
-
-        sendMessageMW.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
-            public void onClose(AjaxRequestTarget target) {
-            }
-        });
-
-        add(sendMessageMW);
-        final WebMarkupContainer friendsListContainer = new WebMarkupContainer("messagesListContainer");
-        friendsListContainer.setOutputMarkupId(true);
-        add(friendsListContainer);
+        final WebMarkupContainer messagesListContainer = new WebMarkupContainer("messagesListContainer");
+        messagesListContainer.setOutputMarkupId(true);
+        add(messagesListContainer);
         messageList = new PropertyListView<Message>("messagesList", allMessages) {
             private static final long serialVersionUID = 1L;
 
@@ -101,7 +83,7 @@ public class MessageListPage extends BasePage {
             protected void populateItem(final ListItem<Message> item) {
                 Eater sender = item.getModelObject().getSender();
                 item.add(ImagesAvatar.getAvatar("avatar", sender, this.getPage(), true));
-                item.add(new Label(Message.SENDER_FIELD));
+                item.add(new OpenFriendPageButton("linkToUser", sender).add(new Label(Message.SENDER_FIELD)));
                 item.add(new Label(Message.SENTTIME_FIELD));
                 item.add(new Label(Message.TITLE_FIELD));
                 item.add(new OpenMessage("openMessage", new Model<Message>(item.getModelObject()), item).add(new Label(
@@ -116,15 +98,15 @@ public class MessageListPage extends BasePage {
                                     getLoggedInUser());
                             allMessages = getLastMessages();
                             ((MessageListPage) target.getPage()).messageList.setModelObject(allMessages);
-                            noYetFriends.setVisible(allMessages.size() == 0);
+                            noYetMessages.setVisible(allMessages.size() == 0);
                             info(getString("info.userRelationRemoved"));
                         } catch (YoueatException e) {
                             error(new StringResourceModel("genericErrorMessage", this, null).getString());
                         }
                         if (target != null) {
                             target.addComponent(getFeedbackPanel());
-                            target.addComponent((noYetFriends));
-                            target.addComponent((friendsListContainer));
+                            target.addComponent((noYetMessages));
+                            target.addComponent((messagesListContainer));
                             target.addComponent(((MessageListPage) target.getPage()).getFeedbackPanel());
                         }
                     }
@@ -132,22 +114,49 @@ public class MessageListPage extends BasePage {
                 item.add(new OpenMessage("open", new Model<Message>(item.getModelObject()), item));
             }
         };
-        friendsListContainer.add(messageList);
+        messagesListContainer.add(messageList);
         add(new AjaxFallbackLink<String>("goSearchFriendPage") {
             @Override
             public void onClick(AjaxRequestTarget target) {
                 setResponsePage(SearchFriendPage.class);
             }
         });
+        add(new AjaxFallbackLink<String>("inbox") {
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                inBox = true;
+                messageList.setModelObject(getLastMessages());
+                if (target != null) {
+                    target.addComponent((messagesListContainer));
+                }
+            }
+        });
+        add(new AjaxFallbackLink<String>("sentitems") {
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                inBox = false;
+                messageList.setModelObject(getLastMessages());
+                if (target != null) {
+                    target.addComponent((messagesListContainer));
+                }
+            }
+
+        });
     }
 
     /**
-     * get the last messages for all the dialogs of the logged user
+     * get the last messages the logged user
      * 
+     * @param inBox true for inbox messages, false for sent messages
      * @return list of messages
      */
     private List<Message> getLastMessages() {
-        List<Dialog> dialogs = dialogService.getDialogs(getLoggedInUser());
+        List<Dialog> dialogs;
+        if (inBox) {
+            dialogs = dialogService.getDialogs(getLoggedInUser());
+        } else {
+            dialogs = dialogService.getCreatedDialogs(getLoggedInUser());
+        }
         List<Message> messages = new ArrayList<Message>(dialogs.size());
         for (Dialog dialog : dialogs) {
             messages.add(dialog.getMessages().last());

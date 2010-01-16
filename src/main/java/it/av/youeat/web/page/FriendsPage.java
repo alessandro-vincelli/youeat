@@ -19,13 +19,13 @@ import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.EaterRelation;
 import it.av.youeat.service.EaterRelationService;
-import it.av.youeat.web.commons.YoueatHttpParams;
 import it.av.youeat.web.components.ImagesAvatar;
-import it.av.youeat.web.components.SendMessagePanel;
+import it.av.youeat.web.components.OpenFriendPageButton;
+import it.av.youeat.web.components.SendMessageButton;
+import it.av.youeat.web.components.SendMessageModalWindow;
 
 import java.util.List;
 
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
@@ -72,23 +72,7 @@ public class FriendsPage extends BasePage {
         noYetFriends.setOutputMarkupId(true);
         noYetFriends.setOutputMarkupPlaceholderTag(true);
         add(noYetFriends);
-        final ModalWindow sendMessageMW = new ModalWindow("sendMessagePanel");
-        sendMessageMW.setInitialHeight(200);
-        sendMessageMW.setCssClassName(ModalWindow.CSS_CLASS_GRAY);
-        sendMessageMW.setCookieName("youeat-sendMessageModalWindow");
-
-        sendMessageMW.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
-            public boolean onCloseButtonClicked(AjaxRequestTarget target) {
-                // setResult("Modal window 2 - close button");
-                return true;
-            }
-        });
-
-        sendMessageMW.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
-            public void onClose(AjaxRequestTarget target) {
-            }
-        });
-
+        final ModalWindow sendMessageMW = SendMessageModalWindow.getNewModalWindow("sendMessagePanel");
         add(sendMessageMW);
         final WebMarkupContainer friendsListContainer = new WebMarkupContainer("friendsListContainer");
         friendsListContainer.setOutputMarkupId(true);
@@ -101,14 +85,8 @@ public class FriendsPage extends BasePage {
                 boolean isPendingFriendRequest = item.getModelObject().getStatus().equals(EaterRelation.STATUS_PENDING)
                         && item.getModelObject().getToUser().equals(getLoggedInUser());
                 boolean isActiveFriend = item.getModelObject().getStatus().equals(EaterRelation.STATUS_ACTIVE);
-                AjaxFallbackLink<String> linkToUser = new AjaxFallbackLink<String>("linkToUser") {
-                    @Override
-                    public void onClick(AjaxRequestTarget target) {
-                        PageParameters pp = new PageParameters(YoueatHttpParams.USER_ID + "="
-                                + item.getModelObject().getToUser().getId());
-                        setResponsePage(UserViewPage.class, pp);
-                    }
-                };
+                AjaxFallbackLink<String> linkToUser = new OpenFriendPageButton("linkToUser", item.getModelObject()
+                        .getToUser());
                 item.add(linkToUser);
                 final Eater eaterToshow;
                 if (getLoggedInUser().equals(item.getModelObject().getToUser())) {
@@ -193,19 +171,8 @@ public class FriendsPage extends BasePage {
                         }
                     }
                 }.setVisible(isPendingFriendRequest));
-                item.add(new AjaxFallbackLink<EaterRelation>("sendMessage", new Model<EaterRelation>(item
-                        .getModelObject())) {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void onClick(AjaxRequestTarget target) {
-                        sendMessageMW.setContent(new SendMessagePanel(sendMessageMW.getContentId(), sendMessageMW,
-                                getLoggedInUser(), eaterToshow));
-                        sendMessageMW.setTitle(getString("mw.sendMessageTitle", new Model(eaterToshow)));
-
-                        sendMessageMW.show(target);
-                    }
-                }.setVisible(isActiveFriend));
+                item.add(new SendMessageButton("sendMessage", getLoggedInUser(), eaterToshow, sendMessageMW)
+                        .setVisible(isActiveFriend));
 
             }
         };

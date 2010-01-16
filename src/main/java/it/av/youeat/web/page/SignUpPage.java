@@ -40,8 +40,7 @@ public class SignUpPage extends BasePage {
      * 
      * @throws YoueatException
      */
-    public SignUpPage() throws YoueatException {
-        setOutputMarkupId(true);
+    public SignUpPage() {
         SignUpPanel signUpPanel = new SignUpPanel("userSignUpPanel", getFeedbackPanel(), userService, countryService);
         signUpPanel.setOutputMarkupId(true);
         add(signUpPanel);

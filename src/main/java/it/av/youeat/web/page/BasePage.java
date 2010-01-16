@@ -196,8 +196,8 @@ public class BasePage extends WebPage {
             @Override
             public void onClick(AjaxRequestTarget target) {
                 if (getApplication().getSecuritySettings().getAuthorizationStrategy().isInstantiationAuthorized(
-                        MessagesPage.class)) {
-                    setResponsePage(MessagesPage.class);
+                        MessageListPage.class)) {
+                    setResponsePage(MessageListPage.class);
                 }
             }
 
@@ -205,7 +205,7 @@ public class BasePage extends WebPage {
             protected void onBeforeRender() {
                 super.onBeforeRender();
                 setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
-                        .isInstantiationAuthorized(MessagesPage.class)));
+                        .isInstantiationAuthorized(MessageListPage.class)));
             }
         });
 

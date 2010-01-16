@@ -42,7 +42,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  * 
  */
 @AuthorizeInstantiation( { "USER", "ADMIN" })
-public class MessagesPage extends BasePage {
+public class MessagePage extends BasePage {
 
     private static final long serialVersionUID = 1L;
     @SpringBean
@@ -55,7 +55,7 @@ public class MessagesPage extends BasePage {
      * 
      * @throws YoueatException
      */
-    public MessagesPage() throws YoueatException {
+    public MessagePage() throws YoueatException {
         super();
         add(getFeedbackPanel());
         allMessages = messageService.findReceived(getLoggedInUser());
@@ -106,9 +106,9 @@ public class MessagesPage extends BasePage {
                     @Override
                     public void onClick(AjaxRequestTarget target) {
                         try {
-                            ((MessagesPage) getPage()).messageService.delete(getModelObject(), getLoggedInUser());
+                            ((MessagePage) getPage()).messageService.delete(getModelObject(), getLoggedInUser());
                             allMessages = messageService.findReceived(getLoggedInUser());
-                            ((MessagesPage) target.getPage()).messageList.setModelObject(allMessages);
+                            ((MessagePage) target.getPage()).messageList.setModelObject(allMessages);
                             noYetFriends.setVisible(allMessages.size() == 0);
                             info(getString("info.userRelationRemoved"));
                         } catch (YoueatException e) {
@@ -118,7 +118,7 @@ public class MessagesPage extends BasePage {
                             target.addComponent(getFeedbackPanel());
                             target.addComponent((noYetFriends));
                             target.addComponent((friendsListContainer));
-                            target.addComponent(((MessagesPage) target.getPage()).getFeedbackPanel());
+                            target.addComponent(((MessagePage) target.getPage()).getFeedbackPanel());
                         }
                     }
                 });

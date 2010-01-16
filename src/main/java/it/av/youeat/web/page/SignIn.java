@@ -31,12 +31,10 @@ public class SignIn extends BasePageSimple {
      * Constructor
      */
     public SignIn() {
-
+        getFeedbackPanel().setVisible(false);
         add(new SignInPanel("signInPanel", true));
 
         add(new AjaxLink<String>("signUp") {
-            private static final long serialVersionUID = 1L;
-
             @Override
             public void onClick(AjaxRequestTarget target) {
                 setResponsePage(SignUpPage.class);

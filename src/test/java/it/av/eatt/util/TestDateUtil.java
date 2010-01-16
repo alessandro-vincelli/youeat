@@ -1,7 +1,7 @@
 package it.av.eatt.util;
 
 import static junit.framework.Assert.assertEquals;
-import it.av.eatt.ocm.util.DateUtil;
+import it.av.youeat.ocm.util.DateUtil;
 
 import java.sql.Date;
 import java.util.Calendar;

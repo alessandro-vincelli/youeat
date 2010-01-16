@@ -95,7 +95,7 @@
 	
 	-->
 	<!-- this is a custom class to mock a jndi directory holding the user tx --><!--
-	<bean class="it.av.eatt.web.util.UserTransactionJndiBindMock">
+	<bean class="it.av.youeat.web.util.UserTransactionJndiBindMock">
 		<constructor-arg index="0">
 			<ref bean="userTransaction" />
 		</constructor-arg>
@@ -121,7 +121,7 @@
 	
 	<bean id="sessionFactoryHibernate" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="myDataSource" />
-		<property name="packagesToScan" value="it.av.eatt.ocm.model" />
+		<property name="packagesToScan" value="it.av.youeat.ocm.model" />
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
@@ -166,8 +166,8 @@
 	<bean id="mapper" class="org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl">
 		<constructor-arg>
 		<list value-type="java.lang.Class">
-	       	<value>it.av.eatt.ocm.model.Ristorante</value>
-	        <value>it.av.eatt.ocm.model.Folder</value>
+	       	<value>it.av.youeat.ocm.model.Ristorante</value>
+	        <value>it.av.youeat.ocm.model.Folder</value>
       	</list>
 		</constructor-arg>
 	</bean>
@@ -239,8 +239,8 @@
 --><!-- 	<bean id="factoryDAO" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="proxyInterfaces">
 			<list>
-				<value>it.av.eatt.service.ApplicationService</value>
-				<value>it.av.eatt.ocm.model.PersistentClass</value>
+				<value>it.av.youeat.service.ApplicationService</value>
+				<value>it.av.youeat.ocm.model.PersistentClass</value>
 			</list>
 		</property>
 		<property name="interceptorNames">
@@ -276,41 +276,41 @@
 		</property>
 	</bean>
  	
- 	<bean id="wicketApplication" class="it.av.eatt.web.YoueatApplication">
+ 	<bean id="wicketApplication" class="it.av.youeat.web.YoueatApplication">
 		<property name="configurationType" value="deployment" />
 	</bean>
 
-	<bean id="userService" class="it.av.eatt.service.impl.EaterServiceHibernate" parent="hibernateDaoSupport">
+	<bean id="userService" class="it.av.youeat.service.impl.EaterServiceHibernate" parent="hibernateDaoSupport">
 		<property name="passwordEncoder" ref="strongPasswordEncryptor" />
 		<property name="userProfileService" ref="userProfileService" />
 		<property name="userRelationService" ref="userRelationService" />
 	</bean>
 
-	<bean id="commentService" class="it.av.eatt.service.impl.CommentServiceHibernate" parent="hibernateDaoSupport">
+	<bean id="commentService" class="it.av.youeat.service.impl.CommentServiceHibernate" parent="hibernateDaoSupport">
 	</bean>
 
-	<bean id="userProfileService" class="it.av.eatt.service.impl.EaterProfileServiceHibernate" parent="hibernateDaoSupport"></bean>
+	<bean id="userProfileService" class="it.av.youeat.service.impl.EaterProfileServiceHibernate" parent="hibernateDaoSupport"></bean>
 
-	<bean id="activityService" class="it.av.eatt.service.impl.ActivityServiceHibernate" parent="hibernateDaoSupport"></bean>
+	<bean id="activityService" class="it.av.youeat.service.impl.ActivityServiceHibernate" parent="hibernateDaoSupport"></bean>
 
-	<bean id="activityRistoranteService" class="it.av.eatt.service.impl.ActivityRistoranteServiceHibernate" parent="hibernateDaoSupport">
+	<bean id="activityRistoranteService" class="it.av.youeat.service.impl.ActivityRistoranteServiceHibernate" parent="hibernateDaoSupport">
 		<property name="userRelationService" ref="userRelationService" />
 	</bean>
 
-	<bean id="ristoranteService" class="it.av.eatt.service.impl.RistoranteServiceHibernate" parent="hibernateDaoSupport">
+	<bean id="ristoranteService" class="it.av.youeat.service.impl.RistoranteServiceHibernate" parent="hibernateDaoSupport">
 		<property name="activityRistoranteService" ref="activityRistoranteService" />
 	</bean>
 	
-	<!--<bean id="ristoranteService" class="it.av.eatt.service.impl.RistoranteServiceImpl">
+	<!--<bean id="ristoranteService" class="it.av.youeat.service.impl.RistoranteServiceImpl">
 		<property name="jcrMappingtemplate" ref="jcrMappingTemplate" />
 		<property name="basePath" value="/ristoranti" />
 		<property name="activityRistoranteService" ref="activityRistoranteService" />
 	</bean>-->
 
-	<bean id="userRelationService" class="it.av.eatt.service.impl.EaterRelationServiceHibernate" parent="hibernateDaoSupport">
+	<bean id="userRelationService" class="it.av.youeat.service.impl.EaterRelationServiceHibernate" parent="hibernateDaoSupport">
 	</bean>
 
-	<bean id="repositoryInitStructure" class="it.av.eatt.repo.util.RepositoryInitStructureImpl">
+	<bean id="repositoryInitStructure" class="it.av.youeat.repo.util.RepositoryInitStructureImpl">
 		<property name="jcrMappingtemplate" ref="jcrMappingTemplate" />
 		<property name="paths">
 			<list value-type="java.lang.String">
@@ -321,7 +321,7 @@
 		</property>
 	</bean>
 
-	<bean id="applicationInit" class="it.av.eatt.init.ApplicationInit">
+	<bean id="applicationInit" class="it.av.youeat.init.ApplicationInit">
 		<constructor-arg ref="repositoryInitStructure" />
 	</bean>
 
@@ -329,7 +329,7 @@
 		<property name="passwordEncryptor" ref="strongPasswordEncryptor" />
 	</bean>
 
-	<bean id="userDetailsService" class="it.av.eatt.web.security.UserDetailsServiceImpl">
+	<bean id="userDetailsService" class="it.av.youeat.web.security.UserDetailsServiceImpl">
 		<property name="service" ref="userService" />
 	</bean>
 
@@ -338,7 +338,7 @@
 		<property name="passwordEncoder" ref="passwordEncoder" />
 	</bean>
 
-	<bean id="authenticationProvider" class="it.av.eatt.web.security.AuthenticationProvider">
+	<bean id="authenticationProvider" class="it.av.youeat.web.security.AuthenticationProvider">
 		<constructor-arg ref="daoAuthenticationProvider" />
 	</bean>
 </beans>

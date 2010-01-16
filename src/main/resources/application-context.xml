@@ -87,9 +87,9 @@
 	<bean id="mapper" class="org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl">
 		<constructor-arg>
 		<list value-type="java.lang.Class">
-			<value>it.av.eatt.ocm.model.BasicEntity</value>
-	       	<value>it.av.eatt.ocm.model.Ristorante</value>
-	        <value>it.av.eatt.ocm.model.Folder</value>
+			<value>it.av.youeat.ocm.model.BasicEntity</value>
+	       	<value>it.av.youeat.ocm.model.Ristorante</value>
+	        <value>it.av.youeat.ocm.model.Folder</value>
       	</list>
 		</constructor-arg>
 	</bean>
@@ -108,57 +108,57 @@
 
 	<bean id="jpaDaoSupport" class="org.springframework.orm.jpa.support.JpaDaoSupport" abstract="true"/>
 	
- 	<bean id="wicketApplication" class="it.av.eatt.web.YoueatApplication">
+ 	<bean id="wicketApplication" class="it.av.youeat.web.YoueatApplication">
 		<property name="configurationType" value="development" />
 	</bean>
 
-	<bean id="userService" class="it.av.eatt.service.impl.EaterServiceHibernate" parent="jpaDaoSupport" >
+	<bean id="userService" class="it.av.youeat.service.impl.EaterServiceHibernate" parent="jpaDaoSupport" >
 		<property name="passwordEncoder" ref="strongPasswordEncryptor" />
 		<property name="userProfileService" ref="userProfileService" />
 		<property name="userRelationService" ref="userRelationService" />
 	</bean>
 
-	<bean id="commentService" class="it.av.eatt.service.impl.CommentServiceHibernate" parent="jpaDaoSupport" />
+	<bean id="commentService" class="it.av.youeat.service.impl.CommentServiceHibernate" parent="jpaDaoSupport" />
 
-	<bean id="userProfileService" class="it.av.eatt.service.impl.EaterProfileServiceHibernate" parent="jpaDaoSupport" />
+	<bean id="userProfileService" class="it.av.youeat.service.impl.EaterProfileServiceHibernate" parent="jpaDaoSupport" />
 
-	<bean id="activityService" class="it.av.eatt.service.impl.ActivityServiceHibernate" parent="jpaDaoSupport" />
+	<bean id="activityService" class="it.av.youeat.service.impl.ActivityServiceHibernate" parent="jpaDaoSupport" />
 
-	<bean id="activityRistoranteService" class="it.av.eatt.service.impl.ActivityRistoranteServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="activityRistoranteService" class="it.av.youeat.service.impl.ActivityRistoranteServiceHibernate" parent="jpaDaoSupport"/>
 
-	<bean id="tagService" class="it.av.eatt.service.impl.TagServiceHibernate" parent="jpaDaoSupport" />
+	<bean id="tagService" class="it.av.youeat.service.impl.TagServiceHibernate" parent="jpaDaoSupport" />
 
-	<bean id="ristoranteRevisionService" class="it.av.eatt.service.impl.RistoranteRevisionServiceHibernate"/>
+	<bean id="ristoranteRevisionService" class="it.av.youeat.service.impl.RistoranteRevisionServiceHibernate"/>
 	
-	<bean id="rateRistoranteService" class="it.av.eatt.service.impl.RateRistoranteServiceHibernate"/>
+	<bean id="rateRistoranteService" class="it.av.youeat.service.impl.RateRistoranteServiceHibernate"/>
 	
-	<bean id="ristoranteService" class="it.av.eatt.service.impl.RistoranteServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="ristoranteService" class="it.av.youeat.service.impl.RistoranteServiceHibernate" parent="jpaDaoSupport"/>
 	
 	
-	<!--<bean id="jcrRistoranteService" class="it.av.eatt.service.impl.JcrRistoranteServiceJackrabbit">
+	<!--<bean id="jcrRistoranteService" class="it.av.youeat.service.impl.JcrRistoranteServiceJackrabbit">
 		<property name="jcrMappingtemplate" ref="jcrMappingTemplateGeneric" />
 		<property name="basePath" value="/ristoranti" />
 	</bean>-->
 	
-	<bean id="userRelationService" class="it.av.eatt.service.impl.EaterRelationServiceHibernate" parent="jpaDaoSupport" />
+	<bean id="userRelationService" class="it.av.youeat.service.impl.EaterRelationServiceHibernate" parent="jpaDaoSupport" />
 	
-	<bean id="dataRistoranteService" class="it.av.eatt.service.impl.DataRistoranteServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="dataRistoranteService" class="it.av.youeat.service.impl.DataRistoranteServiceHibernate" parent="jpaDaoSupport"/>
 	
-	<bean id="countryRegionService" class="it.av.eatt.service.impl.CountryRegionServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="countryRegionService" class="it.av.youeat.service.impl.CountryRegionServiceHibernate" parent="jpaDaoSupport"/>
 	
-	<bean id="countryService" class="it.av.eatt.service.impl.CountryServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="countryService" class="it.av.youeat.service.impl.CountryServiceHibernate" parent="jpaDaoSupport"/>
 	
-	<bean id="cityService" class="it.av.eatt.service.impl.CityServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="cityService" class="it.av.youeat.service.impl.CityServiceHibernate" parent="jpaDaoSupport"/>
 	
-	<bean id="languageService" class="it.av.eatt.service.impl.LanguageServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="languageService" class="it.av.youeat.service.impl.LanguageServiceHibernate" parent="jpaDaoSupport"/>
 	
-	<bean id="messageService" class="it.av.eatt.service.impl.MessageServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="messageService" class="it.av.youeat.service.impl.MessageServiceHibernate" parent="jpaDaoSupport"/>
 	
-	<bean id="ristorantePictureHibernate" class="it.av.eatt.service.impl.RistorantePictureHibernate" parent="jpaDaoSupport"/>
+	<bean id="ristorantePictureHibernate" class="it.av.youeat.service.impl.RistorantePictureHibernate" parent="jpaDaoSupport"/>
 
-	<bean id="repositoryInitStructure" class="it.av.eatt.repo.util.RepositoryInitStructureImpl"/>
+	<bean id="repositoryInitStructure" class="it.av.youeat.repo.util.RepositoryInitStructureImpl"/>
 
-	<bean id="applicationInit" class="it.av.eatt.init.ApplicationInit">
+	<bean id="applicationInit" class="it.av.youeat.init.ApplicationInit">
 		<constructor-arg ref="repositoryInitStructure" />
 	</bean>
 
@@ -166,7 +166,7 @@
 		<property name="passwordEncryptor" ref="strongPasswordEncryptor" />
 	</bean>
 
-	<bean id="userDetailsService" class="it.av.eatt.web.security.UserDetailsServiceImpl" scope="prototype">
+	<bean id="userDetailsService" class="it.av.youeat.web.security.UserDetailsServiceImpl" scope="prototype">
 		<property name="service" ref="userService" />
 	</bean>
 
@@ -175,7 +175,7 @@
 		<property name="passwordEncoder" ref="passwordEncoder" />
 	</bean>
 
-	<bean id="authenticationProvider" class="it.av.eatt.web.security.AuthenticationProvider">
+	<bean id="authenticationProvider" class="it.av.youeat.web.security.AuthenticationProvider">
 		<constructor-arg ref="daoAuthenticationProvider" />
 	</bean>
 </beans>

@@ -73,7 +73,7 @@
 	</bean>
 
 	<!-- this is a custom class to mock a jndi directory holding the user tx -->
-	<bean class="it.av.eatt.web.util.UserTransactionJndiBindMock">
+	<bean class="it.av.youeat.web.util.UserTransactionJndiBindMock">
 		<constructor-arg index="0">
 			<ref bean="userTransaction" />
 		</constructor-arg>

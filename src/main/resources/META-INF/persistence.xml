@@ -12,28 +12,28 @@
 		<!-- The provider only needs to be set if you use several JPA providers -->
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 	
-		<class>it.av.eatt.ocm.model.Activity</class>
-		<class>it.av.eatt.ocm.model.ActivityRistorante</class>
-		<class>it.av.eatt.ocm.model.ActivityUserRelation</class>
-		<class>it.av.eatt.ocm.model.BasicEntity</class>
-		<class>it.av.eatt.ocm.model.Comment</class>
-		<class>it.av.eatt.ocm.model.DataRistorante</class>
-		<class>it.av.eatt.ocm.model.Eater</class>
-		<class>it.av.eatt.ocm.model.EaterProfile</class>
-		<class>it.av.eatt.ocm.model.EaterRelation</class>
-		<class>it.av.eatt.ocm.model.Language</class>
-		<class>it.av.eatt.ocm.model.ProvIta</class>
-		<class>it.av.eatt.ocm.model.RateOnRistorante</class>
-		<class>it.av.eatt.ocm.model.Ristorante</class>
-		<class>it.av.eatt.ocm.model.RistoranteDescriptionI18n</class>
-		<class>it.av.eatt.ocm.model.RistorantePicture</class>
-		<class>it.av.eatt.ocm.model.RistoranteRevision</class>
-		<class>it.av.eatt.ocm.model.RistoranteTypes</class>
-		<class>it.av.eatt.ocm.model.Tag</class>
-		<class>it.av.eatt.ocm.model.Message</class>
-		<class>it.av.eatt.ocm.model.data.City</class>
-		<class>it.av.eatt.ocm.model.data.Country</class>
-		<class>it.av.eatt.ocm.model.data.CountryRegion</class>
+		<class>it.av.youeat.ocm.model.Activity</class>
+		<class>it.av.youeat.ocm.model.ActivityRistorante</class>
+		<class>it.av.youeat.ocm.model.ActivityUserRelation</class>
+		<class>it.av.youeat.ocm.model.BasicEntity</class>
+		<class>it.av.youeat.ocm.model.Comment</class>
+		<class>it.av.youeat.ocm.model.DataRistorante</class>
+		<class>it.av.youeat.ocm.model.Eater</class>
+		<class>it.av.youeat.ocm.model.EaterProfile</class>
+		<class>it.av.youeat.ocm.model.EaterRelation</class>
+		<class>it.av.youeat.ocm.model.Language</class>
+		<class>it.av.youeat.ocm.model.ProvIta</class>
+		<class>it.av.youeat.ocm.model.RateOnRistorante</class>
+		<class>it.av.youeat.ocm.model.Ristorante</class>
+		<class>it.av.youeat.ocm.model.RistoranteDescriptionI18n</class>
+		<class>it.av.youeat.ocm.model.RistorantePicture</class>
+		<class>it.av.youeat.ocm.model.RistoranteRevision</class>
+		<class>it.av.youeat.ocm.model.RistoranteTypes</class>
+		<class>it.av.youeat.ocm.model.Tag</class>
+		<class>it.av.youeat.ocm.model.Message</class>
+		<class>it.av.youeat.ocm.model.data.City</class>
+		<class>it.av.youeat.ocm.model.data.Country</class>
+		<class>it.av.youeat.ocm.model.data.CountryRegion</class>
 			
 		<properties>
 			<!-- Scan for annotated classes  -->

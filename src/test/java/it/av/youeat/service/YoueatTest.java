@@ -2,6 +2,7 @@ package it.av.youeat.service;
 
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.EaterProfile;
+import it.av.youeat.ocm.model.Language;
 import it.av.youeat.ocm.model.data.Country;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ public abstract class YoueatTest {
     private EaterProfileService userProfileService;
     @Autowired
     private CountryService countryService;
+    @Autowired
+    private LanguageService languageService;
     private EaterProfile profile;
     private Country nocountry;
 
@@ -28,6 +31,10 @@ public abstract class YoueatTest {
         if (userProfileService.getByName("ADMIN") == null) {
             EaterProfile adminProfile = new EaterProfile("ADMIN");
             adminProfile = userProfileService.save(adminProfile);
+        }
+        if(languageService.getAll().size() == 0){
+            languageService.save(new Language("it", "italy"));
+            languageService.save(new Language("en", "usa"));
         }
     }
 

@@ -46,6 +46,8 @@ public class MessageServiceTest extends YoueatTest {
     private DialogService dialogService;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private LanguageService languageService;
 
     private Eater userB;
     private Eater userC;
@@ -59,6 +61,7 @@ public class MessageServiceTest extends YoueatTest {
         userB.setPassword("secret");
         userB.setEmail("userServiceTest@test.com");
         userB.setCountry(getNocountry());
+        userB.setLanguage(languageService.getAll().get(0));
         userB = userService.addRegolarUser(userB);
         assertNotNull("A is null", userB);
 
@@ -66,7 +69,8 @@ public class MessageServiceTest extends YoueatTest {
         userC.setFirstname("Arnaldo");
         userC.setLastname("Vincelli");
         userC.setPassword("secret");
-        userC.setEmail("userServiceTest@test2.com");
+        userC.setEmail("a.vincelli@gmail.com");
+        userC.setLanguage(languageService.getAll().get(0));
         userC.setCountry(getNocountry());
         userC = userService.addRegolarUser(userC);
         assertNotNull("C is null", userC);
@@ -92,7 +96,7 @@ public class MessageServiceTest extends YoueatTest {
         msg2.setBody("body2");
         msg2.setTitle("title2");
 
-        dialog = dialogService.reply(msg2, dialog);
+        dialog = dialogService.reply(msg2, dialog, userB);
         assertTrue("Dialog contains wrong number of messages", dialog.getMessages().size() == 2);
         assertTrue(dialog.equals(dialog.getMessages().first().getDialog()));
         List<Dialog> dialogs = dialogService.getCreatedDialogs(userB);

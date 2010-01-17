@@ -50,10 +50,11 @@ public interface DialogService {
      * 
      * @param message message to send
      * @param dialog the dialog for the message
+     * @param recipient the recipient of the reply
      * @return the sent message
      */
     @Transactional
-    Dialog reply(Message message, Dialog dialog);
+    Dialog reply(Message message, Dialog dialog, Eater recipient);
 
     /**
      * Returns dialogs created(sent) by the given user

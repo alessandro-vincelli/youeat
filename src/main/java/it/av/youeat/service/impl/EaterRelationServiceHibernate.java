@@ -50,6 +50,15 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
     @Override
     public EaterRelation addFriendRequest(Eater fromUser, Eater toUser) {
         EaterRelation relation = EaterRelation.createFriendRelation(fromUser, toUser);
+        // it's necessary check if we are trying to recreate a relation previously removed
+        // and that is still present in the other direction
+        List<EaterRelation> oppositeRelations = getOppisiteRelation(relation);
+        for (EaterRelation er : oppositeRelations) {
+            // if exist an opposite relation with status Active or pending we recreate the same relation
+            if (er.getType().equals(EaterRelation.TYPE_FRIEND) && !er.getStatus().equals(EaterRelation.STATUS_IGNORED)) {
+                relation.setStatus(er.getStatus());
+            }
+        }
         return save(relation);
     }
 
@@ -123,6 +132,14 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
         inOr.add(pendingFriend);
         inOr.add(Restrictions.eq(EaterRelation.FROM_USER, ofUser));
         return findByCriteria(inOr);
+    }
+
+    private List<EaterRelation> getOppisiteRelation(EaterRelation relation) {
+        Conjunction friend = Restrictions.conjunction();
+        friend.add(Restrictions.eq(EaterRelation.TYPE, relation.getType()));
+        friend.add(Restrictions.eq(EaterRelation.TO_USER, relation.getFromUser()));
+        friend.add(Restrictions.eq(EaterRelation.FROM_USER, relation.getToUser()));
+        return findByCriteria(friend);
     }
 
     /**

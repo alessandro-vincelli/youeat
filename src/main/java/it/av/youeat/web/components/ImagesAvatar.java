@@ -26,7 +26,7 @@ public class ImagesAvatar {
      * @return an avatar image
      */
     public static Image getAvatar(String id, final Eater eater, Page page, boolean isCachingImage) {
-        ResourceReference img = new ResourceReference(page.getClass(), "resources/images/avatar.gif");//
+
         Image avatar;
         if (isCachingImage) {
             avatar = new Image(id);
@@ -34,7 +34,7 @@ public class ImagesAvatar {
             avatar = new NonCachingImage(id);
         }
         if (eater.getAvatar() == null) {
-            avatar.setImageResourceReference(img);
+            avatar.setImageResourceReference(getDefaultAvatar(page));
         } else {
 
             avatar.setImageResource(new DynamicImageResource() {
@@ -45,5 +45,9 @@ public class ImagesAvatar {
             });
         }
         return avatar;
+    }
+
+    public static ResourceReference getDefaultAvatar(Page page) {
+        return new ResourceReference(page.getClass(), "resources/images/avatar.gif");//
     }
 }

@@ -45,9 +45,9 @@
 			<property name="hibernate.search.default.directory_provider" value="org.hibernate.search.store.FSDirectoryProvider"/>
 			<property name="hibernate.search.default.indexBase" value="/var/lucene/youeat/luceneIndex"/>
 
-			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.format_sql" value="true" />
-			<property name="use_sql_comments" value="true" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="false" />
+			<property name="use_sql_comments" value="false" />
 
 
 				<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />

@@ -17,6 +17,7 @@ package it.av.youeat.web.page;
 
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Dialog;
+import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 import it.av.youeat.service.DialogService;
 import it.av.youeat.web.components.ImagesAvatar;
@@ -80,7 +81,8 @@ public class MessagePage extends BasePage {
 
             @Override
             protected void populateItem(final ListItem<Message> item) {
-                item.add(new OpenFriendPageButton("linkToUser", item.getModelObject().getSender()).add(new Label(Message.SENDER_FIELD)));
+                item.add(new OpenFriendPageButton("linkToUser", item.getModelObject().getSender()).add(new Label(
+                        Message.SENDER_FIELD)));
                 item.add(new Label(Message.SENTTIME_FIELD));
                 item.add(new Label(Message.BODY_FIELD));
                 item.add(new Label(Message.TITLE_FIELD));
@@ -99,7 +101,7 @@ public class MessagePage extends BasePage {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 Message msgToSend = (Message) form.getModelObject();
-                dialogService.reply(msgToSend, dialog);
+                dialogService.reply(msgToSend, dialog, getCounterpart(dialog));
                 dialog = dialogService.readDiscussion(dialogId, getLoggedInUser());
                 allMessages = getMessagesInTheDialog();
                 messageList.setModelObject(allMessages);
@@ -125,6 +127,14 @@ public class MessagePage extends BasePage {
                 setResponsePage(SearchFriendPage.class);
             }
         });
+    }
+
+    private Eater getCounterpart(Dialog dialog) {
+        if (dialog.getReceiver().equals(getLoggedInUser())) {
+            return dialog.getSender();
+        } else {
+            return dialog.getReceiver();
+        }
     }
 
     private Message getNewMessage() {

@@ -161,6 +161,8 @@ public class EaterAccountPage extends BasePage {
                     getFeedbackPanel().error(getString("An error occurred"));
                 }
             }
+            //it's necessary to remove the initial reference to default avatar
+            avatar.setImageResourceReference(null);
             avatar.setImageResource(new DynamicImageResource() {
                 @Override
                 protected byte[] getImageData() {

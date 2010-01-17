@@ -53,4 +53,17 @@ public final class Locales {
 
         return DEFAULT_LOCALE;
     }
+    
+    /**
+     * Tries to find a supported locale that best matches the requested language.
+     * 
+     * @param language the requested language or null
+     * @return a supported locale
+     */
+    public static Locale getSupportedLocale(String language) {
+        if (language == null || language.isEmpty()) {
+            return DEFAULT_LOCALE;
+        }
+        return getSupportedLocale(new Locale(language));
+    }
 }

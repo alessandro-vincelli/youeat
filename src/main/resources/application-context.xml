@@ -18,9 +18,7 @@
 	<context:annotation-config />
 	<context:spring-configured />
 	<tx:jta-transaction-manager />
-	
-	<!--<import resource="applicationContext-jr-jca.xml" />--> 
-	<!--  <import resource="applicationContext-jr-local.xml" />-->
+	<tx:annotation-driven transaction-manager="transactionManager" />
 	
 	<bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
 		<property name="locations">
@@ -30,12 +28,22 @@
 		</property>
 	</bean>
 	
-	<!--
-		Instruct Spring to perform declarative transaction management automatically
-		on annotated classes.
-	-->
-	<tx:annotation-driven transaction-manager="transactionManager" />
+	<bean id="notificationTemplateMessage" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value="a.vincelli@gmail.com"/>
+	</bean>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:it/av/youeat/web/YoueatApplication"/>
+		<property name="fallbackToSystemLocale" value="true" />
+		<property name="cacheSeconds" value="-1"/>
+	</bean>
 
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" >
+		<property name="host" value="127.0.0.1"/>
+	</bean>
+	
+	<bean id="mailService" class="it.av.youeat.service.system.MailServiceImpl" />
+	
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="mainPersistance" />
 		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>		 

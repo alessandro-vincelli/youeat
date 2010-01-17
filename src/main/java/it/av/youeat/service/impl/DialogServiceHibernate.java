@@ -22,6 +22,7 @@ import it.av.youeat.ocm.model.Message;
 import it.av.youeat.ocm.util.DateUtil;
 import it.av.youeat.service.DialogService;
 import it.av.youeat.service.MessageService;
+import it.av.youeat.service.system.MailService;
 
 import java.util.List;
 
@@ -40,6 +41,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> implements DialogService {
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private MailService mailService;
 
     /**
      * {@inheritDoc}
@@ -104,11 +107,13 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      * {@inheritDoc}
      */
     @Override
-    public Dialog reply(Message message, Dialog dialog) {
+    public Dialog reply(Message message, Dialog dialog, Eater recipient) {
         message.setSentTime(DateUtil.getTimestamp());
         message.setDialog(dialog);
         dialog.getMessages().add(message);
-        return save(dialog);
+        Dialog savedDialog = save(dialog);
+        sendNotification(recipient, message);
+        return savedDialog;
     }
 
     /**
@@ -123,7 +128,12 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         dialog.setSender(sender);
         dialog.getMessages().add(message);
         message.setDialog(dialog);
-        return save(dialog);
+        dialog = save(dialog);
+        sendNotification(recipient, message);
+        return dialog;
     }
 
+    private void sendNotification(Eater eater, Message message) {
+        mailService.SendMessageReceivedNotification(eater, message);
+    }
 }

@@ -11,27 +11,23 @@
     <span class="titleMyActivities"><wicket:message key="userHomePage.myRistoActivities" /></span>
     <span wicket:id="activitiesListContainer">
     <ul class="activitiesList">
-        <li wicket:id="activitiesList">
-            <img wicket:id="type" class="iconActivities"></img>
-            <a href="#" wicket:id="ristorante.link"><span wicket:id="ristorante.name"></span></a>
-            <span wicket:id="date.time" class="dateActivities"></span>
-        </li>
-    </ul>
-    <div class="moreActivitiesArea"><a href="#" wicket:id="moreActivities">more</a></div>
-    </span>
-    </div>
-    <div id="navigation">
-    <label class="titleMyActivities"><wicket:message key="userHomePage.myFriendRistoActivities" /></label>
-    <span wicket:id="friendsActivitiesListContainer">
-    <ul class="activitiesList">
-        <li wicket:id="friendsActivitiesList"> 
+        <li wicket:id="activitiesList"> 
         <img wicket:id="type" class="iconActivities"></img>
-        <a href="#" wicket:id="ristorante.link"><span wicket:id="ristorante.name"></span></a>
+        <a href="#" wicket:id="ristorante.link"><span wicket:id="ristorante.name"></span></a>, 
         <a wicket:id="view-eater"><span wicket:id="eater.lastname"></span></a> 
         <span wicket:id="date.time" class="dateActivities"></span> 
         </li>
     </ul>
-    <div class="moreActivitiesArea"><a href="#" wicket:id="moreFriendsActivitiesLink">more</a></div>
+    <div class="moreActivitiesArea"><a href="#" wicket:id="moreActivitiesLink">more</a></div>
     </span>
+    </div>
+    <div id="navigation">
+    <span class="titleMyActivities"><wicket:message key="homePage.randomRisto" /></span>
+    <ul class="activitiesList">
+        <li wicket:id="ristosList">
+            <a href="#" wicket:id="ristorante.link"><span wicket:id="name"></span></a>
+        </li>
+    </ul>
+    <!-- <div class="moreActivitiesArea"><a href="#" wicket:id="moreActivities">more</a></div> -->
     </div>
 </wicket:extend>

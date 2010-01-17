@@ -513,7 +513,8 @@ input.deleteButton {
 }
 
 .titleMyActivities {
-    padding-left: 10px;
+    text-align: center;
+    display: block;
 }
 
 input.submitButton {
@@ -862,7 +863,7 @@ feedbackPanelERROR {
 }
 
 .form-send-message-title input {
-    width: 200px;
+    width: 520px;
 }
 
 .form-send-message-isprivate th {

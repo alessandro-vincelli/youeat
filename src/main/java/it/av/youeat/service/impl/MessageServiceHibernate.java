@@ -36,7 +36,6 @@ public class MessageServiceHibernate extends ApplicationServiceHibernate<Message
     public Message markMessageAsRead(Message msg) {
         if (msg.getReadTime() == null) {
             msg.setReadTime(DateUtil.getTimestamp());
-            System.out.println(msg.getId() + "reading");
             return save(msg);
         }
         return msg;

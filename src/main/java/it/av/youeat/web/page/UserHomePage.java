@@ -19,10 +19,12 @@ import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.ActivityRistorante;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.service.ActivityRistoranteService;
+import it.av.youeat.service.RistoranteService;
 import it.av.youeat.web.commons.ActivityPaging;
 import it.av.youeat.web.components.ActivitiesListView;
 import it.av.youeat.web.components.RistoNameColumn;
 import it.av.youeat.web.components.RistoranteDataTable;
+import it.av.youeat.web.components.RistosListView;
 import it.av.youeat.web.data.RistoranteSortableDataProvider;
 
 import java.util.ArrayList;
@@ -54,14 +56,14 @@ public class UserHomePage extends BasePage {
     private static final long serialVersionUID = 1L;
     @SpringBean(name = "activityRistoranteService")
     private ActivityRistoranteService activityRistoranteService;
+    @SpringBean
+    private RistoranteService ristoranteService;
 
     private ActivityPaging activityPagingUser = new ActivityPaging(0, 15);
-    private ActivityPaging activityPagingFriends = new ActivityPaging(0, 15);
     private List<ActivityRistorante> activities;
     private WebMarkupContainer activitiesListContainer;
     private PropertyListView<ActivityRistorante> activitiesList;
-    private List<ActivityRistorante> friendsActivities;
-    private WebMarkupContainer friendsActivitiesListContainer;
+    
 
     public UserHomePage() {
         RistoranteSortableDataProvider ristoranteSortableDataProvider = new RistoranteSortableDataProvider();
@@ -102,7 +104,7 @@ public class UserHomePage extends BasePage {
 
         // User activities
         try {
-            activities = activityRistoranteService.findByUser(getLoggedInUser(), activityPagingUser.getFirstResult(),
+            activities = activityRistoranteService.findByUserFriendAndUser(getLoggedInUser(), activityPagingUser.getFirstResult(),
                     activityPagingUser.getMaxResults());
         } catch (YoueatException e) {
             activities = new ArrayList<ActivityRistorante>();
@@ -112,15 +114,15 @@ public class UserHomePage extends BasePage {
         activitiesListContainer = new WebMarkupContainer("activitiesListContainer");
         activitiesListContainer.setOutputMarkupId(true);
         add(activitiesListContainer);
-        activitiesList = new ActivitiesListView("activitiesList", activities, false);
+        activitiesList = new ActivitiesListView("activitiesList", activities, true);
         activitiesList.setOutputMarkupId(true);
         activitiesListContainer.add(activitiesList);
-        AjaxFallbackLink<String> moreActivitiesLink = new AjaxFallbackLink<String>("moreActivities") {
+        AjaxFallbackLink<String> moreActivitiesLink = new AjaxFallbackLink<String>("moreActivitiesLink") {
             @Override
             public void onClick(AjaxRequestTarget target) {
                 activityPagingUser.addNewPage();
                 try {
-                    activities.addAll(activityRistoranteService.findByUser(getLoggedInUser(), activityPagingUser
+                    activities.addAll(activityRistoranteService.findByUserFriendAndUser(getLoggedInUser(), activityPagingUser
                             .getFirstResult(), activityPagingUser.getMaxResults()));
                     if (target != null) {
                         target.addComponent(activitiesListContainer);
@@ -131,45 +133,9 @@ public class UserHomePage extends BasePage {
             }
         };
         activitiesListContainer.add(moreActivitiesLink);
-        // Friends activities
-        try {
-            friendsActivities = activityRistoranteService.findByUserFriend(getLoggedInUser(), 0, 3);
-        } catch (YoueatException e) {
-            friendsActivities = new ArrayList<ActivityRistorante>();
-            error(new StringResourceModel("error.errorGettingListActivities", this, null).getString());
-        }
-
-        friendsActivitiesListContainer = new WebMarkupContainer("friendsActivitiesListContainer");
-        friendsActivitiesListContainer.setOutputMarkupId(true);
-        add(friendsActivitiesListContainer);
-        PropertyListView<ActivityRistorante> friendsActivitiesList = new ActivitiesListView(
-                "friendsActivitiesList", new ArrayList<ActivityRistorante>(friendsActivities), true);
-        friendsActivitiesListContainer.add(friendsActivitiesList);
-        AjaxFallbackLink<String> moreFriendsActivitiesLink = new AjaxFallbackLink<String>("moreFriendsActivitiesLink") {
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                activityPagingFriends.addNewPage();
-                try {
-                    friendsActivities.addAll(activityRistoranteService.findByUserFriend(getLoggedInUser(),
-                            activityPagingFriends.getFirstResult(), activityPagingFriends.getMaxResults()));
-                    if (target != null) {
-                        target.addComponent(friendsActivitiesListContainer);
-                    }
-                } catch (YoueatException e) {
-                    error(new StringResourceModel("error.errorGettingListActivities", this, null).getString());
-                }
-            }
-
-            @Override
-            protected void onBeforeRender() {
-                super.onBeforeRender();
-                if (friendsActivities.size() == 0) {
-                    setVisible(false);
-                }
-            }
-
-        };
-        friendsActivitiesListContainer.add(moreFriendsActivitiesLink);
+        // Random list view
+        RistosListView lastRistosList = new RistosListView("ristosList", ristoranteService.getRandom(10));          
+        add(lastRistosList);
     }
 
 }

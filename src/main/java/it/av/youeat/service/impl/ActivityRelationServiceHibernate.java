@@ -55,6 +55,11 @@ public class ActivityRelationServiceHibernate extends ApplicationServiceHibernat
      */
     @Override
     public List<ActivityEaterRelation> findByEaterFriend(Eater eater, int firstResult, int maxResults) {
+        return findByEaterFriend(eater, firstResult, maxResults, false);
+    }
+
+    private List<ActivityEaterRelation> findByEaterFriend(Eater eater, int firstResult, int maxResults,
+            boolean includeTheUser) {
         // TODO, improve this method using a method that return the Friends as Eater and not as Relation
         List<EaterRelation> relations = eaterRelationService.getAllActiveRelations(eater);
         // if the user hasn't friends, just return an empty list
@@ -64,6 +69,9 @@ public class ActivityRelationServiceHibernate extends ApplicationServiceHibernat
         List<Eater> friends = new ArrayList<Eater>(relations.size());
         for (EaterRelation relation : relations) {
             friends.add(relation.getToUser());
+        }
+        if (includeTheUser) {
+            friends.add(eater);
         }
         return findByEaters(friends, firstResult, maxResults);
     }
@@ -84,5 +92,13 @@ public class ActivityRelationServiceHibernate extends ApplicationServiceHibernat
         }
         Order orderByDate = Order.desc(Activity.DATE);
         return findByCriteria(orderByDate, firstResult, maxResults, orUSer);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ActivityEaterRelation> findByEaterFriendAndEater(Eater eater, int firstResult, int maxResults) {
+        return findByEaterFriend(eater, firstResult, maxResults, true);
     }
 }

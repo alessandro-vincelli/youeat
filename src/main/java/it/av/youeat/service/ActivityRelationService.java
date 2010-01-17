@@ -49,6 +49,17 @@ public interface ActivityRelationService extends ApplicationService<ActivityEate
      */
     @Transactional(readOnly = true)
     List<ActivityEaterRelation> findByEaterFriend(Eater eater, int firstResult, int maxResults);
+    
+    /**
+     * Find relation activities for the friends given user and for the user himself
+     * 
+     * @param ofUser
+     * @param firstResult first result
+     * @param maxResults number of results
+     * @return activities for the friends of the given user
+     */
+    @Transactional(readOnly = true)
+    List<ActivityEaterRelation> findByEaterFriendAndEater(Eater eater, int firstResult, int maxResults);
 
     /**
      * Find relation activities for the given users

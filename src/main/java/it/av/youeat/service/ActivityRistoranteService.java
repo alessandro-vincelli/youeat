@@ -69,6 +69,17 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      */
     @Transactional(readOnly = true)
     List<ActivityRistorante> findByUserFriend(Eater ofUser, int firstResult, int maxResults);
+    
+    /**
+     * Find activities on restaurants for the friends of the given user and of the user himself 
+     * 
+     * @param ofUser
+     * @param firstResult first result
+     * @param maxResults number of results
+     * @return activities for the friends of the given user
+     */
+    @Transactional(readOnly = true)
+    List<ActivityRistorante> findByUserFriendAndUser(Eater ofUser, int firstResult, int maxResults);
 
     /**
      * Find activities on ristoranti for the given users

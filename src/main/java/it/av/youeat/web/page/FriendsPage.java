@@ -16,14 +16,19 @@
 package it.av.youeat.web.page;
 
 import it.av.youeat.YoueatException;
+import it.av.youeat.ocm.model.ActivityEaterRelation;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.EaterRelation;
+import it.av.youeat.service.ActivityRelationService;
 import it.av.youeat.service.EaterRelationService;
+import it.av.youeat.web.commons.ActivityPaging;
+import it.av.youeat.web.components.ActivitiesRelationListView;
 import it.av.youeat.web.components.ImagesAvatar;
 import it.av.youeat.web.components.OpenFriendPageButton;
 import it.av.youeat.web.components.SendMessageButton;
 import it.av.youeat.web.components.SendMessageModalWindow;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -50,8 +55,14 @@ public class FriendsPage extends BasePage {
     private static final long serialVersionUID = 1L;
     @SpringBean
     private EaterRelationService userRelationService;
+    @SpringBean
+    private ActivityRelationService activityService;
     private PropertyListView<EaterRelation> friendsList;
     private List<EaterRelation> allRelations;
+    private ActivityPaging activityPagingUser = new ActivityPaging(0, 20);
+    private List<ActivityEaterRelation> activities;
+    private WebMarkupContainer activitiesListContainer;
+    private PropertyListView<ActivityEaterRelation> activitiesList;
 
     /**
      * Constructor that is invoked when page is invoked without a session.
@@ -184,5 +195,36 @@ public class FriendsPage extends BasePage {
             }
         });
 
+        // Activities
+        try {
+            activities = activityService.findByEaterFriendAndEater(getLoggedInUser(), activityPagingUser
+                    .getFirstResult(), activityPagingUser.getMaxResults());
+        } catch (YoueatException e) {
+            activities = new ArrayList<ActivityEaterRelation>();
+            error(new StringResourceModel("error.errorGettingListActivities", this, null).getString());
+        }
+
+        activitiesListContainer = new WebMarkupContainer("activitiesListContainer");
+        activitiesListContainer.setOutputMarkupId(true);
+        add(activitiesListContainer);
+        activitiesList = new ActivitiesRelationListView("activitiesList", activities);
+        activitiesList.setOutputMarkupId(true);
+        activitiesListContainer.add(activitiesList);
+        AjaxFallbackLink<String> moreActivitiesLink = new AjaxFallbackLink<String>("moreActivitiesLink") {
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                activityPagingUser.addNewPage();
+                try {
+                    activities.addAll(activityService.findByEaterFriendAndEater(getLoggedInUser(), activityPagingUser
+                            .getFirstResult(), activityPagingUser.getMaxResults()));
+                    if (target != null) {
+                        target.addComponent(activitiesListContainer);
+                    }
+                } catch (YoueatException e) {
+                    error(new StringResourceModel("error.errorGettingListActivities", this, null).getString());
+                }
+            }
+        };
+        activitiesListContainer.add(moreActivitiesLink);
     }
 }

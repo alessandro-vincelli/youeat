@@ -85,6 +85,11 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
      */
     @Override
     public List<ActivityRistorante> findByUserFriend(Eater ofUser, int firstResult, int maxResults) {
+        return findByUserFriend(ofUser, firstResult, maxResults, false);
+    }
+
+    private List<ActivityRistorante> findByUserFriend(Eater ofUser, int firstResult, int maxResults,
+            boolean includeTheUser) {
         // TODO, improve this method using a method that return the Friends as Eater and not as Relation
         List<EaterRelation> relations = eaterRelationService.getAllActiveRelations(ofUser);
         // if the user hasn't friends, just return an empty list
@@ -94,6 +99,9 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         List<Eater> friends = new ArrayList<Eater>(relations.size());
         for (EaterRelation relation : relations) {
             friends.add(relation.getToUser());
+        }
+        if (includeTheUser) {
+            friends.add(ofUser);
         }
         return findByUsers(friends, firstResult, maxResults);
     }
@@ -155,5 +163,13 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
     public List<ActivityRistorante> getLasts(int numberOfResult) {
         Order orderBy = Order.desc(ActivityRistorante.DATE);
         return findByCriteria(orderBy, 0, numberOfResult);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ActivityRistorante> findByUserFriendAndUser(Eater ofUser, int firstResult, int maxResults) {
+        return findByUserFriend(ofUser, firstResult, maxResults, true);
     }
 }

@@ -3,13 +3,14 @@
  */
 package it.av.youeat.ocm.model;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
  * Comparator on {@link Message} based on sent time
  * 
  */
-public class MessageComparator implements Comparator<Message> {
+public class MessageComparator implements Comparator<Message>, Serializable {
 
     @Override
     public int compare(Message o1, Message o2) {

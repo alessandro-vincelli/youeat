@@ -20,6 +20,7 @@ import it.av.youeat.ocm.model.Dialog;
 import it.av.youeat.ocm.model.Message;
 import it.av.youeat.service.DialogService;
 import it.av.youeat.web.components.ImagesAvatar;
+import it.av.youeat.web.components.OpenFriendPageButton;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +28,7 @@ import java.util.List;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
-import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -79,7 +80,7 @@ public class MessagePage extends BasePage {
 
             @Override
             protected void populateItem(final ListItem<Message> item) {
-                item.add(new Label(Message.SENDER_FIELD));
+                item.add(new OpenFriendPageButton("linkToUser", item.getModelObject().getSender()).add(new Label(Message.SENDER_FIELD)));
                 item.add(new Label(Message.SENTTIME_FIELD));
                 item.add(new Label(Message.BODY_FIELD));
                 item.add(new Label(Message.TITLE_FIELD));
@@ -94,7 +95,7 @@ public class MessagePage extends BasePage {
         add(sendMessageForm);
         sendMessageForm.add(new TextArea<String>("body").setRequired(true).add(
                 StringValidator.maximumLength(Message.BODY_MAX_LENGTH)));
-        sendMessageForm.add(new AjaxButton("submit", sendMessageForm) {
+        sendMessageForm.add(new AjaxFallbackButton("submit", sendMessageForm) {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 Message msgToSend = (Message) form.getModelObject();

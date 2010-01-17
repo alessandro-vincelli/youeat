@@ -376,6 +376,18 @@ div .friendRemoveButton {
     display: block;
 }
 
+.numberMessages{
+    font-size: x-small; 
+    color: #808080;
+}
+.rowMessageUnread{
+    background-color: #ECEEF4;
+}
+.unreadMessages{
+    font-size: x-small;
+    font-weight: bold;
+}
+
 div .messageList {
     text-align: left;
     display: block;

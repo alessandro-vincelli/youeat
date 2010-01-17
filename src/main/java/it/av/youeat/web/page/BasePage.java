@@ -16,6 +16,7 @@
 package it.av.youeat.web.page;
 
 import it.av.youeat.ocm.model.Eater;
+import it.av.youeat.service.MessageService;
 import it.av.youeat.web.Locales;
 import it.av.youeat.web.commons.CookieUtil;
 import it.av.youeat.web.security.SecuritySession;
@@ -27,14 +28,19 @@ import javax.servlet.http.Cookie;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.AjaxSelfUpdatingTimerBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.resources.CompressedResourceReference;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.time.Duration;
 
 /**
  * 
@@ -51,6 +57,8 @@ public class BasePage extends WebPage {
     private FeedbackPanel feedbackPanel;
     private boolean isAuthenticated = false;
     private Eater loggedInUser = null;
+    @SpringBean
+    private MessageService messageService;
 
     /**
      * Construct.
@@ -189,8 +197,8 @@ public class BasePage extends WebPage {
                         .isInstantiationAuthorized(FriendsPage.class)));
             }
         });
-        
-        add(new AjaxFallbackLink<String>("goMessagesPage") {
+
+        AjaxFallbackLink<String> goMessagesPage = new AjaxFallbackLink<String>("goMessagesPage") {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -207,7 +215,47 @@ public class BasePage extends WebPage {
                 setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
                         .isInstantiationAuthorized(MessageListPage.class)));
             }
+        };
+        add(goMessagesPage);
+        final long numberofMessages = messageService.countMessages(getLoggedInUser());
+        final Label numberMessages = new Label("numberMessages", new Model<String>(Long.toString(numberofMessages)));
+        numberMessages.setOutputMarkupId(true);
+        numberMessages.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(10)) {
+            @Override
+            protected void onPostProcessTarget(AjaxRequestTarget target) {
+                super.onPostProcessTarget(target);
+                long numberMessagesRefreshed = messageService.countMessages(getLoggedInUser());
+                if (numberofMessages != numberMessagesRefreshed && numberMessagesRefreshed > 0) {
+                    numberMessages.setDefaultModelObject(Long.toString(numberMessagesRefreshed));
+                    if (target != null) {
+                        //target.appendJavascript("new Effect.Highlight($('" + numberMessages.getMarkupId() + "'));");
+                    }
+                }
+            }
         });
+        numberMessages.setVisible(messageService.countMessages(getLoggedInUser()) > 0);
+        goMessagesPage.add(numberMessages);
+
+        final long numberUnreadMsgs = messageService.countUnreadMessages(getLoggedInUser());
+        final Label unreadMsgs = new Label("unreadMessages", new Model<String>("(" + numberUnreadMsgs + ")"));
+        unreadMsgs.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(5)));
+        unreadMsgs.setOutputMarkupId(true);
+        unreadMsgs.setOutputMarkupPlaceholderTag(true);
+        unreadMsgs.setVisible(messageService.countUnreadMessages(getLoggedInUser()) > 0);
+        unreadMsgs.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(10)) {
+            @Override
+            protected void onPostProcessTarget(AjaxRequestTarget target) {
+                super.onPostProcessTarget(target);
+                long numberUnreadMessagesRefreshed = messageService.countUnreadMessages(getLoggedInUser());
+                if (numberUnreadMsgs != numberUnreadMessagesRefreshed && numberUnreadMessagesRefreshed > 0) {
+                    unreadMsgs.setDefaultModelObject("(" + numberUnreadMessagesRefreshed + ")");
+                    if (target != null) {
+                        //target.appendJavascript("new Effect.Highlight($('" + unreadMsgs.getMarkupId() + "'));");
+                    }
+                }
+            }
+        });
+        goMessagesPage.add(unreadMsgs);
 
         Link<String> goItalian = new Link<String>("goItalian") {
             @Override

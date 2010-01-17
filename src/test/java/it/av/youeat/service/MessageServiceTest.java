@@ -44,6 +44,8 @@ public class MessageServiceTest extends YoueatTest {
     private EaterService userService;
     @Autowired
     private DialogService dialogService;
+    @Autowired
+    private MessageService messageService;
 
     private Eater userB;
     private Eater userC;
@@ -76,7 +78,7 @@ public class MessageServiceTest extends YoueatTest {
         msg.setSender(userB);
         msg.setBody("body");
         msg.setTitle("title");
-        
+
         Dialog dialog = dialogService.startNewDialog(userB, userC, msg);
         assertTrue("Created null dialog", dialog != null);
         assertTrue("Created dialog without creation time", dialog.getCreationTime() != null);
@@ -84,23 +86,34 @@ public class MessageServiceTest extends YoueatTest {
         assertTrue("Created dialog without receiver", dialog.getSender() != null);
         assertTrue("Created dialog without messages", dialog.getMessages() != null);
         assertTrue("Created dialog without messages", dialog.getMessages().size() == 1);
-        
+
         Message msg2 = new Message();
         msg2.setSender(userC);
         msg2.setBody("body2");
         msg2.setTitle("title2");
-        
+
         dialog = dialogService.reply(msg2, dialog);
         assertTrue("Dialog contains wrong number of messages", dialog.getMessages().size() == 2);
         assertTrue(dialog.equals(dialog.getMessages().first().getDialog()));
         List<Dialog> dialogs = dialogService.getCreatedDialogs(userB);
         assertTrue("dialogs list empty", dialogs.size() == 1);
-        
+
         dialogs = dialogService.getDialogs(userC);
         assertTrue("dialogs list empty", dialogs.size() == 1);
-        
+
         dialogs = dialogService.getCreatedDialogs(userC);
         assertTrue("dialogs list empty", dialogs.size() == 0);
+
+        long unreadMsgs = messageService.countUnreadMessages(userC);
+        assertTrue(unreadMsgs == 1);
+
+        dialogService.readDiscussion(dialog.getId(), userC);
+        unreadMsgs = messageService.countUnreadMessages(userC);
+        assertTrue(unreadMsgs == 0);
+
+        unreadMsgs = messageService.countMessages(userC);
+        assertTrue(unreadMsgs == 2);
+
     }
 
 }

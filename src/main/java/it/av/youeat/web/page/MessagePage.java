@@ -99,7 +99,8 @@ public class MessagePage extends BasePage {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 Message msgToSend = (Message) form.getModelObject();
-                dialog = dialogService.reply(msgToSend, dialog);
+                dialogService.reply(msgToSend, dialog);
+                dialog = dialogService.readDiscussion(dialogId, getLoggedInUser());
                 allMessages = getMessagesInTheDialog();
                 messageList.setModelObject(allMessages);
                 sendMessageForm.setModelObject(getNewMessage());

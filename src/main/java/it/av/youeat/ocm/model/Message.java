@@ -25,6 +25,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.Index;
 
 /**
  * Message between {@link Eater}
@@ -56,6 +57,7 @@ public class Message extends BasicEntity {
     private String body;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
+    @Index(name="idx_message_readtime")
     private Date sentTime;
     @Temporal(TemporalType.TIMESTAMP)
     private Date readTime;

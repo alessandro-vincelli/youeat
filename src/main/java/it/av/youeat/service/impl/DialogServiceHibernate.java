@@ -65,7 +65,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         Order orderBYDate = Order.asc(Dialog.CREATION_TIME_FIELD);
         return findByCriteria(orderBYDate, critBySender);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -79,7 +79,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         Order orderBYDate = Order.asc(Dialog.CREATION_TIME_FIELD);
         List<Dialog> results = findByCriteria(orderBYDate, or);
         for (int i = 0; i < results.size(); i++) {
-            if(results.get(i).getSender().equals(eater) && results.get(i).getMessages().size() == 1){
+            if (results.get(i).getSender().equals(eater) && results.get(i).getMessages().size() == 1) {
                 results.remove(i);
             }
         }
@@ -93,7 +93,9 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
     public Dialog readDiscussion(String dialogId, Eater eater) {
         Dialog dialog = getByID(dialogId);
         for (Message msg : dialog.getMessages()) {
-            messageService.markMessageAsRead(msg);
+            if (!msg.getSender().equals(eater)) {
+                messageService.markMessageAsRead(msg);
+            }
         }
         return dialog;
     }

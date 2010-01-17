@@ -15,6 +15,7 @@
  */
 package it.av.youeat.service;
 
+import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 
 import org.springframework.stereotype.Service;
@@ -37,5 +38,32 @@ public interface MessageService {
      * @return just mrked message
      */
     @Transactional
-    public Message markMessageAsRead(Message msg);
+    Message markMessageAsRead(Message msg);
+    
+    /**
+     * Count unread messages for the given user
+     * 
+     * @param eater
+     * @return number of unread messages
+     */
+    @Transactional(readOnly=true)
+    long countUnreadMessages(Eater eater);
+    
+    /**
+     * Count messages for the given user, sent and received
+     * 
+     * @param eater
+     * @return number of messages
+     */
+    @Transactional(readOnly=true)
+    long countMessages(Eater eater);
+    
+    /**
+     * Get a message from the database
+     * 
+     * @param message message to retrieve
+     * @return a message
+     */
+    @Transactional(readOnly=true)
+    Message getMessage(Message message);
 }

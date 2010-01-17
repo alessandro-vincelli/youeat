@@ -30,6 +30,7 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -79,8 +80,14 @@ public class MessageListPage extends BasePage {
         messageList = new PropertyListView<Message>("messagesList", allMessages) {
             private static final long serialVersionUID = 1L;
 
+            
+
             @Override
             protected void populateItem(final ListItem<Message> item) {
+                // if the dialog contains unread message, use a different CSS style
+                if(!(item.getModelObject().getSender().equals(getLoggedInUser())) && item.getModelObject().getReadTime() == null){
+                    item.add(new AttributeAppender("class", new Model<String>("rowMessageUnread"), " "));
+                }
                 Eater sender = item.getModelObject().getSender();
                 item.add(ImagesAvatar.getAvatar("avatar", sender, this.getPage(), true));
                 item.add(new OpenFriendPageButton("linkToUser", sender).add(new Label(Message.SENDER_FIELD)));

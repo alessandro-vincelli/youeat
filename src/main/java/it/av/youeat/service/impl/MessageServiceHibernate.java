@@ -15,9 +15,12 @@
  */
 package it.av.youeat.service.impl;
 
+import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 import it.av.youeat.ocm.util.DateUtil;
 import it.av.youeat.service.MessageService;
+
+import javax.persistence.Query;
 
 /**
  * Implements operations on {@link Message}
@@ -33,9 +36,47 @@ public class MessageServiceHibernate extends ApplicationServiceHibernate<Message
     public Message markMessageAsRead(Message msg) {
         if (msg.getReadTime() == null) {
             msg.setReadTime(DateUtil.getTimestamp());
+            System.out.println(msg.getId() + "reading");
             return save(msg);
         }
         return msg;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long countUnreadMessages(Eater eater) {
+        Query query = getJpaTemplate()
+                .getEntityManager()
+                .createQuery(
+                        "select count(msgs) from Message as msgs inner join msgs.dialog as dia where (dia.receiver = :diaReceiver or dia.sender = :diaSender) and msgs.readTime = null and msgs.sender != :sender");
+        query.setParameter("diaReceiver", eater);
+        query.setParameter("diaSender", eater);
+        query.setParameter("sender", eater);
+        return (Long) query.getSingleResult();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long countMessages(Eater eater) {
+        Query query = getJpaTemplate()
+                .getEntityManager()
+                .createQuery(
+                        "select count(msgs) from Message as msgs inner join msgs.dialog as dia where dia.receiver = :receiver or dia.sender = :sender");
+        query.setParameter("sender", eater);
+        query.setParameter("receiver", eater);
+        return (Long) query.getSingleResult();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Message getMessage(Message message) {
+        return getByID(message.getId());
     }
 
 }

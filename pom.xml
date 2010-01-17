@@ -97,6 +97,10 @@
 	    	<id>se-jcr-repo</id>  
 			<name>se-jcr-repo</name>  
 			<url>https://src.springframework.org/svn/se-jcr/repo/</url>  
+		</repository>
+		<repository>
+			<id>wicket-snaps</id>
+			<url>http://wicketstuff.org/maven/repository</url>
 		</repository> 
 	</repositories>
 	<dependencies>

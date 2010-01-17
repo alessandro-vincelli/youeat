@@ -74,7 +74,7 @@ public class SignUpPanel extends Panel {
      * 
      * @param id
      * @param feedbackPanel
-     * @param userService
+     * @param eaterService
      * @throws YoueatException
      */
     public SignUpPanel(String id, FeedbackPanel feedbackPanel, EaterService userService, CountryService countryService)

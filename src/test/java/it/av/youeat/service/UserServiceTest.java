@@ -27,7 +27,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -40,7 +39,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceTest extends YoueatTest {
 
     @Autowired
-    @Qualifier("userService")
     private EaterService userService;
 
     @Before
@@ -62,7 +60,7 @@ public class UserServiceTest extends YoueatTest {
 
         userService.add(a);
 
-        // a = userService.getByPath(a.getPath());
+        // a = eaterService.getByPath(a.getPath());
         assertNotNull("A is null", a);
         assertNotNull("Profile is null", a.getUserProfile());
         assertEquals("Invalid value for test", "Alessandro", a.getFirstname());
@@ -78,11 +76,11 @@ public class UserServiceTest extends YoueatTest {
         assertNotNull("A is null", a);
         assertEquals("Invalid value for test", "Alessandro", a.getFirstname());
 
-        /*List<Eater> found = userService.freeTextSearch("Ale*");
+        /*List<Eater> found = eaterService.freeTextSearch("Ale*");
         assertNotNull(found);
         assertTrue(found.size() > 0);
         
-        found = userService.freeTextSearch("vinc*");
+        found = eaterService.freeTextSearch("vinc*");
         assertNotNull(found);
         assertTrue(found.size() > 0);
         */
@@ -115,7 +113,7 @@ public class UserServiceTest extends YoueatTest {
         // ArrayList<EaterRelation> userRels = new ArrayList<EaterRelation>(1);
         // userRels.add(relations);
         // c.setUserRelation(userRels);
-        // c = userService.update(c);
+        // c = eaterService.update(c);
         // assertNotNull("Friends is null", c.getUserRelation().get(0));
         // assertNotNull("Friend C is null", c.getUserRelation().get(0).getFromUser());
         // assertNotNull("Friend A null", c.getUserRelation().get(0).getToUser());
@@ -123,7 +121,7 @@ public class UserServiceTest extends YoueatTest {
 
         userService.remove(c);
         userService.remove(b);
-        // userService.remove(userService.getByPath(aPath));
+        // eaterService.remove(eaterService.getByPath(aPath));
 
     }
 

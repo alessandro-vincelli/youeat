@@ -18,10 +18,12 @@ package it.av.youeat.service;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import it.av.youeat.YoueatException;
+import it.av.youeat.ocm.model.ActivityEaterRelation;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.EaterRelation;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -38,20 +40,21 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
-public class UserRelationServiceTest extends YoueatTest{
+public class UserRelationServiceTest extends YoueatTest {
 
     @Autowired
-    @Qualifier("userService")
+    @Qualifier("eaterService")
     private EaterService userService;
     @Autowired
     private EaterRelationService userRelationService;
-    
+    @Autowired
+    private ActivityRelationService activityRelationService;
+
     private Eater a;
     private Eater b;
-    ;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         super.setUp();
         a = new Eater();
         a.setFirstname("Alessandro");
@@ -100,6 +103,10 @@ public class UserRelationServiceTest extends YoueatTest{
         assertNotNull(friends);
         assertTrue(friends.size() == 1);
 
+        List<ActivityEaterRelation> activities = activityRelationService.findByEater(a);
+        assertTrue(activities.size() == 1);
+        assertTrue(activities.get(0).getEaterActivityType().equals(ActivityEaterRelation.TYPE_STARTS_FOLLOWING));
+
         userRelationService.remove(relationFollow);
         friends = userRelationService.getAllRelations(a);
         assertNotNull(friends);
@@ -138,6 +145,18 @@ public class UserRelationServiceTest extends YoueatTest{
         } catch (Exception e) {
             // expected
         }
+
+        activities = activityRelationService.findByEater(a);
+        assertTrue(activities.size() == 2);
+        assertTrue(activities.get(0).getEaterActivityType().equals(ActivityEaterRelation.TYPE_ARE_FRIENDS));
+
+        activities = activityRelationService.findByEater(b);
+        assertTrue(activities.size() == 2);
+        assertTrue(activities.get(0).getEaterActivityType().equals(ActivityEaterRelation.TYPE_ARE_FRIENDS));
+
+        activities = activityRelationService.findByEaterFriend(a);
+        assertTrue(activities.size() == 2);
+        assertTrue(activities.get(0).getEaterActivityType().equals(ActivityEaterRelation.TYPE_ARE_FRIENDS));
 
         userRelationService.remove(relation);
         friends = userRelationService.getAllFriendUsers(a);

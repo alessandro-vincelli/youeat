@@ -35,9 +35,9 @@ import javax.annotation.Resource;
  */
 public class RepositoryInitStructureImpl implements RepositoryInitStructure {
 
-    @Resource(name="userProfileService")
+    @Resource(name="eaterProfileService")
     private EaterProfileService userProfileService;
-    @Resource(name="userService")
+    @Resource(name="eaterService")
     private EaterService userService;
     @Resource(name="ristoranteService")
     private RistoranteService ristoranteService;
@@ -104,9 +104,9 @@ public class RepositoryInitStructureImpl implements RepositoryInitStructure {
             risto.setProvince("TR");
             
             userService.add(userADMIN);
-            //userService.addRegolarUser(userAUSER);
-            //userService.addRegolarUser(userBUSER);
-            //userService.addRegolarUser(userUSER);
+            //eaterService.addRegolarUser(userAUSER);
+            //eaterService.addRegolarUser(userBUSER);
+            //eaterService.addRegolarUser(userUSER);
             //ristoranteService.insert(risto, userAUSER);
         }
         

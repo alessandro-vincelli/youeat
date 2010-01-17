@@ -30,7 +30,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 public class SignUpPage extends BasePage {
 
     private static final long serialVersionUID = 1L;
-    @SpringBean(name = "userService")
+    @SpringBean(name = "eaterService")
     private EaterService userService;
     @SpringBean(name = "countryService")
     private CountryService countryService;

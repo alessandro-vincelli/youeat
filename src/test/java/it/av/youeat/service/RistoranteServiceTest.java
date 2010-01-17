@@ -38,7 +38,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -52,8 +51,7 @@ public class RistoranteServiceTest extends YoueatTest {
     @Autowired
     private RistoranteService ristoranteService;
     @Autowired
-    @Qualifier("userService")
-    private EaterService userService;
+    private EaterService eaterService;
     @Autowired
     private LanguageService languageService;
 
@@ -73,15 +71,15 @@ public class RistoranteServiceTest extends YoueatTest {
         italian.setLanguage("xx");
         italian.setCountry("xx");
         languageService.save(italian);
-        user = userService.addRegolarUser(user);
+        user = eaterService.addRegolarUser(user);
 
     }
 
     @After
     public void tearDown() {
 
-        // user = userService.getByEmail(user.getEmail());
-        // userService.remove(user);
+        // user = eaterService.getByEmail(user.getEmail());
+        // eaterService.remove(user);
 
     }
 

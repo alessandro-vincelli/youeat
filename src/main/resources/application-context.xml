@@ -120,15 +120,13 @@
 		<property name="configurationType" value="development" />
 	</bean>
 
-	<bean id="userService" class="it.av.youeat.service.impl.EaterServiceHibernate" parent="jpaDaoSupport" >
+	<bean id="eaterService" class="it.av.youeat.service.impl.EaterServiceHibernate" parent="jpaDaoSupport" >
 		<property name="passwordEncoder" ref="strongPasswordEncryptor" />
-		<property name="userProfileService" ref="userProfileService" />
-		<property name="userRelationService" ref="userRelationService" />
 	</bean>
 
 	<bean id="commentService" class="it.av.youeat.service.impl.CommentServiceHibernate" parent="jpaDaoSupport" />
 
-	<bean id="userProfileService" class="it.av.youeat.service.impl.EaterProfileServiceHibernate" parent="jpaDaoSupport" />
+	<bean id="eaterProfileService" class="it.av.youeat.service.impl.EaterProfileServiceHibernate" parent="jpaDaoSupport" />
 
 	<bean id="activityService" class="it.av.youeat.service.impl.ActivityServiceHibernate" parent="jpaDaoSupport" />
 
@@ -148,7 +146,9 @@
 		<property name="basePath" value="/ristoranti" />
 	</bean>-->
 	
-	<bean id="userRelationService" class="it.av.youeat.service.impl.EaterRelationServiceHibernate" parent="jpaDaoSupport" />
+	<bean id="eaterRelationService" class="it.av.youeat.service.impl.EaterRelationServiceHibernate" parent="jpaDaoSupport" />
+	
+	<bean id="activityRelationService" class="it.av.youeat.service.impl.ActivityRelationServiceHibernate" parent="jpaDaoSupport" />
 	
 	<bean id="dataRistoranteService" class="it.av.youeat.service.impl.DataRistoranteServiceHibernate" parent="jpaDaoSupport"/>
 	
@@ -177,7 +177,7 @@
 	</bean>
 
 	<bean id="userDetailsService" class="it.av.youeat.web.security.UserDetailsServiceImpl" scope="prototype">
-		<property name="service" ref="userService" />
+		<property name="service" ref="eaterService" />
 	</bean>
 
 	<bean id="daoAuthenticationProvider" class="org.springframework.security.providers.dao.DaoAuthenticationProvider">

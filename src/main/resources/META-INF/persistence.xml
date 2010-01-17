@@ -14,7 +14,7 @@
 	
 		<class>it.av.youeat.ocm.model.Activity</class>
 		<class>it.av.youeat.ocm.model.ActivityRistorante</class>
-		<class>it.av.youeat.ocm.model.ActivityUserRelation</class>
+		<class>it.av.youeat.ocm.model.ActivityEaterRelation</class>
 		<class>it.av.youeat.ocm.model.BasicEntity</class>
 		<class>it.av.youeat.ocm.model.Comment</class>
 		<class>it.av.youeat.ocm.model.Dialog</class>

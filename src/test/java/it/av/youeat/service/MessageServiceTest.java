@@ -27,7 +27,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -40,8 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MessageServiceTest extends YoueatTest {
 
     @Autowired
-    @Qualifier("userService")
-    private EaterService userService;
+    private EaterService eaterService;
     @Autowired
     private DialogService dialogService;
     @Autowired
@@ -62,17 +60,17 @@ public class MessageServiceTest extends YoueatTest {
         userB.setEmail("userServiceTest@test.com");
         userB.setCountry(getNocountry());
         userB.setLanguage(languageService.getAll().get(0));
-        userB = userService.addRegolarUser(userB);
+        userB = eaterService.addRegolarUser(userB);
         assertNotNull("A is null", userB);
 
         userC = new Eater();
         userC.setFirstname("Arnaldo");
         userC.setLastname("Vincelli");
         userC.setPassword("secret");
-        userC.setEmail("a.vincelli@gmail.com");
+        userC.setEmail("userServiceTest2@test.com");
         userC.setLanguage(languageService.getAll().get(0));
         userC.setCountry(getNocountry());
-        userC = userService.addRegolarUser(userC);
+        userC = eaterService.addRegolarUser(userC);
         assertNotNull("C is null", userC);
     }
 

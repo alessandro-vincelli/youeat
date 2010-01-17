@@ -33,10 +33,10 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
     @Qualifier("activityRistoranteService")
     private ActivityRistoranteService activityRistoranteService;
     @Autowired
-    @Qualifier("userService")
+    @Qualifier("eaterService")
     private EaterService userService;
     @Autowired
-    @Qualifier("userRelationService")
+    @Qualifier("eaterRelationService")
     private EaterRelationService userRelationService;
     @Autowired
     private RistoranteService ristoranteService;
@@ -97,7 +97,7 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         // assertNotNull(activities);
         // assertTrue(activities.size() > 0);
         user = userService.getByEmail(user.getEmail());
-        // userService.remove(user);
+        // eaterService.remove(user);
         activityRistoranteService.remove(activity);
 
         // Using the service

@@ -21,7 +21,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -35,8 +34,7 @@ public class UserServiceTransactionManagerTest{
 	
 	@Autowired
 	//@Qualifier("userServiceFailing")
-	@Qualifier("userService")
-	protected EaterService userService;
+	protected EaterService eaterService;
 
 	 /**
      * Proves that the instance of {@link TransferService} that is retrieved
@@ -45,7 +43,7 @@ public class UserServiceTransactionManagerTest{
     @Test
     public void verifyTransferServiceBeanIsProxy() {
         assertTrue("transaction management proxy was not applied as expected",
-                AopUtils.isAopProxy(userService));
+                AopUtils.isAopProxy(eaterService));
     }
 	
 	@Test
@@ -58,7 +56,7 @@ public class UserServiceTransactionManagerTest{
 			*/
 			try {
 			    //FIXME Change the faultijection class
-				//userService.insert(a);
+				//eaterService.insert(a);
 				//fail("should have thrown injected fault exception");
 			} catch (Exception e) {
 				//expected

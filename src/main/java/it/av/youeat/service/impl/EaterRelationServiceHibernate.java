@@ -16,9 +16,11 @@
 package it.av.youeat.service.impl;
 
 import it.av.youeat.YoueatException;
+import it.av.youeat.ocm.model.ActivityEaterRelation;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.EaterRelation;
 import it.av.youeat.ocm.util.DateUtil;
+import it.av.youeat.service.ActivityRelationService;
 import it.av.youeat.service.EaterRelationService;
 
 import java.util.List;
@@ -27,6 +29,7 @@ import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 
@@ -35,13 +38,20 @@ import org.hibernate.criterion.Restrictions;
 public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<EaterRelation> implements
         EaterRelationService {
 
+    @Autowired
+    private ActivityRelationService activityRelationService;
+
     /**
      * {@inheritDoc}
      */
     @Override
     public EaterRelation addFollowUser(Eater fromUser, Eater toUser) {
         EaterRelation relation = EaterRelation.createFollowRelation(fromUser, toUser);
-        return save(relation);
+        relation = save(relation);
+        ActivityEaterRelation activity = new ActivityEaterRelation(DateUtil.getTimestamp(), fromUser, toUser,
+                ActivityEaterRelation.TYPE_STARTS_FOLLOWING);
+        activityRelationService.save(activity);
+        return relation;
     }
 
     /**
@@ -77,7 +87,11 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
             inverseRelation.setType(EaterRelation.TYPE_FRIEND);
             inverseRelation.setStatus(EaterRelation.STATUS_ACTIVE);
             save(inverseRelation);
-            return save(relation);
+            EaterRelation savedRelation = save(relation);
+            ActivityEaterRelation activity = new ActivityEaterRelation(DateUtil.getTimestamp(), savedRelation
+                    .getFromUser(), savedRelation.getToUser(), ActivityEaterRelation.TYPE_ARE_FRIENDS);
+            activityRelationService.save(activity);
+            return savedRelation;
         } else {
             throw new YoueatException("Relation cannot be updated");
         }

@@ -21,39 +21,47 @@ import javax.persistence.Entity;
 
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
- *
+ * 
  */
 @Entity
-public class ActivityUserRelation extends Activity{
-    
-    public static final String USER_ACTIVITY_TYPE = "userActivityType";
+public class ActivityEaterRelation extends Activity {
+
+    /**
+     * an eater starts following another
+     */
+    public static final String TYPE_STARTS_FOLLOWING = "starts following";
+    /**
+     * two eater are now friends
+     */
+    public static final String TYPE_ARE_FRIENDS = "are friends";
+
+    public static final String EATER_ACTIVITY_TYPE = "eaterActivityType";
     public static final String WITH_USER = "withUser";
 
-    private String userActivityType;
+    private String eaterActivityType;
     private Eater withUser;
 
-    public ActivityUserRelation() {
+    public ActivityEaterRelation() {
         super();
     }
 
-    public ActivityUserRelation(Timestamp date, Eater user) {
+    public ActivityEaterRelation(Timestamp date, Eater user) {
         super(date, user);
-        // TODO Auto-generated constructor stub
     }
 
-    public ActivityUserRelation(Timestamp date, Eater eater, Eater withUser, String userActivityType) {
+    public ActivityEaterRelation(Timestamp date, Eater eater, Eater withUser, String eaterActivityType) {
         super.setDate(date);
         super.setEater(eater);
         this.withUser = withUser;
-        this.userActivityType = userActivityType;
+        this.eaterActivityType = eaterActivityType;
     }
 
-    public String getUserActivityType() {
-        return userActivityType;
+    public String getEaterActivityType() {
+        return eaterActivityType;
     }
 
-    public void setUserActivityType(String userActivityType) {
-        this.userActivityType = userActivityType;
+    public void setEaterActivityType(String eaterActivityType) {
+        this.eaterActivityType = eaterActivityType;
     }
 
     public Eater getWithUser() {
@@ -63,6 +71,5 @@ public class ActivityUserRelation extends Activity{
     public void setWithUser(Eater withUser) {
         this.withUser = withUser;
     }
-
 
 }

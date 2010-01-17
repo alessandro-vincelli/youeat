@@ -25,7 +25,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -37,8 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CommentServiceTest extends YoueatTest{
     @Autowired
-    @Qualifier("userService")
-    private EaterService userService;
+    private EaterService eaterService;
     @Autowired
     private RistoranteService ristoranteService;
     @Autowired
@@ -58,7 +56,7 @@ public class CommentServiceTest extends YoueatTest{
         a.setPassword("secret");
         a.setEmail("a.commentService@test.com");
         a.setCountry(getNocountry());
-        a = userService.addRegolarUser(a);
+        a = eaterService.addRegolarUser(a);
 
         Ristorante rist = new Ristorante();
         rist.setName("RistoTest");
@@ -76,7 +74,7 @@ public class CommentServiceTest extends YoueatTest{
         commentService.remove(comment);
 
         ristoranteService.remove(rist);
-        userService.remove(a);
+        eaterService.remove(a);
 
     }
 }

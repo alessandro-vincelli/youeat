@@ -37,8 +37,8 @@ public class JcrRistoranteServiceTest {
 //    //@Autowired
 //    //private JcrRistoranteService jcrRistoranteService;
 //    @Autowired
-//    @Qualifier("userService")
-//    private UserService userService;
+//    @Qualifier("eaterService")
+//    private UserService eaterService;
 //    Eater user;
 //
 //    @Before
@@ -50,7 +50,7 @@ public class JcrRistoranteServiceTest {
 //        user.setEmail("a.ristoranteService@test.com");
 //
 //        try {
-//            user = userService.addRegolarUser(user);
+//            user = eaterService.addRegolarUser(user);
 //        } catch (JackWicketException e) {
 //          fail(e.getMessage());
 //        }
@@ -60,8 +60,8 @@ public class JcrRistoranteServiceTest {
 //    public void tearDown() {
 //        try {
 //            //refresh the user, to remove all the related activities
-//            user = userService.getByEmail(user.getEmail());
-//            userService.remove(user);
+//            user = eaterService.getByEmail(user.getEmail());
+//            eaterService.remove(user);
 //         } catch (JackWicketException e) {
 //            fail(e.getMessage());
 //        }

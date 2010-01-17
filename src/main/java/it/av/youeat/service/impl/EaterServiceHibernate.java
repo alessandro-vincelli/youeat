@@ -35,6 +35,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.jasypt.util.password.StrongPasswordEncryptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -44,15 +45,17 @@ import org.springframework.dao.DataAccessException;
 public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> implements EaterService {
 
     private StrongPasswordEncryptor passwordEncoder;
-    private EaterProfileService userProfileService;
-    private EaterRelationService userRelationService;
+    @Autowired
+    private EaterProfileService eaterProfileService;
+    @Autowired
+    private EaterRelationService eaterRelationService;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Eater addRegolarUser(Eater object) {
-        object.setUserProfile(userProfileService.getRegolarUserProfile());
+        object.setUserProfile(eaterProfileService.getRegolarUserProfile());
         try {
             return add(object);
         } catch (ConstraintViolationException e) {
@@ -70,7 +73,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         }
         object.setPassword(passwordEncoder.encryptPassword(object.getPassword()));
         if (object.getUserProfile() == null) {
-            object.setUserProfile(userProfileService.getRegolarUserProfile());
+            object.setUserProfile(eaterProfileService.getRegolarUserProfile());
         }
         return super.save(object);
     }
@@ -111,7 +114,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         searchPattern.append(forUser.getId());
         searchPattern.append(" ");
         // collect eater already friends to exclude them from the results 
-        Collection<EaterRelation> relatedUser = userRelationService.getAllRelations(forUser);
+        Collection<EaterRelation> relatedUser = eaterRelationService.getAllRelations(forUser);
         ArrayList<String> relatedUserId = new ArrayList<String>(relatedUser.size());
         for (EaterRelation userRelation : relatedUser) {
             relatedUserId.add(userRelation.getToUser().getId());
@@ -169,11 +172,11 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
     }
 
     public void setUserProfileService(EaterProfileService userProfileService) {
-        this.userProfileService = userProfileService;
+        this.eaterProfileService = userProfileService;
     }
 
     public void setUserRelationService(EaterRelationService userRelationService) {
-        this.userRelationService = userRelationService;
+        this.eaterRelationService = userRelationService;
     }
 
     /**

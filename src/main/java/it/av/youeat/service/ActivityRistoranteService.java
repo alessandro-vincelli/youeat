@@ -80,9 +80,9 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      */
     @Transactional(readOnly = true)
     List<ActivityRistorante> findByUsers(List<Eater> users, int firstResult, int maxResults);
-    
+
     /**
-     * Is the given ristorante favourite for the given user 
+     * Is the given ristorante favourite for the given user
      * 
      * @param user
      * @param ristorante
@@ -95,10 +95,11 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      * {@inheritDoc}
      */
     @Transactional
+    @Override
     ActivityRistorante save(ActivityRistorante activityRistorante);
-    
+
     /**
-     * Return the last activities on risto 
+     * Return the last activities on risto
      * 
      * @param numberOfResult number of result to return
      * @return lasts activities

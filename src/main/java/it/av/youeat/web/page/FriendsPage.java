@@ -54,7 +54,7 @@ public class FriendsPage extends BasePage {
 
     private static final long serialVersionUID = 1L;
     @SpringBean
-    private EaterRelationService userRelationService;
+    private EaterRelationService eaterRelationService;
     @SpringBean
     private ActivityRelationService activityService;
     private PropertyListView<EaterRelation> friendsList;
@@ -72,7 +72,7 @@ public class FriendsPage extends BasePage {
     public FriendsPage() throws YoueatException {
         super();
         add(getFeedbackPanel());
-        allRelations = userRelationService.getAllRelations(getLoggedInUser());
+        allRelations = eaterRelationService.getAllRelations(getLoggedInUser());
         final Label noYetFriends = new Label("noYetFriends", getString("noYetFriends")) {
             @Override
             protected void onBeforeRender() {
@@ -120,8 +120,8 @@ public class FriendsPage extends BasePage {
                             @Override
                             public void onClick(AjaxRequestTarget target) {
                                 try {
-                                    ((FriendsPage) getPage()).userRelationService.remove(getModelObject());
-                                    allRelations = userRelationService.getAllRelations(getLoggedInUser());
+                                    ((FriendsPage) getPage()).eaterRelationService.remove(getModelObject());
+                                    allRelations = eaterRelationService.getAllRelations(getLoggedInUser());
                                     ((FriendsPage) target.getPage()).friendsList.setModelObject(allRelations);
                                     noYetFriends.setVisible(allRelations.size() == 0);
                                     info(getString("info.userRelationRemoved"));
@@ -143,8 +143,8 @@ public class FriendsPage extends BasePage {
                     @Override
                     public void onClick(AjaxRequestTarget target) {
                         try {
-                            ((FriendsPage) getPage()).userRelationService.performFriendRequestConfirm(getModelObject());
-                            allRelations = userRelationService.getAllRelations(getLoggedInUser());
+                            ((FriendsPage) getPage()).eaterRelationService.performFriendRequestConfirm(getModelObject());
+                            allRelations = eaterRelationService.getAllRelations(getLoggedInUser());
                             ((FriendsPage) target.getPage()).friendsList.setModelObject(allRelations);
                             noYetFriends.setVisible(allRelations.size() == 0);
                             // info(new StringResourceModel("info.userRelationRemoved", this, null).getString());
@@ -167,8 +167,8 @@ public class FriendsPage extends BasePage {
                     @Override
                     public void onClick(AjaxRequestTarget target) {
                         try {
-                            ((FriendsPage) getPage()).userRelationService.performFriendRequestIgnore(getModelObject());
-                            allRelations = userRelationService.getAllRelations(getLoggedInUser());
+                            ((FriendsPage) getPage()).eaterRelationService.performFriendRequestIgnore(getModelObject());
+                            allRelations = eaterRelationService.getAllRelations(getLoggedInUser());
                             ((FriendsPage) target.getPage()).friendsList.setModelObject(allRelations);
                             noYetFriends.setVisible(allRelations.size() == 0);
                             // info(new StringResourceModel("info.userRelationRemoved", this, null).getString());

@@ -75,45 +75,6 @@
 	
 	<bean id="strongPasswordEncryptor" class="org.jasypt.util.password.StrongPasswordEncryptor" />
 	
-	<!-- <bean id="jcrSessionFactory" class="org.springframework.extensions.jcr.jackrabbit.JackrabbitSessionFactory">
-		<property name="repository" ref="repository"/>
-		<property name="credentials">
-			<bean class="javax.jcr.SimpleCredentials">
-				<constructor-arg index="0" value="admin" />
-				<constructor-arg index="1" value="admin" />
-			</bean>
-		</property> -->
-		<!-- <property name="nodeDefinitions" value="classpath:custom_nodetypes.xml"/>
-		<property name="namespaces">
-			<props>
-				<prop key="ocm">http://jackrabbit.apache.org/ocm</prop>
-			</props>
-		</property>
-		<property name="keepNewNamespaces" value="true"></property> -->
-	<!-- </bean> -->
-
-	<bean id="mapper" class="org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl">
-		<constructor-arg>
-		<list value-type="java.lang.Class">
-			<value>it.av.youeat.ocm.model.BasicEntity</value>
-	       	<value>it.av.youeat.ocm.model.Ristorante</value>
-	        <value>it.av.youeat.ocm.model.Folder</value>
-      	</list>
-		</constructor-arg>
-	</bean>
-	
-<!-- 	<bean id="jcrMappingTemplateGeneric" class="org.springframework.extensions.jcr.jackrabbit.ocm.JcrMappingTemplateGeneric">
-		<constructor-arg index="0" ref="jcrSessionFactory"/>
-		<constructor-arg index="1" ref="mapper"/>
-		<property name="allowCreate" value="false"/>
-	</bean>
-
-	<bean id="jcrMappingTemplate" class="org.springframework.extensions.jcr.jackrabbit.ocm.JcrMappingTemplate">
-		<constructor-arg index="0" ref="jcrSessionFactory"/>
-		<constructor-arg index="1" ref="mapper"/>
-		<property name="allowCreate" value="false"/>
-	</bean> -->
-
 	<bean id="jpaDaoSupport" class="org.springframework.orm.jpa.support.JpaDaoSupport" abstract="true"/>
 	
  	<bean id="wicketApplication" class="it.av.youeat.web.YoueatApplication">

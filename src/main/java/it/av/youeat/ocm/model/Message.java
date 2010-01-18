@@ -51,12 +51,12 @@ public class Message extends BasicEntity {
     @ManyToOne
     @ForeignKey(name = "message_to_sender_author_fk")
     private Eater sender;
-    @Column(length = TITLE_MAX_LENGTH)
+    @Column(length = TITLE_MAX_LENGTH, updatable=false)
     private String title;
-    @Column(length = BODY_MAX_LENGTH)
+    @Column(length = BODY_MAX_LENGTH, updatable=false)
     private String body;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
+    @Column(nullable = false, updatable=false)
     @Index(name="idx_message_readtime")
     private Date sentTime;
     @Temporal(TemporalType.TIMESTAMP)

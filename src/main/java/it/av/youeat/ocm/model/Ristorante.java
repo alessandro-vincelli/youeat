@@ -36,7 +36,6 @@ import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.apache.solr.analysis.ISOLatin1AccentFilterFactory;
 import org.apache.solr.analysis.LowerCaseFilterFactory;
 import org.apache.solr.analysis.StandardTokenizerFactory;
@@ -59,7 +58,6 @@ import org.hibernate.search.annotations.TokenizerDef;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Node(jcrType = "nt:unstructured", jcrMixinTypes = "mix:versionable, mix:lockable", extend = BasicEntity.class)
 @Entity
 @Embeddable
 @Indexed
@@ -69,7 +67,7 @@ import org.hibernate.search.annotations.TokenizerDef;
         @TokenFilterDef(factory = StopFilterFactory.class, params = {
                 @Parameter(name = "words", value = "properties/stoplist.properties"),
                 @Parameter(name = "ignoreCase", value = "true") }) })
-public class Ristorante extends BasicEntity implements BasicNode {
+public class Ristorante extends BasicEntity{
 
     public static final String PATH = "path";
     public static final String NAME = "name";
@@ -93,8 +91,7 @@ public class Ristorante extends BasicEntity implements BasicNode {
     private String path;
     @Deprecated
     private String uuid;
-    @Deprecated
-    private String version;
+    private int version;
     @Field(index = Index.TOKENIZED, store = Store.NO)
     @Analyzer(definition = "ristoranteanalyzer")
     @org.hibernate.annotations.Index(name="risto_name_index")
@@ -118,6 +115,7 @@ public class Ristorante extends BasicEntity implements BasicNode {
     @Column(length = 10000)
     private String description;
 
+    @Column(length = 15000)
     private String www;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -189,13 +187,11 @@ public class Ristorante extends BasicEntity implements BasicNode {
         this.uuid = uuid;
     }
 
-    @Deprecated
-    public String getVersion() {
-        return this.version;
+    public int getVersion() {
+        return version;
     }
 
-    @Deprecated
-    public void setVersion(String version) {
+    public void setVersion(int version) {
         this.version = version;
     }
 

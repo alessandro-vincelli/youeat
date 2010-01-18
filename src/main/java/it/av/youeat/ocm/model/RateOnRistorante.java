@@ -15,6 +15,7 @@
  */
 package it.av.youeat.ocm.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 
@@ -25,7 +26,8 @@ import javax.persistence.Entity;
 @Entity
 public class RateOnRistorante extends BasicEntity {
 
-    private Integer rate;
+    @Column(nullable=false, updatable=false)
+    private int rate;
     
     public RateOnRistorante() {}
     
@@ -34,11 +36,11 @@ public class RateOnRistorante extends BasicEntity {
         
     }
 
-    public Integer getRate() {
+    public int getRate() {
         return rate;
     }
 
-    public void setRate(Integer rate) {
+    public void setRate(int rate) {
         this.rate = rate;
     }
 

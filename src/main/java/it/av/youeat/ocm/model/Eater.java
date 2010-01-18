@@ -28,6 +28,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
 
 import org.apache.solr.analysis.ISOLatin1AccentFilterFactory;
 import org.apache.solr.analysis.LowerCaseFilterFactory;
@@ -51,7 +52,7 @@ import org.hibernate.search.annotations.TokenizerDef;
 @AnalyzerDef(name = "eateranalyzer", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class), filters = {
         @TokenFilterDef(factory = ISOLatin1AccentFilterFactory.class),
         @TokenFilterDef(factory = LowerCaseFilterFactory.class) })
-public class Eater extends BasicEntity {
+public class Eater extends BasicEntity implements Comparable<Eater> {
 
     public static final String ID = "id";
     public static final String PASSWORD = "password";
@@ -87,7 +88,7 @@ public class Eater extends BasicEntity {
     @ManyToOne
     @ForeignKey(name = "eater_to_langiage_fk")
     private Language language;
-    @ManyToOne(optional=false)
+    @ManyToOne(optional = false)
     @ForeignKey(name = "eater_to_profile_fk")
     private EaterProfile userProfile;
     @OneToMany
@@ -100,6 +101,8 @@ public class Eater extends BasicEntity {
     @OneToMany(mappedBy = "fromUser", cascade = { CascadeType.ALL })
     @ForeignKey(name = "eater_to_eaterRelation_fk")
     private List<EaterRelation> userRelation;
+    @Version
+    private int version;
 
     /** default constructor */
     public Eater() {
@@ -219,11 +222,31 @@ public class Eater extends BasicEntity {
         this.blocked = blocked;
     }
 
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
         return getFirstname() + " " + getLastname();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int compareTo(Eater o) {
+        if (o.getFirstname().equalsIgnoreCase(getFirstname())) {
+            return o.getLastname().compareToIgnoreCase(getLastname());
+        } else {
+            return o.getFirstname().compareToIgnoreCase(getFirstname());
+        }
     }
 }

@@ -23,25 +23,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.apache.jackrabbit.ocm.manager.beanconverter.impl.ReferenceBeanConverterImpl;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.hibernate.annotations.ForeignKey;
 
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
- *
+ * 
  */
 @Entity
 @Table(
-        //uniqueConstraints = {@UniqueConstraint(columnNames={"from_user_id", "to_user_id"})}
+// uniqueConstraints = {@UniqueConstraint(columnNames={"from_user_id", "to_user_id"})}
 )
-public class EaterRelation extends BasicEntity{
+public class EaterRelation extends BasicEntity implements Comparable<EaterRelation> {
 
     public final static String STATUS_ACTIVE = "active";
     public final static String STATUS_PENDING = "pending";
     public final static String STATUS_IGNORED = "ignored";
-    
+
     public final static String TYPE_FRIEND = "friend";
     public final static String TYPE_FOLLOW = "follow";
 
@@ -51,25 +48,18 @@ public class EaterRelation extends BasicEntity{
     public final static String TYPE = "type";
     public final static String FROM_USER = "fromUser";
     public final static String TO_USER = "toUser";
-    @Field
     private Timestamp startDate;
-    @Field
     private Timestamp endDate;
-    @Field
     private String status;
-    @Field
     private String type;
-    @Bean(converter = ReferenceBeanConverterImpl.class, jcrMandatory=true, jcrType = "nt:unstructured")
     @ManyToOne
-    @ForeignKey(name="eaterrelation_to_fromeater_fk")
+    @ForeignKey(name = "eaterrelation_to_fromeater_fk")
     private Eater fromUser;
-    @Bean(converter = ReferenceBeanConverterImpl.class, jcrMandatory=true, jcrType = "nt:unstructured")
     @OneToOne
-    @ForeignKey(name="eaterrelation_to_toeater_fk")
+    @ForeignKey(name = "eaterrelation_to_toeater_fk")
     private Eater toUser;
 
-    
-    public static EaterRelation createFollowRelation(Eater fromUser, Eater toUser){
+    public static EaterRelation createFollowRelation(Eater fromUser, Eater toUser) {
         EaterRelation relation = new EaterRelation();
         relation.setStartDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
         relation.setStatus(STATUS_ACTIVE);
@@ -78,8 +68,8 @@ public class EaterRelation extends BasicEntity{
         relation.setToUser(toUser);
         return relation;
     }
-    
-    public static EaterRelation createFriendRelation(Eater fromUser, Eater toUser){
+
+    public static EaterRelation createFriendRelation(Eater fromUser, Eater toUser) {
         EaterRelation relation = new EaterRelation();
         relation.setStartDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
         relation.setStatus(STATUS_PENDING);
@@ -88,9 +78,10 @@ public class EaterRelation extends BasicEntity{
         relation.setToUser(toUser);
         return relation;
     }
-    
-    public EaterRelation() {}
- 
+
+    public EaterRelation() {
+    }
+
     public Timestamp getStartDate() {
         return startDate;
     }
@@ -114,7 +105,7 @@ public class EaterRelation extends BasicEntity{
     public void setStatus(String status) {
         this.status = status;
     }
-    
+
     public Eater getFromUser() {
         return fromUser;
     }
@@ -139,4 +130,14 @@ public class EaterRelation extends BasicEntity{
         this.type = type;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int compareTo(EaterRelation o) {
+        if (!(getStatus().equals(o.getStatus()) && o.getStatus().equals(EaterRelation.STATUS_PENDING))) {
+            return 0;
+        }
+        return o.getToUser().compareTo(getToUser());
+    }
 }

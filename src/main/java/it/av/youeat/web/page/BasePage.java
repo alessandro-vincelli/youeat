@@ -32,6 +32,7 @@ import org.apache.wicket.ajax.AjaxSelfUpdatingTimerBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.CSSPackageResource;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
@@ -220,7 +221,6 @@ public class BasePage extends WebPage {
         long numberofMessages = (getLoggedInUser() != null) ? messageService.countMessages(getLoggedInUser()) : 0;
         final Label numberMessages = new Label("numberMessages", new Model<Long>(numberofMessages));
         numberMessages.setOutputMarkupPlaceholderTag(true);
-        numberMessages.setOutputMarkupId(true);
         numberMessages.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(10)) {
             @Override
             protected void onPostProcessTarget(AjaxRequestTarget target) {
@@ -237,9 +237,14 @@ public class BasePage extends WebPage {
         goMessagesPage.add(numberMessages);
 
         long numberUnreadMsgs = (getLoggedInUser() != null) ? messageService.countUnreadMessages(getLoggedInUser()) : 0;
+        
+        final WebMarkupContainer separator = new WebMarkupContainer("separator");
+        separator.setVisible(numberUnreadMsgs > 0);
+        goMessagesPage.add(separator);
+        
         final Label unreadMsgs = new Label("unreadMessages", new Model<Long>(numberUnreadMsgs));
-        unreadMsgs.setOutputMarkupId(true);
         unreadMsgs.setOutputMarkupPlaceholderTag(true);
+        unreadMsgs.setVisible(numberUnreadMsgs > 0);
         unreadMsgs.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(10)) {
             @Override
             protected void onPostProcessTarget(AjaxRequestTarget target) {

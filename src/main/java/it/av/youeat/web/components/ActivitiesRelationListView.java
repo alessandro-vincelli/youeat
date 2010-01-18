@@ -42,8 +42,16 @@ public class ActivitiesRelationListView extends PropertyListView<ActivityEaterRe
                 new PageParameters(YoueatHttpParams.USER_ID + "=" + eater2.getId()));
         eater2Link.add(new Label("eater.name", eater2.toString()));
         item.add(eater2Link);
-        item.add(new Label("activityDesc", getString(item.getModelObject().getEaterActivityType())));
-        item.add(new Label("and", getString("and")));
+        //dirty solution
+        if(item.getModelObject().getEaterActivityType().equals(ActivityEaterRelation.TYPE_ARE_FRIENDS)){
+            item.add(new Label("activityDesc", getString(item.getModelObject().getEaterActivityType())));
+            item.add(new Label("and", getString("and")));    
+        }
+        else{
+            item.add(new Label("activityDesc", "").setVisible(false));
+            item.add(new Label("and", getString(item.getModelObject().getEaterActivityType())));
+        }
+        
     }
 
 }

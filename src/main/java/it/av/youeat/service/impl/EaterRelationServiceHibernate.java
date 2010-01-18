@@ -23,6 +23,7 @@ import it.av.youeat.ocm.util.DateUtil;
 import it.av.youeat.service.ActivityRelationService;
 import it.av.youeat.service.EaterRelationService;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.hibernate.criterion.Conjunction;
@@ -62,7 +63,7 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
         EaterRelation relation = EaterRelation.createFriendRelation(fromUser, toUser);
         // it's necessary check if we are trying to recreate a relation previously removed
         // and that is still present in the other direction
-        List<EaterRelation> oppositeRelations = getOppisiteRelation(relation);
+        List<EaterRelation> oppositeRelations = getOppositeRelation(relation);
         for (EaterRelation er : oppositeRelations) {
             // if exist an opposite relation with status Active or pending we recreate the same relation
             if (er.getType().equals(EaterRelation.TYPE_FRIEND) && !er.getStatus().equals(EaterRelation.STATUS_IGNORED)) {
@@ -145,10 +146,12 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
         Disjunction inOr = Restrictions.disjunction();
         inOr.add(pendingFriend);
         inOr.add(Restrictions.eq(EaterRelation.FROM_USER, ofUser));
-        return findByCriteria(inOr);
+        List<EaterRelation> results = findByCriteria(inOr);
+        Collections.sort(results);
+        return results;
     }
 
-    private List<EaterRelation> getOppisiteRelation(EaterRelation relation) {
+    private List<EaterRelation> getOppositeRelation(EaterRelation relation) {
         Conjunction friend = Restrictions.conjunction();
         friend.add(Restrictions.eq(EaterRelation.TYPE, relation.getType()));
         friend.add(Restrictions.eq(EaterRelation.TO_USER, relation.getFromUser()));

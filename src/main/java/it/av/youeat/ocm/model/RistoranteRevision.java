@@ -17,16 +17,16 @@ package it.av.youeat.ocm.model;
 
 import it.av.youeat.YoueatException;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Table;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
@@ -38,7 +38,7 @@ import org.hibernate.annotations.Table;
         @Index(name = "ristoRevision_modificationtime_index", columnNames = { "modificationTime" }) })
 public class RistoranteRevision extends BasicEntity implements Cloneable {
 
-    public static final String VERSION = "version";
+    public static final String RISTORANTEREVISION = "ristoranteRevision";
     public static final String ID_RISTORANTE = "ristorante_id";
 
     @Embedded
@@ -51,7 +51,7 @@ public class RistoranteRevision extends BasicEntity implements Cloneable {
         super();
         this.ristoranteRevision = new Ristorante();
         try {
-            BeanUtils.copyProperties(this.ristoranteRevision, risto);
+            BeanUtils.copyProperties(risto, this.ristoranteRevision);
             this.ristoranteRevision.setActivities(null);
             this.ristoranteRevision.setRates(null);
             this.ristoranteRevision.setTags(null);
@@ -63,13 +63,11 @@ public class RistoranteRevision extends BasicEntity implements Cloneable {
                     .getDescriptions().size());
             for (RistoranteDescriptionI18n descriptionI18n : risto.getDescriptions()) {
                 RistoranteDescriptionI18n descriptionI18nNew = new RistoranteDescriptionI18n();
-                BeanUtils.copyProperties(descriptionI18nNew, descriptionI18n);
+                BeanUtils.copyProperties(descriptionI18n, descriptionI18nNew);
                 copiedDescriptionI18ns.add(descriptionI18nNew);
             }
             this.ristoranteRevision.setDescriptions(copiedDescriptionI18ns);
-        } catch (IllegalAccessException e) {
-            throw new YoueatException(e);
-        } catch (InvocationTargetException e) {
+        } catch (BeansException e) {
             throw new YoueatException(e);
         }
     }

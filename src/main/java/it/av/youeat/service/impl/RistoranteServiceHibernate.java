@@ -28,12 +28,16 @@ import it.av.youeat.service.RateRistoranteService;
 import it.av.youeat.service.RistoranteRevisionService;
 import it.av.youeat.service.RistoranteService;
 import it.av.youeat.util.LuceneUtil;
+import it.av.youeat.util.ServerGeocoder;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Query;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.hibernate.criterion.Criterion;
@@ -41,6 +45,8 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import wicket.contrib.gmap.api.GLatLng;
 
 /**
  * 
@@ -54,6 +60,9 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     private RistoranteRevisionService ristoranteRevisionService;
     @Autowired
     private RateRistoranteService rateRistoranteService;
+    @Autowired
+    private ServerGeocoder geocoder;
+    private static Log log = LogFactory.getLog(RistoranteServiceHibernate.class);
 
     /**
      * {@inheritDoc}
@@ -78,11 +87,39 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         ristoToSave.setCreationTime(DateUtil.getTimestamp());
         ristoToSave.setModificationTime(DateUtil.getTimestamp());
         ristoToSave.setRevisionNumber(1);
+        GLatLng gLatLng = getGLatLng(ristoToSave);
+        ristoToSave.setLatitude(gLatLng.getLat());
+        ristoToSave.setLongitude(gLatLng.getLng());
         ristoToSave = save(ristoToSave);
         ristoToSave.addRevision(ristoranteRevisionService.insert(new RistoranteRevision(ristoToSave)));
         ristoToSave.addActivity(activityRistoranteService.save(new ActivityRistorante(DateUtil.getTimestamp(), user,
                 ristoToSave, ActivityRistorante.TYPE_ADDED)));
         return save(ristoToSave);
+    }
+
+    /**
+     * Return latitude and longitude for the given risto
+     * 
+     * @param risto 
+     * @return longitude and latitude
+     */
+    private GLatLng getGLatLng(Ristorante risto) {
+        StringBuffer address = new StringBuffer();
+        address.append(risto.getAddress());
+        address.append(" ");
+        address.append(risto.getPostalCode());
+        address.append(" ");
+        address.append(risto.getCity().getName());
+        address.append(" ");
+        address.append(risto.getCountry().getName());
+        try {
+            return geocoder.findAddress(address.toString());
+        } 
+        catch (IOException e) {
+            log.error("error getting address from google", e);
+            return new GLatLng(0, 0);
+        }
+        
     }
 
     /**

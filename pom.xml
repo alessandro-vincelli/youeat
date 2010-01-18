@@ -136,6 +136,11 @@
 			<artifactId>wicket-auth-roles</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
+		<dependency>
+        	<groupId>org.wicketstuff</groupId>
+        	<artifactId>gmap2</artifactId>
+        	<version>1.4.1</version>
+    	</dependency>
 		<!-- JACKRABBIT -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>

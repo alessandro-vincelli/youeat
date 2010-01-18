@@ -69,6 +69,8 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
 
         risto = new Ristorante();
         risto.setName("RistoAlessandro");
+        risto.setCity(getNocity());
+        risto.setCountry(getNocountry());
 
         risto = ristoranteService.insert(risto, user);
         risto = ristoranteService.update(risto, userFriend);

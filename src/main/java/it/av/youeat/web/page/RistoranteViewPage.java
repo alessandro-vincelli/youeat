@@ -62,6 +62,14 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.StringValidator;
 import org.springframework.util.Assert;
 
+import wicket.contrib.gmap.GMap2;
+import wicket.contrib.gmap.GMapHeaderContributor;
+import wicket.contrib.gmap.api.GControl;
+import wicket.contrib.gmap.api.GLatLng;
+import wicket.contrib.gmap.api.GMapType;
+import wicket.contrib.gmap.api.GMarker;
+import wicket.contrib.gmap.api.GMarkerOptions;
+
 /**
  * The page shows all the {@link Ristorante} informations.
  * 
@@ -361,7 +369,7 @@ public class RistoranteViewPage extends BasePage {
             }
         };
         add(asfavourite);
-        
+
         formComment = new Form<Comment>("formComment", new CompoundPropertyModel<Comment>(new Comment()));
         formComment.setOutputMarkupId(true);
         add(formComment);
@@ -412,6 +420,7 @@ public class RistoranteViewPage extends BasePage {
                     }
                 }
             }
+
             @Override
             protected void onError(AjaxRequestTarget target, Form<?> form) {
                 super.onError(target, form);
@@ -430,7 +439,8 @@ public class RistoranteViewPage extends BasePage {
                 item.add(new Label(Comment.AUTHOR_FIELD, item.getModelObject().getAuthor().getFirstname() + " "
                         + item.getModelObject().getAuthor().getLastname()));
                 item.add(new Label(Comment.TITLE_FIELD, item.getModelObject().getTitle()));
-                item.add(new Label(Comment.CREATIONTIME_FIELD, DateUtil.SDF2SHOW.print(item.getModelObject().getCreationTime().getTime())));
+                item.add(new Label(Comment.CREATIONTIME_FIELD, DateUtil.SDF2SHOW.print(item.getModelObject()
+                        .getCreationTime().getTime())));
                 item.add(new MultiLineLabel(Comment.BODY_FIELD, item.getModelObject().getBody()));
             }
         };
@@ -446,10 +456,9 @@ public class RistoranteViewPage extends BasePage {
                     if (target != null) {
                         target.addComponent(formComment);
                     }
-                }
-                else{
+                } else {
                     if (target != null) {
-                        info(getString("basePage.notLogged"));    
+                        info(getString("basePage.notLogged"));
                     }
                 }
                 if (target != null) {
@@ -466,6 +475,24 @@ public class RistoranteViewPage extends BasePage {
 
         setHasVoted(ristoranteService.hasUsersAlreadyRated(getRistorante(), getLoggedInUser())
                 || getLoggedInUser() == null);
+
+        // position on the map
+        String gmapKey = "ABQIAAAAEpqZyWLxrLSc1icxiiTLyBRjFP5Ion2TodTauLHyn40LiCPQaRSoBSldN1pDUDTAPEK5AlXpouSLuA";
+        final GMap2 bottomMap = new GMap2("map", new GMapHeaderContributor(gmapKey));
+        bottomMap.setOutputMarkupId(true);
+        bottomMap.setMapType(GMapType.G_NORMAL_MAP);
+        bottomMap.addControl(GControl.GSmallMapControl);
+        bottomMap.addControl(GControl.GMapTypeControl);
+        bottomMap.setZoom(20);
+        if (ristorante.getLatitude() != 0 && ristorante.getLongitude() != 0) {
+            GLatLng gLatLng = new GLatLng(ristorante.getLatitude(), ristorante.getLongitude());
+            bottomMap.addOverlay(new GMarker(gLatLng, new GMarkerOptions(ristorante.getName())));
+            bottomMap.setCenter(gLatLng);
+        }
+        else{
+            bottomMap.setVisible(false);
+        }
+        add(bottomMap);
 
     }
 

@@ -88,6 +88,8 @@ public class RistoranteServiceTest extends YoueatTest {
 
         Ristorante a = new Ristorante();
         a.setName("RistoAlessandro");
+        a.setCity(getNocity());
+        a.setCountry(getNocountry());
         a.setDescriptions(getDescriptionI18ns());
         a = ristoranteService.insert(a, user);
 

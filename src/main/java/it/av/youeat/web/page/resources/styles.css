@@ -878,3 +878,11 @@ feedbackPanelERROR {
     text-align: center;
     display: block;
 }
+
+.gmap {
+    display: block;
+    width: auto; 
+    height: 300px;
+    margin-left: 10px;
+    margin-right: 25px; 
+}

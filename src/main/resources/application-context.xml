@@ -149,4 +149,9 @@
 	<bean id="authenticationProvider" class="it.av.youeat.web.security.AuthenticationProvider">
 		<constructor-arg ref="daoAuthenticationProvider" />
 	</bean>
+	
+	<bean id="serverGeocoder" class="it.av.youeat.util.ServerGeocoder">
+		<constructor-arg value="ABQIAAAAEpqZyWLxrLSc1icxiiTLyBRjFP5Ion2TodTauLHyn40LiCPQaRSoBSldN1pDUDTAPEK5AlXpouSLuA"></constructor-arg>
+	</bean>
+	
 </beans>

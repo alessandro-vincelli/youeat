@@ -56,10 +56,13 @@ public class CommentServiceTest extends YoueatTest{
         a.setPassword("secret");
         a.setEmail("a.commentService@test.com");
         a.setCountry(getNocountry());
+        
         a = eaterService.addRegolarUser(a);
 
         Ristorante rist = new Ristorante();
         rist.setName("RistoTest");
+        rist.setCity(getNocity());
+        rist.setCountry(getNocountry());
         rist = ristoranteService.insert(rist, a);
 
         Comment comment = new Comment();

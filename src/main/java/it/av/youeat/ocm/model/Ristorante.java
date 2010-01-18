@@ -160,6 +160,8 @@ public class Ristorante extends BasicEntity{
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
     @Fetch(FetchMode.SELECT)
     private List<Comment> comments;
+    private double longitude;
+    private double latitude;
 
     public Ristorante() {
         rates = new ArrayList<RateOnRistorante>();
@@ -410,6 +412,34 @@ public class Ristorante extends BasicEntity{
      */
     public void setTypes(RistoranteTypes types) {
         this.types = types;
+    }
+
+    /**
+     * @return the longitude
+     */
+    public double getLongitude() {
+        return longitude;
+    }
+
+    /**
+     * @param longitude the longitude to set
+     */
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    /**
+     * @return the latitude
+     */
+    public double getLatitude() {
+        return latitude;
+    }
+
+    /**
+     * @param latitude the latitude to set
+     */
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
     /**

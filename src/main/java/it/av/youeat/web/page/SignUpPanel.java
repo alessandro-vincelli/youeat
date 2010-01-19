@@ -192,7 +192,6 @@ public class SignUpPanel extends Panel {
                     getFeedbackPanel().info(
                             new StringResourceModel("info.operationNotPermitted", this, null).getString());
                 } else {
-                    System.out.println(target.getPage().getRequest().getLocale());
                     userService.addRegolarUser(user);
                     signUpForm.setVisible(false);
                     this.setVisible(false);

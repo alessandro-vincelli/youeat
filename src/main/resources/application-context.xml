@@ -154,4 +154,6 @@
 		<constructor-arg value="ABQIAAAAEpqZyWLxrLSc1icxiiTLyBRjFP5Ion2TodTauLHyn40LiCPQaRSoBSldN1pDUDTAPEK5AlXpouSLuA"></constructor-arg>
 	</bean>
 	
+	<bean id="periodUtil" class="it.av.youeat.util.PeriodUtil"/>
+	
 </beans>

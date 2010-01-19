@@ -3,7 +3,6 @@ package it.av.youeat.web.page;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.RistoranteRevision;
-import it.av.youeat.web.util.RistoranteRevisionUtil;
 import it.av.youeat.web.util.TextDiffRender;
 
 import java.util.ArrayList;

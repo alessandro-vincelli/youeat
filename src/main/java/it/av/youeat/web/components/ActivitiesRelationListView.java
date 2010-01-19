@@ -2,21 +2,24 @@ package it.av.youeat.web.components;
 
 import it.av.youeat.ocm.model.ActivityEaterRelation;
 import it.av.youeat.ocm.model.Eater;
-import it.av.youeat.ocm.util.DateUtil;
+import it.av.youeat.util.PeriodUtil;
 import it.av.youeat.web.commons.YoueatHttpParams;
 import it.av.youeat.web.page.EaterViewPage;
 
 import java.util.List;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class ActivitiesRelationListView extends PropertyListView<ActivityEaterRelation> {
 
-    private static final long serialVersionUID = 1L;
+    @SpringBean
+    private PeriodUtil periodUtil;
 
     /**
      * Generate a list of activities
@@ -26,12 +29,13 @@ public class ActivitiesRelationListView extends PropertyListView<ActivityEaterRe
      */
     public ActivitiesRelationListView(String id, List<? extends ActivityEaterRelation> list) {
         super(id, list);
+        InjectorHolder.getInjector().inject(this);
     }
 
     @Override
     protected void populateItem(final ListItem<ActivityEaterRelation> item) {
         // item.add(ActivityCommons.createActivityIcon(getPage().getClass(), item));
-        item.add(new Label("date.time", DateUtil.getPeriod(item.getModelObject().getDate().getTime())));
+        item.add(new Label("date.time", periodUtil.getPeriod(item.getModelObject().getDate().getTime(), getLocale())));
         Eater eater1 = item.getModelObject().getEater();
         Eater eater2 = item.getModelObject().getWithUser();
         BookmarkablePageLink<String> eater1Link = new BookmarkablePageLink<String>("eater1.link", EaterViewPage.class,

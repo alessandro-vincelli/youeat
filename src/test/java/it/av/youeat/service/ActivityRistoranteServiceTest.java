@@ -129,7 +129,6 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
     @After
     @Transactional
     public void tearDown() {
-        System.out.println("teardown start");
         List<EaterRelation> friends = new ArrayList<EaterRelation>(userRelationService.getAllFollowUsers(user));
         for (EaterRelation userRelation : friends) {
             userRelationService.remove(userRelation);
@@ -137,7 +136,6 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         ristoranteService.remove(risto);
         userService.remove(user);
         userService.remove(userFriend);
-        System.out.println("teardown finish");
     }
 
 }

@@ -18,9 +18,9 @@ package it.av.youeat.web.page;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.ActivityRistorante;
 import it.av.youeat.ocm.model.Eater;
-import it.av.youeat.ocm.util.DateUtil;
 import it.av.youeat.service.ActivityRistoranteService;
 import it.av.youeat.service.EaterService;
+import it.av.youeat.util.PeriodUtil;
 import it.av.youeat.web.commons.ActivityCommons;
 import it.av.youeat.web.commons.ActivityPaging;
 import it.av.youeat.web.commons.YoueatHttpParams;
@@ -56,6 +56,8 @@ public class EaterViewPage extends BasePage {
     private ActivityRistoranteService activityRistoranteService;
     @SpringBean
     private EaterService eaterService;
+    @SpringBean
+    private PeriodUtil periodUtil;
 
     private ActivityPaging activityPagingUser = new ActivityPaging(0, 20);
     private List<ActivityRistorante> activities;
@@ -91,7 +93,7 @@ public class EaterViewPage extends BasePage {
             @Override
             protected void populateItem(final ListItem<ActivityRistorante> item) {
                 item.add(ActivityCommons.createActivityIcon(getPage().getClass(), item));
-                item.add(new Label("date.time", DateUtil.getPeriod(item.getModelObject().getDate().getTime())));
+                item.add(new Label("date.time", periodUtil.getPeriod(item.getModelObject().getDate().getTime(), getLocale())));
                 BookmarkablePageLink<String> ristoLink = new BookmarkablePageLink<String>("ristorante.link",
                         RistoranteViewPage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "="
                                 + item.getModelObject().getRistorante().getId()));

@@ -18,76 +18,23 @@ package it.av.youeat.ocm.util;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-import org.apache.commons.lang.StringUtils;
-import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
 
 public class DateUtil {
+
     /**
      * Format used in the UI. dd/MM/yyyy HH:mm:ss
      */
-    public static final DateTimeFormatter  SDF2SHOW =  DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
-    private static PeriodFormatter cStandard;
+    public static final DateTimeFormatter SDF2SHOW = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
 
     /**
-     * Return the actual time 
+     * Return the actual time
      * 
      * @return Timestamp
      */
-    public static Timestamp getTimestamp(){
+    public static Timestamp getTimestamp() {
         return new Timestamp(Calendar.getInstance().getTimeInMillis());
     }
-    
-    /**
-     * Return the period passed between the actual time and the given time
-     * <p>The period is approximated to the biggest field:
-     * Example if the period is 2 days and 3 hours the results is: 2 days 
-     * 
-     * @param time
-     * @return the period
-     */
-    public static String getPeriod(long time){
-        Period period = new Period(time, System.currentTimeMillis());
-        //get the substring before the first "$" separator
-        return StringUtils.substringBefore(DateUtil.standard().print(period), "$");
-    }
-    
-    /**
-     * TODO  use Localization
-     * Example:
-     * 1 month-4 weeks-2 days-23 hours-59 minutes-59 seconds
-     * Milliseconds are not output.
-     * 
-     * @return the formatter
-     */
-    private static PeriodFormatter standard() {
-        if (cStandard == null) {
-            cStandard = new PeriodFormatterBuilder()
-                .appendYears()
-                .appendSuffix(" year", " years")
-                .appendSeparatorIfFieldsBefore("$")
-                .appendMonths()
-                .appendSuffix(" month", " months")
-                .appendSeparatorIfFieldsBefore("$")
-                .appendWeeks()
-                .appendSuffix(" week", " weeks")
-                .appendSeparatorIfFieldsBefore("$")
-                .appendDays()
-                .appendSuffix(" day", " days")
-                .appendSeparatorIfFieldsBefore("$")
-                .appendHours()
-                .appendSuffix(" hour", " hours")
-                .appendSeparatorIfFieldsBefore("$")
-                .appendMinutes()
-                .appendSuffix(" minute", " minutes")
-                .appendSeparatorIfFieldsBefore("$")
-                .appendSeconds()
-                .appendSuffix(" second", " seconds")
-                .toFormatter();
-        }
-        return cStandard;
-    }
+
 }

@@ -58,7 +58,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 public class UserProfilePage extends BasePage {
 
     private static final long serialVersionUID = 1L;
-    @SpringBean(name = "userProfileService")
+    @SpringBean
     private EaterProfileService userProfileService;
 
     private EaterProfile userProfile;

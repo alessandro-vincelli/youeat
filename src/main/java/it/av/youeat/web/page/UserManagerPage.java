@@ -57,9 +57,9 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 public class UserManagerPage extends BasePage {
 
     private static final long serialVersionUID = 1L;
-    @SpringBean(name = "eaterService")
+    @SpringBean
     private EaterService userService;
-    @SpringBean(name = "userProfileService")
+    @SpringBean
     private EaterProfileService userProfileService;
 
     private AjaxFallbackDefaultDataTable<Eater> usersDataTable;

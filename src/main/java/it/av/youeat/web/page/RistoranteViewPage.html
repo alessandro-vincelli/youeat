@@ -9,6 +9,14 @@
             <tr>
                 <td><h1 wicket:id="name"></h1></td>
             </tr>
+            <tr class="smalltext">
+                <td>
+                <label for="tags" ><wicket:message key="tags" />:</label>
+                <span wicket:id="tags">
+                    <span wicket:id="tagItem"></span>
+                </span>
+                </td>
+            </tr>
             <tr>
                 <td class="risoTypeBoxView">
                     <span wicket:id="typeRistoranteLabel"></span>
@@ -35,15 +43,7 @@
                 </span>
                 </td>
             </tr>
-            <tr>
-                <td>
-                <label for="tags"><wicket:message key="tags" />:</label>
-                <span wicket:id="tags">
-                    <span wicket:id="tagItem"></span>
-                </span>
-                </td>
-            </tr>
-            <tr>
+            <tr class="smalltext">
                 <td><label for="revisionNumber"><wicket:message key="revisionNumber" />:</label> 
                 <span wicket:id="revisionNumber"></span>
                 </td>

@@ -92,16 +92,17 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
             boolean includeTheUser) {
         // TODO, improve this method using a method that return the Friends as Eater and not as Relation
         List<EaterRelation> relations = eaterRelationService.getAllActiveRelations(ofUser);
-        // if the user hasn't friends, just return an empty list
-        if (relations.isEmpty()) {
-            return new ArrayList<ActivityRistorante>(0);
-        }
+
         List<Eater> friends = new ArrayList<Eater>(relations.size());
         for (EaterRelation relation : relations) {
             friends.add(relation.getToUser());
         }
         if (includeTheUser) {
             friends.add(ofUser);
+        }
+        // if the user hasn't friends, just return an empty list
+        else if (relations.isEmpty()) {
+            return new ArrayList<ActivityRistorante>(1);
         }
         return findByUsers(friends, firstResult, maxResults);
     }

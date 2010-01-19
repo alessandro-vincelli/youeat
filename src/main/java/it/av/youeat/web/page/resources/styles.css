@@ -886,3 +886,6 @@ feedbackPanelERROR {
     margin-left: 10px;
     margin-right: 25px; 
 }
+.smalltext {
+    font-size: x-small;
+}

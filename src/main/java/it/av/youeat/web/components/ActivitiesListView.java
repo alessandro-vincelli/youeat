@@ -43,6 +43,7 @@ public class ActivitiesListView extends PropertyListView<ActivityRistorante> {
                         + item.getModelObject().getRistorante().getId()));
         ristoLink.add(new Label("ristorante.name"));
         item.add(ristoLink);
+        item.add(new Label("activityDesc", getString(item.getModelObject().getType())));
         AjaxFallbackLink<String> eater = new AjaxFallbackLink<String>("view-eater") {
             @Override
             public void onClick(AjaxRequestTarget target) {

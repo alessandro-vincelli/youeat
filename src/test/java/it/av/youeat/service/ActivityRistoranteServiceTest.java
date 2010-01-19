@@ -114,6 +114,10 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         activities = activityRistoranteService.findByUser(userFriend);
         assertNotNull("Activity is null", activities);
         assertTrue(activities.size() > 0);
+        
+        activities = activityRistoranteService.findByUserFriendAndUser(user, 0, 10);
+        assertNotNull("Activity is null", activities);
+        assertTrue(activities.size() > 0);
 
         /*activities = activityRistoranteService.getAll();
         for (ActivityRistorante activityRistorante : activities) {

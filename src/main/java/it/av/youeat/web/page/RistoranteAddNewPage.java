@@ -48,10 +48,12 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -159,7 +161,7 @@ public class RistoranteAddNewPage extends BasePage {
                 // TODO Auto-generated method stub
             }
         });
-        city.add(new CityValidator());
+        //city.add(new CityValidator());
         form.add(city);
         form.add(new RequiredTextField<String>(Ristorante.PROVINCE));
         form.add(new RequiredTextField<String>(Ristorante.POSTALCODE));
@@ -304,6 +306,7 @@ public class RistoranteAddNewPage extends BasePage {
             }
         }
     }
+
 
     private RistoranteDescriptionI18n getDescriptionI18n() throws YoueatException {
         Locale locale = Locales.getSupportedLocale(getLocale());

@@ -21,7 +21,7 @@ public class RistoranteRevisionUtil {
 		List<RistoranteRevision> clone = new ArrayList<RistoranteRevision>(list.size());
 		for (RistoranteRevision item : list){
 			if(item != null){
-				clone.add(item.clone());	
+				//clone.add(item.clone());	
 			}
 		}
 		return clone;

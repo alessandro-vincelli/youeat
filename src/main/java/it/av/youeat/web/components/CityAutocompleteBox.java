@@ -1,6 +1,8 @@
 package it.av.youeat.web.components;
 
+import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Ristorante;
+import it.av.youeat.ocm.model.data.City;
 import it.av.youeat.ocm.model.data.Country;
 import it.av.youeat.service.CityService;
 
@@ -33,6 +35,8 @@ public class CityAutocompleteBox extends AutoCompleteTextField<String> {
      */
     public CityAutocompleteBox(String id, AutoCompleteSettings autoCompleteSettings, Model<String> cityModel) {
         super(id, cityModel, String.class, autoCompleteSettings);
+        setRequired(true);
+        setLabel(new Model<String>(getString("city")));
         InjectorHolder.getInjector().inject(this);
     }
 
@@ -51,6 +55,22 @@ public class CityAutocompleteBox extends AutoCompleteTextField<String> {
             }
         }
         return choises.iterator();
+    }
+
+    @Override
+    public void validate() {
+        super.validate();
+        Country country = ((Ristorante) (getForm().getModel().getObject())).getCountry();
+        if (country != null) {
+            try {
+                City cityValue = cityService.getByNameAndCountry(getConvertedInput(), country);
+                if (cityValue == null) {
+                    error(getString("validatioError.city"));
+                }
+            } catch (YoueatException e) {
+                error(getString("validatioError.city.error"));
+            }
+        }
     }
 
 }

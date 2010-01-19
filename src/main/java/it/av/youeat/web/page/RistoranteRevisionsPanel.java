@@ -42,11 +42,10 @@ public class RistoranteRevisionsPanel extends Panel {
 
             @Override
             protected void populateItem(ListItem<RistoranteRevision> item) {
-                item.add(new Label("ristoranteRevision.revisionNumber"));
-                item.add(new Label("ristoranteRevision.modificationTime"));
-                item.add(new Label("ristoranteRevision.name").setEscapeModelStrings(false));
-                item.add(new Label("ristoranteRevision.address").setEscapeModelStrings(false));
-                item.add(new Label("ristoranteRevision.description").setEscapeModelStrings(false));
+                item.add(new Label("revisionNumber"));
+                item.add(new Label("modificationTime"));
+                item.add(new Label("name").setEscapeModelStrings(false));
+                item.add(new Label("address").setEscapeModelStrings(false));
             }
         };
         add(productsVersionsList.setOutputMarkupId(true));
@@ -61,11 +60,12 @@ public class RistoranteRevisionsPanel extends Panel {
     public void refreshRevisionsList(Ristorante ristoSelected) {
         try {
             if (ristoSelected != null) {
-                revisions = RistoranteRevisionUtil.cloneList(ristoSelected.getRevisions());
+                // revisions = RistoranteRevisionUtil.cloneList(ristoSelected.getRevisions());
+                revisions = ristoSelected.getRevisions();
                 if (revisions.size() > 1) {
                     // Latest two releases
-                    Ristorante r1 = revisions.get(revisions.size() - 1).getRistoranteRevision();
-                    Ristorante r2 = revisions.get(revisions.size() - 2).getRistoranteRevision();
+                    RistoranteRevision r1 = revisions.get(revisions.size() - 1);
+                    RistoranteRevision r2 = revisions.get(revisions.size() - 2);
                     performDiff(r2, r1);
                 }
 
@@ -86,14 +86,15 @@ public class RistoranteRevisionsPanel extends Panel {
         this.productsVersionsList = productsVersionsList;
     }
 
-    private void performDiff(Ristorante ori, Ristorante newVer) throws YoueatException {
+    private void performDiff(RistoranteRevision ori, RistoranteRevision newVer) throws YoueatException {
         TextDiffRender diffRender = new TextDiffRender();
 
-        String[] diff = diffRender.render(ori.getDescription(), newVer.getDescription());
-        ori.setDescription(diff[0]);
-        newVer.setDescription(diff[1]);
+        // description is deprecated, now it must be supported multilanguage descriptions
+        // String[] diff = diffRender.render(ori.getDescription(), newVer.getDescription());
+        // ori.setDescription(diff[0]);
+        // newVer.setDescription(diff[1]);
 
-        diff = diffRender.render(ori.getName(), newVer.getName());
+        String[] diff = diffRender.render(ori.getName(), newVer.getName());
         ori.setName(diff[0]);
         newVer.setName(diff[1]);
 

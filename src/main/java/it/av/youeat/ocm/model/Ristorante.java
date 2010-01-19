@@ -24,7 +24,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
@@ -35,6 +34,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 import org.apache.solr.analysis.ISOLatin1AccentFilterFactory;
 import org.apache.solr.analysis.LowerCaseFilterFactory;
@@ -59,7 +59,6 @@ import org.hibernate.search.annotations.TokenizerDef;
  * 
  */
 @Entity
-@Embeddable
 @Indexed
 @AnalyzerDef(name = "ristoranteanalyzer", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class), filters = {
         @TokenFilterDef(factory = ISOLatin1AccentFilterFactory.class),
@@ -87,10 +86,10 @@ public class Ristorante extends BasicEntity{
     public static final String CREATION_TIME = "creationTime";
     public static final String MODIFICATION_TIME = "modificationTime";
 
-    @Deprecated
-    private String path;
-    @Deprecated
-    private String uuid;
+    /**
+     * used by JPA Hibernate optimistic locking system
+     */
+    @Version
     private int version;
     @Field(index = Index.TOKENIZED, store = Store.NO)
     @Analyzer(definition = "ristoranteanalyzer")
@@ -113,9 +112,9 @@ public class Ristorante extends BasicEntity{
     private String type;
 
     @Column(length = 10000)
+    @Deprecated
     private String description;
 
-    @Column(length = 15000)
     private String www;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -131,7 +130,7 @@ public class Ristorante extends BasicEntity{
 
     private String faxNumber;
     @org.hibernate.annotations.Index(name="risto_revisionNumber_index")
-    private Integer revisionNumber;
+    private int revisionNumber;
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     private List<RateOnRistorante> rates;
@@ -145,9 +144,10 @@ public class Ristorante extends BasicEntity{
     private List<ActivityRistorante> activities;
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
-    @OrderBy("ristoranteRevision.revisionNumber DESC")
+    @OrderBy("revisionNumber DESC")
     private List<RistoranteRevision> revisions;
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Deprecated
     private RistoranteTypes types;
     @IndexedEmbedded
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
@@ -171,22 +171,6 @@ public class Ristorante extends BasicEntity{
         types = new RistoranteTypes();
         descriptions = new ArrayList<RistoranteDescriptionI18n>();
         pictures = new ArrayList<RistorantePicture>();
-    }
-
-    public final String getPath() {
-        return path;
-    }
-
-    public final void setPath(String path) {
-        this.path = path;
-    }
-
-    public final String getUuid() {
-        return uuid;
-    }
-
-    public final void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 
     public int getVersion() {
@@ -359,14 +343,14 @@ public class Ristorante extends BasicEntity{
     /**
      * @return the versionNumber
      */
-    public Integer getRevisionNumber() {
+    public int getRevisionNumber() {
         return revisionNumber;
     }
 
     /**
      * @param versionNumber the versionNumber to set
      */
-    public void setRevisionNumber(Integer revisionNumber) {
+    public void setRevisionNumber(int revisionNumber) {
         this.revisionNumber = revisionNumber;
     }
 

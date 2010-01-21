@@ -5,6 +5,15 @@ import javax.persistence.Entity;
 @Entity
 public class Language extends BasicEntity {
 
+    /**
+     * two characters iso2, it, en...
+     */
+    public static final String LANGUAGE_FIELD = "language";
+    /**
+     * two characters iso2, IT, EN ...
+     */
+    public static final String COUNTRY_FIELD = "country";
+    
     private String language;
     private String country;
 

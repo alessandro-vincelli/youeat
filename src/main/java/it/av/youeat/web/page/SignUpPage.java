@@ -16,10 +16,6 @@
 package it.av.youeat.web.page;
 
 import it.av.youeat.YoueatException;
-import it.av.youeat.service.CountryService;
-import it.av.youeat.service.EaterService;
-
-import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
  * The page provides user sign up panel.
@@ -30,18 +26,14 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 public class SignUpPage extends BasePage {
 
     private static final long serialVersionUID = 1L;
-    @SpringBean(name = "eaterService")
-    private EaterService userService;
-    @SpringBean(name = "countryService")
-    private CountryService countryService;
-
+    
     /**
      * Constructor that is invoked when page is invoked without a session.
      * 
      * @throws YoueatException
      */
     public SignUpPage() {
-        SignUpPanel signUpPanel = new SignUpPanel("userSignUpPanel", getFeedbackPanel(), userService, countryService);
+        SignUpPanel signUpPanel = new SignUpPanel("userSignUpPanel", getFeedbackPanel());
         signUpPanel.setOutputMarkupId(true);
         add(signUpPanel);
     }

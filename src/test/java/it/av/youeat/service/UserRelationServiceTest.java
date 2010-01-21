@@ -52,6 +52,7 @@ public class UserRelationServiceTest extends YoueatTest {
 
     private Eater a;
     private Eater b;
+    private Eater admin;
 
     @Before
     public void setUp() {
@@ -62,6 +63,7 @@ public class UserRelationServiceTest extends YoueatTest {
         a.setPassword("secret");
         a.setEmail("a.userRelationService@test.com");
         a.setCountry(getNocountry());
+        a.setLanguage(getLanguage());
         a = userService.addRegolarUser(a);
         assertNotNull("A is null", a);
 
@@ -71,8 +73,19 @@ public class UserRelationServiceTest extends YoueatTest {
         b.setPassword("secret");
         b.setEmail("m.userRelationService@test2.com");
         b.setCountry(getNocountry());
+        b.setLanguage(getLanguage());
         b = userService.addRegolarUser(b);
         assertNotNull("B is null", b);
+        
+        admin = new Eater();
+        admin.setFirstname("admin");
+        admin.setLastname("admin");
+        admin.setPassword("admin");
+        admin.setEmail("admin@test2.com");
+        admin.setCountry(getNocountry());
+        admin.setLanguage(getLanguage());
+        admin = userService.addAdminUser(admin);
+        assertNotNull("admin is null", admin);
     }
 
     @After

@@ -9,6 +9,7 @@ import org.hibernate.annotations.ForeignKey;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
 
 @Entity
@@ -21,9 +22,10 @@ public class City extends BasicEntity {
 
     @ManyToOne(optional=false)
     @ForeignKey(name="city_to_country_fk")
+    @IndexedEmbedded
     private Country country;
     private String nameSimplified;
-    @Field(index=Index.TOKENIZED, store=Store.NO)
+    @Field(index=Index.TOKENIZED, store=Store.YES)
     @org.hibernate.annotations.Index(name="city_name_idx")
     private String name;
     private String region;

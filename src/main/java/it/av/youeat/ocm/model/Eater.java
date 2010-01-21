@@ -18,6 +18,7 @@ package it.av.youeat.ocm.model;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.data.Country;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -27,6 +28,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
@@ -38,6 +41,7 @@ import org.hibernate.search.annotations.AnalyzerDef;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
 import org.hibernate.search.annotations.TokenFilterDef;
 import org.hibernate.search.annotations.TokenizerDef;
@@ -65,17 +69,21 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
     public static final String AVATAR = "avatar";
     @Column(nullable = false)
     private String password;
-    @Field(index = Index.NO_NORMS, store = Store.NO)
+    @Field(index = Index.NO_NORMS, store = Store.YES)
     @Column(nullable = false)
     private String firstname;
-    @Field(index = Index.NO_NORMS, store = Store.NO)
+    @Field(index = Index.NO_NORMS, store = Store.YES)
     @Column(nullable = false)
     private String lastname;
     @Column(nullable = false)
     private String email;
-    @Column(nullable = false)
+    @ManyToOne(optional=false)
     private Country country;
     private byte[] avatar;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable=false)
+    private Date creationTime;
+    
     /**
      * used in sign up confirmation
      */
@@ -85,11 +93,12 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
      */
     private boolean blocked;
 
-    @ManyToOne
+    @ManyToOne(optional=false)
     @ForeignKey(name = "eater_to_langiage_fk")
     private Language language;
     @ManyToOne(optional = false)
     @ForeignKey(name = "eater_to_profile_fk")
+    @IndexedEmbedded
     private EaterProfile userProfile;
     @OneToMany
     // ( cascade = {CascadeType.ALL} , mappedBy="user")
@@ -248,5 +257,19 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
         } else {
             return o.getFirstname().compareToIgnoreCase(getFirstname());
         }
+    }
+
+    /**
+     * @return the creationTime
+     */
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    /**
+     * @param creationTime the creationTime to set
+     */
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
     }
 }

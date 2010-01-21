@@ -55,6 +55,7 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         user.setPassword("secret");
         user.setEmail("a.test@test.test");
         user.setCountry(getNocountry());
+        user.setLanguage(getLanguage());
         user = userService.addRegolarUser(user);
         assertNotNull("user is null", user);
 
@@ -64,6 +65,7 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         userFriend.setPassword("secret");
         userFriend.setEmail("userfriend.test@test.test");
         userFriend.setCountry(getNocountry());
+        userFriend.setLanguage(getLanguage());
         userFriend = userService.addRegolarUser(userFriend);
         assertNotNull("userFriend is null", userFriend);
 

@@ -19,6 +19,20 @@ import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 
+import org.apache.solr.analysis.ISOLatin1AccentFilterFactory;
+import org.apache.solr.analysis.LowerCaseFilterFactory;
+import org.apache.solr.analysis.StandardTokenizerFactory;
+import org.apache.solr.analysis.StopFilterFactory;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.AnalyzerDef;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Parameter;
+import org.hibernate.search.annotations.Store;
+import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.annotations.TokenizerDef;
+
 /**
  * Static list of restaurants imported from severals parts, are used only to suggest info to the users
  * 
@@ -26,6 +40,13 @@ import javax.persistence.Entity;
  *
  */
 @Entity
+@Indexed
+@AnalyzerDef(name = "dataristoranteanalyzer", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class), filters = {
+        @TokenFilterDef(factory = ISOLatin1AccentFilterFactory.class),
+        @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+        @TokenFilterDef(factory = StopFilterFactory.class, params = {
+                @Parameter(name = "words", value = "properties/stoplist.properties"),
+                @Parameter(name = "ignoreCase", value = "true") }) })
 public final class DataRistorante extends BasicEntity {
 
     public static final String NAME = "name";
@@ -39,14 +60,20 @@ public final class DataRistorante extends BasicEntity {
     public static final String MOBILE_PHONE_NUMBER = "mobilePhoneNumber";
     public static final String FAX_NUMBER = "faxNumber";
 
+    @Field(index = Index.TOKENIZED, store = Store.YES)
+    @Analyzer(definition = "dataristoranteanalyzer")
     private String name;
     private String address;
     private String postalCode;
+    @Field(index=Index.TOKENIZED, store=Store.YES)
     private String country;
     private String province;
+    @Field(index=Index.TOKENIZED, store=Store.YES)
     private String city;
     private String type;
     private String www;
+    @Field(index = Index.TOKENIZED, store = Store.COMPRESS)
+    @Analyzer(definition = "dataristoranteanalyzer")
     private String description;
     private Timestamp creationTime;
     private String phoneNumber;

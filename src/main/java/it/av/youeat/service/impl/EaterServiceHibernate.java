@@ -19,6 +19,7 @@ import it.av.youeat.UserAlreadyExistsException;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.EaterRelation;
+import it.av.youeat.ocm.util.DateUtil;
 import it.av.youeat.service.EaterProfileService;
 import it.av.youeat.service.EaterRelationService;
 import it.av.youeat.service.EaterService;
@@ -54,10 +55,10 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
      * {@inheritDoc}
      */
     @Override
-    public Eater addRegolarUser(Eater object) {
-        object.setUserProfile(eaterProfileService.getRegolarUserProfile());
+    public Eater addRegolarUser(Eater eater) {
+        eater.setUserProfile(eaterProfileService.getRegolarUserProfile());
         try {
-            return add(object);
+            return add(eater);
         } catch (ConstraintViolationException e) {
             throw new UserAlreadyExistsException(e.getMessage());
         }
@@ -67,15 +68,29 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
      * {@inheritDoc}
      */
     @Override
-    public Eater add(Eater object) {
-        if (object == null || StringUtils.isBlank(object.getEmail())) {
+    public Eater addAdminUser(Eater eater) {
+        eater.setUserProfile(eaterProfileService.getAdminUserProfile());
+        try {
+            return add(eater);
+        } catch (ConstraintViolationException e) {
+            throw new UserAlreadyExistsException(e.getMessage());
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Eater add(Eater eater) {
+        if (eater == null || StringUtils.isBlank(eater.getEmail())) {
             throw new YoueatException("Eater is null or email is empty");
         }
-        object.setPassword(passwordEncoder.encryptPassword(object.getPassword()));
-        if (object.getUserProfile() == null) {
-            object.setUserProfile(eaterProfileService.getRegolarUserProfile());
+        eater.setPassword(passwordEncoder.encryptPassword(eater.getPassword()));
+        eater.setCreationTime(DateUtil.getTimestamp());
+        if (eater.getUserProfile() == null) {
+            eater.setUserProfile(eaterProfileService.getRegolarUserProfile());
         }
-        return super.save(object);
+        return super.save(eater);
     }
 
     /**
@@ -113,7 +128,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         StringBuffer searchPattern = new StringBuffer("-id:(");
         searchPattern.append(forUser.getId());
         searchPattern.append(" ");
-        // collect eater already friends to exclude them from the results 
+        // collect eater already friends to exclude them from the results
         Collection<EaterRelation> relatedUser = eaterRelationService.getAllRelations(forUser);
         ArrayList<String> relatedUserId = new ArrayList<String>(relatedUser.size());
         for (EaterRelation userRelation : relatedUser) {
@@ -187,6 +202,21 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         Criterion critByName = Restrictions.ilike(Eater.LASTNAME, pattern);
         List<Eater> results = findByCriteria(critByName);
         return results;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void indexData() {
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
+                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+        Collection<Eater> ristos = getAll();
+        int position = 0;
+        for (Eater risto : ristos) {
+            fullTextEntityManager.index(risto);
+            position = position + 1;
+        }
     }
 
 }

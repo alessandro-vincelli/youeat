@@ -34,29 +34,39 @@ public interface EaterService {
     /**
      * Update a user
      * 
-     * @param object
+     * @param eater
      * @return just updated user
      */
     @Transactional
-    Eater update(Eater object);
+    Eater update(Eater eater);
 
     /**
      * Add a new user, if the role is empty, it's used the USER role
      * 
-     * @param object
+     * @param eater
      * @return just added user
      */
     @Transactional
-    Eater add(Eater object);
+    Eater add(Eater eater);
 
     /**
      * Insert a new user, during the insert is also encrypted the users's password
+     * 
+     * @param eater
+     * @return just inserted user
+     */
+    @Transactional
+    Eater addRegolarUser(Eater eater);
+    
+    /**
+     * <b>Don't use it</b>
+     * Insert a new admin user, during the insert is also encrypted the users's password
      * 
      * @param object
      * @return just inserted user
      */
     @Transactional
-    Eater addRegolarUser(Eater object);
+    Eater addAdminUser(Eater object);
 
     /**
      * Return all the users
@@ -76,7 +86,7 @@ public interface EaterService {
     Collection<Eater> find(String pattern);
 
     /**
-     * Return users without relations with the passed user and the given pattern the search is performed on the
+     * Return users without relations with the given user and the given pattern the search is performed on the
      * firstname and lastname of the user
      * 
      * @param forUser
@@ -87,7 +97,7 @@ public interface EaterService {
     Collection<Eater> findUserWithoutRelation(Eater forUser, String pattern);
 
     /**
-     * Return users without relations with the passed user
+     * Return users without relations with the given user
      * 
      * @param forUser
      * @return all users not related to this user
@@ -96,7 +106,7 @@ public interface EaterService {
     Collection<Eater> findUserWithoutRelation(Eater forUser);
 
     /**
-     * Remove the user
+     * Remove the given user
      * 
      * @param user
      */
@@ -120,5 +130,11 @@ public interface EaterService {
      */
     @Transactional(readOnly = true)
     Eater getByID(String id);
+
+    /**
+     * create/update lucene index on eaters
+     */
+    @Transactional
+    void indexData();
 
 }

@@ -17,6 +17,12 @@ package it.av.youeat.service.impl;
 
 import it.av.youeat.ocm.model.Language;
 import it.av.youeat.service.LanguageService;
+import it.av.youeat.web.Locales;
+
+import java.util.Locale;
+
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 
 /**
  * Implements the operation on {@link Language}
@@ -26,4 +32,14 @@ import it.av.youeat.service.LanguageService;
  */
 public class LanguageServiceHibernate extends ApplicationServiceHibernate<Language> implements LanguageService {
 
+    @Override
+    public Language getSupportedLanguage(Locale locale) {
+        return getLnaguage(Locales.getSupportedLocale(locale).getLanguage());
+    }
+
+    private Language getLnaguage(String nameiso2) {
+        Criterion critByName = Restrictions.eq(Language.LANGUAGE_FIELD, nameiso2);
+        return findByCriteria(critByName).get(0);
+
+    }
 }

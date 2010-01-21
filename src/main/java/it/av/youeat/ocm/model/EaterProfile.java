@@ -19,6 +19,10 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Store;
+
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  *
@@ -29,8 +33,18 @@ import javax.persistence.UniqueConstraint;
 )
 public class EaterProfile extends BasicEntity {
 
+    /**
+     * regolar user name
+     */
+    public final static String USER = "USER";
+    /**
+     * admin user name
+     */
+    public final static String ADMIN = "ADMIN";
+    
     public final static String NAME = "name";
     public final static String DESCRIPTION = "description";
+    @Field(index=Index.TOKENIZED, store=Store.YES)
     private String name;
     private String description;
 

@@ -35,7 +35,15 @@ public class EaterProfileServiceHibernate extends ApplicationServiceHibernate<Ea
      */
     @Override
     public EaterProfile getRegolarUserProfile() {
-        return getByName("USER");
+        return getByName(EaterProfile.USER);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EaterProfile getAdminUserProfile() {
+        return getByName(EaterProfile.ADMIN);
     }
 
     /**

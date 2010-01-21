@@ -15,10 +15,13 @@
  */
 package it.av.youeat.service;
 
+import java.util.Locale;
+
 import it.av.youeat.ocm.model.Language;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Services on {@Link Language}
@@ -29,4 +32,13 @@ import org.springframework.stereotype.Service;
 @Repository
 public interface LanguageService extends ApplicationService<Language> {
 
+    
+    /**
+     * Tries to find a supported language, best match for the requested locale.
+     * 
+     * @param locale the requested locale
+     * @return a supported langauge
+     */
+    @Transactional(readOnly=true)
+    Language getSupportedLanguage(Locale locale);
 }

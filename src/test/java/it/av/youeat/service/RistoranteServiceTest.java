@@ -67,6 +67,7 @@ public class RistoranteServiceTest extends YoueatTest {
         user.setPassword("secret");
         user.setEmail("a.ristoranteService@test.com");
         user.setCountry(getNocountry());
+        user.setLanguage(getLanguage());
         Language italian = new Language();
         italian.setLanguage("xx");
         italian.setCountry("xx");

@@ -40,7 +40,7 @@ public class UserServiceTest extends YoueatTest {
 
     @Autowired
     private EaterService userService;
-
+    
     @Before
     public void setUp() {
         super.setUp();
@@ -57,6 +57,7 @@ public class UserServiceTest extends YoueatTest {
         a.setEmail("userServiceTest@test");
         a.setUserProfile(getProfile());
         a.setCountry(getNocountry());
+        a.setLanguage(getLanguage());
 
         userService.add(a);
 
@@ -95,6 +96,7 @@ public class UserServiceTest extends YoueatTest {
         b.setEmail("userServiceTest@test.com");
         b.setUserProfile(getProfile());
         b.setCountry(getNocountry());
+        b.setLanguage(getLanguage());
         b = userService.add(b);
         assertNotNull("A is null", b);
 
@@ -104,7 +106,9 @@ public class UserServiceTest extends YoueatTest {
         c.setPassword("secret");
         c.setEmail("userServiceTest@test2.com");
         c.setCountry(getNocountry());
+        c.setLanguage(getLanguage());
         c = userService.addRegolarUser(c);
+        
         assertNotNull("C is null", c);
 
         // EaterRelation relations = UserRelationImpl.createFriendRelation(c, a);
@@ -124,5 +128,5 @@ public class UserServiceTest extends YoueatTest {
         // eaterService.remove(eaterService.getByPath(aPath));
 
     }
-
+    
 }

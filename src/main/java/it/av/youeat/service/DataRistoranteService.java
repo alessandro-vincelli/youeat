@@ -114,4 +114,32 @@ public interface DataRistoranteService {
     @Transactional(readOnly = true)
     Collection<DataRistorante> getBy(String pattern, String city, Country country);
 
+    /**
+     * create/update lucene index on data_ristorante 
+     */
+    @Transactional    
+    void indexData();
+
+    /**
+     * Find restaurants by the given pattern, using Lucene
+     * 
+     * @param pattern
+     * @param maxResult max number of results, 0 or negative for unlimited results
+     * @return found risto
+     */
+    @Transactional(readOnly=true)
+    List<DataRistorante> freeTextSearch(String pattern, int maxResult);
+    
+    /**
+     * Find restaurants by the given pattern, using Lucene
+     * 
+     * @param pattern
+     * @param city (optional)
+     * @param country, 2 characters ISO (optional)
+     * @param maxResult max number of results, 0 or negative for unlimited results
+     * @return found risto
+     */
+    @Transactional(readOnly=true)
+    List<DataRistorante> freeTextSearch(String pattern, String city, String country, int maxResult);
+
 }

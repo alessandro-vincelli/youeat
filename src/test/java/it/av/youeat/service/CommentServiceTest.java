@@ -55,6 +55,7 @@ public class CommentServiceTest extends YoueatTest{
         a.setLastname("Vincelli");
         a.setPassword("secret");
         a.setEmail("a.commentService@test.com");
+        a.setLanguage(getLanguage());
         a.setCountry(getNocountry());
         
         a = eaterService.addRegolarUser(a);

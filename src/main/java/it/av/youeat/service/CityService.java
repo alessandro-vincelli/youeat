@@ -85,4 +85,7 @@ public interface CityService extends ApplicationService<City> {
     @Transactional(readOnly = true)
     List<String> findName(String string, int maxResults);
 
+    @Transactional
+    void indexData();
+
 }

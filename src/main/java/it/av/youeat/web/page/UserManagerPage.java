@@ -18,6 +18,8 @@ package it.av.youeat.web.page;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.EaterProfile;
+import it.av.youeat.service.CityService;
+import it.av.youeat.service.DataRistoranteService;
 import it.av.youeat.service.EaterProfileService;
 import it.av.youeat.service.EaterService;
 import it.av.youeat.web.data.UserSortableDataProvider;
@@ -61,6 +63,10 @@ public class UserManagerPage extends BasePage {
     private EaterService userService;
     @SpringBean
     private EaterProfileService userProfileService;
+    @SpringBean
+    private DataRistoranteService dataRistoranteService;
+    @SpringBean
+    private CityService cityService;
 
     private AjaxFallbackDefaultDataTable<Eater> usersDataTable;
     private UserSortableDataProvider dataProvider;
@@ -113,6 +119,19 @@ public class UserManagerPage extends BasePage {
         add(usersDataTable);
         searchPanel = new SearchPanel(dataProvider, usersDataTable, "searchPanel", getFeedbackPanel());
         add(searchPanel);
+        
+        add(new AjaxLink<Eater>("indexDataRistorante", new Model<Eater>()) {
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                dataRistoranteService.indexData();
+            }
+        });
+        add(new AjaxLink<Eater>("indexCity", new Model<Eater>()) {
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                cityService.getAll();
+            }
+        });
     }
 
     private class SubmitButton extends AjaxButton {

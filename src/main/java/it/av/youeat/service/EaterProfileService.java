@@ -59,7 +59,16 @@ public interface EaterProfileService {
      * 
      * @return EaterProfile
      */
+    @Transactional(readOnly = true)
     EaterProfile getRegolarUserProfile();
+
+    /**
+     * Return the admin user profile, it must be the "ADMIN" profile
+     * 
+     * @return EaterProfile
+     */
+    @Transactional(readOnly = true)
+    EaterProfile getAdminUserProfile();
 
     /**
      * Return the user with the passed name, there's a unique constraint on the user profile name

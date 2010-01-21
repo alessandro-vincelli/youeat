@@ -19,7 +19,9 @@ import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.data.City;
 import it.av.youeat.ocm.model.data.Country;
 import it.av.youeat.service.CityService;
+import it.av.youeat.service.CountryService;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -27,6 +29,8 @@ import javax.persistence.Query;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Implements the operation on {@link City}
@@ -36,6 +40,9 @@ import org.hibernate.criterion.Restrictions;
  */
 public class CityServiceHibernate extends ApplicationServiceHibernate<City> implements CityService {
 
+    @Autowired
+    private CountryService countryService;
+    
     /**
      * {@inheritDoc}
      */
@@ -73,10 +80,35 @@ public class CityServiceHibernate extends ApplicationServiceHibernate<City> impl
     public List<String> findName(String string, Country country, int maxResults) {
         Query query = getJpaTemplate().getEntityManager().createQuery(
                 "select name  from City as city where upper(city.name) like upper(:name) and city.country = :country");
-        query.setParameter("name", string + "%");
+        query.setParameter("name", "%" +string + "%");
         query.setParameter("country", country);
         query.setMaxResults(maxResults);
         return query.getResultList();
+//        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
+//        .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+//        QueryParser queryParser = new QueryParser("", new StandardAnalyzer());
+//        org.apache.lucene.search.Query query;
+//        
+//        StringBuffer searchPattern = new StringBuffer();
+//        // use the search pattern on the name, city and country are mandatory match
+//        if (StringUtils.isNotBlank(string)) {
+//            String cityCleaned = LuceneUtil.escapeSpecialChars(string);
+//            String countryCleaned = LuceneUtil.escapeSpecialChars(country.getName());
+//            searchPattern.append(" name:(");
+//            searchPattern.append(cityCleaned);
+//            searchPattern.append(") && ");
+//            searchPattern.append(" +country.name:(");
+//            searchPattern.append(countryCleaned);
+//            searchPattern.append(")");
+//        }
+//        try {
+//            query = queryParser.parse(searchPattern.toString());
+//        } catch (ParseException e) {
+//            throw new YoueatException(e);
+//        }
+//        javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(query,
+//                City.class);
+//        return persistenceQuery.getResultList();
     }
 
     /**
@@ -108,4 +140,29 @@ public class CityServiceHibernate extends ApplicationServiceHibernate<City> impl
             return resuts.get(0);
         }
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void indexData() {
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
+                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+        Collection<City> cities = getAll();
+        int position = 0;
+        for (City city : cities) {
+            fullTextEntityManager.index(city);
+            position = position + 1;
+        }
+        System.out.println("city indexed");
+        // TODO to much data improve the indexing method
+        Collection<Country> countries = countryService.getAll();
+        position = 0;
+        for (Country country : countries) {
+            fullTextEntityManager.index(country);
+            position = position + 1;
+        }
+        System.out.println("country indexed");
+    }
+
 }

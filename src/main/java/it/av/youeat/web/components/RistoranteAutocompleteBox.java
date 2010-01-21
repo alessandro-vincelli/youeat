@@ -48,9 +48,10 @@ public class RistoranteAutocompleteBox extends AutoCompleteTextField<DataRistora
             Country country = ((DropDownChoice<Country>) getForm().get(Ristorante.COUNTRY)).getModelObject();
             List<DataRistorante> lists = new ArrayList<DataRistorante>();
             if (city != null && country != null) {
-                lists.addAll(dataRistoranteService.find(input + "%", city, (Country) country, 25));
+                //lists.addAll(dataRistoranteService.find(input + "~ " + city + " " + ((Country) country).getName(), 25));
+                lists.addAll(dataRistoranteService.freeTextSearch(input, city, ((Country) country).getIso2(), 25));
             } else {
-                lists.addAll(dataRistoranteService.find(input + "%", 25));
+                lists.addAll(dataRistoranteService.freeTextSearch(input, 25));
             }
             choises.addAll(lists);
 

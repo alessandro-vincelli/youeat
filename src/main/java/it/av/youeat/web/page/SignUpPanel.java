@@ -32,6 +32,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.captcha.kittens.KittenCaptchaPanel;
 import org.apache.wicket.extensions.validation.validator.RfcCompliantEmailAddressValidator;
+import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
@@ -62,12 +63,15 @@ public class SignUpPanel extends Panel {
     private static final long serialVersionUID = 1L;
     private Form<Eater> signUpForm;
     private FeedbackPanel feedbackPanel;
+    @SpringBean
     private EaterService userService;
     private Link<String> goSignInAfterSignUp;
     private String passwordConfirm = "";
     private final KittenCaptchaPanel captcha;
     @SpringBean
     private LanguageService languageService;
+    @SpringBean
+    private CountryService countryService;
 
     /**
      * Constructor
@@ -77,10 +81,10 @@ public class SignUpPanel extends Panel {
      * @param eaterService
      * @throws YoueatException
      */
-    public SignUpPanel(String id, FeedbackPanel feedbackPanel, EaterService userService, CountryService countryService)
+    public SignUpPanel(String id, FeedbackPanel feedbackPanel)
             throws YoueatException {
         super(id);
-        this.userService = userService;
+        InjectorHolder.getInjector().inject(this);
         this.feedbackPanel = feedbackPanel;
 
         List<Country> countriyList = countryService.getAll();
@@ -96,6 +100,7 @@ public class SignUpPanel extends Panel {
 
         Eater user = new Eater();
         user.setCountry(userCountry);
+        user.setLanguage(languageService.getSupportedLanguage(getLocale()));
 
         signUpForm = new Form<Eater>("signUpForm", new CompoundPropertyModel<Eater>(user));
 

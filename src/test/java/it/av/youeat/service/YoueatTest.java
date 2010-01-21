@@ -21,6 +21,7 @@ public abstract class YoueatTest {
     private EaterProfile profile;
     private Country nocountry;
     private City nocity;
+    private Language language;
 
     public void setUp() throws YoueatException {
         profile = new EaterProfile();
@@ -44,6 +45,7 @@ public abstract class YoueatTest {
             languageService.save(new Language("it", "italy"));
             languageService.save(new Language("en", "usa"));
         }
+        language = languageService.getAll().get(0);
     }
 
     public EaterProfile getProfile() {
@@ -56,6 +58,10 @@ public abstract class YoueatTest {
 
     public City getNocity() {
         return nocity;
+    }
+
+    public Language getLanguage() {
+        return language;
     }
     
 }

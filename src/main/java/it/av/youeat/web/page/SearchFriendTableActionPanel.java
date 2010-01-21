@@ -53,7 +53,7 @@ public class SearchFriendTableActionPanel extends Panel {
                     userRelationService.addFriendRequest(page.getLoggedInUser(), getModelObject());
                     page.refreshDataTable();
                     target.addComponent(page.getSearchFriendsContainer());
-                    info(new StringResourceModel("friendRequestSent", this, null).getString());
+                    info(new StringResourceModel("friendRequestSent", this, getModel()).getString());
                 } catch (YoueatException e) {
                     error(new StringResourceModel("genericErrorMessage", this, null).getString());
                 }
@@ -70,7 +70,7 @@ public class SearchFriendTableActionPanel extends Panel {
                     userRelationService.addFollowUser(page.getLoggedInUser(), getModelObject());
                     page.refreshDataTable();
                     target.addComponent(page.getSearchFriendsContainer());
-                    info(new StringResourceModel("followUserDone", this, null).getString());
+                    info(new StringResourceModel("followUserDone", this, getModel()).getString());
                 } catch (YoueatException e) {
                     error(new StringResourceModel("genericErrorMessage", this, null).getString());
                 }

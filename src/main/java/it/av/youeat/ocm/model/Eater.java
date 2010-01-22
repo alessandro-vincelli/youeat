@@ -69,6 +69,8 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
     public static final String AVATAR = "avatar";
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
+    private String passwordSalt;
     @Field(index = Index.NO_NORMS, store = Store.YES)
     @Column(nullable = false)
     private String firstname;
@@ -138,6 +140,14 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt;
     }
 
     public String getFirstname() {
@@ -259,16 +269,10 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
         }
     }
 
-    /**
-     * @return the creationTime
-     */
     public Date getCreationTime() {
         return creationTime;
     }
 
-    /**
-     * @param creationTime the creationTime to set
-     */
     public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
     }

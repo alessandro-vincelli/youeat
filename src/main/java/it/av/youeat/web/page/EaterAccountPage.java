@@ -129,7 +129,7 @@ public class EaterAccountPage extends BasePage {
             info(getString("info.accountSaved"));
             String newPwd = form.get("password-confirm").getDefaultModelObjectAsString();
             if ((!newPwd.isEmpty())) {
-                eater.setPassword(eaterService.encodePassword(newPwd, null));
+                eater.setPassword(eaterService.encodePassword(newPwd, eater.getPasswordSalt()));
             }
             Eater updatedEater = eaterService.update((Eater) form.getModelObject());
             form.setDefaultModelObject(updatedEater);
@@ -188,7 +188,7 @@ public class EaterAccountPage extends BasePage {
 
         @Override
         protected void onValidate(IValidatable<String> validatable) {
-            if (!eaterService.isPasswordValid(eater.getPassword(), validatable.getValue().toString(), null)) {
+            if (!eaterService.isPasswordValid(eater.getPassword(), validatable.getValue().toString(), eater.getPasswordSalt())) {
                 error(validatable);
             }
         }

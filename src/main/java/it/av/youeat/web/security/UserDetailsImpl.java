@@ -30,12 +30,13 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class UserDetailsImpl implements UserDetails {
 
-    private static final long serialVersionUID = 1L;
+    private String passwordSalt;
 
     private Eater user;
 
     public UserDetailsImpl(Eater user) {
         this.user = user;
+        this.passwordSalt = user.getPasswordSalt();
     }
 
     @Override
@@ -78,6 +79,10 @@ public class UserDetailsImpl implements UserDetails {
 
     public final Eater getUser() {
         return user;
+    }
+
+    public String getPasswordSalt() {
+        return passwordSalt;
     }
 
 }

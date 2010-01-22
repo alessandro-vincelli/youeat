@@ -28,6 +28,7 @@ import it.av.youeat.util.LuceneUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.queryParser.QueryParser;
@@ -86,7 +87,8 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         if (eater == null || StringUtils.isBlank(eater.getEmail())) {
             throw new YoueatException("Eater is null or email is empty");
         }
-        eater.setPassword(passwordEncoder.encodePassword(eater.getPassword(), null));
+        eater.setPasswordSalt(UUID.randomUUID().toString());
+        eater.setPassword(passwordEncoder.encodePassword(eater.getPassword(), eater.getPasswordSalt()));
         eater.setCreationTime(DateUtil.getTimestamp());
         if (eater.getUserProfile() == null) {
             eater.setUserProfile(eaterProfileService.getRegolarUserProfile());

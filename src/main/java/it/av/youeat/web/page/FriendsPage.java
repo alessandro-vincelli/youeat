@@ -39,6 +39,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -58,7 +59,7 @@ public class FriendsPage extends BasePage {
     @SpringBean
     private ActivityRelationService activityService;
     private PropertyListView<EaterRelation> friendsList;
-    private List<EaterRelation> allRelations;
+
     private ActivityPaging activityPagingUser = new ActivityPaging(0, 20);
     private List<ActivityEaterRelation> activities;
     private WebMarkupContainer activitiesListContainer;
@@ -72,12 +73,11 @@ public class FriendsPage extends BasePage {
     public FriendsPage() throws YoueatException {
         super();
         add(getFeedbackPanel());
-        allRelations = eaterRelationService.getAllRelations(getLoggedInUser());
         final Label noYetFriends = new Label("noYetFriends", getString("noYetFriends")) {
             @Override
             protected void onBeforeRender() {
                 super.onBeforeRender();
-                setVisible(allRelations.size() == 0);
+                setVisible(eaterRelationService.getAllRelations(getLoggedInUser()).size() == 0);
             }
         };
         noYetFriends.setOutputMarkupId(true);
@@ -88,7 +88,7 @@ public class FriendsPage extends BasePage {
         final WebMarkupContainer friendsListContainer = new WebMarkupContainer("friendsListContainer");
         friendsListContainer.setOutputMarkupId(true);
         add(friendsListContainer);
-        friendsList = new PropertyListView<EaterRelation>("friendsList", allRelations) {
+        friendsList = new PropertyListView<EaterRelation>("friendsList", new RelationsModel()) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -121,9 +121,7 @@ public class FriendsPage extends BasePage {
                             public void onClick(AjaxRequestTarget target) {
                                 try {
                                     ((FriendsPage) getPage()).eaterRelationService.remove(getModelObject());
-                                    allRelations = eaterRelationService.getAllRelations(getLoggedInUser());
-                                    ((FriendsPage) target.getPage()).friendsList.setModelObject(allRelations);
-                                    noYetFriends.setVisible(allRelations.size() == 0);
+                                    noYetFriends.setVisible(friendsList.getModelObject().size() == 0);
                                     info(getString("info.userRelationRemoved"));
                                 } catch (YoueatException e) {
                                     error(new StringResourceModel("genericErrorMessage", this, null).getString());
@@ -143,10 +141,9 @@ public class FriendsPage extends BasePage {
                     @Override
                     public void onClick(AjaxRequestTarget target) {
                         try {
-                            ((FriendsPage) getPage()).eaterRelationService.performFriendRequestConfirm(getModelObject());
-                            allRelations = eaterRelationService.getAllRelations(getLoggedInUser());
-                            ((FriendsPage) target.getPage()).friendsList.setModelObject(allRelations);
-                            noYetFriends.setVisible(allRelations.size() == 0);
+                            ((FriendsPage) getPage()).eaterRelationService
+                                    .performFriendRequestConfirm(getModelObject());
+                            noYetFriends.setVisible(friendsList.getModelObject().size() == 0);
                             // info(new StringResourceModel("info.userRelationRemoved", this, null).getString());
                         } catch (YoueatException e) {
                             error(new StringResourceModel("genericErrorMessage", this, null).getString());
@@ -168,9 +165,7 @@ public class FriendsPage extends BasePage {
                     public void onClick(AjaxRequestTarget target) {
                         try {
                             ((FriendsPage) getPage()).eaterRelationService.performFriendRequestIgnore(getModelObject());
-                            allRelations = eaterRelationService.getAllRelations(getLoggedInUser());
-                            ((FriendsPage) target.getPage()).friendsList.setModelObject(allRelations);
-                            noYetFriends.setVisible(allRelations.size() == 0);
+                            noYetFriends.setVisible(friendsList.getModelObject().size() == 0);
                             // info(new StringResourceModel("info.userRelationRemoved", this, null).getString());
                         } catch (YoueatException e) {
                             error(new StringResourceModel("genericErrorMessage", this, null).getString());
@@ -226,5 +221,20 @@ public class FriendsPage extends BasePage {
             }
         };
         activitiesListContainer.add(moreActivitiesLink);
+    }
+
+    private class RelationsModel extends LoadableDetachableModel<List<EaterRelation>> {
+        public RelationsModel() {
+            super();
+        }
+
+        public RelationsModel(List<EaterRelation> relations) {
+            super(relations);
+        }
+
+        @Override
+        protected List<EaterRelation> load() {
+            return eaterRelationService.getAllRelations(getLoggedInUser());
+        }
     }
 }

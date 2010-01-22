@@ -18,7 +18,7 @@ package it.av.youeat.web.page;
 import it.av.youeat.web.commons.SignInPanel;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 
 /**
  * 
@@ -34,10 +34,17 @@ public class SignIn extends BasePageSimple {
         getFeedbackPanel().setVisible(false);
         add(new SignInPanel("signInPanel", true));
 
-        add(new AjaxLink<String>("signUp") {
+        add(new AjaxFallbackLink<String>("signUp") {
             @Override
             public void onClick(AjaxRequestTarget target) {
                 setResponsePage(SignUpPage.class);
+            }
+        });
+        
+        add(new AjaxFallbackLink<String>("passwordRecover") {
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                setResponsePage(PasswordRecoverPage.class);
             }
         });
     }

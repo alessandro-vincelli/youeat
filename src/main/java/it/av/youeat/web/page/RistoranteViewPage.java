@@ -596,20 +596,16 @@ public class RistoranteViewPage extends BasePage {
     }
 
     private class CommentsModel extends LoadableDetachableModel<List<Comment>> {
-
         public CommentsModel() {
             super();
         }
-
         public CommentsModel(List<Comment> comments) {
             super(comments);
         }
-
         @Override
         protected List<Comment> load() {
             ristorante = ristoranteService.getByID(ristorante.getId());
             return ristorante.getComments();
         }
-
     }
 }

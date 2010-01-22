@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package it.av.youeat.web.page;
+package it.av.youeat.web.panel;
 
 import it.av.youeat.UserAlreadyExistsException;
 import it.av.youeat.YoueatException;
@@ -23,6 +23,8 @@ import it.av.youeat.ocm.model.data.Country;
 import it.av.youeat.service.CountryService;
 import it.av.youeat.service.EaterService;
 import it.av.youeat.service.LanguageService;
+import it.av.youeat.web.components.KittenCaptchaValidator;
+import it.av.youeat.web.page.SignIn;
 
 import java.awt.Dimension;
 import java.util.List;
@@ -35,12 +37,10 @@ import org.apache.wicket.extensions.validation.validator.RfcCompliantEmailAddres
 import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.HiddenField;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 import org.apache.wicket.markup.html.form.validation.EqualPasswordInputValidator;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -67,7 +67,6 @@ public class SignUpPanel extends Panel {
     private EaterService userService;
     private Link<String> goSignInAfterSignUp;
     private String passwordConfirm = "";
-    private final KittenCaptchaPanel captcha;
     @SpringBean
     private LanguageService languageService;
     @SpringBean
@@ -81,8 +80,7 @@ public class SignUpPanel extends Panel {
      * @param eaterService
      * @throws YoueatException
      */
-    public SignUpPanel(String id, FeedbackPanel feedbackPanel)
-            throws YoueatException {
+    public SignUpPanel(String id, FeedbackPanel feedbackPanel) throws YoueatException {
         super(id);
         InjectorHolder.getInjector().inject(this);
         this.feedbackPanel = feedbackPanel;
@@ -140,33 +138,13 @@ public class SignUpPanel extends Panel {
         goSignInAfterSignUp.setOutputMarkupPlaceholderTag(true);
         goSignInAfterSignUp.setVisible(false);
         add(goSignInAfterSignUp);
-
-        signUpForm.add(captcha = new KittenCaptchaPanel("captcha", new Dimension(400, 200)));
+        KittenCaptchaPanel captcha = new KittenCaptchaPanel("captcha", new Dimension(400, 200));
+        signUpForm.add(captcha);
         // used to show error message
         final HiddenField<String> captchaHidden = new HiddenField<String>("captchaHidden", new Model());
         signUpForm.add(captchaHidden);
-        signUpForm.add(new KittenCaptchaValidator(captchaHidden));
+        signUpForm.add(new KittenCaptchaValidator(captchaHidden, captcha));
         add(signUpForm);
-    }
-
-    private final class KittenCaptchaValidator extends AbstractFormValidator {
-        private final HiddenField<String> captchaHidden;
-
-        private KittenCaptchaValidator(HiddenField<String> captchaHidden) {
-            this.captchaHidden = captchaHidden;
-        }
-
-        @Override
-        public void validate(Form<?> form) {
-            if (!captcha.allKittensSelected()) {
-                error(captchaHidden);
-            }
-        }
-
-        @Override
-        public FormComponent<?>[] getDependentFormComponents() {
-            return new FormComponent[] { captchaHidden };
-        }
     }
 
     /**

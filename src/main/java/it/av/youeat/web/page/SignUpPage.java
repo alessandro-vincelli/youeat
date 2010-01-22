@@ -16,6 +16,7 @@
 package it.av.youeat.web.page;
 
 import it.av.youeat.YoueatException;
+import it.av.youeat.web.panel.SignUpPanel;
 
 /**
  * The page provides user sign up panel.

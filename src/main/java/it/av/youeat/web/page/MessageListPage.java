@@ -36,6 +36,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -53,7 +54,7 @@ public class MessageListPage extends BasePage {
     @SpringBean
     private DialogService dialogService;
     private PropertyListView<Message> messageList;
-    private List<Message> allMessages;
+
     /**
      * default true, used to get correct list of dialog/messages
      */
@@ -62,12 +63,11 @@ public class MessageListPage extends BasePage {
     public MessageListPage() {
         super();
         add(getFeedbackPanel());
-        allMessages = getLastMessages();
         final Label noYetMessages = new Label("noYetMessages", getString("noMessages")) {
             @Override
             protected void onBeforeRender() {
                 super.onBeforeRender();
-                setVisible(allMessages.size() == 0);
+                setVisible(getLastMessages().size() == 0);
             }
         };
         noYetMessages.setOutputMarkupId(true);
@@ -77,15 +77,14 @@ public class MessageListPage extends BasePage {
         final WebMarkupContainer messagesListContainer = new WebMarkupContainer("messagesListContainer");
         messagesListContainer.setOutputMarkupId(true);
         add(messagesListContainer);
-        messageList = new PropertyListView<Message>("messagesList", allMessages) {
+        messageList = new PropertyListView<Message>("messagesList", new MessagesModel()) {
             private static final long serialVersionUID = 1L;
-
-            
 
             @Override
             protected void populateItem(final ListItem<Message> item) {
                 // if the dialog contains unread message, use a different CSS style
-                if(!(item.getModelObject().getSender().equals(getLoggedInUser())) && item.getModelObject().getReadTime() == null){
+                if (!(item.getModelObject().getSender().equals(getLoggedInUser()))
+                        && item.getModelObject().getReadTime() == null) {
                     item.add(new AttributeAppender("class", new Model<String>("rowMessageUnread"), " "));
                 }
                 Eater sender = item.getModelObject().getSender();
@@ -103,9 +102,7 @@ public class MessageListPage extends BasePage {
                         try {
                             ((MessageListPage) getPage()).dialogService.delete(getModelObject().getDialog(),
                                     getLoggedInUser());
-                            allMessages = getLastMessages();
-                            ((MessageListPage) target.getPage()).messageList.setModelObject(allMessages);
-                            noYetMessages.setVisible(allMessages.size() == 0);
+                            noYetMessages.setVisible(getLastMessages().size() == 0);
                             info(getString("info.userRelationRemoved"));
                         } catch (YoueatException e) {
                             error(new StringResourceModel("genericErrorMessage", this, null).getString());
@@ -184,6 +181,21 @@ public class MessageListPage extends BasePage {
             PageParameters pp = new PageParameters();
             pp.add(YoueatHttpParams.PARAM_DIALOG_ID, item.getModelObject().getDialog().getId());
             setResponsePage(MessagePage.class, pp);
+        }
+    }
+
+    private class MessagesModel extends LoadableDetachableModel<List<Message>> {
+        public MessagesModel() {
+            super();
+        }
+
+        public MessagesModel(List<Message> messages) {
+            super(messages);
+        }
+
+        @Override
+        protected List<Message> load() {
+            return getLastMessages();
         }
     }
 }

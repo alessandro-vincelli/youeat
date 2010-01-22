@@ -4,10 +4,17 @@
     <div id="login">
     	<h2 class="sbtitle">Sign in</h2>
 		<span wicket:id="signInPanel"></span>
-        <wicket:message key="message.join"></wicket:message> 
-	   <button title="" wicket:id="signUp" wicket:message="title:signIn.signUpLinkTitle"><wicket:message key="signIn.signUpLink"/></button>
 	</div>
     </div>
+    </div>
+    <div id="navigation">
+        <p>
+        <wicket:message key="message.join"></wicket:message> 
+        <button title="" wicket:id="signUp" wicket:message="title:signIn.signUpLinkTitle"><wicket:message key="signIn.signUpLink"/></button>
+        </p>
+        <p>
+        <button title="" wicket:id="passwordRecover" wicket:message="title:signIn.signUpLinkTitle"><wicket:message key="signIn.passwordRecovery"/></button>
+        </p>
     </div>
 </wicket:extend>
 

@@ -20,5 +20,13 @@ public interface MailService {
      * @param eater the recipient
      * @param message the message to be notified
      */
-    void SendMessageReceivedNotification(Eater eater, Message message);
+    void sendMessageReceivedNotification(Eater eater, Message message);
+
+    /**
+     * Send the the given password to the given user by email
+     * 
+     * @param eater
+     * @param newPassword
+     */
+    void sendPassword(Eater eater, String newPassword);
 }

@@ -23,6 +23,7 @@ import it.av.youeat.ocm.util.DateUtil;
 import it.av.youeat.service.EaterProfileService;
 import it.av.youeat.service.EaterRelationService;
 import it.av.youeat.service.EaterService;
+import it.av.youeat.service.system.MailService;
 import it.av.youeat.util.LuceneUtil;
 
 import java.util.ArrayList;
@@ -52,6 +53,8 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
     private EaterProfileService eaterProfileService;
     @Autowired
     private EaterRelationService eaterRelationService;
+    @Autowired
+    private MailService mailService;
 
     /**
      * {@inheritDoc}
@@ -232,5 +235,22 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
     @Override
     public String encodePassword(String rawPass, Object salt) {
         return passwordEncoder.encodePassword(rawPass, salt);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void sendPasswordByEmail(Eater eater, String newPassword) {
+        mailService.sendPassword(eater, newPassword);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Eater setRandomPassword(Eater eater) {
+        eater.setPassword(encodePassword(UUID.randomUUID().toString().substring(0, 8), eater.getPasswordSalt()));
+        return update(eater);
     }
 }

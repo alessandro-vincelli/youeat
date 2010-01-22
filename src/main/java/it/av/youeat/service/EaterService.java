@@ -57,10 +57,9 @@ public interface EaterService {
      */
     @Transactional
     Eater addRegolarUser(Eater eater);
-    
+
     /**
-     * <b>Don't use it</b>
-     * Insert a new admin user, during the insert is also encrypted the users's password
+     * <b>Don't use it</b> Insert a new admin user, during the insert is also encrypted the users's password
      * 
      * @param object
      * @return just inserted user
@@ -86,8 +85,8 @@ public interface EaterService {
     Collection<Eater> find(String pattern);
 
     /**
-     * Return users without relations with the given user and the given pattern the search is performed on the
-     * firstname and lastname of the user
+     * Return users without relations with the given user and the given pattern the search is performed on the firstname
+     * and lastname of the user
      * 
      * @param forUser
      * @param pattern
@@ -136,26 +135,41 @@ public interface EaterService {
      */
     @Transactional
     void indexData();
-    
+
     /**
-     * Takes a previously encoded password and compares it with a rawpassword after mixing in the salt and
-     * encoding that value
-     *
+     * Takes a previously encoded password and compares it with a rawpassword after mixing in the salt and encoding that
+     * value
+     * 
      * @param encPass previously encoded password
      * @param rawPass plain text password
      * @param salt salt to mix into password
      * @return true or false
      */
     boolean isPasswordValid(String encPass, String rawPass, Object salt);
-    
+
     /**
-     * Encodes the rawPass using a MessageDigest.
-     * If a salt is specified it will be merged with the password before encoding.
-     *
+     * Encodes the rawPass using a MessageDigest. If a salt is specified it will be merged with the password before
+     * encoding.
+     * 
      * @param rawPass The plain text password
      * @param salt The salt to sprinkle
      * @return Hex string of password digest (or base64 encoded string if encodeHashAsBase64 is enabled.
      */
     String encodePassword(String rawPass, Object salt);
 
+    /**
+     * Send the new password by email to the given user
+     * 
+     * @param eater
+     * @param newPassword
+     */
+    void sendPasswordByEmail(Eater eater, String newPassword);
+
+    /**
+     * Set a random password for the given eater, and save the eater in the database
+     * 
+     * @param eater
+     * @return eater with updated password
+     */
+    Eater setRandomPassword(Eater eater);
 }

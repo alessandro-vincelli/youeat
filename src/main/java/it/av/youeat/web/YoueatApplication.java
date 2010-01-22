@@ -20,6 +20,9 @@ import it.av.youeat.web.page.EaterViewPage;
 import it.av.youeat.web.page.ErrorPage;
 import it.av.youeat.web.page.FriendsPage;
 import it.av.youeat.web.page.HomePage;
+import it.av.youeat.web.page.MessageListPage;
+import it.av.youeat.web.page.MessagePage;
+import it.av.youeat.web.page.PasswordRecoverPage;
 import it.av.youeat.web.page.RistoranteEditAddressPage;
 import it.av.youeat.web.page.RistoranteViewPage;
 import it.av.youeat.web.page.SearchFriendPage;
@@ -28,6 +31,7 @@ import it.av.youeat.web.page.SignUpPage;
 import it.av.youeat.web.page.UserHomePage;
 import it.av.youeat.web.page.UserManagerPage;
 import it.av.youeat.web.page.UserProfilePage;
+import it.av.youeat.web.page.YoueatHttpParams;
 import it.av.youeat.web.security.SecuritySession;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +47,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
 import org.apache.wicket.request.target.coding.IndexedParamUrlCodingStrategy;
+import org.apache.wicket.request.target.coding.MixedParamHybridUrlCodingStrategy;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.web.context.WebApplicationContext;
@@ -91,8 +96,11 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/friends", FriendsPage.class)); 
         mount(new IndexedParamUrlCodingStrategy("/signUp", SignUpPage.class));
         mount(new IndexedParamUrlCodingStrategy("/userHomePage", UserHomePage.class));
-        mount(new HybridUrlCodingStrategy("/viewuser", EaterViewPage.class));
-        mount(new HybridUrlCodingStrategy("/account", EaterAccountPage.class));
+        mount(new MixedParamHybridUrlCodingStrategy("/viewuser", EaterViewPage.class, new String[]{YoueatHttpParams.PARAM_YOUEAT_ID}));
+        mount(new MixedParamHybridUrlCodingStrategy("/account", EaterAccountPage.class, new String[]{YoueatHttpParams.PARAM_YOUEAT_ID}));
+        mount(new HybridUrlCodingStrategy("/passwordRecover", PasswordRecoverPage.class));
+        mount(new HybridUrlCodingStrategy("/messages", MessageListPage.class));
+        mount(new MixedParamHybridUrlCodingStrategy("/message", MessagePage.class, new String[]{YoueatHttpParams.PARAM_DIALOG_ID}));
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
     }

@@ -134,6 +134,6 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
     }
 
     private void sendNotification(Eater eater, Message message) {
-        mailService.SendMessageReceivedNotification(eater, message);
+        mailService.sendMessageReceivedNotification(eater, message);
     }
 }

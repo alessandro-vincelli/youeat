@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
@@ -27,14 +28,16 @@ public class MailServiceImpl implements MailService {
     private SimpleMailMessage notificationTemplateMessage;
     @Autowired
     private MessageSource messageSource;
+    @Autowired
+    private MessageDigestPasswordEncoder passwordEncoder;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void SendMessageReceivedNotification(Eater eater, Message message) {
+    public void sendMessageReceivedNotification(Eater eater, Message message) {
         Locale locale = Locales.getSupportedLocale(eater.getLanguage().getLanguage());
-        Object[] params = {eater.getFirstname() + " " + eater.getLastname() };
+        Object[] params = { eater.getFirstname() + " " + eater.getLastname() };
         String subject = messageSource.getMessage("notification.newmessage.mailSubject", params, locale);
         String body = prepareMailTextNotifyNewMessage(eater, message, locale);
         sendNotificationMail(subject, body, eater.getEmail());
@@ -62,9 +65,9 @@ public class MailServiceImpl implements MailService {
         String[] params = { eater.getFirstname() };
         textBody.append(messageSource.getMessage("notification.newmessage.startMailBody", params, locale));
         textBody.append("\n\n");
-        if(StringUtils.isNotBlank(message.getTitle())){
+        if (StringUtils.isNotBlank(message.getTitle())) {
             textBody.append(message.getTitle());
-            textBody.append("\n\n");    
+            textBody.append("\n\n");
         }
         textBody.append(message.getBody());
         textBody.append("\n\n");
@@ -72,4 +75,30 @@ public class MailServiceImpl implements MailService {
         textBody.append("\n");
         return textBody.toString();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void sendPassword(Eater eater, String newPassword) {
+        Locale locale = Locales.getSupportedLocale(eater.getLanguage().getLanguage());
+        String subject = ("pwdRecover.message.subject");
+        String message = prepareMailTextPasswordRecover(eater, newPassword, locale);
+        sendNotificationMail(subject, message, eater.getEmail());
+    }
+
+    private String prepareMailTextPasswordRecover(Eater eater, String newPassword, Locale locale) {
+        StringBuffer textBody = new StringBuffer();
+        textBody.append("\n\n");
+        String[] params = { eater.getFirstname() };
+        textBody.append(messageSource.getMessage("pwdRecover.message.startMailBody", params, locale));
+        textBody.append("\n\n");
+        textBody.append(newPassword);
+        textBody.append("\n\n");
+        textBody.append("\n\n");
+        textBody.append("http://www.youeat.org");
+        textBody.append("\n");
+        return textBody.toString();
+    }
+
 }

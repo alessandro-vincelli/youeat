@@ -34,7 +34,6 @@ public class SignUpPage extends BasePage {
      */
     public SignUpPage() {
         SignUpPanel signUpPanel = new SignUpPanel("userSignUpPanel", getFeedbackPanel());
-        signUpPanel.setOutputMarkupId(true);
         add(signUpPanel);
     }
 

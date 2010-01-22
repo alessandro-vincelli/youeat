@@ -99,9 +99,10 @@ public class RistoranteAddNewPage extends BasePage {
      * 
      * @throws YoueatException
      */
-    public RistoranteAddNewPage() throws YoueatException {
+    public RistoranteAddNewPage(){
         ristorante = new Ristorante();
         ristorante.addDescriptions(getDescriptionI18n());
+        ristorante.setCountry(getLoggedInUser().getCountry());
         form = new Form<Ristorante>("ristoranteForm", new CompoundPropertyModel<Ristorante>(ristorante));
         add(getFeedbackPanel());
         AjaxFormComponentUpdatingBehavior updatingBehavior = new AjaxFormComponentUpdatingBehavior("onchange") {

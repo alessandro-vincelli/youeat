@@ -87,9 +87,9 @@ public class SignUpPanel extends Panel {
         InjectorHolder.getInjector().inject(this);
         this.feedbackPanel = feedbackPanel;
 
-        List<Country> countriyList = countryService.getAll();
+        List<Country> countryList = countryService.getAll();
         Country userCountry = null;
-        for (Country country : countriyList) {
+        for (Country country : countryList) {
             if (country.getIso3().equals(getRequest().getLocale().getISO3Country())) {
                 userCountry = country;
             }

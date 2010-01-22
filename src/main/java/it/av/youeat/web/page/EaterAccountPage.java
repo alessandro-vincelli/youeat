@@ -19,6 +19,8 @@ import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Language;
 import it.av.youeat.ocm.model.Ristorante;
+import it.av.youeat.ocm.model.data.Country;
+import it.av.youeat.service.CountryService;
 import it.av.youeat.service.EaterService;
 import it.av.youeat.service.LanguageService;
 import it.av.youeat.web.components.ImagesAvatar;
@@ -61,6 +63,8 @@ public class EaterAccountPage extends BasePage {
     private EaterService eaterService;
     @SpringBean
     private LanguageService languageService;
+    @SpringBean
+    private CountryService countryService;
     private String confirmPassword = "";
     private String oldPasswordValue = "";
     private String newPasswordValue = "";
@@ -75,27 +79,30 @@ public class EaterAccountPage extends BasePage {
         StringValidator pwdValidator = StringValidator.LengthBetweenValidator.lengthBetween(6, 20);
         eater = eaterService.getByID(eaterId);
 
-        Form<Eater> form = new Form<Eater>("account", new CompoundPropertyModel<Eater>(eater));
-        form.setOutputMarkupId(true);
-        add(form);
-        form.add(new Label("email"));
-        form.add(new RequiredTextField<String>("firstname"));
-        form.add(new RequiredTextField<String>("lastname"));
-        form.add(new DropDownChoice<Language>("language", languageService.getAll(), new LanguageRenderer()));
+        final Form<Eater> accountForm = new Form<Eater>("account", new CompoundPropertyModel<Eater>(eater));
+        accountForm.setOutputMarkupId(true);
+        add(accountForm);
+        accountForm.add(new Label("email"));
+        accountForm.add(new RequiredTextField<String>("firstname"));
+        accountForm.add(new RequiredTextField<String>("lastname"));
+        DropDownChoice<Country> country = new DropDownChoice<Country>(Eater.COUNTRY, countryService.getAll());
+        country.setRequired(true);
+        accountForm.add(country);
+        accountForm.add(new DropDownChoice<Language>("language", languageService.getAll(), new LanguageRenderer()));
         PasswordTextField oldPassword = new PasswordTextField("oldPassword", new Model<String>(oldPasswordValue));
         oldPassword.add(new OldPasswordValidator());
-        form.add(oldPassword);
+        accountForm.add(oldPassword);
         PasswordTextField pwd1 = new PasswordTextField("newPassword", new Model<String>(newPasswordValue));
         pwd1.setRequired(false);
         pwd1.add(pwdValidator);
         pwd1.setResetPassword(false);
-        form.add(pwd1);
+        accountForm.add(pwd1);
         PasswordTextField pwd2 = new PasswordTextField("password-confirm", new Model<String>(confirmPassword));
         pwd2.setRequired(false);
-        form.add(pwd2);
+        accountForm.add(pwd2);
         EqualPasswordInputValidator passwordInputValidator = new EqualPasswordInputValidator(pwd1, pwd2);
-        form.add(passwordInputValidator);
-        form.add(new SubmitButton("saveAccount", form));
+        accountForm.add(passwordInputValidator);
+        accountForm.add(new SubmitButton("saveAccount", accountForm));
 
         Form formAvatar = new Form("formAvatar");
         add(formAvatar);
@@ -104,7 +111,7 @@ public class EaterAccountPage extends BasePage {
         formAvatar.setMaxSize(Bytes.megabytes(1));
         FileUploadField uploadField = new FileUploadField("uploadField");
         formAvatar.add(uploadField);
-        formAvatar.add(new UploadProgressBar("progressBar", form));
+        formAvatar.add(new UploadProgressBar("progressBar", accountForm));
         formAvatar.add(new SubmitAvatarButton("submitForm", formAvatar));
         WebMarkupContainer imagecontatiner = new WebMarkupContainer("imageContainer");
         imagecontatiner.setOutputMarkupId(true);
@@ -126,12 +133,15 @@ public class EaterAccountPage extends BasePage {
                 StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
                 eater.setPassword(passwordEncryptor.encryptPassword(newPwd));
             }
-            eaterService.update((Eater) form.getModelObject());
+            Eater updatedEater = eaterService.update((Eater) form.getModelObject());
+            form.setDefaultModelObject(updatedEater);
             newPasswordValue = "";
             oldPasswordValue = "";
             confirmPassword = "";
-            target.addComponent(getFeedbackPanel());
-            target.addComponent(form);
+            if(target !=null){
+                target.addComponent(getFeedbackPanel());
+                target.addComponent(form);    
+            }
         }
 
         @Override

@@ -49,7 +49,6 @@ import org.apache.wicket.util.lang.Bytes;
 import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.validator.AbstractValidator;
 import org.apache.wicket.validation.validator.StringValidator;
-import org.jasypt.util.password.StrongPasswordEncryptor;
 
 /**
  * User account manager page.
@@ -64,14 +63,14 @@ public class EaterAccountPage extends BasePage {
     @SpringBean
     private LanguageService languageService;
     @SpringBean
-    private CountryService countryService;
+    private CountryService countryService; 
     private String confirmPassword = "";
     private String oldPasswordValue = "";
     private String newPasswordValue = "";
     private Eater eater;
     private Image avatar;
 
-    public EaterAccountPage(PageParameters pageParameters) throws YoueatException {
+    public EaterAccountPage(PageParameters pageParameters){
         if (!pageParameters.containsKey(YoueatHttpParams.PARAM_YOUEAT_ID)) {
             throw new YoueatException("Missing user id");
         }
@@ -130,8 +129,7 @@ public class EaterAccountPage extends BasePage {
             info(getString("info.accountSaved"));
             String newPwd = form.get("password-confirm").getDefaultModelObjectAsString();
             if ((!newPwd.isEmpty())) {
-                StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
-                eater.setPassword(passwordEncryptor.encryptPassword(newPwd));
+                eater.setPassword(eaterService.encodePassword(newPwd, null));
             }
             Eater updatedEater = eaterService.update((Eater) form.getModelObject());
             form.setDefaultModelObject(updatedEater);
@@ -190,8 +188,7 @@ public class EaterAccountPage extends BasePage {
 
         @Override
         protected void onValidate(IValidatable<String> validatable) {
-            StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
-            if (!passwordEncryptor.checkPassword(validatable.getValue().toString(), eater.getPassword())) {
+            if (!eaterService.isPasswordValid(eater.getPassword(), validatable.getValue().toString(), null)) {
                 error(validatable);
             }
         }

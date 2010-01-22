@@ -17,12 +17,14 @@ package it.av.youeat.web.security;
 
 import it.av.youeat.ocm.model.Eater;
 
+import java.util.Collection;
+
 import org.apache.wicket.Request;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
-import org.springframework.security.Authentication;
-import org.springframework.security.BadCredentialsException;
-import org.springframework.security.GrantedAuthority;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * Implements the authentication strategies
@@ -55,11 +57,12 @@ public class SecuritySession extends AuthenticatedWebSession {
         // Check username and password
         try {
             auth = AuthenticationProvider.authenticate(username, password);
-            // Object credentials = auth.getCredentials();
-            GrantedAuthority[] authss = auth.getAuthorities();
-            this.roles = new String[authss.length];
-            for (int i = 0; i < authss.length; i++) {
-                this.roles[i] = authss[i].getAuthority();
+            Collection<GrantedAuthority> authss = auth.getAuthorities();
+            this.roles = new String[authss.size()];
+            int count = 0;
+            for (GrantedAuthority grantedAuthority : authss) {
+                this.roles[count] = grantedAuthority.getAuthority();
+                count = count + 1;
             }
             loggedInUser = ((UserDetailsImpl) auth.getPrincipal()).getUser();
             return auth.isAuthenticated();

@@ -20,6 +20,10 @@
 	<tx:jta-transaction-manager />
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
+	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder">
+    	<constructor-arg value="MD5"/>
+	</bean>
+	
 	<bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
 		<property name="locations">
 			<list>
@@ -73,17 +77,13 @@
 		<property name="nestedTransactionAllowed" value="false"></property>
 	</bean>
 	
-	<bean id="strongPasswordEncryptor" class="org.jasypt.util.password.StrongPasswordEncryptor" />
-	
 	<bean id="jpaDaoSupport" class="org.springframework.orm.jpa.support.JpaDaoSupport" abstract="true"/>
 	
  	<bean id="wicketApplication" class="it.av.youeat.web.YoueatApplication">
 		<property name="configurationType" value="development" />
 	</bean>
 
-	<bean id="eaterService" class="it.av.youeat.service.impl.EaterServiceHibernate" parent="jpaDaoSupport" >
-		<property name="passwordEncoder" ref="strongPasswordEncryptor" />
-	</bean>
+	<bean id="eaterService" class="it.av.youeat.service.impl.EaterServiceHibernate" parent="jpaDaoSupport" />
 
 	<bean id="commentService" class="it.av.youeat.service.impl.CommentServiceHibernate" parent="jpaDaoSupport" />
 
@@ -133,15 +133,11 @@
 		<constructor-arg ref="repositoryInitStructure" />
 	</bean>
 
-	<bean id="passwordEncoder" class="org.jasypt.spring.security2.PasswordEncoder">
-		<property name="passwordEncryptor" ref="strongPasswordEncryptor" />
-	</bean>
-
 	<bean id="userDetailsService" class="it.av.youeat.web.security.UserDetailsServiceImpl" scope="prototype">
 		<property name="service" ref="eaterService" />
 	</bean>
 
-	<bean id="daoAuthenticationProvider" class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+	<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
 		<property name="userDetailsService" ref="userDetailsService" />
 		<property name="passwordEncoder" ref="passwordEncoder" />
 	</bean>

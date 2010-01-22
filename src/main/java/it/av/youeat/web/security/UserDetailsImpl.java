@@ -18,31 +18,32 @@ package it.av.youeat.web.security;
 import it.av.youeat.ocm.model.Eater;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.GrantedAuthorityImpl;
-import org.springframework.security.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * 
- * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a> 
+ * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
 public class UserDetailsImpl implements UserDetails {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     private Eater user;
-    
+
     public UserDetailsImpl(Eater user) {
         this.user = user;
     }
 
     @Override
-    public GrantedAuthority[] getAuthorities() {
-        GrantedAuthority ga = new GrantedAuthorityImpl(user.getUserProfile().getName()); 
-        ArrayList<GrantedAuthority> gaL = new ArrayList<GrantedAuthority>();
+    public Collection<GrantedAuthority> getAuthorities() {
+        GrantedAuthority ga = new GrantedAuthorityImpl(user.getUserProfile().getName());
+        ArrayList<GrantedAuthority> gaL = new ArrayList<GrantedAuthority>(1);
         gaL.add(ga);
-        return gaL.toArray(new GrantedAuthorityImpl[gaL.size()]);
+        return gaL;
     }
 
     @Override

@@ -136,5 +136,26 @@ public interface EaterService {
      */
     @Transactional
     void indexData();
+    
+    /**
+     * Takes a previously encoded password and compares it with a rawpassword after mixing in the salt and
+     * encoding that value
+     *
+     * @param encPass previously encoded password
+     * @param rawPass plain text password
+     * @param salt salt to mix into password
+     * @return true or false
+     */
+    boolean isPasswordValid(String encPass, String rawPass, Object salt);
+    
+    /**
+     * Encodes the rawPass using a MessageDigest.
+     * If a salt is specified it will be merged with the password before encoding.
+     *
+     * @param rawPass The plain text password
+     * @param salt The salt to sprinkle
+     * @return Hex string of password digest (or base64 encoded string if encodeHashAsBase64 is enabled.
+     */
+    String encodePassword(String rawPass, Object salt);
 
 }

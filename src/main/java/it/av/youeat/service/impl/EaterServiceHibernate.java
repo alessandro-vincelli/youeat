@@ -35,9 +35,9 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.search.jpa.FullTextEntityManager;
-import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 
 /**
  * 
@@ -45,7 +45,8 @@ import org.springframework.dao.DataAccessException;
  */
 public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> implements EaterService {
 
-    private StrongPasswordEncryptor passwordEncoder;
+    @Autowired
+    private MessageDigestPasswordEncoder passwordEncoder;
     @Autowired
     private EaterProfileService eaterProfileService;
     @Autowired
@@ -85,7 +86,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         if (eater == null || StringUtils.isBlank(eater.getEmail())) {
             throw new YoueatException("Eater is null or email is empty");
         }
-        eater.setPassword(passwordEncoder.encryptPassword(eater.getPassword()));
+        eater.setPassword(passwordEncoder.encodePassword(eater.getPassword(), null));
         eater.setCreationTime(DateUtil.getTimestamp());
         if (eater.getUserProfile() == null) {
             eater.setUserProfile(eaterProfileService.getRegolarUserProfile());
@@ -182,10 +183,6 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         super.remove(user);
     }
 
-    public void setPasswordEncoder(StrongPasswordEncryptor passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
-
     public void setUserProfileService(EaterProfileService userProfileService) {
         this.eaterProfileService = userProfileService;
     }
@@ -219,4 +216,19 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isPasswordValid(String encPass, String rawPass, Object salt) {
+        return passwordEncoder.isPasswordValid(encPass, rawPass, salt);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String encodePassword(String rawPass, Object salt) {
+        return passwordEncoder.encodePassword(rawPass, salt);
+    }
 }

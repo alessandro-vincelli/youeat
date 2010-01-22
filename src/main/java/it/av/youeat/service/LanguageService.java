@@ -15,9 +15,9 @@
  */
 package it.av.youeat.service;
 
-import java.util.Locale;
-
 import it.av.youeat.ocm.model.Language;
+
+import java.util.Locale;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;

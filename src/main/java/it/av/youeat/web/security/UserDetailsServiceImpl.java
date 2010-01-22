@@ -19,9 +19,10 @@ import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.service.EaterService;
 
 import org.springframework.dao.DataAccessException;
-import org.springframework.security.userdetails.UserDetails;
-import org.springframework.security.userdetails.UserDetailsService;
-import org.springframework.security.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 /**
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
@@ -34,13 +35,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
         Eater user;
         user = service.getByEmail(username);
-        if(user != null){
+        if (user != null) {
             return new UserDetailsImpl(user);
-        }
-        else{
+        } else {
             throw new UsernameNotFoundException("Eater not valid");
         }
-        
+
     }
 
     public void setService(EaterService service) {

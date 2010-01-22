@@ -355,7 +355,7 @@ div .friendType {
 }
 
 div .friendCenterColumn {
-    width: 400px;
+    width: 370px;
     float: left;
 }
 
@@ -370,6 +370,7 @@ div .friendRemoveButton {
     float: right;
     font-style: oblique;
     padding-right: 5px;
+    display: ;
 }
 
 .friend-action {

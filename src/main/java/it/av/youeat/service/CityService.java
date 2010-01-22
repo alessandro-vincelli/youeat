@@ -37,17 +37,6 @@ public interface CityService extends ApplicationService<City> {
      * Find the restaurant using the given pattern
      * 
      * @param string
-     * @param country
-     * @param maxResults
-     * @return found cities
-     */
-    @Transactional(readOnly = true)
-    List<City> find(String string, Country country, int maxResults);
-
-    /**
-     * Find the restaurant using the given pattern
-     * 
-     * @param string
      * @param maxResults
      * @return found cities
      */
@@ -67,13 +56,13 @@ public interface CityService extends ApplicationService<City> {
     /**
      * Find the restaurant using the given pattern, and return only the cityName
      * 
-     * @param string
+     * @param name name of the ristorant
      * @param country
      * @param maxResults
-     * @return found cities
+     * @return names of cities
      */
     @Transactional(readOnly = true)
-    List<String> findName(String string, Country country, int maxResults);
+    List<String> findByName(String name, Country country, int maxResults);
 
     /**
      * Find the restaurant using the given pattern, and return only the cityName

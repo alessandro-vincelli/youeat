@@ -49,7 +49,7 @@ public class CityAutocompleteBox extends AutoCompleteTextField<String> {
         if (input.length() > 2) {
             Country country = ((DropDownChoice<Country>) getForm().get(Ristorante.COUNTRY)).getModelObject();
             if (country != null) {
-                choises.addAll(cityService.findName(input, (Country) country, 25));
+                choises.addAll(cityService.findByName(input, (Country) country, 25));
             } else {
                 choises.addAll(cityService.findName(input, 25));
             }

@@ -67,20 +67,6 @@
     <div>
         <form wicket:id="formComment">
         <fieldset>
-        <table class="form-comment">
-        <tr>
-            <th><span wicket:id="newCommentTitleLabel"></span></th>
-            <td><input type="text" wicket:id="title"></input></td>
-        </tr>
-        <tr>
-            <td colspan="2"><textarea wicket:id="body" autocomplete="off" accesskey="u" name="description" rows="4" cols="70"></textarea></td>
-        </tr>
-        </table>
-        
-        <p class="submitarea"> 
-        <button wicket:id="submitNewComment"><wicket:message key="button.postNewComment" /></button>
-        </p>
-        
         <ul class="commentsList">
             <li wicket:id="commentsList">
             <div id="commentsList">
@@ -95,8 +81,23 @@
             </div>
             </li>
         </ul>
+        
+        <table class="form-comment">
+        <tr>
+            <th><span wicket:id="newCommentTitleLabel"></span></th>
+            <td><input type="text" wicket:id="title"></input></td>
+        </tr>
+        <tr>
+            <td colspan="2"><textarea wicket:id="body" autocomplete="off" accesskey="u" name="description" rows="4" cols="70"></textarea></td>
+        </tr>
+        </table>
+        
+        <p class="submitarea"> 
+        <button wicket:id="submitNewComment"><wicket:message key="button.postNewComment" /></button>
+        </p>
         </fieldset>
        </form>
+       <p><button wicket:id="newCommentBottom"><wicket:message key="button.newComment" /></button></p>
     </div>
     <div wicket:id="map" class="gmap">ristorante position on the map</div>
     </div>

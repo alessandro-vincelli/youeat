@@ -51,7 +51,7 @@ public class InitialDataTest extends YoueatTest {
             Eater a = new Eater();
             a.setFirstname("Alessandro");
             a.setLastname("Vincelli");
-            a.setPassword("14asd03a");
+            a.setPassword("xxxxxx");
             a.setEmail("a.vincelli@gmail.com");
             a.setUserProfile(adminProfile);
             a.setCountry(italia);

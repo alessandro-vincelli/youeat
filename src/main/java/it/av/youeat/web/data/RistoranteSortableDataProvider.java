@@ -40,7 +40,8 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
     private static final long serialVersionUID = 1L;
     @SpringBean
     private RistoranteService ristoranteService;
-    private Collection<Ristorante> results;
+    private transient Collection<Ristorante> results;
+    private boolean attached;
 
     /**
      * 
@@ -50,6 +51,7 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
         super();
         InjectorHolder.getInjector().inject(this);
         results = new ArrayList<Ristorante>(0);
+        attached = true;
         // setSort(LightVac.SortedFieldNames.dateTime.value(), true);
     }
 
@@ -88,6 +90,10 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
      */
     @Override
     public void detach() {
+        if (attached) {
+            attached = false;
+            results = null;
+        }
     }
 
     /**

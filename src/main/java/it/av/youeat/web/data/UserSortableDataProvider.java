@@ -38,7 +38,8 @@ public class UserSortableDataProvider extends SortableDataProvider<Eater> {
     private static final long serialVersionUID = 1L;
     @SpringBean
     private EaterService usersService;
-    private Collection<Eater> results;
+    private transient Collection<Eater> results;
+    private boolean attached;
 
     /**
      * Construct
@@ -48,6 +49,7 @@ public class UserSortableDataProvider extends SortableDataProvider<Eater> {
         results = new ArrayList<Eater>();
         // setSort(LightVac.SortedFieldNames.dateTime.value(), true);
         InjectorHolder.getInjector().inject(this);
+        attached = true;
     }
 
     /**
@@ -88,6 +90,15 @@ public class UserSortableDataProvider extends SortableDataProvider<Eater> {
             results = usersService.find(searchData);
         } else {
             results = usersService.getAll();
+        }
+    }
+
+    @Override
+    public void detach() {
+        super.detach();
+        if (attached) {
+            attached = false;
+            results = null;
         }
     }
 

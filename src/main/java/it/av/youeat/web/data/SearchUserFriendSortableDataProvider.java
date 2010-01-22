@@ -39,14 +39,16 @@ public class SearchUserFriendSortableDataProvider extends SortableDataProvider<E
     private static final long serialVersionUID = 1L;
     @SpringBean
     private EaterService usersService;
-    private Collection<Eater> results;
+    private transient Collection<Eater> results;
     private Eater forUser;
+    private boolean attached;
 
     /**
      * @param forUser
      */
     public SearchUserFriendSortableDataProvider(Eater forUser) {
         super();
+        attached = true;
         results = new ArrayList<Eater>();
         this.forUser = forUser;
         InjectorHolder.getInjector().inject(this);
@@ -87,6 +89,10 @@ public class SearchUserFriendSortableDataProvider extends SortableDataProvider<E
      */
     @Override
     public void detach() {
+        if (attached) {
+            attached = false;
+            results = null;
+        }
     }
 
     /**

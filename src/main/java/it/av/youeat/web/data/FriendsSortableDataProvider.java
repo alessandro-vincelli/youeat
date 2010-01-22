@@ -40,14 +40,15 @@ public class FriendsSortableDataProvider extends SortableDataProvider<EaterRelat
     private static final long serialVersionUID = 1L;
     @SpringBean
     private EaterRelationService userRelationService;
-    private Collection<EaterRelation> results;
+    private transient Collection<EaterRelation> results;
+    private boolean attached;
 
     /**
      * @param user
      */
     public FriendsSortableDataProvider(Eater ofUser) {
         super();
-        //this.user = user;
+        attached = true;
         InjectorHolder.getInjector().inject(this);
         results = userRelationService.getAllRelations(ofUser);
         // setSort(LightVac.SortedFieldNames.dateTime.value(), true);
@@ -55,12 +56,12 @@ public class FriendsSortableDataProvider extends SortableDataProvider<EaterRelat
 
     /**
      * 
-     * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(int,
-     *      int)
+     * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(int, int)
      */
     @Override
     public final Iterator<EaterRelation> iterator(int first, int count) {
-        return Collections.synchronizedList(new ArrayList<EaterRelation>(results)).subList(first, first + count).iterator();
+        return Collections.synchronizedList(new ArrayList<EaterRelation>(results)).subList(first, first + count)
+                .iterator();
     }
 
     /**
@@ -88,16 +89,20 @@ public class FriendsSortableDataProvider extends SortableDataProvider<EaterRelat
      */
     @Override
     public void detach() {
+        if (attached) {
+            attached = false;
+            results = null;
+        }
     }
 
     /**
      * Performs the search
      * 
      * @param request
-     * @throws YoueatException 
+     * @throws YoueatException
      */
-    public final void fetchResults(Eater ofUser) throws YoueatException { 
-       results = userRelationService.getAllRelations(ofUser);
+    public final void fetchResults(Eater ofUser) throws YoueatException {
+        results = userRelationService.getAllRelations(ofUser);
     }
 
 }

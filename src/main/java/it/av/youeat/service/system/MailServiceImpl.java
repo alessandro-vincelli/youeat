@@ -10,6 +10,7 @@ import it.av.youeat.web.Locales;
 import java.util.Date;
 import java.util.Locale;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
@@ -33,7 +34,7 @@ public class MailServiceImpl implements MailService {
     @Override
     public void SendMessageReceivedNotification(Eater eater, Message message) {
         Locale locale = Locales.getSupportedLocale(eater.getLanguage().getLanguage());
-        Object[] params = {0, eater.getFirstname() + " " + eater.getLastname() };
+        Object[] params = {eater.getFirstname() + " " + eater.getLastname() };
         String subject = messageSource.getMessage("notification.newmessage.mailSubject", params, locale);
         String body = prepareMailTextNotifyNewMessage(eater, message, locale);
         sendNotificationMail(subject, body, eater.getEmail());
@@ -42,18 +43,17 @@ public class MailServiceImpl implements MailService {
     /**
      * Send a notification mail to the given recipient mail address
      * 
-     * @param message message to notify
      * @param subject subject of the e-mail
+     * @param message message to notify
      * @param recipient a valid email address
      */
-    private void sendNotificationMail(String message, String subject, String recipient) {
+    private void sendNotificationMail(String subject, String message, String recipient) {
         SimpleMailMessage m = new SimpleMailMessage(notificationTemplateMessage);
         m.setTo(recipient);
         m.setSubject(subject);
         m.setText(message);
         m.setSentDate(new Date(System.currentTimeMillis()));
-        // disabled
-        //javaMailSender.send(m);
+        javaMailSender.send(m);
     }
 
     private String prepareMailTextNotifyNewMessage(Eater eater, Message message, Locale locale) {
@@ -62,9 +62,13 @@ public class MailServiceImpl implements MailService {
         String[] params = { eater.getFirstname() };
         textBody.append(messageSource.getMessage("notification.newmessage.startMailBody", params, locale));
         textBody.append("\n\n");
-        textBody.append(message.getTitle());
+        if(StringUtils.isNotBlank(message.getTitle())){
+            textBody.append(message.getTitle());
+            textBody.append("\n\n");    
+        }
+        textBody.append(message.getBody());
         textBody.append("\n\n");
-        textBody.append("htt://www.youeat.org");
+        textBody.append("http://www.youeat.org");
         textBody.append("\n");
         return textBody.toString();
     }

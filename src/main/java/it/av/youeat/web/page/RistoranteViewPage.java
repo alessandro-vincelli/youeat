@@ -413,7 +413,7 @@ public class RistoranteViewPage extends BasePage {
                             target.addComponent(formComment);
                         }
                     } catch (YoueatException e) {
-                        getFeedbackPanel().error(getString("An error occurred"));
+                        getFeedbackPanel().error(getString("genericErrorMessage"));
                     }
                     if (target != null) {
                         target.addComponent(getFeedbackPanel());

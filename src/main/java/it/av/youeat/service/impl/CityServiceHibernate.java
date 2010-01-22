@@ -80,7 +80,7 @@ public class CityServiceHibernate extends ApplicationServiceHibernate<City> impl
     public List<String> findName(String string, Country country, int maxResults) {
         Query query = getJpaTemplate().getEntityManager().createQuery(
                 "select name  from City as city where upper(city.name) like upper(:name) and city.country = :country");
-        query.setParameter("name", "%" +string + "%");
+        query.setParameter("name", string + "%");
         query.setParameter("country", country);
         query.setMaxResults(maxResults);
         return query.getResultList();

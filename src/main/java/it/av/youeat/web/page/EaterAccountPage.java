@@ -54,7 +54,7 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@AuthorizeInstantiation( { "USER" })
+@AuthorizeInstantiation( { "USER", "ADMIN" })
 public class EaterAccountPage extends BasePage {
     private static final long serialVersionUID = 1L;
     @SpringBean

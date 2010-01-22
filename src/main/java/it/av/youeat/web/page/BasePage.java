@@ -88,6 +88,7 @@ public class BasePage extends WebPage {
         feedbackPanel = new FeedbackPanel("feedBackPanel");
         feedbackPanel.setOutputMarkupPlaceholderTag(true);
         add(feedbackPanel);
+
         ResourceReference img = new ResourceReference(this.getClass(), "resources/images/logo-mela.png");
         add(new Image("logo", img));
         add(new AjaxFallbackLink<String>("goUserPage") {
@@ -225,8 +226,8 @@ public class BasePage extends WebPage {
             protected void onPostProcessTarget(AjaxRequestTarget target) {
                 super.onPostProcessTarget(target);
                 long numberMessagesRefreshed = messageService.countMessages(getLoggedInUser());
-                numberMessages.setDefaultModelObject((Long)numberMessagesRefreshed);
-                numberMessages.setVisible(numberMessagesRefreshed  > 0);
+                numberMessages.setDefaultModelObject((Long) numberMessagesRefreshed);
+                numberMessages.setVisible(numberMessagesRefreshed > 0);
                 if (target != null) {
                     // target.appendJavascript("new Effect.Highlight($('" + numberMessages.getMarkupId() + "'));");
                 }
@@ -236,11 +237,11 @@ public class BasePage extends WebPage {
         goMessagesPage.add(numberMessages);
 
         long numberUnreadMsgs = (getLoggedInUser() != null) ? messageService.countUnreadMessages(getLoggedInUser()) : 0;
-        
+
         final WebMarkupContainer separator = new WebMarkupContainer("separator");
         separator.setVisible(numberUnreadMsgs > 0);
         goMessagesPage.add(separator);
-        
+
         final Label unreadMsgs = new Label("unreadMessages", new Model<Long>(numberUnreadMsgs));
         unreadMsgs.setOutputMarkupPlaceholderTag(true);
         unreadMsgs.setVisible(numberUnreadMsgs > 0);
@@ -365,7 +366,9 @@ public class BasePage extends WebPage {
             protected boolean callOnBeforeRenderIfNotVisible() {
                 return true;
             }
-        };
+        };        
+        Label name = new Label("name", loggedInUser != null ? loggedInUser.toString() : "");
+        goAccount.add(name);
         add(goAccount);
 
     }

@@ -131,8 +131,9 @@ public class EaterAccountPage extends BasePage {
             if ((!newPwd.isEmpty())) {
                 eater.setPassword(eaterService.encodePassword(newPwd, eater.getPasswordSalt()));
             }
-            Eater updatedEater = eaterService.update((Eater) form.getModelObject());
-            form.setDefaultModelObject(updatedEater);
+            eaterService.update((Eater) form.getModelObject());
+            eater = eaterService.getByID(eater.getId());
+            form.setDefaultModelObject(eater);
             newPasswordValue = "";
             oldPasswordValue = "";
             confirmPassword = "";

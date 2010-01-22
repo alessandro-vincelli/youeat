@@ -5,6 +5,7 @@ import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.Tag;
 import it.av.youeat.service.TagService;
 import it.av.youeat.util.LuceneUtil;
+import it.av.youeat.web.commons.AutocompleteUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,7 +35,7 @@ public class TagBox extends AutoCompleteTextField<String> {
      * @param ristorante
      */
     public TagBox(Model<String> model, String id, Ristorante ristorante) {
-        super(id, model);
+        super(id, model, AutocompleteUtils.getAutoCompleteSettings());
         this.ristorante = ristorante;
         InjectorHolder.getInjector().inject(this);
     }

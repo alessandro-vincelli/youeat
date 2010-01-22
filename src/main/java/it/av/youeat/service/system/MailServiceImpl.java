@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
@@ -28,9 +27,7 @@ public class MailServiceImpl implements MailService {
     private SimpleMailMessage notificationTemplateMessage;
     @Autowired
     private MessageSource messageSource;
-    @Autowired
-    private MessageDigestPasswordEncoder passwordEncoder;
-
+    
     /**
      * {@inheritDoc}
      */
@@ -82,7 +79,7 @@ public class MailServiceImpl implements MailService {
     @Override
     public void sendPassword(Eater eater, String newPassword) {
         Locale locale = Locales.getSupportedLocale(eater.getLanguage().getLanguage());
-        String subject = ("pwdRecover.message.subject");
+        String subject = (messageSource.getMessage("pwdRecover.message.subject", null, locale));
         String message = prepareMailTextPasswordRecover(eater, newPassword, locale);
         sendNotificationMail(subject, message, eater.getEmail());
     }
@@ -94,7 +91,6 @@ public class MailServiceImpl implements MailService {
         textBody.append(messageSource.getMessage("pwdRecover.message.startMailBody", params, locale));
         textBody.append("\n\n");
         textBody.append(newPassword);
-        textBody.append("\n\n");
         textBody.append("\n\n");
         textBody.append("http://www.youeat.org");
         textBody.append("\n");

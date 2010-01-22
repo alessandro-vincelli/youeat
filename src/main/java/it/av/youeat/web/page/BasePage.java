@@ -350,7 +350,7 @@ public class BasePage extends WebPage {
             public void onClick() {
                 Eater eater = getLoggedInUser();
                 if (eater != null) {
-                    PageParameters pp = new PageParameters(YoueatHttpParams.PARAM_YOUEAT_ID + "=" + eater.getId());
+                    PageParameters pp = new PageParameters(YoueatHttpParams.YOUEAT_ID + "=" + eater.getId());
                     setResponsePage(EaterAccountPage.class, pp);
                 }
             }

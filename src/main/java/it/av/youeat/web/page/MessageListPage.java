@@ -179,7 +179,7 @@ public class MessageListPage extends BasePage {
         @Override
         public void onClick(AjaxRequestTarget target) {
             PageParameters pp = new PageParameters();
-            pp.add(YoueatHttpParams.PARAM_DIALOG_ID, item.getModelObject().getDialog().getId());
+            pp.add(YoueatHttpParams.DIALOG_ID, item.getModelObject().getDialog().getId());
             setResponsePage(MessagePage.class, pp);
         }
     }

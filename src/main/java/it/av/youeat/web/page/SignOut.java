@@ -21,7 +21,7 @@ package it.av.youeat.web.page;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class SignOut extends BasePageSimple {
+public class SignOut extends BasePage {
 
     /**
      * Constructor

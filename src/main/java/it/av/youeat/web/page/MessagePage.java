@@ -64,7 +64,7 @@ public class MessagePage extends BasePage {
      */
     public MessagePage(PageParameters parameters) throws YoueatException {
         super();
-        final String dialogId = parameters.getString(YoueatHttpParams.PARAM_DIALOG_ID, "");
+        final String dialogId = parameters.getString(YoueatHttpParams.DIALOG_ID, "");
         if (dialogId == "") {
             throw new YoueatException("dialog id is empty");
         }

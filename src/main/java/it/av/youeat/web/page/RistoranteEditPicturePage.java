@@ -20,7 +20,6 @@ import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.RistorantePicture;
 import it.av.youeat.service.RistorantePictureService;
 import it.av.youeat.service.RistoranteService;
-import it.av.youeat.web.commons.YoueatHttpParams;
 import it.av.youeat.web.components.ButtonOpenRisto;
 
 import org.apache.commons.lang.StringUtils;

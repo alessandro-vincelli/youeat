@@ -1,8 +1,8 @@
 package it.av.youeat.web.components;
 
 import it.av.youeat.ocm.model.Ristorante;
-import it.av.youeat.web.commons.YoueatHttpParams;
 import it.av.youeat.web.page.RistoranteViewPage;
+import it.av.youeat.web.page.YoueatHttpParams;
 
 import java.util.HashMap;
 

@@ -23,7 +23,6 @@ import it.av.youeat.service.CityService;
 import it.av.youeat.service.CountryService;
 import it.av.youeat.service.RistoranteService;
 import it.av.youeat.web.commons.AutocompleteUtils;
-import it.av.youeat.web.commons.YoueatHttpParams;
 import it.av.youeat.web.components.ButtonOpenRisto;
 import it.av.youeat.web.components.CityAutocompleteBox;
 

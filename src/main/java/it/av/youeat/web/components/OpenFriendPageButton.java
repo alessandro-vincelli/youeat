@@ -1,8 +1,8 @@
 package it.av.youeat.web.components;
 
 import it.av.youeat.ocm.model.Eater;
-import it.av.youeat.web.commons.YoueatHttpParams;
 import it.av.youeat.web.page.EaterViewPage;
+import it.av.youeat.web.page.YoueatHttpParams;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -23,7 +23,7 @@ public final class OpenFriendPageButton extends AjaxFallbackLink<String> {
 
     @Override
     public void onClick(AjaxRequestTarget target) {
-        PageParameters pp = new PageParameters(YoueatHttpParams.USER_ID + "=" + friend.getId());
+        PageParameters pp = new PageParameters(YoueatHttpParams.YOUEAT_ID + "=" + friend.getId());
         setResponsePage(EaterViewPage.class, pp);
     }
 }

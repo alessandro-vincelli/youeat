@@ -23,10 +23,12 @@ import it.av.youeat.web.page.HomePage;
 import it.av.youeat.web.page.MessageListPage;
 import it.av.youeat.web.page.MessagePage;
 import it.av.youeat.web.page.PasswordRecoverPage;
+import it.av.youeat.web.page.RistoranteAddNewPage;
 import it.av.youeat.web.page.RistoranteEditAddressPage;
 import it.av.youeat.web.page.RistoranteViewPage;
 import it.av.youeat.web.page.SearchFriendPage;
 import it.av.youeat.web.page.SignIn;
+import it.av.youeat.web.page.SignOut;
 import it.av.youeat.web.page.SignUpPage;
 import it.av.youeat.web.page.UserHomePage;
 import it.av.youeat.web.page.UserManagerPage;
@@ -87,20 +89,21 @@ public class YoueatApplication extends AuthenticatedWebApplication {
             addComponentInstantiationListener(new SpringComponentInjector(this, getSpringContext(), true));
         }
         mount(new IndexedParamUrlCodingStrategy("/signIn", SignIn.class));
+        mount(new IndexedParamUrlCodingStrategy("/signOut", SignOut.class));
         mount(new HybridUrlCodingStrategy("/userProfile", UserProfilePage.class));
         mount(new HybridUrlCodingStrategy("/userPage", UserManagerPage.class));
-        //mount(new HybridUrlCodingStrategy("/ristorante", RistoranteAddNewPage.class));
-        mount(new HybridUrlCodingStrategy("/ristoranteEdit", RistoranteEditAddressPage.class));
-        mount(new HybridUrlCodingStrategy("/ristoranteView", RistoranteViewPage.class));
+        mount(new HybridUrlCodingStrategy("/newRistorante", RistoranteAddNewPage.class));
+        mount(new HybridUrlCodingStrategy("/editRistorante", RistoranteEditAddressPage.class));
+        mount(new HybridUrlCodingStrategy("/viewEistorante", RistoranteViewPage.class));
         mount(new HybridUrlCodingStrategy("/searchFriends", SearchFriendPage.class));
         mount(new HybridUrlCodingStrategy("/friends", FriendsPage.class)); 
         mount(new IndexedParamUrlCodingStrategy("/signUp", SignUpPage.class));
         mount(new IndexedParamUrlCodingStrategy("/userHomePage", UserHomePage.class));
-        mount(new MixedParamHybridUrlCodingStrategy("/viewuser", EaterViewPage.class, new String[]{YoueatHttpParams.PARAM_YOUEAT_ID}));
-        mount(new MixedParamHybridUrlCodingStrategy("/account", EaterAccountPage.class, new String[]{YoueatHttpParams.PARAM_YOUEAT_ID}));
+        mount(new MixedParamHybridUrlCodingStrategy("/viewuser", EaterViewPage.class, new String[]{YoueatHttpParams.YOUEAT_ID}));
+        mount(new MixedParamHybridUrlCodingStrategy("/account", EaterAccountPage.class, new String[]{YoueatHttpParams.YOUEAT_ID}));
         mount(new HybridUrlCodingStrategy("/passwordRecover", PasswordRecoverPage.class));
         mount(new HybridUrlCodingStrategy("/messages", MessageListPage.class));
-        mount(new MixedParamHybridUrlCodingStrategy("/message", MessagePage.class, new String[]{YoueatHttpParams.PARAM_DIALOG_ID}));
+        mount(new MixedParamHybridUrlCodingStrategy("/message", MessagePage.class, new String[]{YoueatHttpParams.DIALOG_ID}));
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
     }

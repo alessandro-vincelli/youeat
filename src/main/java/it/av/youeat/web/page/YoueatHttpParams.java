@@ -2,6 +2,10 @@ package it.av.youeat.web.page;
 
 public class YoueatHttpParams {
 
-    public static final String PARAM_YOUEAT_ID = "eater";
-    public static final String PARAM_DIALOG_ID = "dialogId";
+    /**
+     * http param for user id
+     */
+    public static final String YOUEAT_ID = "eater";
+    public static final String DIALOG_ID = "dialogId";
+    public static final String RISTORANTE_ID = "ristoId";
 }

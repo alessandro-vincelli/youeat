@@ -23,7 +23,6 @@ import it.av.youeat.service.EaterService;
 import it.av.youeat.util.PeriodUtil;
 import it.av.youeat.web.commons.ActivityCommons;
 import it.av.youeat.web.commons.ActivityPaging;
-import it.av.youeat.web.commons.YoueatHttpParams;
 import it.av.youeat.web.components.SendMessageButton;
 import it.av.youeat.web.components.SendMessageModalWindow;
 
@@ -66,11 +65,11 @@ public class EaterViewPage extends BasePage {
     Collection<ActivityRistorante> friendsActivities;
     
     public EaterViewPage(PageParameters pageParameters) throws YoueatException {
-        if (!pageParameters.containsKey(YoueatHttpParams.USER_ID)) {
+        if (!pageParameters.containsKey(YoueatHttpParams.YOUEAT_ID)) {
             throw new YoueatException("Missing user id");
         }
 
-        String eaterId = pageParameters.getString(YoueatHttpParams.USER_ID, "");
+        String eaterId = pageParameters.getString(YoueatHttpParams.YOUEAT_ID, "");
         Eater eater = eaterService.getByID(eaterId);
 
         add(new Label("eater", eater.getFirstname() + " " + eater.getLastname()));

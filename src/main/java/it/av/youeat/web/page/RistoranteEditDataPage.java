@@ -25,7 +25,6 @@ import it.av.youeat.service.LanguageService;
 import it.av.youeat.service.RistoranteService;
 import it.av.youeat.service.TagService;
 import it.av.youeat.web.Locales;
-import it.av.youeat.web.commons.YoueatHttpParams;
 import it.av.youeat.web.components.ButtonOpenRisto;
 import it.av.youeat.web.components.TagBox;
 

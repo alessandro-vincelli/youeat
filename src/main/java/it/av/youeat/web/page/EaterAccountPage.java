@@ -71,10 +71,10 @@ public class EaterAccountPage extends BasePage {
     private Image avatar;
 
     public EaterAccountPage(PageParameters pageParameters){
-        if (!pageParameters.containsKey(YoueatHttpParams.PARAM_YOUEAT_ID)) {
+        if (!pageParameters.containsKey(YoueatHttpParams.YOUEAT_ID)) {
             throw new YoueatException("Missing user id");
         }
-        String eaterId = pageParameters.getString(YoueatHttpParams.PARAM_YOUEAT_ID, "");
+        String eaterId = pageParameters.getString(YoueatHttpParams.YOUEAT_ID, "");
         StringValidator pwdValidator = StringValidator.LengthBetweenValidator.lengthBetween(6, 20);
         eater = eaterService.getByID(eaterId);
 

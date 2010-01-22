@@ -3,8 +3,8 @@ package it.av.youeat.web.components;
 import it.av.youeat.ocm.model.ActivityEaterRelation;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.util.PeriodUtil;
-import it.av.youeat.web.commons.YoueatHttpParams;
 import it.av.youeat.web.page.EaterViewPage;
+import it.av.youeat.web.page.YoueatHttpParams;
 
 import java.util.List;
 
@@ -39,11 +39,11 @@ public class ActivitiesRelationListView extends PropertyListView<ActivityEaterRe
         Eater eater1 = item.getModelObject().getEater();
         Eater eater2 = item.getModelObject().getWithUser();
         BookmarkablePageLink<String> eater1Link = new BookmarkablePageLink<String>("eater1.link", EaterViewPage.class,
-                new PageParameters(YoueatHttpParams.USER_ID + "=" + eater1.getId()));
+                new PageParameters(YoueatHttpParams.YOUEAT_ID + "=" + eater1.getId()));
         eater1Link.add(new Label("eater.name", eater1.toString()));
         item.add(eater1Link);
         BookmarkablePageLink<String> eater2Link = new BookmarkablePageLink<String>("eater2.link", EaterViewPage.class,
-                new PageParameters(YoueatHttpParams.USER_ID + "=" + eater2.getId()));
+                new PageParameters(YoueatHttpParams.YOUEAT_ID + "=" + eater2.getId()));
         eater2Link.add(new Label("eater.name", eater2.toString()));
         item.add(eater2Link);
         //dirty solution

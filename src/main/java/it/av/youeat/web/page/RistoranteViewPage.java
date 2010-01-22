@@ -28,7 +28,6 @@ import it.av.youeat.service.ActivityRistoranteService;
 import it.av.youeat.service.LanguageService;
 import it.av.youeat.service.RistoranteService;
 import it.av.youeat.web.Locales;
-import it.av.youeat.web.commons.YoueatHttpParams;
 import it.av.youeat.web.util.DefaultFocusBehavior;
 
 import java.util.HashMap;

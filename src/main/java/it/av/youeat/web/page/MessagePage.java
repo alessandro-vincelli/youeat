@@ -38,6 +38,7 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.StringValidator;
 
@@ -54,7 +55,6 @@ public class MessagePage extends BasePage {
     @SpringBean
     private DialogService dialogService;
     private PropertyListView<Message> messageList;
-    private List<Message> allMessages;
     private Dialog dialog;
 
     /**
@@ -72,11 +72,11 @@ public class MessagePage extends BasePage {
         add(getFeedbackPanel());
 
         dialog = dialogService.readDiscussion(dialogId, getLoggedInUser());
-        allMessages = getMessagesInTheDialog();
+
         final WebMarkupContainer messageListContainer = new WebMarkupContainer("messagesListContainer");
         messageListContainer.setOutputMarkupId(true);
         add(messageListContainer);
-        messageList = new PropertyListView<Message>("messagesList", allMessages) {
+        messageList = new PropertyListView<Message>("messagesList", new MessagesModel()) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -103,8 +103,6 @@ public class MessagePage extends BasePage {
                 Message msgToSend = (Message) form.getModelObject();
                 dialogService.reply(msgToSend, dialog, getCounterpart(dialog));
                 dialog = dialogService.readDiscussion(dialogId, getLoggedInUser());
-                allMessages = getMessagesInTheDialog();
-                messageList.setModelObject(allMessages);
                 sendMessageForm.setModelObject(getNewMessage());
                 if (target != null) {
                     target.addComponent(getFeedbackPanel());
@@ -146,5 +144,22 @@ public class MessagePage extends BasePage {
     private List<Message> getMessagesInTheDialog() {
         Message[] messa = new Message[dialog.getMessages().size()];
         return Arrays.asList(dialog.getMessages().toArray(messa));
+    }
+
+    private class MessagesModel extends LoadableDetachableModel<List<Message>> {
+
+        public MessagesModel() {
+            super();
+        }
+
+        public MessagesModel(List<Message> comments) {
+            super(comments);
+        }
+
+        @Override
+        protected List<Message> load() {
+            return getMessagesInTheDialog();
+        }
+
     }
 }

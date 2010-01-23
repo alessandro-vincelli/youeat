@@ -91,7 +91,7 @@ public class FriendsSortableDataProvider extends SortableDataProvider<EaterRelat
     public void detach() {
         if (attached) {
             attached = false;
-            results = null;
+            results = new ArrayList<EaterRelation>(0);
         }
     }
 

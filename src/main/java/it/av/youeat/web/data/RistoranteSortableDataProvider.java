@@ -92,7 +92,7 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
     public void detach() {
         if (attached) {
             attached = false;
-            results = null;
+            results = new ArrayList<Ristorante>(0);
         }
     }
 

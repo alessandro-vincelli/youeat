@@ -13,66 +13,67 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package it.av.youeat.web.page;
+package it.av.youeat.web.panel;
 
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
+import it.av.youeat.service.EaterRelationService;
+import it.av.youeat.web.page.SearchFriendPage;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
- * Provides some {@link AjaxLink} to perform operations on the {@link Eater}
+ * Start new realations
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class UserTableActionPanel extends Panel {
+public class SearchFriendTableActionPanel extends Panel {
     private static final long serialVersionUID = 1L;
+    @SpringBean
+    private EaterRelationService userRelationService;
 
     /**
      * @param id component id
      * @param model model for contact
      */
-    public UserTableActionPanel(String id, IModel<Eater> model) {
+    public SearchFriendTableActionPanel(String id, IModel<Eater> model) {
         super(id, model);
-        add(new AjaxLink<Eater>("select", model) {
+        add(new AjaxLink<Eater>("addFriend", model) {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void onClick(AjaxRequestTarget target) {
-                UserManagerPage page = ((UserManagerPage) getPage());
-                page.getForm().setModelObject(getModelObject());
-                target.addComponent(page.getForm());
-            }
-        });
-        add(new AjaxLink<Eater>("edit", model) {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                Form<Eater> form = ((UserManagerPage) getPage()).getForm();
-                form.setModelObject(getModelObject());
-                target.addComponent(form);
-            }
-        });
-        add(new AjaxLink<Eater>("remove", model) {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                UserManagerPage page = ((UserManagerPage) getPage());
-                String userName = getModelObject().getFirstname() + " " + getModelObject().getLastname();
+                SearchFriendPage page = ((SearchFriendPage) getPage());
                 try {
-                    page.getUsersServices().remove(getModelObject());
+                    userRelationService.addFriendRequest(page.getLoggedInUser(), getModelObject());
                     page.refreshDataTable();
-                    target.addComponent(page.getUsersDataTable());
-                    page.getFeedbackPanel().info("Eater \"" + userName + "\" removed");
+                    target.addComponent(page.getSearchFriendsContainer());
+                    info(new StringResourceModel("friendRequestSent", this, getModel()).getString());
                 } catch (YoueatException e) {
-                    page.getFeedbackPanel().error(e.getMessage());
+                    error(new StringResourceModel("genericErrorMessage", this, null).getString());
+                }
+                target.addComponent(page.getFeedbackPanel());
+            }
+        });
+        add(new AjaxLink<Eater>("followUser", model) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                SearchFriendPage page = ((SearchFriendPage) getPage());
+                try {
+                    userRelationService.addFollowUser(page.getLoggedInUser(), getModelObject());
+                    page.refreshDataTable();
+                    target.addComponent(page.getSearchFriendsContainer());
+                    info(new StringResourceModel("followUserDone", this, getModel()).getString());
+                } catch (YoueatException e) {
+                    error(new StringResourceModel("genericErrorMessage", this, null).getString());
                 }
                 target.addComponent(page.getFeedbackPanel());
             }

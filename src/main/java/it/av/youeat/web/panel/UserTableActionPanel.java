@@ -13,11 +13,11 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package it.av.youeat.web.page;
+package it.av.youeat.web.panel;
 
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
-import it.av.youeat.ocm.model.EaterProfile;
+import it.av.youeat.web.page.UserManagerPage;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -26,47 +26,52 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
 /**
- * Provides some {@link AjaxLink} to perform operations on {@link Eater}
+ * Provides some {@link AjaxLink} to perform operations on the {@link Eater}
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class UserProfileTableActionPanel extends Panel {
+public class UserTableActionPanel extends Panel {
     private static final long serialVersionUID = 1L;
 
     /**
      * @param id component id
      * @param model model for contact
      */
-    public UserProfileTableActionPanel(String id, IModel<EaterProfile> model) {
+    public UserTableActionPanel(String id, IModel<Eater> model) {
         super(id, model);
-        add(new AjaxLink<EaterProfile>("edit", model) {
+        add(new AjaxLink<Eater>("select", model) {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void onClick(AjaxRequestTarget target) {
-                UserProfilePage page = ((UserProfilePage) getPage());
-                Form<EaterProfile> form = page.getForm();
-                form.setModelObject(getModelObject());
-                target.addComponent(form);
-                page.getFeedbackPanel().info(
-                        "Profile \"" + getModelObject().getName() + "\" loaded and ready to be modified");
-                target.addComponent(page.getFeedbackPanel());
+                UserManagerPage page = ((UserManagerPage) getPage());
+                page.getForm().setModelObject(getModelObject());
+                target.addComponent(page.getForm());
             }
         });
-        add(new AjaxLink<EaterProfile>("remove", model) {
+        add(new AjaxLink<Eater>("edit", model) {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void onClick(AjaxRequestTarget target) {
-                UserProfilePage page = ((UserProfilePage) getPage());
-                String profileName = getModelObject().getName();
-                page.add(page.getFeedbackPanel());
+                Form<Eater> form = ((UserManagerPage) getPage()).getForm();
+                form.setModelObject(getModelObject());
+                target.addComponent(form);
+            }
+        });
+        add(new AjaxLink<Eater>("remove", model) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                UserManagerPage page = ((UserManagerPage) getPage());
+                String userName = getModelObject().getFirstname() + " " + getModelObject().getLastname();
                 try {
-                    ((UserProfilePage) getPage()).getUsersProfileServices().remove(getModelObject());
+                    page.getUsersServices().remove(getModelObject());
                     page.refreshDataTable();
-                    target.addComponent(page.getUsersProfileDataTable());
-                    page.getFeedbackPanel().info("Profile \"" + profileName + "\" removed");
+                    target.addComponent(page.getUsersDataTable());
+                    page.getFeedbackPanel().info("Eater \"" + userName + "\" removed");
                 } catch (YoueatException e) {
                     page.getFeedbackPanel().error(e.getMessage());
                 }

@@ -13,66 +13,63 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package it.av.youeat.web.page;
+package it.av.youeat.web.panel;
 
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
-import it.av.youeat.service.EaterRelationService;
+import it.av.youeat.ocm.model.EaterProfile;
+import it.av.youeat.web.page.UserProfilePage;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.StringResourceModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
- * Start new realations
+ * Provides some {@link AjaxLink} to perform operations on {@link Eater}
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class SearchFriendTableActionPanel extends Panel {
+public class UserProfileTableActionPanel extends Panel {
     private static final long serialVersionUID = 1L;
-    @SpringBean
-    private EaterRelationService userRelationService;
 
     /**
      * @param id component id
      * @param model model for contact
      */
-    public SearchFriendTableActionPanel(String id, IModel<Eater> model) {
+    public UserProfileTableActionPanel(String id, IModel<EaterProfile> model) {
         super(id, model);
-        add(new AjaxLink<Eater>("addFriend", model) {
+        add(new AjaxLink<EaterProfile>("edit", model) {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void onClick(AjaxRequestTarget target) {
-                SearchFriendPage page = ((SearchFriendPage) getPage());
-                try {
-                    userRelationService.addFriendRequest(page.getLoggedInUser(), getModelObject());
-                    page.refreshDataTable();
-                    target.addComponent(page.getSearchFriendsContainer());
-                    info(new StringResourceModel("friendRequestSent", this, getModel()).getString());
-                } catch (YoueatException e) {
-                    error(new StringResourceModel("genericErrorMessage", this, null).getString());
-                }
+                UserProfilePage page = ((UserProfilePage) getPage());
+                Form<EaterProfile> form = page.getForm();
+                form.setModelObject(getModelObject());
+                target.addComponent(form);
+                page.getFeedbackPanel().info(
+                        "Profile \"" + getModelObject().getName() + "\" loaded and ready to be modified");
                 target.addComponent(page.getFeedbackPanel());
             }
         });
-        add(new AjaxLink<Eater>("followUser", model) {
+        add(new AjaxLink<EaterProfile>("remove", model) {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void onClick(AjaxRequestTarget target) {
-                SearchFriendPage page = ((SearchFriendPage) getPage());
+                UserProfilePage page = ((UserProfilePage) getPage());
+                String profileName = getModelObject().getName();
+                page.add(page.getFeedbackPanel());
                 try {
-                    userRelationService.addFollowUser(page.getLoggedInUser(), getModelObject());
+                    ((UserProfilePage) getPage()).getUsersProfileServices().remove(getModelObject());
                     page.refreshDataTable();
-                    target.addComponent(page.getSearchFriendsContainer());
-                    info(new StringResourceModel("followUserDone", this, getModel()).getString());
+                    target.addComponent(page.getUsersProfileDataTable());
+                    page.getFeedbackPanel().info("Profile \"" + profileName + "\" removed");
                 } catch (YoueatException e) {
-                    error(new StringResourceModel("genericErrorMessage", this, null).getString());
+                    page.getFeedbackPanel().error(e.getMessage());
                 }
                 target.addComponent(page.getFeedbackPanel());
             }

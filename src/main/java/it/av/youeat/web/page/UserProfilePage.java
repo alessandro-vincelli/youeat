@@ -19,6 +19,7 @@ import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.EaterProfile;
 import it.av.youeat.service.EaterProfileService;
 import it.av.youeat.web.data.UserProfileSortableDataProvider;
+import it.av.youeat.web.panel.UserProfileTableActionPanel;
 
 import java.util.ArrayList;
 import java.util.List;

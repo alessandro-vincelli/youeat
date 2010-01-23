@@ -23,6 +23,8 @@ import it.av.youeat.service.DataRistoranteService;
 import it.av.youeat.service.EaterProfileService;
 import it.av.youeat.service.EaterService;
 import it.av.youeat.web.data.UserSortableDataProvider;
+import it.av.youeat.web.panel.SearchPanel;
+import it.av.youeat.web.panel.UserTableActionPanel;
 
 import java.util.ArrayList;
 import java.util.List;

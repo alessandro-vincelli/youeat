@@ -1,4 +1,4 @@
-package it.av.youeat.web.page;
+package it.av.youeat.web.panel;
 
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Ristorante;

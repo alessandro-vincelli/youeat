@@ -29,6 +29,7 @@ import it.av.youeat.service.LanguageService;
 import it.av.youeat.service.RistoranteService;
 import it.av.youeat.web.Locales;
 import it.av.youeat.web.components.ImageRisto;
+import it.av.youeat.web.panel.RistoranteRevisionsPanel;
 import it.av.youeat.web.util.DefaultFocusBehavior;
 
 import java.util.HashMap;
@@ -225,6 +226,7 @@ public class RistoranteViewPage extends BasePage {
                 try {
                     setHasVoted(Boolean.TRUE);
                     ristoranteService.addRate(getRistorante(), getLoggedInUser(), rating);
+                    ristorante = ristoranteService.getByID(ristorante.getId());
                 } catch (YoueatException e) {
                     error(e);
                 }

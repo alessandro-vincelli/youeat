@@ -13,22 +13,29 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package it.av.youeat.web.page;
+package it.av.youeat.web.panel;
+
+import it.av.youeat.ocm.model.Eater;
+import it.av.youeat.web.components.ImagesAvatar;
+
+import org.apache.wicket.Page;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 
 /**
- * Performs the logout
+ * Display the avatar for the user
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class SignOut extends BasePageSimple {
-
+public class EaterAvatarPanel extends Panel {
+ 
     /**
-     * Constructor
+     * @param id component id
+     * @param model model for eater
      */
-    public SignOut() {
-        super();
-        getSession().invalidate();
+    public EaterAvatarPanel(String id, IModel<Eater> model, Page parentPage) {
+        super(id, model);
+        add(ImagesAvatar.getAvatar("avatar", model.getObject(), parentPage, true));
     }
-
 }

@@ -305,19 +305,4 @@ public class RistoranteEditDataPage extends BasePage {
         Assert.notNull(lang);
         return lang;
     }
-    
-    private RistoranteDescriptionI18n getDescriptionI18n() throws YoueatException {
-        Locale locale = Locales.getSupportedLocale(getLocale());
-        // TODO create a getByLanguage or Country
-        List<Language> langs = languageService.getAll();
-        Language lang = null;
-        for (Language language : langs) {
-            if (language.getCountry().equals(locale.getCountry())) {
-                lang = language;
-            }
-        }
-        Assert.notNull(lang);
-        RistoranteDescriptionI18n descriptionI18n = new RistoranteDescriptionI18n(lang);
-        return descriptionI18n;
-    }
 }

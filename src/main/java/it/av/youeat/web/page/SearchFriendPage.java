@@ -18,6 +18,9 @@ package it.av.youeat.web.page;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.web.data.SearchUserFriendSortableDataProvider;
+import it.av.youeat.web.panel.EaterAvatarPanel;
+import it.av.youeat.web.panel.SearchFriendPanel;
+import it.av.youeat.web.panel.SearchFriendTableActionPanel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +44,7 @@ import org.apache.wicket.model.StringResourceModel;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@AuthorizeInstantiation( { "USER", "ADMIN", "EDITOR" })
+@AuthorizeInstantiation( { "USER", "ADMIN"})
 public class SearchFriendPage extends BasePage {
 
     private SearchUserFriendSortableDataProvider searchFriendsDataProvider;
@@ -86,6 +89,12 @@ public class SearchFriendPage extends BasePage {
             @Override
             public Component getHeader(String componentId) {
                 return super.getHeader(componentId).setVisible(false);
+            }
+        });
+        columns.add(new AbstractColumn<Eater>(null){
+            @Override
+            public void populateItem(Item<ICellPopulator<Eater>> cellItem, String componentId, IModel<Eater> rowModel) {
+                cellItem.add(new EaterAvatarPanel(componentId, rowModel, getPage()));
             }
         });
         searchFriendsDataProvider = new SearchUserFriendSortableDataProvider(getLoggedInUser());

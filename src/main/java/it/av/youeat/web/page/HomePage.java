@@ -24,6 +24,7 @@ import it.av.youeat.web.components.RistoNameColumn;
 import it.av.youeat.web.components.RistoranteDataTable;
 import it.av.youeat.web.components.RistosListView;
 import it.av.youeat.web.data.RistoranteSortableDataProvider;
+import it.av.youeat.web.panel.RistoranteSearchPanel;
 
 import java.util.ArrayList;
 import java.util.List;

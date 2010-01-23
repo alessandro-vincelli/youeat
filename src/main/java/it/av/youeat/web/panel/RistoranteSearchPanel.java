@@ -13,12 +13,13 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package it.av.youeat.web.page;
+package it.av.youeat.web.panel;
 
 import it.av.youeat.YoueatException;
-import it.av.youeat.ocm.model.Eater;
-import it.av.youeat.service.EaterService;
-import it.av.youeat.web.data.SearchUserFriendSortableDataProvider;
+import it.av.youeat.ocm.model.Ristorante;
+import it.av.youeat.service.RistoranteService;
+import it.av.youeat.web.components.RistoranteDataTable;
+import it.av.youeat.web.data.RistoranteSortableDataProvider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +31,6 @@ import org.apache.wicket.ajax.form.AjaxFormValidatingBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteSettings;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
-import org.apache.wicket.extensions.ajax.markup.html.repeater.data.table.AjaxFallbackDefaultDataTable;
 import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
@@ -39,7 +39,6 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.time.Duration;
-import org.springframework.util.Assert;
 
 /**
  * The panel provides the search form for ..
@@ -47,31 +46,30 @@ import org.springframework.util.Assert;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class SearchFriendPanel extends Panel {
+public class RistoranteSearchPanel extends Panel {
     private static final long serialVersionUID = 1L;
     private SearchBean searchBean = new SearchBean();
 
     /**
      * Constructor
      * 
+     * @param id
      * @param dataProvider
      * @param dataTable
-     * @param id
      * @param feedbackPanel
-     * @param loggedUser
      */
-    public SearchFriendPanel(final SearchUserFriendSortableDataProvider dataProvider,
-            final AjaxFallbackDefaultDataTable dataTable, String id, final FeedbackPanel feedbackPanel, Eater loggedUser) {
+    public RistoranteSearchPanel(String id, final RistoranteSortableDataProvider dataProvider,
+            final RistoranteDataTable<Ristorante> dataTable, final FeedbackPanel feedbackPanel) {
         super(id);
         Form<String> form = new Form<String>("searchForm", new CompoundPropertyModel(searchBean));
         add(form);
         form.setOutputMarkupId(true);
         FormComponent<String> fc;
+        // fc = new TextField<String>("searchData");
         AutoCompleteSettings autoCompleteSettings = new AutoCompleteSettings();
         autoCompleteSettings.setCssClassName("autocomplete-risto");
         autoCompleteSettings.setAdjustInputWidth(false);
-        fc = new SearchBox("searchData", loggedUser, autoCompleteSettings);
-        //fc = new TextField<String>();
+        fc = new SearchBox("searchData", autoCompleteSettings);
         form.add(fc);
         // event and throttle it down to once per second
         AjaxFormValidatingBehavior.addToAllFormComponents(form, "onkeyup", Duration.ONE_SECOND);
@@ -81,8 +79,8 @@ public class SearchFriendPanel extends Panel {
 
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form form) {
-                String pattern = getRequest().getParameter("searchData");
                 try {
+                    String pattern = getRequest().getParameter("searchData");
                     dataProvider.fetchResults(pattern);
                 } catch (YoueatException e) {
                     feedbackPanel.error(e.getMessage());
@@ -98,9 +96,9 @@ public class SearchFriendPanel extends Panel {
     }
 
     /**
+     * 
      * Simple Bean to store the Form data
      * 
-     * @author Alessandro Vincelli
      */
     public static class SearchBean implements IClusterable {
         private static final long serialVersionUID = 1L;
@@ -121,26 +119,14 @@ public class SearchFriendPanel extends Panel {
         }
     }
 
-    public SearchBean getSearchBean() {
-        return searchBean;
-    }
-
     private static class SearchBox extends AutoCompleteTextField<String> {
         private static final long serialVersionUID = 1L;
         @SpringBean
-        private EaterService eaterService;
-        private Eater loggedUser;
+        private RistoranteService ristoranteService;
 
-        /**
-         * @param id
-         * @param loggedUser  actual logged user (not null)
-         * @param autoCompleteSettings
-         */
-        public SearchBox(String id, Eater loggedUser, AutoCompleteSettings autoCompleteSettings) {
+        public SearchBox(String id, AutoCompleteSettings autoCompleteSettings) {
             super(id, autoCompleteSettings);
-            this.loggedUser = loggedUser;
             InjectorHolder.getInjector().inject(this);
-            Assert.notNull(loggedUser);
         }
 
         @Override
@@ -148,12 +134,13 @@ public class SearchFriendPanel extends Panel {
             Collection<String> choises = new ArrayList<String>();
             try {
                 if (!input.isEmpty() && input.length() > 2)
-                    for (Eater eater : eaterService.findUserWithoutRelation(loggedUser, input + "~")) {
-                        choises.add(eater.getFirstname() + " " + eater.getLastname() );
+                    for (Ristorante risto : ristoranteService.freeTextSearch(input + "~")) {
+                        choises.add(risto.getName() + " <i>(" + risto.getCity() + ")</i>" );
                     }
             } catch (YoueatException e) {
             }
             return choises.iterator();
         }
     }
+
 }

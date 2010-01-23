@@ -373,10 +373,6 @@ div .friendRemoveButton {
     display: ;
 }
 
-.friend-action {
-    display: block;
-}
-
 .numberMessages{
     font-size: x-small; 
     color: #808080;
@@ -405,31 +401,31 @@ div .messageList {
 
 div .messageBody {
     float: left;
-    width: 390px;
+    width: 380px;
     color: #808080;
     
 }
 
 div .messageBody a {
     float: left;
-    width: 390px;
+    width: 380px;
     text-decoration: none;
     color: #808080;
 }
 
 div .messageCenterColumn {
-    width: 450px;
+    width: 440px;
     float: left;
 }
 
 div .messageTitle {
-    width: 390px;
+    width: 380px;
     float: left;
 }
 
 div .messageInfos {
     float: left;
-    width: 390px;
+    width: 380px;
     font-size: small;
 }
 

@@ -49,11 +49,13 @@
             </ul>
             <table class="upload-picture">
                 <tr>
-                <td><input wicket:id="uploadField" id="upload" type="file" class="uploadfield"></input></td>
+                <td><input wicket:id="uploadField" id="upload" type="file" class="uploadfield"></input></td>                
+                </tr>
+                <tr>
                 <td><input type="submit" wicket:id="submitForm" class="submitButton" value="upload" wicket:message="value:button.uploadAvatar"></input></td>
                 </tr>
                 <tr>
-                <td colspan="2"><span wicket:id="progressBar"></span></td>
+                <td><span wicket:id="progressBar"></span></td>
                 </tr>
             </table>
             </fieldset>

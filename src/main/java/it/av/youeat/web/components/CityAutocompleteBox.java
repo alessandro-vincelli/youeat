@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteSettings;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.injection.web.InjectorHolder;
@@ -61,7 +62,7 @@ public class CityAutocompleteBox extends AutoCompleteTextField<String> {
     public void validate() {
         super.validate();
         Country country = ((Ristorante) (getForm().getModel().getObject())).getCountry();
-        if (country != null) {
+        if (country != null && StringUtils.isNotBlank(getConvertedInput())) {
             try {
                 City cityValue = cityService.getByNameAndCountry(getConvertedInput(), country);
                 if (cityValue == null) {

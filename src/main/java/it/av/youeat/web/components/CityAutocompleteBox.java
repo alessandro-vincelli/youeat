@@ -62,7 +62,7 @@ public class CityAutocompleteBox extends AutoCompleteTextField<String> {
     public void validate() {
         super.validate();
         Country country = ((Ristorante) (getForm().getModel().getObject())).getCountry();
-        if (country != null && StringUtils.isNotBlank(getConvertedInput())) {
+        if (country != null && StringUtils.isNotBlank(getConvertedInput())) { 
             try {
                 City cityValue = cityService.getByNameAndCountry(getConvertedInput(), country);
                 if (cityValue == null) {

@@ -52,6 +52,7 @@ import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -288,7 +289,14 @@ public class RistoranteViewPage extends BasePage {
 
             @Override
             protected void populateItem(final ListItem<RistorantePicture> item) {
-                item.add(ImageRisto.getImage("picture", item.getModelObject().getPicture(), 130, 130, true));
+                Link imageLink = new Link("pictureLink"){
+                    @Override
+                    public void onClick() {
+                        setResponsePage(new ImageViewPage(item.getModelObject().getPicture()));
+                    }
+                };
+                imageLink.add(ImageRisto.getImage("picture", item.getModelObject().getPicture(), 130, 130, true));
+                item.add(imageLink);
             }
         };
         formRisto.add(picturesList);

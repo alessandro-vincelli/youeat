@@ -494,7 +494,6 @@ h1 {
 .titleAndGoHome img {
     float: left;
     display: compact;
-    text-decoration: none;
     width: 80px;
     border-style: none;
 }
@@ -610,6 +609,11 @@ td.submitarea {
 #picturesList ul {
     width: 100%;
 }
+
+#picturesList img {
+    border-style: none;
+}
+
 
 #picturesList li {
     border: transparent;

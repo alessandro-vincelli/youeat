@@ -173,7 +173,7 @@ public class SignUpPanel extends Panel {
                 Eater user = (Eater) form.getModelObject();
                 if (StringUtils.isNotBlank(user.getId())) {
                     getFeedbackPanel().info(
-                            new StringResourceModel("info.operationNotPermitted", this, null).getString());
+                            new StringResourceModel("error.operationNotPermitted", this, null).getString());
                 } else {
                     userService.addRegolarUser(user);
                     signUpForm.setVisible(false);

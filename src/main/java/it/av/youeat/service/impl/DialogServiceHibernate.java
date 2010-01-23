@@ -26,6 +26,7 @@ import it.av.youeat.service.system.MailService;
 
 import java.util.List;
 
+import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
@@ -64,9 +65,13 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      */
     @Override
     public List<Dialog> getCreatedDialogs(Eater eater) {
-        Criterion critBySender = Restrictions.eq(Dialog.SENDER_FIELD, eater);
+    	Conjunction senderFilter = Restrictions.conjunction();
+        Criterion critBySender1 = Restrictions.eq(Dialog.SENDER_FIELD, eater);
+        Criterion critBySender2 = Restrictions.eq(Dialog.DELETED_FROM_SENDER_FIELD, false);
+        senderFilter.add(critBySender1);
+        senderFilter.add(critBySender2);
         Order orderBYDate = Order.asc(Dialog.CREATION_TIME_FIELD);
-        return findByCriteria(orderBYDate, critBySender);
+        return findByCriteria(orderBYDate, senderFilter);
     }
 
     /**
@@ -74,11 +79,21 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      */
     @Override
     public List<Dialog> getDialogs(Eater eater) {
-        Criterion critByReceiver = Restrictions.eq(Dialog.RECEIVER_FIELD, eater);
-        Criterion critBySender = Restrictions.eq(Dialog.SENDER_FIELD, eater);
+    	Conjunction receiverFilter = Restrictions.conjunction();
+    	Criterion critByReceiver1 = Restrictions.eq(Dialog.RECEIVER_FIELD, eater);
+    	Criterion critByReceiver2 = Restrictions.eq(Dialog.DELETED_FROM_RECEIVER_FIELD, false);
+    	receiverFilter.add(critByReceiver1);
+    	receiverFilter.add(critByReceiver2);
+    	
+    	Conjunction senderFilter = Restrictions.conjunction();
+    	Criterion critBySender1 = Restrictions.eq(Dialog.SENDER_FIELD, eater);
+    	Criterion critBySender2 = Restrictions.eq(Dialog.DELETED_FROM_SENDER_FIELD, false);
+    	senderFilter.add(critBySender1);
+    	senderFilter.add(critBySender2);
+    	
         Disjunction or = Restrictions.disjunction();
-        or.add(critBySender);
-        or.add(critByReceiver);
+        or.add(receiverFilter);
+        or.add(senderFilter);
         Order orderBYDate = Order.desc(Dialog.CREATION_TIME_FIELD);
         List<Dialog> results = findByCriteria(orderBYDate, or);
         for (int i = 0; i < results.size(); i++) {

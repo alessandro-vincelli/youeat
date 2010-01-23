@@ -117,5 +117,51 @@ public class MessageServiceTest extends YoueatTest {
         assertTrue(unreadMsgs == 2);
 
     }
+    
+    @Test
+    public void testRemovedMessage(){
+    	//Verify that after a dialog is tagged as removed it is also removed from the list
+        Message msg = new Message();
+        msg.setSender(userB);
+        msg.setBody("body");
+        msg.setTitle("title");
+
+        Dialog dialog = dialogService.startNewDialog(userB, userC, msg);
+
+        List<Dialog> dialogs = dialogService.getDialogs(userC);
+        assertTrue("dialogs list empty", dialogs.size() == 1);        
+        
+        dialogs = dialogService.getCreatedDialogs(userB);
+        assertTrue("dialogs list empty", dialogs.size() == 1);
+       
+        long unreadMsgs = messageService.countUnreadMessages(userC);
+        assertTrue(unreadMsgs == 1);
+        
+        //Dialog deleted by receiver
+        dialogService.delete(dialog, userC);
+        
+        dialogs = dialogService.getDialogs(userC);
+        assertTrue("dialog not removed", dialogs.size() == 0);    
+        
+        dialogs = dialogService.getCreatedDialogs(userB);
+        assertTrue("dialog removed from sender inbox", dialogs.size() == 1);
+        
+        unreadMsgs = messageService.countUnreadMessages(userC);
+        assertTrue(unreadMsgs == 0);
+
+        unreadMsgs = messageService.countMessages(userC);
+        assertTrue(unreadMsgs == 0);
+        
+        //Dialog deleted by sender
+        dialogService.delete(dialog, userB);
+        
+        dialogs = dialogService.getCreatedDialogs(userB);
+        assertTrue("dialog not removed", dialogs.size() == 0);
+        
+        unreadMsgs = messageService.countMessages(userB);
+        assertTrue(unreadMsgs == 0);
+
+        
+    }
 
 }

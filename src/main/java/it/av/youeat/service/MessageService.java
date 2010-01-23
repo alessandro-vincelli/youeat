@@ -42,6 +42,7 @@ public interface MessageService {
     
     /**
      * Count unread messages for the given user
+     * not flagged as removed
      * 
      * @param eater
      * @return number of unread messages
@@ -51,6 +52,7 @@ public interface MessageService {
     
     /**
      * Count messages for the given user, sent and received
+     * not flagged as removed
      * 
      * @param eater
      * @return number of messages

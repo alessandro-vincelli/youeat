@@ -58,6 +58,7 @@ public interface DialogService {
 
     /**
      * Returns dialogs created(sent) by the given user
+     * not flagged as removed
      * 
      * @param eater
      * @return dialogs for the given user
@@ -68,6 +69,7 @@ public interface DialogService {
     /**
      * Returns dialogs where the user is involved.
      * The dialog sent by the user with only 1 message are excluded.
+     * not flagged as removed
      * 
      * @param eater
      * @return dialogs for the given user

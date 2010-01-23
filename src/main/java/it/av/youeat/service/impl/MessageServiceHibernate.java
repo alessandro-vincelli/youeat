@@ -49,7 +49,7 @@ public class MessageServiceHibernate extends ApplicationServiceHibernate<Message
         Query query = getJpaTemplate()
                 .getEntityManager()
                 .createQuery(
-                        "select count(msgs) from Message as msgs inner join msgs.dialog as dia where (dia.receiver = :diaReceiver or dia.sender = :diaSender) and msgs.readTime = null and msgs.sender != :sender");
+                        "select count(msgs) from Message as msgs inner join msgs.dialog as dia where (dia.receiver = :diaReceiver and dia.deletedFromReceiver = false) or (dia.sender = :diaSender and dia.deletedFromSender = false) and msgs.readTime = null and msgs.sender != :sender");
         query.setParameter("diaReceiver", eater);
         query.setParameter("diaSender", eater);
         query.setParameter("sender", eater);
@@ -64,7 +64,7 @@ public class MessageServiceHibernate extends ApplicationServiceHibernate<Message
         Query query = getJpaTemplate()
                 .getEntityManager()
                 .createQuery(
-                        "select count(msgs) from Message as msgs inner join msgs.dialog as dia where dia.receiver = :receiver or dia.sender = :sender");
+                        "select count(msgs) from Message as msgs inner join msgs.dialog as dia where (dia.receiver = :receiver and dia.deletedFromReceiver = false) or (dia.sender = :sender and dia.deletedFromSender = false)");
         query.setParameter("sender", eater);
         query.setParameter("receiver", eater);
         return (Long) query.getSingleResult();

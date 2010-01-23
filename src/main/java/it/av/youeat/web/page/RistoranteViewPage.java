@@ -28,6 +28,7 @@ import it.av.youeat.service.ActivityRistoranteService;
 import it.av.youeat.service.LanguageService;
 import it.av.youeat.service.RistoranteService;
 import it.av.youeat.web.Locales;
+import it.av.youeat.web.components.ImageRisto;
 import it.av.youeat.web.util.DefaultFocusBehavior;
 
 import java.util.HashMap;
@@ -50,8 +51,6 @@ import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.image.Image;
-import org.apache.wicket.markup.html.image.resource.DynamicImageResource;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -297,12 +296,7 @@ public class RistoranteViewPage extends BasePage {
 
             @Override
             protected void populateItem(final ListItem<RistorantePicture> item) {
-                item.add(new Image("picture", new DynamicImageResource() {
-                    @Override
-                    protected byte[] getImageData() {
-                        return item.getModelObject().getPicture();
-                    }
-                }));
+                item.add(ImageRisto.getImage("picture", item.getModelObject().getPicture(), 130, 130, true));
             }
         };
         form.add(picturesList);
@@ -348,7 +342,7 @@ public class RistoranteViewPage extends BasePage {
             }
         });
 
-        AjaxLink<String> asfavourite = new AjaxLink<String>("asfavourite") {
+        AjaxFallbackLink<String> asfavourite = new AjaxFallbackLink<String>("asfavourite") {
             public void onClick(AjaxRequestTarget target) {
                 if (getLoggedInUser() != null) {
                     if (activityService.isFavouriteRisto(getLoggedInUser(), ristorante)) {
@@ -365,8 +359,10 @@ public class RistoranteViewPage extends BasePage {
                 } else {
                     info(getString("action.notlogged"));
                 }
-                target.addComponent(asfavouriteLabel);
-                target.addComponent(getFeedbackPanel());
+                if(target != null){
+                    target.addComponent(asfavouriteLabel);
+                    target.addComponent(getFeedbackPanel());    
+                }
             }
         };
         add(asfavourite);

@@ -63,7 +63,7 @@ import org.springframework.util.Assert;
 public class RistoranteEditDataPage extends BasePage {
 
     private static final long serialVersionUID = 1L;
-    @SpringBean(name = "ristoranteService")
+    @SpringBean
     private RistoranteService ristoranteService;
     @SpringBean
     private TagService tagService;
@@ -259,7 +259,8 @@ public class RistoranteEditDataPage extends BasePage {
         protected void onSubmit(AjaxRequestTarget target, Form form) {
             try {
                 if (StringUtils.isNotBlank(ristorante.getId())) {
-                    ristorante = ristoranteService.update(ristorante, getLoggedInUser());
+                    ristoranteService.update(ristorante, getLoggedInUser());
+                    ristorante = ristoranteService.getByID(ristorante.getId());
                     getFeedbackPanel().info(getString("info.ristoranteupdated"));
                 } else {
                     getFeedbackPanel().error(getString("error.onUpdate"));

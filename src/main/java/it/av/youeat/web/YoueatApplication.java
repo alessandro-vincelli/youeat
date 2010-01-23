@@ -56,7 +56,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
- * Main class Application.
+ * Wicket Application.
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
@@ -81,8 +81,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
     
     @Override
     protected final void init() {
-        super.init();
-        getMarkupSettings().setStripWicketTags(true); 
+        super.init(); 
         // THIS LINE IS IMPORTANT - IT INSTALLS THE COMPONENT INJECTOR THAT WILL
         // INJECT NEWLY CREATED COMPONENTS WITH THEIR SPRING DEPENDENCIES
         if(getSpringContext() != null){

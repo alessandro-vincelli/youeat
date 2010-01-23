@@ -93,7 +93,7 @@ public class RistoranteViewPage extends BasePage {
     private Language actualDescriptionLanguage;
     private ListView<RistoranteDescriptionI18n> descriptions;
     private WebMarkupContainer descriptionsContainer;
-    private Form<Ristorante> form;
+    private Form<Ristorante> formRisto;
     private WebMarkupContainer descriptionLinksContainer;
     private ListView<RistorantePicture> picturesList;
     private Label asfavouriteLabel;
@@ -114,24 +114,24 @@ public class RistoranteViewPage extends BasePage {
             setRedirect(true);
             setResponsePage(getApplication().getHomePage());
         }
-
-        form = new Form<Ristorante>("ristoranteForm", new CompoundPropertyModel<Ristorante>(ristorante));
-        add(form);
-        form.setOutputMarkupId(true);
-        form.add(new Label(Ristorante.NAME));
+        ristorante = ristorante.addDescLangIfNotPresent(actualDescriptionLanguage);
+        formRisto = new Form<Ristorante>("ristoranteForm", new CompoundPropertyModel<Ristorante>(ristorante));
+        add(formRisto);
+        formRisto.setOutputMarkupId(true);
+        formRisto.add(new Label(Ristorante.NAME));
 
         Label typeRistoranteLabel = new Label("typeRistoranteLabel", getString("type.Ristorante"));
         typeRistoranteLabel.setVisible(ristorante.getTypes().isRistorante());
-        form.add(typeRistoranteLabel);
+        formRisto.add(typeRistoranteLabel);
         Label typePizzeriaLabel = new Label("typePizzeriaLabel", getString("type.Pizzeria"));
         typePizzeriaLabel.setVisible(ristorante.getTypes().isPizzeria());
-        form.add(typePizzeriaLabel);
+        formRisto.add(typePizzeriaLabel);
         Label typeBarLabel = new Label("typeBarLabel", getString("type.Bar"));
         typeBarLabel.setVisible(ristorante.getTypes().isBar());
-        form.add(typeBarLabel);
+        formRisto.add(typeBarLabel);
 
-        form.add(new SmartLinkLabel(Ristorante.WWW));
-        form.add(new ListView<Tag>(Ristorante.TAGS) {
+        formRisto.add(new SmartLinkLabel(Ristorante.WWW));
+        formRisto.add(new ListView<Tag>(Ristorante.TAGS) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -141,11 +141,11 @@ public class RistoranteViewPage extends BasePage {
         });
         descriptionLinksContainer = new WebMarkupContainer("descriptionLinksContainer");
         descriptionLinksContainer.setOutputMarkupId(true);
-        form.add(descriptionLinksContainer);
+        formRisto.add(descriptionLinksContainer);
         ListView<Language> descriptionsLinks = new ListView<Language>("descriptionLinks", languageService.getAll()) {
             @Override
             protected void populateItem(final ListItem<Language> item) {
-                item.add(new AjaxFallbackButton("descriptionLink", form) {
+                item.add(new AjaxFallbackButton("descriptionLink", formRisto) {
 
                     @Override
                     protected void onComponentTag(ComponentTag tag) {
@@ -169,17 +169,9 @@ public class RistoranteViewPage extends BasePage {
 
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                        List<RistoranteDescriptionI18n> descs = ristorante.getDescriptions();
-                        boolean langpresent = isDescriptionPresentOnTheGivenLanguage(ristorante, item.getModelObject());
-                        for (RistoranteDescriptionI18n ristoranteDescriptionI18n : descs) {
-                            if (ristoranteDescriptionI18n.getLanguage().equals(item.getModelObject())) {
-                                langpresent = true;
-                            }
-                        }
-                        if (!(langpresent)) {
-                            ristorante.addDescriptions(new RistoranteDescriptionI18n(item.getModelObject()));
-                        }
                         actualDescriptionLanguage = item.getModelObject();
+                        ristorante = ristorante.addDescLangIfNotPresent(actualDescriptionLanguage);
+                        formRisto.setModelObject(ristorante);
                         descriptions.removeAll();
                         if (target != null) {
                             target.addComponent(descriptionsContainer);
@@ -192,24 +184,22 @@ public class RistoranteViewPage extends BasePage {
         descriptionLinksContainer.add(descriptionsLinks);
         descriptionsContainer = new WebMarkupContainer("descriptionsContainer");
         descriptionsContainer.setOutputMarkupId(true);
-        form.add(descriptionsContainer);
-        descriptions = new ListView<RistoranteDescriptionI18n>("descriptions") {
+        formRisto.add(descriptionsContainer);
+        descriptions = new ListView<RistoranteDescriptionI18n>("descriptions", new DescriptionsModel()) {
             @Override
             protected void populateItem(ListItem<RistoranteDescriptionI18n> item) {
                 boolean visible = actualDescriptionLanguage.equals(item.getModelObject().getLanguage());
                 if (item.getModelObject().getDescription() == null || item.getModelObject().getDescription().isEmpty()) {
                     item.add(new Label(RistoranteDescriptionI18n.DESCRIPTION, getString("descriptionNotAvailableLang"))
-                            .setVisible(visible));
+                            .setVisible(visible).setOutputMarkupPlaceholderTag(true));
                 } else {
                     item.add(new MultiLineLabel(RistoranteDescriptionI18n.DESCRIPTION, new PropertyModel<String>(item
-                            .getModelObject(), RistoranteDescriptionI18n.DESCRIPTION)).setVisible(visible));
+                            .getModelObject(), RistoranteDescriptionI18n.DESCRIPTION)).setVisible(visible).setOutputMarkupPlaceholderTag(true));
                 }
             }
         };
         descriptionsContainer.add(descriptions);
-        // form.add(new DropDownChoice<EaterProfile>("userProfile", new
-        // ArrayList<EaterProfile>(userProfileService.getAll()), new UserProfilesList()).setOutputMarkupId(true));
-        form.add(new Label("revisionNumber"));
+        formRisto.add(new Label("revisionNumber"));
 
         Form<Ristorante> formAddress = new Form<Ristorante>("ristoranteAddressForm",
                 new CompoundPropertyModel<Ristorante>(ristorante));
@@ -299,7 +289,7 @@ public class RistoranteViewPage extends BasePage {
                 item.add(ImageRisto.getImage("picture", item.getModelObject().getPicture(), 130, 130, true));
             }
         };
-        form.add(picturesList);
+        formRisto.add(picturesList);
         add(revisionsPanel = new ModalWindow("revisionsPanel"));
         revisionsPanel.setWidthUnit("%");
         revisionsPanel.setInitialHeight(450);
@@ -359,9 +349,9 @@ public class RistoranteViewPage extends BasePage {
                 } else {
                     info(getString("action.notlogged"));
                 }
-                if(target != null){
+                if (target != null) {
                     target.addComponent(asfavouriteLabel);
-                    target.addComponent(getFeedbackPanel());    
+                    target.addComponent(getFeedbackPanel());
                 }
             }
         };
@@ -397,7 +387,7 @@ public class RistoranteViewPage extends BasePage {
                         ristoranteService.updateNoRevision(ristorante);
                         activityService.save(new ActivityRistorante(getLoggedInUser(), ristorante,
                                 ActivityRistorante.TYPE_NEW_COMMENT));
-                        // reset the new comment form
+                        // reset the new comment formRisto
                         formComment.setModelObject(new Comment());
                         newCommentBody.setVisible(false);
                         newCommentTitle.setVisible(false);
@@ -594,13 +584,30 @@ public class RistoranteViewPage extends BasePage {
         public CommentsModel() {
             super();
         }
+
         public CommentsModel(List<Comment> comments) {
             super(comments);
         }
+
         @Override
         protected List<Comment> load() {
             ristorante = ristoranteService.getByID(ristorante.getId());
             return ristorante.getComments();
+        }
+    }
+
+    private class DescriptionsModel extends LoadableDetachableModel<List<RistoranteDescriptionI18n>> {
+        public DescriptionsModel() {
+            super();
+        }
+
+        public DescriptionsModel(List<RistoranteDescriptionI18n> descs) {
+            super(descs);
+        }
+
+        @Override
+        protected List<RistoranteDescriptionI18n> load() {
+            return ristorante.getDescriptions();
         }
     }
 }

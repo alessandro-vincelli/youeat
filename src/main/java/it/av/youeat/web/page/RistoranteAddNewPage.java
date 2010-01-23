@@ -307,7 +307,7 @@ public class RistoranteAddNewPage extends BasePage {
     }
 
 
-    private RistoranteDescriptionI18n getDescriptionI18n() throws YoueatException {
+    public RistoranteDescriptionI18n getDescriptionI18n() throws YoueatException {
         Locale locale = Locales.getSupportedLocale(getLocale());
         // TODO create a getByLanguage or Country
         List<Language> langs = languageService.getAll();

@@ -101,6 +101,7 @@ public class RistoranteEditDataPage extends BasePage {
             setResponsePage(getApplication().getHomePage());
         }
         actualDescriptionLanguage = getInitialLanguage();
+        ristorante = ristorante.addDescLangIfNotPresent(actualDescriptionLanguage);
         form = new Form<Ristorante>("ristoranteForm", new CompoundPropertyModel<Ristorante>(ristorante));
         form.setOutputMarkupId(true);
         form.add(new RequiredTextField<String>(Ristorante.NAME));
@@ -147,17 +148,8 @@ public class RistoranteEditDataPage extends BasePage {
 
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                        List<RistoranteDescriptionI18n> descs = ristorante.getDescriptions();
-                        boolean langpresent = false;
-                        for (RistoranteDescriptionI18n ristoranteDescriptionI18n : descs) {
-                            if (ristoranteDescriptionI18n.getLanguage().equals(item.getModelObject())) {
-                                langpresent = true;
-                            }
-                        }
-                        if (!(langpresent)) {
-                            ristorante.addDescriptions(new RistoranteDescriptionI18n(item.getModelObject()));
-                        }
                         actualDescriptionLanguage = item.getModelObject();
+                        ristorante = ristorante.addDescLangIfNotPresent(actualDescriptionLanguage);
                         descriptions.removeAll();
                         if (target != null) {
                             target.addComponent(descriptionsContainer);
@@ -200,7 +192,7 @@ public class RistoranteEditDataPage extends BasePage {
                             target.addComponent(form);
                         }
                     } catch (YoueatException e) {
-                        error("ERROR: " + e.getMessage());
+                        error("genericErrorMessage");
                         if (target != null) {
                             target.addComponent(getFeedbackPanel());
                         }
@@ -313,5 +305,19 @@ public class RistoranteEditDataPage extends BasePage {
         Assert.notNull(lang);
         return lang;
     }
-
+    
+    private RistoranteDescriptionI18n getDescriptionI18n() throws YoueatException {
+        Locale locale = Locales.getSupportedLocale(getLocale());
+        // TODO create a getByLanguage or Country
+        List<Language> langs = languageService.getAll();
+        Language lang = null;
+        for (Language language : langs) {
+            if (language.getCountry().equals(locale.getCountry())) {
+                lang = language;
+            }
+        }
+        Assert.notNull(lang);
+        RistoranteDescriptionI18n descriptionI18n = new RistoranteDescriptionI18n(lang);
+        return descriptionI18n;
+    }
 }

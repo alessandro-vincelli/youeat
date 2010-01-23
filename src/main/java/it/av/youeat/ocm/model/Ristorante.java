@@ -525,4 +525,24 @@ public class Ristorante extends BasicEntity{
             return 0;
         }
     }
+    
+    /**
+     * Add a {@link RistoranteDescriptionI18n} item of not yet present for the given language  
+     * 
+     * @param language
+     * @return ristorante
+     */
+    public Ristorante addDescLangIfNotPresent(Language language){
+        boolean langpresent = false;
+        for (RistoranteDescriptionI18n ristoranteDescriptionI18n : this.getDescriptions()) {
+            if (ristoranteDescriptionI18n.getLanguage().equals(language)) {
+                langpresent = true;
+            }
+        }
+        if (!(langpresent)) {
+            this.addDescriptions(new RistoranteDescriptionI18n(language));
+        }    
+        return this;
+    }
+    
 }

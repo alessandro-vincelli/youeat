@@ -154,7 +154,7 @@ public class EaterViewPage extends BasePage {
             this.toUser = toUser;
             setOutputMarkupId(true);
             if (relation != null) {
-                this.setVisible(!relation.isActiveFriendRelation() && !relation.isFollowingRelation());
+                this.setVisible(!relation.isPeningFriendRelation() && !relation.isActiveFriendRelation() && !relation.isFollowingRelation());
             } else {
                 this.setVisible(true);
             }

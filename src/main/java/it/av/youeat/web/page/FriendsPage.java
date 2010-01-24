@@ -34,6 +34,7 @@ import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -92,6 +93,10 @@ public class FriendsPage extends BasePage {
 
             @Override
             protected void populateItem(final ListItem<EaterRelation> item) {
+                // if the dialog contains unread message, use a different CSS style
+                if (item.getModelObject().getStatus().equals(EaterRelation.STATUS_PENDING)) {
+                    item.add(new AttributeAppender("class", new Model<String>("rowMessageUnread"), " "));
+                }
                 boolean isPendingFriendRequest = item.getModelObject().getStatus().equals(EaterRelation.STATUS_PENDING)
                         && item.getModelObject().getToUser().equals(getLoggedInUser());
                 AjaxFallbackLink<String> linkToUser = new OpenFriendPageButton("linkToUser", item.getModelObject()
@@ -175,7 +180,8 @@ public class FriendsPage extends BasePage {
                         }
                     }
                 }.setVisible(isPendingFriendRequest));
-                item.add(new SendMessageButton("sendMessage", getLoggedInUser(), eaterToshow, item.getModelObject(), sendMessageMW));
+                item.add(new SendMessageButton("sendMessage", getLoggedInUser(), eaterToshow, item.getModelObject(),
+                        sendMessageMW));
 
             }
         };

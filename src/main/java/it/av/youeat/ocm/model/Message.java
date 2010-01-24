@@ -47,9 +47,11 @@ public class Message extends BasicEntity {
     
     @ManyToOne
     @JoinColumn(name="dialog_id", insertable=false, updatable=false, nullable=false)
+    @Index(name="idx_massage_to_dialog")
     private Dialog dialog;
     @ManyToOne
     @ForeignKey(name = "message_to_sender_author_fk")
+    @Index(name="idx_massage_sender")
     private Eater sender;
     @Column(length = TITLE_MAX_LENGTH, updatable=false)
     private String title;

@@ -162,11 +162,17 @@ public class EaterRelationServiceTest extends YoueatTest {
 
         relation = userRelationService.addFriendRequest(a, b);
         assertNotNull(relation);
+        List<EaterRelation> friendRelPending  = userRelationService.getAllPendingFriendRequetToUsers(b);
+        assertTrue(friendRelPending.size() == 1);
 
         userRelationService.performFriendRequestConfirm(relation);
         friends = userRelationService.getAllFriendUsers(a);
         assertNotNull(friends);
         assertTrue(friends.size() == 1);
+        
+        friendRelPending  = userRelationService.getAllPendingFriendRequetToUsers(b);
+        assertTrue(friendRelPending.size() == 0);
+        
         try {
             userRelationService.performFriendRequestConfirm(relation);
         } catch (Exception e) {

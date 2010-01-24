@@ -26,7 +26,11 @@
         <p><button wicket:id="goSearchFriendPage"><wicket:message key="basepage.goSearchFriendPage" /></button></p>
     </div>
     <div id="extra" class="leftButtonMessage">
-        <p><button wicket:id="inbox"><span><wicket:message key="button.inbox" /></span></button></p>
-        <p><button wicket:id="sentitems"><span><wicket:message key="button.sentitems" /></span></button></p>
+        <p><button wicket:id="inbox"><span><wicket:message key="button.inbox" /></span></button>
+        <span wicket:id="numberMessages" class="numberMessages"></span><wicket:container wicket:id="separator">|</wicket:container><span wicket:id="unreadMessages" class="unreadMessages"></span>
+        </p>
+        <p><button wicket:id="sentitems"><span><wicket:message key="button.sentitems" /></span></button>
+        <span wicket:id="numberSentMessages" class="numberMessages"></span>
+        </p>
     </div>
 </wicket:extend>

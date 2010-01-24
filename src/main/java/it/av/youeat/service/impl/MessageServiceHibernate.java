@@ -78,4 +78,32 @@ public class MessageServiceHibernate extends ApplicationServiceHibernate<Message
         return getByID(message.getId());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long countIncomingMessages(Eater eater) {
+        Query query = getJpaTemplate()
+                .getEntityManager()
+                .createQuery(
+                        "select count(msgs) from Message as msgs inner join msgs.dialog as dia where msgs.sender != :msgSender and ((dia.receiver = :receiver and dia.deletedFromReceiver = false) or (dia.sender = :sender and dia.deletedFromSender = false))");
+        query.setParameter("msgSender", eater);
+        query.setParameter("sender", eater);
+        query.setParameter("receiver", eater);
+        return (Long) query.getSingleResult();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long countSentMessages(Eater eater) {
+        Query query = getJpaTemplate()
+                .getEntityManager()
+                .createQuery(
+                        "select count(msgs) from Message as msgs where msgs.sender = :msgSender");
+        query.setParameter("msgSender", eater);
+        return (Long) query.getSingleResult();
+    }
+
 }

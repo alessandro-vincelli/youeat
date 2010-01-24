@@ -16,6 +16,7 @@
 package it.av.youeat.web.page;
 
 import it.av.youeat.ocm.model.Eater;
+import it.av.youeat.service.EaterRelationService;
 import it.av.youeat.service.MessageService;
 import it.av.youeat.web.Locales;
 import it.av.youeat.web.commons.CookieUtil;
@@ -58,6 +59,8 @@ public class BasePage extends WebPage {
     private Eater loggedInUser = null;
     @SpringBean
     private MessageService messageService;
+    @SpringBean
+    private EaterRelationService eaterRelationService;
 
     /**
      * Construct.
@@ -178,6 +181,10 @@ public class BasePage extends WebPage {
             }
         });
 
+        long numberPendingFrienRequest = (getLoggedInUser() != null) ? eaterRelationService.getAllPendingFriendRequetToUsers(getLoggedInUser()).size() : 0;
+        final Label pendingFriendRequests = new Label("pendingFriendRequests", new Model<String>("(" + numberPendingFrienRequest + ")"));
+        pendingFriendRequests.setOutputMarkupPlaceholderTag(true);
+        pendingFriendRequests.setVisible(numberPendingFrienRequest > 0);
         add(new AjaxFallbackLink<String>("goFriendPage") {
             private static final long serialVersionUID = 1L;
 
@@ -195,7 +202,7 @@ public class BasePage extends WebPage {
                 setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
                         .isInstantiationAuthorized(FriendsPage.class)));
             }
-        });
+        }.add(pendingFriendRequests));
 
         AjaxFallbackLink<String> goMessagesPage = new AjaxFallbackLink<String>("goMessagesPage") {
             private static final long serialVersionUID = 1L;
@@ -216,7 +223,7 @@ public class BasePage extends WebPage {
             }
         };
         add(goMessagesPage);
-        long numberofMessages = (getLoggedInUser() != null) ? messageService.countMessages(getLoggedInUser()) : 0;
+        long numberofMessages = (getLoggedInUser() != null) ? messageService.countIncomingMessages(getLoggedInUser()) : 0;
         final Label numberMessages = new Label("numberMessages", new Model<Long>(numberofMessages));
         numberMessages.setOutputMarkupPlaceholderTag(true);
 //        numberMessages.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(30)) {

@@ -20,6 +20,7 @@ import it.av.youeat.ocm.model.Dialog;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 import it.av.youeat.service.DialogService;
+import it.av.youeat.service.MessageService;
 import it.av.youeat.web.components.ImagesAvatar;
 import it.av.youeat.web.components.OpenFriendPageButton;
 
@@ -53,6 +54,8 @@ public class MessageListPage extends BasePage {
     private static final long serialVersionUID = 1L;
     @SpringBean
     private DialogService dialogService;
+    @SpringBean
+    private MessageService messageService;
     private PropertyListView<Message> messageList;
 
     /**
@@ -75,7 +78,7 @@ public class MessageListPage extends BasePage {
         add(noYetMessages);
 
         final WebMarkupContainer messagesListContainer = new WebMarkupContainer("messagesListContainer");
-        messagesListContainer.setOutputMarkupId(true);
+        messagesListContainer.setOutputMarkupPlaceholderTag(true);
         add(messagesListContainer);
         messageList = new PropertyListView<Message>("messagesList", new MessagesModel()) {
             private static final long serialVersionUID = 1L;
@@ -125,27 +128,43 @@ public class MessageListPage extends BasePage {
                 setResponsePage(SearchFriendPage.class);
             }
         });
-        add(new AjaxFallbackLink<String>("inbox") {
+        
+        long numberUnreadMsgs = messageService.countUnreadMessages(getLoggedInUser());
+        final WebMarkupContainer separator = new WebMarkupContainer("separator");
+        separator.setVisible(numberUnreadMsgs > 0);
+
+        final Label unreadMsgs = new Label("unreadMessages", new Model<Long>(numberUnreadMsgs));
+        unreadMsgs.setOutputMarkupPlaceholderTag(true);
+        unreadMsgs.setVisible(numberUnreadMsgs > 0);
+        
+        AjaxFallbackLink<String> inboxButton = new AjaxFallbackLink<String>("inbox") {
             @Override
             public void onClick(AjaxRequestTarget target) {
                 inBox = true;
-                messageList.setModelObject(getLastMessages());
+                noYetMessages.setVisible(getLastMessages().size() == 0);
                 if (target != null) {
                     target.addComponent((messagesListContainer));
+                    target.addComponent((noYetMessages));
                 }
             }
-        });
+        };
+        add(inboxButton);
+        add(new Label("numberMessages", Integer.toString(messageList.getModel().getObject().size())));
+        add(unreadMsgs);
+        add(separator);
         add(new AjaxFallbackLink<String>("sentitems") {
             @Override
             public void onClick(AjaxRequestTarget target) {
                 inBox = false;
-                messageList.setModelObject(getLastMessages());
+                noYetMessages.setVisible(getLastMessages().size() == 0);
                 if (target != null) {
                     target.addComponent((messagesListContainer));
+                    target.addComponent((noYetMessages));
                 }
             }
-
         });
+        long numberSentMsgs = messageService.countSentMessages(getLoggedInUser());
+        add(new Label("numberSentMessages", Long.toString(numberSentMsgs)));
     }
 
     /**

@@ -26,7 +26,10 @@
             <span wicket:id="numberMessages" class="numberMessages"></span><wicket:container wicket:id="separator">|</wicket:container><span wicket:id="unreadMessages" class="unreadMessages"></span>
             </a>
         </li>
-		<li><a wicket:id="goFriendPage"><wicket:message key="basepage.goFriendPage" /></a></li>
+		<li><a wicket:id="goFriendPage"><wicket:message key="basepage.goFriendPage" />
+            <span wicket:id="pendingFriendRequests" class="unreadMessages"></span>
+            </a>
+        </li>
         <li><a href="mailto:dev@mailing.antwoordvoorbedrijven.net">Help</a></li>
         <li>
             <a wicket:id="goSignOut"><wicket:message key="basepage.goSignOut" /></a>

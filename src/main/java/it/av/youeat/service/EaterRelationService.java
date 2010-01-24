@@ -96,6 +96,15 @@ public interface EaterRelationService {
      */
     @Transactional(readOnly = true)
     List<EaterRelation> getAllFriendUsers(Eater ofUser);
+    
+    /**
+     * Return all the the pending friends relations received by the given user 
+     * 
+     * @param ofUser
+     * @return list of all friends relations
+     */
+    @Transactional(readOnly = true)
+    List<EaterRelation> getAllPendingFriendRequetToUsers(Eater toUser);
 
     /**
      * Return all the follow relations of the passed user

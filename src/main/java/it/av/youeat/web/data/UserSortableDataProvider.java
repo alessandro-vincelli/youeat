@@ -17,7 +17,6 @@ package it.av.youeat.web.data;
 
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
-import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.service.EaterService;
 
 import java.util.ArrayList;

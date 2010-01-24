@@ -184,13 +184,23 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
     @Override
     public EaterRelation getRelation(Eater ofUser, Eater toUser) {
         Criterion critUser = Restrictions.eq(EaterRelation.FROM_USER, ofUser);
-        Criterion critToUser = Restrictions.eq(EaterRelation.TO_USER,toUser);
+        Criterion critToUser = Restrictions.eq(EaterRelation.TO_USER, toUser);
         List<EaterRelation> relation = findByCriteria(critUser, critToUser);
-        if(!relation.isEmpty()){
-            return relation.get(0);    
+        if (!relation.isEmpty()) {
+            return relation.get(0);
+        } else {
+            return null;
         }
-        else{
-            return null; 
-        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<EaterRelation> getAllPendingFriendRequetToUsers(Eater toUser) {
+        Criterion critUser = Restrictions.eq(EaterRelation.TO_USER, toUser);
+        Criterion critType = Restrictions.eq(EaterRelation.TYPE, EaterRelation.TYPE_FRIEND);
+        Criterion critStatus = Restrictions.eq(EaterRelation.STATUS, EaterRelation.STATUS_PENDING);
+        return findByCriteria(critUser, critType, critStatus);
     }
 }

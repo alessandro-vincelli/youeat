@@ -137,6 +137,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
     @Override
     public Dialog startNewDialog(Eater sender, Eater recipient, Message message) {
         message.setSentTime(DateUtil.getTimestamp());
+        message.setSender(sender);
         Dialog dialog = new Dialog();
         dialog.setCreationTime(DateUtil.getTimestamp());
         dialog.setReceiver(recipient);

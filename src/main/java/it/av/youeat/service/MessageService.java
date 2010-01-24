@@ -61,6 +61,26 @@ public interface MessageService {
     long countMessages(Eater eater);
     
     /**
+     * Count messages received by the given user,
+     * not flagged as removed
+     * 
+     * @param eater
+     * @return number of messages
+     */
+    @Transactional(readOnly=true)
+    long countIncomingMessages(Eater eater);
+    
+    /**
+     * Count messages sent by the given user,
+     * not flagged as removed
+     * 
+     * @param eater
+     * @return number of messages
+     */
+    @Transactional(readOnly=true)
+    long countSentMessages(Eater eater);
+    
+    /**
      * Get a message from the database
      * 
      * @param message message to retrieve

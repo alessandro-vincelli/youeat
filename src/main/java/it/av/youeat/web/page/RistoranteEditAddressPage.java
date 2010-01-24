@@ -48,7 +48,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
-import org.springframework.orm.jpa.JpaOptimisticLockingFailureException;
 
 /**
  * Edit address and contacts of {@link Ristorante}.

@@ -89,6 +89,11 @@ public class MessageServiceTest extends YoueatTest {
         assertTrue("Created dialog without messages", dialog.getMessages() != null);
         assertTrue("Created dialog without messages", dialog.getMessages().size() == 1);
 
+        assertTrue("Wrong number incoming messages", messageService.countIncomingMessages(userC) == 1);
+        assertTrue("Wrong number incoming messages", messageService.countIncomingMessages(userB) == 0);
+        assertTrue("Wrong number sent messages", messageService.countSentMessages(userC) == 0);
+        assertTrue("Wrong number sent messages", messageService.countSentMessages(userB) == 1);
+        
         Message msg2 = new Message();
         msg2.setSender(userC);
         msg2.setBody("body2");

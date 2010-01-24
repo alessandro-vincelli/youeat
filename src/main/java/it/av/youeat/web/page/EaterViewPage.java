@@ -156,7 +156,7 @@ public class EaterViewPage extends BasePage {
             if (relation != null) {
                 this.setVisible(!relation.isPeningFriendRelation() && !relation.isActiveFriendRelation() && !relation.isFollowingRelation());
             } else {
-                this.setVisible(true);
+                this.setVisible(!fromUser.equals(toUser));
             }
         }
 
@@ -186,7 +186,7 @@ public class EaterViewPage extends BasePage {
             super(id);
             this.fromUser = fromUser;
             this.toUser = toUser;
-            this.setVisible(relation == null);
+            this.setVisible(relation == null && !fromUser.equals(toUser));
             setOutputMarkupId(true);
         }
 

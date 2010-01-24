@@ -67,6 +67,16 @@ public interface DialogService {
     List<Dialog> getCreatedDialogs(Eater eater);
     
     /**
+     * Count number of created(sent) dialogs by the given user
+     * not flagged as removed
+     * 
+     * @param eater
+     * @return dialogs for the given user
+     */
+    @Transactional(readOnly = true)
+    int countCreatedDialogs(Eater eater);
+    
+    /**
      * Returns dialogs where the user is involved.
      * The dialog sent by the user with only 1 message are excluded.
      * not flagged as removed

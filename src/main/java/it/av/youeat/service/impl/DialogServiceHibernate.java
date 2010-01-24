@@ -26,10 +26,12 @@ import it.av.youeat.service.system.MailService;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -72,6 +74,22 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         senderFilter.add(critBySender2);
         Order orderBYDate = Order.asc(Dialog.CREATION_TIME_FIELD);
         return findByCriteria(orderBYDate, senderFilter);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int countCreatedDialogs(Eater eater) {
+        Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
+        Conjunction senderFilter = Restrictions.conjunction();
+        Criterion critBySender1 = Restrictions.eq(Dialog.SENDER_FIELD, eater);
+        Criterion critBySender2 = Restrictions.eq(Dialog.DELETED_FROM_SENDER_FIELD, false);
+        senderFilter.add(critBySender1);
+        senderFilter.add(critBySender2);
+        criteria.add(senderFilter);
+        criteria.setProjection(Projections.rowCount());
+        return (Integer)criteria.list().get(0);
     }
 
     /**
@@ -152,4 +170,5 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
     private void sendNotification(Eater eater, Message message) {
         mailService.sendMessageReceivedNotification(eater, message);
     }
+
 }

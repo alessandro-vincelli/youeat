@@ -163,7 +163,7 @@ public class MessageListPage extends BasePage {
                 }
             }
         });
-        long numberSentMsgs = messageService.countSentMessages(getLoggedInUser());
+        long numberSentMsgs = dialogService.countCreatedDialogs(getLoggedInUser());
         add(new Label("numberSentMessages", Long.toString(numberSentMsgs)));
     }
 

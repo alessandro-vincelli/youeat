@@ -91,6 +91,18 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      */
     @Transactional(readOnly = true)
     List<ActivityRistorante> findByUsers(List<Eater> users, int firstResult, int maxResults);
+    
+    /**
+     * Find activities on ristoranti for the given users
+     * 
+     * @param users
+     * @param firstResult first result
+     * @param maxResults number of results
+     * @param activityType activity type, null to disable 
+     * @return activities for the given user
+     */
+    @Transactional(readOnly = true)
+    List<ActivityRistorante> findByUsers(List<Eater> users, int firstResult, int maxResults, String activityType);
 
     /**
      * Is the given ristorante favourite for the given user
@@ -117,4 +129,26 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      */
     @Transactional(readOnly = true)
     List<ActivityRistorante> getLasts(int numberOfResult);
+
+    /**
+     * Find friends of the given eater that eat on the given ristorante
+     * 
+     * @param eater 
+     * @param risto
+     * @return activities on the given restaurant
+     */
+    @Transactional(readOnly = true)
+    List<ActivityRistorante> findByFriendThatEatOnRistorante(Eater eater, Ristorante risto);
+
+    /**
+     * Find friends of the given user with activity on the given ristorante
+     * 
+     * @param eater 
+     * @param risto
+     * @param activityType null to disable
+     * @return activities on the given restaurant
+     */
+    @Transactional(readOnly = true)
+    List<ActivityRistorante> findByFriendWithActivitiesOnRistorante(Eater eater, Ristorante risto, String activityType);
+    
 }

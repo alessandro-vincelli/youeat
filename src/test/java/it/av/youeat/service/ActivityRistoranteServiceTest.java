@@ -10,7 +10,6 @@ import it.av.youeat.ocm.model.Ristorante;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.After;
@@ -77,9 +76,11 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         risto = ristoranteService.insert(risto, user);
         risto = ristoranteService.update(risto, userFriend);
 
-        userRelationService.addFollowUser(user, userFriend);
-        Collection<EaterRelation> friends = userRelationService.getAllFollowUsers(user);
-        assertTrue("problem on relations", friends.size() == 1);
+        //userRelationService.addFollowUser(user, userFriend);
+        EaterRelation friendRelation = userRelationService.addFriendRequest(user, userFriend);
+        userRelationService.performFriendRequestConfirm(friendRelation);
+        //Collection<EaterRelation> friends = userRelationService.getAllFollowUsers(user);
+        //assertTrue("problem on relations", friends.size() == 1);
     }
 
     @Test
@@ -119,6 +120,9 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         
         activities = activityRistoranteService.findByUserFriendAndUser(user, 0, 10);
         assertNotNull("Activity is null", activities);
+        assertTrue(activities.size() > 0);
+        
+        activities = activityRistoranteService.findByFriendWithActivitiesOnRistorante(userFriend, risto, ActivityRistorante.TYPE_ADDED);
         assertTrue(activities.size() > 0);
 
         /*activities = activityRistoranteService.getAll();

@@ -11,6 +11,7 @@ import it.av.youeat.service.EaterRelationService;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
@@ -112,16 +113,7 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
      */
     @Override
     public List<ActivityRistorante> findByUsers(List<Eater> users, int firstResult, int maxResults) {
-        // if the users list is empty, just return an empty list
-        if (users.isEmpty()) {
-            return new ArrayList<ActivityRistorante>(0);
-        }
-        Disjunction orUSer = Restrictions.disjunction();
-        for (Eater eater : users) {
-            orUSer.add(Restrictions.eq(ActivityRistorante.USER, eater));
-        }
-        Order orderByDate = Order.desc(Activity.DATE);
-        return findByCriteria(orderByDate, firstResult, maxResults, orUSer);
+        return findByUsers(users, firstResult, maxResults, null);
     }
 
     /**
@@ -172,5 +164,49 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
     @Override
     public List<ActivityRistorante> findByUserFriendAndUser(Eater ofUser, int firstResult, int maxResults) {
         return findByUserFriend(ofUser, firstResult, maxResults, true);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ActivityRistorante> findByUsers(List<Eater> users, int firstResult, int maxResults, String activityType) {
+        // if the users list is empty, just return an empty list
+        if (users.isEmpty()) {
+            return new ArrayList<ActivityRistorante>(0);
+        }
+        Disjunction orUSer = Restrictions.disjunction();
+        for (Eater eater : users) {
+            orUSer.add(Restrictions.eq(ActivityRistorante.USER, eater));
+        }
+        Order orderByDate = Order.desc(Activity.DATE);
+        if (!StringUtils.isBlank(activityType)) {
+            Criterion critByType = Restrictions.eq(ActivityRistorante.TYPE, activityType);
+            return findByCriteria(orderByDate, firstResult, maxResults, orUSer, critByType);
+        } else {
+            return findByCriteria(orderByDate, firstResult, maxResults, orUSer);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ActivityRistorante> findByFriendThatEatOnRistorante(Eater eater, Ristorante risto) {
+        return findByFriendWithActivitiesOnRistorante(eater, risto, ActivityRistorante.TYPE_TRIED);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ActivityRistorante> findByFriendWithActivitiesOnRistorante(Eater eater, Ristorante risto,
+            String activityType) {
+        List<EaterRelation> friends = eaterRelationService.getAllFriendUsers(eater);
+        List<Eater> users = new ArrayList<Eater>(friends.size());
+        for (EaterRelation eaterRelation : friends) {
+            users.add(eaterRelation.getToUser());
+        }
+        return findByUsers(users, 0, 0, activityType);
     }
 }

@@ -123,4 +123,14 @@ public interface EaterRelationService {
      */
     @Transactional(readOnly = true)
     List<EaterRelation> getAllActiveRelations(Eater ofUser);
+    
+    /**
+     * Returns the relation between two users
+     * 
+     * @param ofUser
+     * @param toUser
+     * @return relation between two user, <b>null</b> if no relation
+     */
+    @Transactional(readOnly = true)
+    EaterRelation getRelation(Eater ofUser, Eater toUser);
 }

@@ -40,7 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
-public class UserRelationServiceTest extends YoueatTest {
+public class EaterRelationServiceTest extends YoueatTest {
 
     @Autowired
     @Qualifier("eaterService")
@@ -119,6 +119,10 @@ public class UserRelationServiceTest extends YoueatTest {
         List<ActivityEaterRelation> activities = activityRelationService.findByEater(a);
         assertTrue(activities.size() == 1);
         assertTrue(activities.get(0).getEaterActivityType().equals(ActivityEaterRelation.TYPE_STARTS_FOLLOWING));
+        EaterRelation friendRel = userRelationService.getRelation(a, b);
+        assertNotNull("user relation non present", friendRel);
+        assertTrue("user relation status not correct", !friendRel.isActiveFriendRelation());
+        assertTrue("user relation status not correct", friendRel.isFollowingRelation());
 
         userRelationService.remove(relationFollow);
         friends = userRelationService.getAllRelations(a);
@@ -131,6 +135,11 @@ public class UserRelationServiceTest extends YoueatTest {
         friends = userRelationService.getAllRelations(a);
         assertNotNull(friends);
         assertTrue(friends.size() == 1);
+        
+        friendRel = userRelationService.getRelation(a, b);
+        assertNotNull("user relation non present", friendRel);
+        assertTrue("user friend status not correct", !friendRel.isActiveFriendRelation());
+        assertTrue("user friend status not correct", !friendRel.isFollowingRelation());
 
         userRelationService.performFriendRequestIgnore(relation);
         friends = userRelationService.getAllFriendUsers(a);
@@ -144,6 +153,11 @@ public class UserRelationServiceTest extends YoueatTest {
         } catch (Exception e) {
             // expected
         }
+        friendRel = userRelationService.getRelation(a, b);
+        assertNotNull("user relation non present", friendRel);
+        assertTrue("user friend status not correct", !friendRel.isActiveFriendRelation());
+        assertTrue("user friend status not correct", !friendRel.isFollowingRelation());
+        
         userRelationService.remove(relation);
 
         relation = userRelationService.addFriendRequest(a, b);
@@ -158,7 +172,12 @@ public class UserRelationServiceTest extends YoueatTest {
         } catch (Exception e) {
             // expected
         }
-
+       
+        friendRel = userRelationService.getRelation(a, b);
+        assertNotNull("user relation non present", friendRel);
+        assertTrue("user friend status not correct", friendRel.isActiveFriendRelation());
+        assertTrue("user friend status not correct", !friendRel.isFollowingRelation());
+       
         activities = activityRelationService.findByEater(a);
         assertTrue(activities.size() == 2);
         assertTrue(activities.get(0).getEaterActivityType().equals(ActivityEaterRelation.TYPE_ARE_FRIENDS));

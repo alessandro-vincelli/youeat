@@ -140,4 +140,23 @@ public class EaterRelation extends BasicEntity implements Comparable<EaterRelati
         }
         return o.getToUser().compareTo(getToUser());
     }
+
+    /**
+     * check for friend active relation
+     * 
+     * @return true for active friend relation
+     */
+    public boolean isActiveFriendRelation() {
+        return getStatus().equals(EaterRelation.STATUS_ACTIVE) && getType().equals(EaterRelation.TYPE_FRIEND);
+    }
+
+    /**
+     * check if following relation
+     * 
+     * @return true if following relation
+     */
+    public boolean isFollowingRelation() {
+        return getType().equals(EaterRelation.TYPE_FOLLOW);
+    }
+
 }

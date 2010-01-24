@@ -177,4 +177,20 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
         EaterRelation eaterRelation = getByID(relation.getId());
         super.remove(eaterRelation);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EaterRelation getRelation(Eater ofUser, Eater toUser) {
+        Criterion critUser = Restrictions.eq(EaterRelation.FROM_USER, ofUser);
+        Criterion critToUser = Restrictions.eq(EaterRelation.TO_USER,toUser);
+        List<EaterRelation> relation = findByCriteria(critUser, critToUser);
+        if(!relation.isEmpty()){
+            return relation.get(0);    
+        }
+        else{
+            return null; 
+        }
+    }
 }

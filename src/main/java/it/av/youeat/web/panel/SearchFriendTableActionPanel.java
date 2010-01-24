@@ -21,20 +21,18 @@ import it.av.youeat.service.EaterRelationService;
 import it.av.youeat.web.page.SearchFriendPage;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
- * Start new realations
+ * Start new relation
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
 public class SearchFriendTableActionPanel extends Panel {
-    private static final long serialVersionUID = 1L;
     @SpringBean
     private EaterRelationService userRelationService;
 
@@ -44,8 +42,7 @@ public class SearchFriendTableActionPanel extends Panel {
      */
     public SearchFriendTableActionPanel(String id, IModel<Eater> model) {
         super(id, model);
-        add(new AjaxLink<Eater>("addFriend", model) {
-            private static final long serialVersionUID = 1L;
+        add(new AjaxFallbackLink<Eater>("addFriend", model) {
 
             @Override
             public void onClick(AjaxRequestTarget target) {
@@ -53,16 +50,17 @@ public class SearchFriendTableActionPanel extends Panel {
                 try {
                     userRelationService.addFriendRequest(page.getLoggedInUser(), getModelObject());
                     page.refreshDataTable();
-                    target.addComponent(page.getSearchFriendsContainer());
-                    info(new StringResourceModel("friendRequestSent", this, getModel()).getString());
+                    info(getString("friendRequestSent", getModel()));
                 } catch (YoueatException e) {
-                    error(new StringResourceModel("genericErrorMessage", this, null).getString());
+                    error(getString("genericErrorMessage"));
                 }
-                target.addComponent(page.getFeedbackPanel());
+                if (target != null) {
+                    target.addComponent(page.getSearchFriendsContainer());
+                    target.addComponent(page.getFeedbackPanel());
+                }
             }
         });
-        add(new AjaxLink<Eater>("followUser", model) {
-            private static final long serialVersionUID = 1L;
+        add(new AjaxFallbackLink<Eater>("followUser", model) {
 
             @Override
             public void onClick(AjaxRequestTarget target) {
@@ -70,12 +68,15 @@ public class SearchFriendTableActionPanel extends Panel {
                 try {
                     userRelationService.addFollowUser(page.getLoggedInUser(), getModelObject());
                     page.refreshDataTable();
-                    target.addComponent(page.getSearchFriendsContainer());
-                    info(new StringResourceModel("followUserDone", this, getModel()).getString());
+                    info(getString("followUserDone", getModel()));
                 } catch (YoueatException e) {
-                    error(new StringResourceModel("genericErrorMessage", this, null).getString());
+                    error(getString("genericErrorMessage"));
                 }
-                target.addComponent(page.getFeedbackPanel());
+                if (target != null) {
+                    target.addComponent(page.getSearchFriendsContainer());
+                    target.addComponent(page.getFeedbackPanel());
+                }
+
             }
         });
     }

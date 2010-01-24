@@ -53,7 +53,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 @AuthorizeInstantiation( { "USER", "ADMIN" })
 public class FriendsPage extends BasePage {
 
-    private static final long serialVersionUID = 1L;
     @SpringBean
     private EaterRelationService eaterRelationService;
     @SpringBean
@@ -95,7 +94,6 @@ public class FriendsPage extends BasePage {
             protected void populateItem(final ListItem<EaterRelation> item) {
                 boolean isPendingFriendRequest = item.getModelObject().getStatus().equals(EaterRelation.STATUS_PENDING)
                         && item.getModelObject().getToUser().equals(getLoggedInUser());
-                boolean isActiveFriend = item.getModelObject().getStatus().equals(EaterRelation.STATUS_ACTIVE);
                 AjaxFallbackLink<String> linkToUser = new OpenFriendPageButton("linkToUser", item.getModelObject()
                         .getToUser());
                 item.add(linkToUser);
@@ -177,8 +175,7 @@ public class FriendsPage extends BasePage {
                         }
                     }
                 }.setVisible(isPendingFriendRequest));
-                item.add(new SendMessageButton("sendMessage", getLoggedInUser(), eaterToshow, sendMessageMW)
-                        .setVisible(isActiveFriend));
+                item.add(new SendMessageButton("sendMessage", getLoggedInUser(), eaterToshow, item.getModelObject(), sendMessageMW));
 
             }
         };

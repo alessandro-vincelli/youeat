@@ -248,7 +248,7 @@ public class RistoranteAddNewPage extends BasePage {
                 getFeedbackPanel().info(getString("info.ristoranteadded", new Model<Ristorante>(ristorante)));
                 form.setModelObject(ristorante);
             } catch (YoueatException e) {
-                getFeedbackPanel().error("ERROR" + e.getMessage());
+                getFeedbackPanel().error(getString("genericErrorMessage"));
             }
             getForm().setEnabled(false);
             setVisible(false);

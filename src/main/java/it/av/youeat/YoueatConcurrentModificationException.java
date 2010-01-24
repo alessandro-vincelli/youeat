@@ -15,29 +15,36 @@
  */
 package it.av.youeat;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
-public class YoueatException extends RuntimeException {
+public class YoueatConcurrentModificationException extends YoueatException {
 
-    private static final long serialVersionUID = -2549208951901428566L;
-    private static Log log = LogFactory.getLog(YoueatException.class);
-
-    public YoueatException() {
+    /**
+     * 
+     */
+    public YoueatConcurrentModificationException() {
+        super();
     }
 
-    public YoueatException(String s) {
-        super(s);
-        log.error(s);
-    }
-
-    public YoueatException(String s, Throwable throwable) {
+    /**
+     * @param s
+     * @param throwable
+     */
+    public YoueatConcurrentModificationException(String s, Throwable throwable) {
         super(s, throwable);
-        log.error(s, throwable);
     }
 
-    public YoueatException(Throwable throwable) {
-        super(throwable);
-        log.error("Error on Youeat", throwable);
+    /**
+     * @param s
+     */
+    public YoueatConcurrentModificationException(String s) {
+        super(s);
     }
+
+    /**
+     * @param throwable
+     */
+    public YoueatConcurrentModificationException(Throwable throwable) {
+        super(throwable);
+    }
+
 }

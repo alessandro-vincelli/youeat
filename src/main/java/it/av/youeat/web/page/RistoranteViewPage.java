@@ -38,6 +38,7 @@ import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -113,8 +114,7 @@ public class RistoranteViewPage extends BasePage {
         if (StringUtils.isNotBlank(ristoranteId)) {
             this.ristorante = ristoranteService.getByID(ristoranteId);
         } else {
-            setRedirect(true);
-            setResponsePage(getApplication().getHomePage());
+            throw new RestartResponseAtInterceptPageException(getApplication().getHomePage());
         }
         ristorante = ristorante.addDescLangIfNotPresent(actualDescriptionLanguage);
         formRisto = new Form<Ristorante>("ristoranteForm", new CompoundPropertyModel<Ristorante>(ristorante));

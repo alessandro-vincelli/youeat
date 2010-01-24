@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
@@ -78,8 +79,7 @@ public class RistoranteEditPicturePage extends BasePage {
         if (StringUtils.isNotBlank(ristoranteId)) {
             //this.ristorante = ristoranteService.getByID(ristoranteId);
         } else {
-            setRedirect(true);
-            setResponsePage(getApplication().getHomePage());
+            throw new RestartResponseAtInterceptPageException(getApplication().getHomePage());
         }
 
         pictForm = new Form<Ristorante>("ristorantePicturesForm", new LoadableDetachableModel<Ristorante>() {

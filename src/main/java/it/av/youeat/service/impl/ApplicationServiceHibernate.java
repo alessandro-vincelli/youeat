@@ -15,6 +15,7 @@
  */
 package it.av.youeat.service.impl;
 
+import it.av.youeat.YoueatConcurrentModificationException;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.BasicEntity;
 import it.av.youeat.service.ApplicationService;
@@ -68,7 +69,7 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
             }
             return obj;
         } catch (OptimisticLockingFailureException e) {
-            throw new YoueatException(e);
+            throw new YoueatConcurrentModificationException(e);
         } catch (DataAccessException e) {
             throw new YoueatException(e);
         }

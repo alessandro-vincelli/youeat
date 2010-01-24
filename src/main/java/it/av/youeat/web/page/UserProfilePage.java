@@ -137,7 +137,7 @@ public class UserProfilePage extends BasePage {
                 target.addComponent(usersProfileDataTable);
                 target.addComponent(form);
             } catch (YoueatException e) {
-                getFeedbackPanel().error("ERROR" + e.getMessage());
+                getFeedbackPanel().error(getString("genericErrorMessage"));
             }
             target.addComponent(getFeedbackPanel());
         }

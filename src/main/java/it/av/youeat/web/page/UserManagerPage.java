@@ -169,7 +169,7 @@ public class UserManagerPage extends BasePage {
                 target.addComponent(usersDataTable);
                 target.addComponent(form);
             } catch (YoueatException e) {
-                getFeedbackPanel().error("ERROR" + e.getMessage());
+                getFeedbackPanel().error(getString("genericErrorMessage"));
             }
             target.addComponent(getFeedbackPanel());
         }

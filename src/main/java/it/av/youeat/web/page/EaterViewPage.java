@@ -30,7 +30,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
@@ -65,11 +67,12 @@ public class EaterViewPage extends BasePage {
     Collection<ActivityRistorante> friendsActivities;
     
     public EaterViewPage(PageParameters pageParameters) throws YoueatException {
-        if (!pageParameters.containsKey(YoueatHttpParams.YOUEAT_ID)) {
-            throw new YoueatException("Missing user id");
-        }
-
+        
         String eaterId = pageParameters.getString(YoueatHttpParams.YOUEAT_ID, "");
+        if(StringUtils.isBlank(eaterId)){
+            throw new RestartResponseAtInterceptPageException(getApplication().getHomePage());
+        }
+        
         Eater eater = eaterService.getByID(eaterId);
 
         add(new Label("eater", eater.getFirstname() + " " + eater.getLastname()));

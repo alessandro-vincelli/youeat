@@ -15,6 +15,7 @@
  */
 package it.av.youeat.web.page;
 
+import it.av.youeat.YoueatConcurrentModificationException;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.data.City;
@@ -28,6 +29,7 @@ import it.av.youeat.web.components.CityAutocompleteBox;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
@@ -46,13 +48,14 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
+import org.springframework.orm.jpa.JpaOptimisticLockingFailureException;
 
 /**
  * Edit address and contacts of {@link Ristorante}.
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@AuthorizeInstantiation( { "USER", "ADMIN", "EDITOR" })
+@AuthorizeInstantiation( { "USER", "ADMIN" })
 public class RistoranteEditAddressPage extends BasePage {
 
     private static final long serialVersionUID = 1L;
@@ -73,7 +76,7 @@ public class RistoranteEditAddressPage extends BasePage {
      * @throws YoueatException
      */
     public RistoranteEditAddressPage(Ristorante ristorante) throws YoueatException {
-        this(new PageParameters(YoueatHttpParams.RISTORANTE_ID +"=" + ristorante.getId()));
+        this(new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
     }
 
     /**
@@ -87,8 +90,7 @@ public class RistoranteEditAddressPage extends BasePage {
         if (StringUtils.isNotBlank(ristoranteId)) {
             this.ristorante = ristoranteService.getByID(ristoranteId);
         } else {
-            setRedirect(true);
-            setResponsePage(getApplication().getHomePage());
+            throw new RestartResponseAtInterceptPageException(getApplication().getHomePage());
         }
 
         form = new Form<Ristorante>("ristoranteForm", new CompoundPropertyModel<Ristorante>(ristorante));
@@ -186,8 +188,10 @@ public class RistoranteEditAddressPage extends BasePage {
                     getFeedbackPanel().error(getString("error.onUpdate"));
                 }
                 form.setModelObject(ristorante);
+            } catch (YoueatConcurrentModificationException e) {
+                getFeedbackPanel().error(getString("error.concurrentModification"));
             } catch (YoueatException e) {
-                getFeedbackPanel().error("ERROR" + e.getMessage());
+                getFeedbackPanel().error(getString("genericErrorMessage"));
             }
             if (target != null) {
                 target.addComponent(form);

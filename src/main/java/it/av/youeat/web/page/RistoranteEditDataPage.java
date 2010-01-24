@@ -15,6 +15,7 @@
  */
 package it.av.youeat.web.page;
 
+import it.av.youeat.YoueatConcurrentModificationException;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Language;
 import it.av.youeat.ocm.model.Ristorante;
@@ -33,6 +34,7 @@ import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
@@ -51,6 +53,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.springframework.orm.jpa.JpaOptimisticLockingFailureException;
 import org.springframework.util.Assert;
 
 /**
@@ -59,7 +62,7 @@ import org.springframework.util.Assert;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@AuthorizeInstantiation( { "USER", "ADMIN"})
+@AuthorizeInstantiation( { "USER", "ADMIN" })
 public class RistoranteEditDataPage extends BasePage {
 
     private static final long serialVersionUID = 1L;
@@ -97,8 +100,7 @@ public class RistoranteEditDataPage extends BasePage {
         if (StringUtils.isNotBlank(ristoranteId)) {
             this.ristorante = ristoranteService.getByID(ristoranteId);
         } else {
-            setRedirect(true);
-            setResponsePage(getApplication().getHomePage());
+            throw new RestartResponseAtInterceptPageException(getApplication().getHomePage());
         }
         actualDescriptionLanguage = getInitialLanguage();
         ristorante = ristorante.addDescLangIfNotPresent(actualDescriptionLanguage);
@@ -109,9 +111,9 @@ public class RistoranteEditDataPage extends BasePage {
         form.add(new TextField<String>(Ristorante.WWW).setOutputMarkupId(true));
         form.add(new TagBox(new Model<String>(""), "tagBox", ristorante));
 
-        //form.add(new CheckBox("types.ristorante"));
-        //form.add(new CheckBox("types.pizzeria"));
-        //form.add(new CheckBox("types.bar"));
+        // form.add(new CheckBox("types.ristorante"));
+        // form.add(new CheckBox("types.pizzeria"));
+        // form.add(new CheckBox("types.bar"));
 
         form.add(new ListView<Tag>(Ristorante.TAGS) {
             private static final long serialVersionUID = 1L;
@@ -258,8 +260,10 @@ public class RistoranteEditDataPage extends BasePage {
                     getFeedbackPanel().error(getString("error.onUpdate"));
                 }
                 form.setModelObject(ristorante);
+            } catch (YoueatConcurrentModificationException e) {
+                getFeedbackPanel().error(getString("error.concurrentModification"));
             } catch (YoueatException e) {
-                getFeedbackPanel().error("ERROR" + e.getMessage());
+                getFeedbackPanel().error(getString("genericErrorMessage"));
             }
             if (target != null) {
                 target.addComponent(form);

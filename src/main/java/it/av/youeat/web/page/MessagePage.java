@@ -26,7 +26,9 @@ import it.av.youeat.web.components.OpenFriendPageButton;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
@@ -65,8 +67,8 @@ public class MessagePage extends BasePage {
     public MessagePage(PageParameters parameters) throws YoueatException {
         super();
         final String dialogId = parameters.getString(YoueatHttpParams.DIALOG_ID, "");
-        if (dialogId == "") {
-            throw new YoueatException("dialog id is empty");
+        if (StringUtils.isBlank(dialogId)) {
+            throw new RestartResponseAtInterceptPageException(getApplication().getHomePage());
         }
 
         add(getFeedbackPanel());

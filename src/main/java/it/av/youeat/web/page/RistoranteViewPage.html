@@ -147,8 +147,15 @@
     </p>
     </div>
     <div id="navigation">
-    <p><button wicket:id="showsAllRevisions"><wicket:message key="button.showsAllRevisions" /></button></p>
-    <p><button wicket:id="tried"><wicket:message key="button.IateHere" /></button></p>
-    <p><button wicket:id="asfavourite"><span wicket:id="asfavouriteLabel"></span></button></p>
+        <p><button wicket:id="showsAllRevisions"><wicket:message key="button.showsAllRevisions" /></button></p>
+        <p><button wicket:id="tried"><wicket:message key="button.IateHere" /></button></p>
+        <p><button wicket:id="asfavourite"><span wicket:id="asfavouriteLabel"></span></button></p>
+        <span class="titleMyActivities" wicket:id="friendEaterListTitle"><wicket:message key="friendEaterListTitle" /></span>
+        <ul class="activitiesList">
+            <li wicket:id="friendEaterList">
+                <a wicket:id="view-eater"><span wicket:id="eater.firstname"></span> <span wicket:id="eater.lastname"></span></a>
+                <span wicket:id="date.time" class="dateActivities"></span>
+            </li>
+        </ul>
     </div>
 </wicket:extend>

@@ -28,10 +28,12 @@ import it.av.youeat.service.ActivityRistoranteService;
 import it.av.youeat.service.LanguageService;
 import it.av.youeat.service.RistoranteService;
 import it.av.youeat.web.Locales;
+import it.av.youeat.web.components.FriedEaterListView;
 import it.av.youeat.web.components.ImageRisto;
 import it.av.youeat.web.panel.RistoranteRevisionsPanel;
 import it.av.youeat.web.util.DefaultFocusBehavior;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -72,6 +74,7 @@ import wicket.contrib.gmap.api.GLatLng;
 import wicket.contrib.gmap.api.GMapType;
 import wicket.contrib.gmap.api.GMarker;
 import wicket.contrib.gmap.api.GMarkerOptions;
+import wicket.contrib.gmap.js.Array;
 
 /**
  * The page shows all the {@link Ristorante} informations.
@@ -472,7 +475,13 @@ public class RistoranteViewPage extends BasePage {
             bottomMap.setVisible(false);
         }
         add(bottomMap);
-
+        List<ActivityRistorante> friendEatActiviet = new ArrayList<ActivityRistorante>(0);
+        
+        if(getLoggedInUser() != null){
+            friendEatActiviet = activityService.findByFriendThatEatOnRistorante(getLoggedInUser(), ristorante);
+        }
+        add(new WebMarkupContainer("friendEaterListTitle").setVisible(friendEatActiviet.size() > 0));
+        add(new FriedEaterListView("friendEaterList", friendEatActiviet).setVisible(friendEatActiviet.size() > 0));
     }
 
     public RistoranteViewPage(Ristorante ristorante) throws YoueatException {

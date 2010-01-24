@@ -38,7 +38,7 @@ public class BasePageSimple extends WebPage {
      */
     public BasePageSimple() {
         add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
-        ResourceReference img = new ResourceReference(this.getClass(), "resources/images/logo-mela.png");
+        ResourceReference img = new ResourceReference(this.getClass(), "resources/images/logo-mela-small.png");
         add(new Image("logo", img));
         
         feedbackPanel = new FeedbackPanel("feedBackPanel");

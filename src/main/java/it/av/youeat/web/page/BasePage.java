@@ -87,7 +87,7 @@ public class BasePage extends WebPage {
         feedbackPanel.setOutputMarkupPlaceholderTag(true);
         add(feedbackPanel);
 
-        ResourceReference img = new ResourceReference(this.getClass(), "resources/images/logo-mela.png");
+        ResourceReference img = new ResourceReference(this.getClass(), "resources/images/logo-mela-small.png");
         add(new Image("logo", img));
         add(new AjaxFallbackLink<String>("goUserPage") {
             private static final long serialVersionUID = 1L;

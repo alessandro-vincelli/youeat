@@ -20,11 +20,14 @@ import it.av.youeat.web.page.EaterViewPage;
 import it.av.youeat.web.page.ErrorPage;
 import it.av.youeat.web.page.FriendsPage;
 import it.av.youeat.web.page.HomePage;
+import it.av.youeat.web.page.ImageViewPage;
 import it.av.youeat.web.page.MessageListPage;
 import it.av.youeat.web.page.MessagePage;
 import it.av.youeat.web.page.PasswordRecoverPage;
 import it.av.youeat.web.page.RistoranteAddNewPage;
 import it.av.youeat.web.page.RistoranteEditAddressPage;
+import it.av.youeat.web.page.RistoranteEditDataPage;
+import it.av.youeat.web.page.RistoranteEditPicturePage;
 import it.av.youeat.web.page.RistoranteViewPage;
 import it.av.youeat.web.page.SearchFriendPage;
 import it.av.youeat.web.page.SignIn;
@@ -92,8 +95,10 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/userProfile", UserProfilePage.class));
         mount(new HybridUrlCodingStrategy("/userPage", UserManagerPage.class));
         mount(new HybridUrlCodingStrategy("/newRistorante", RistoranteAddNewPage.class));
-        mount(new HybridUrlCodingStrategy("/editRistorante", RistoranteEditAddressPage.class));
-        mount(new HybridUrlCodingStrategy("/viewEistorante", RistoranteViewPage.class));
+        mount(new MixedParamHybridUrlCodingStrategy("/editRistorante", RistoranteEditDataPage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
+        mount(new MixedParamHybridUrlCodingStrategy("/editAddressRistorante", RistoranteEditAddressPage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
+        mount(new MixedParamHybridUrlCodingStrategy("/editPicturesRistorante", RistoranteEditPicturePage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
+        mount(new MixedParamHybridUrlCodingStrategy("/viewRistorante", RistoranteViewPage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
         mount(new HybridUrlCodingStrategy("/searchFriends", SearchFriendPage.class));
         mount(new HybridUrlCodingStrategy("/friends", FriendsPage.class)); 
         mount(new IndexedParamUrlCodingStrategy("/signUp", SignUpPage.class));
@@ -103,6 +108,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/passwordRecover", PasswordRecoverPage.class));
         mount(new HybridUrlCodingStrategy("/messages", MessageListPage.class));
         mount(new MixedParamHybridUrlCodingStrategy("/message", MessagePage.class, new String[]{YoueatHttpParams.DIALOG_ID}));
+        mount(new HybridUrlCodingStrategy("/picture", ImageViewPage.class));
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
     }

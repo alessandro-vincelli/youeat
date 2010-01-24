@@ -46,7 +46,7 @@ import org.apache.wicket.util.lang.Bytes;
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@AuthorizeInstantiation( { "USER", "ADMIN", "EDITOR" })
+@AuthorizeInstantiation( { "USER", "ADMIN" })
 public class RistoranteEditPicturePage extends BasePage {
 
     private static final long serialVersionUID = 1L;

@@ -888,3 +888,7 @@ feedbackPanelERROR {
 .smalltext {
     font-size: x-small;
 }
+.simpleSmallLink{
+    text-decoration: none; 
+    color: black;
+}

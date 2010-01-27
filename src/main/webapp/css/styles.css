@@ -42,6 +42,7 @@ div#content {
 
 div#content fieldset {
     border: none;
+    text-align: center;
 }
 
 div#content {
@@ -151,6 +152,13 @@ div#footer p {
 .addressRisto th {
     font-size: x-small;
     text-align: right;
+    font-weight: lighter;
+}
+
+.addressRisto td {
+    font-size: small;
+    text-align: left;
+    
 }
 
 .buttonNavigation{
@@ -171,11 +179,13 @@ div#footer p {
 .activitiesList ul {
     display: inline;
     float: left;
+    
 }
 
 .activitiesList li {
     color: #A4A0A1;
     margin: 7px 0px 0px 0px;
+    padding-top: 10px;
 }
 
 .activitiesList li a {
@@ -291,6 +301,10 @@ button {
 
 .form-risto {
     float: left;
+}
+
+.form-risto table {
+    text-align: right;
     display: block;
 }
 
@@ -298,11 +312,19 @@ button {
     text-align: right;
 }
 
+.form-risto td {
+    text-align: left;
+    
+}
 .form-risto input {
     width: 300px;
     text-align: left;
 }
 
+#descriptionArea{
+    width: 100%;
+    display: block;
+}
 /* doesn't work
 .uploadfield {
     border: 1px solid #AAAAAA !important;
@@ -526,6 +548,8 @@ input.submitButton {
 
 button.descriptionLinkActive {
     text-decoration: underline;
+    font-weight: bold;
+    padding: 8px 8px 8px 8px;
 }
 
 .descriptionLinks {
@@ -550,6 +574,10 @@ button.descriptionLinkActive {
     padding: 0em 0.15em 0em 0em;
 }
 
+.descriptionTextArea{
+    font-size: medium;
+    padding: 0.7em 0.7em 0.7em 0.7em;
+}
 .form-signup {
     text-align: left;
     float: left;
@@ -893,4 +921,8 @@ feedbackPanelERROR {
 .simpleSmallLink{
     text-decoration: none; 
     color: black;
+}
+
+.risto-view{
+    text-align: left;
 }

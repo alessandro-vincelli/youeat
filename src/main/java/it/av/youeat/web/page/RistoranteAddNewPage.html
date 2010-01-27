@@ -56,15 +56,20 @@
                 <th><label for="www"><wicket:message key="www"/></label></th>
                 <td><input type="text" wicket:id="www"></input></td>
                 </tr>
-                <tr>
-                <th><label for="description"><wicket:message key="description"/></label></th>
-                <td>
                 <span wicket:id="descriptions">
+                <tr>
+                <th></th>
+                <td id="descriptionArea">
                     <span wicket:id="language"></span>
-                    <textarea wicket:id="description" autocomplete="off" accesskey="u" name="description" rows="15" cols="60"></textarea>
-                </span>
                 </td>
                 </tr>
+                <tr>
+                    <th><label for="description"><wicket:message key="description"/></label></th>
+                    <td id="descriptionArea">
+                    <textarea wicket:id="description" autocomplete="off" accesskey="u" name="description" rows="15" cols="60"></textarea>
+                </td>
+                </tr>
+                </span>
                 <tr>
                 <td colspan="2" class="submitarea">
                     <input class="submitButton" type="submit" wicket:message="value:button.create" wicket:id="submitRestaurant"></input> <button wicket:id="buttonClearForm"><wicket:message key="button.clean"/></button>
@@ -79,7 +84,9 @@
        </div>
        </div>
        <div id="navigation">
+       <div class="buttonNavigation">
        <p><input class="submitButton" type="submit" wicket:id="submitRestaurantRight" wicket:message="value:button.create"></input></p>
        <p><input class="submitButton" type="submit" wicket:id="buttonOpenAddedRistoRight" wicket:message="value:button.openAddedRistoRight"></input></p>
+       </div>
        </div>
 </wicket:extend>

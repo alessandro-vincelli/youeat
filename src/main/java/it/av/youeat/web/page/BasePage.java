@@ -20,18 +20,20 @@ import it.av.youeat.service.EaterRelationService;
 import it.av.youeat.service.MessageService;
 import it.av.youeat.web.Locales;
 import it.av.youeat.web.commons.CookieUtil;
+import it.av.youeat.web.components.TransparentWebMarkupContainer;
 import it.av.youeat.web.security.SecuritySession;
+import it.av.youeat.web.util.HtmlUtil;
 
 import java.util.Locale;
 
 import javax.servlet.http.Cookie;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -39,6 +41,8 @@ import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.resources.CompressedResourceReference;
+import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -82,14 +86,14 @@ public class BasePage extends WebPage {
                 getSession().setLocale(new Locale(loggedInUser.getLanguage().getLanguage()));
             }
         }
-
+        HtmlUtil.fixInitialHtml(this);
         // add(JavascriptPackageResource.getHeaderContribution(BASEPAGE_JS));
-        add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
-
+        //add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
         feedbackPanel = new FeedbackPanel("feedBackPanel");
         feedbackPanel.setOutputMarkupPlaceholderTag(true);
         add(feedbackPanel);
-
+        
+        
         ResourceReference img = new ResourceReference(this.getClass(), "resources/images/logo-mela-small.png");
         add(new Image("logo", img));
         add(new AjaxFallbackLink<String>("goUserPage") {

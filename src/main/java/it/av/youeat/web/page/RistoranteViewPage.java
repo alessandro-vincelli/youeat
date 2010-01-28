@@ -74,7 +74,6 @@ import wicket.contrib.gmap.api.GLatLng;
 import wicket.contrib.gmap.api.GMapType;
 import wicket.contrib.gmap.api.GMarker;
 import wicket.contrib.gmap.api.GMarkerOptions;
-import wicket.contrib.gmap.js.Array;
 
 /**
  * The page shows all the {@link Ristorante} informations.

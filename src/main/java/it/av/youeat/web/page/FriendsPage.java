@@ -136,7 +136,7 @@ public class FriendsPage extends BasePage {
                                     target.addComponent(((FriendsPage) target.getPage()).getFeedbackPanel());
                                 }
                             }
-                        });
+                        }.setVisible(!isPendingFriendRequest));
                 item.add(new AjaxFallbackLink<EaterRelation>("acceptFriend", new Model<EaterRelation>(item
                         .getModelObject())) {
                     private static final long serialVersionUID = 1L;

@@ -26,8 +26,11 @@
 	        	</tr> 
                 <tr>
 	        	<th><label for="tagBox"><wicket:message key="addNewTag"/></label></th>
-	        	<td><input type="text" wicket:id="tagBox"></input>
-	        	<button wicket:id="addTag"><wicket:message key="button.addTag"/></button>
+	        	<td>
+                <input type="text" wicket:id="tagBox"></input>
+	        	<span class="buttons">
+                <button wicket:id="addTag"><wicket:message key="button.addTag"/></button>
+                </span>
                 </td>
 	        	</tr>
                 <tr>
@@ -35,7 +38,7 @@
                 <td>
                 <table>
 				  <tr wicket:id="tags">
-				    <td>
+				    <td class="mediumtext">
                     <span wicket:id="tagItem"></span>
                     <input class="deleteButton" type="submit" wicket:id="buttonTagItemRemove" title="remove" value=""></input>
                     </td>
@@ -45,7 +48,7 @@
 				</tr>
                 <tr>
                 <th></th>
-                <td class="descriptionLinks">
+                <td class="descriptionLinks buttons">
                     <ul wicket:id="descriptionLinksContainer">
                     <li wicket:id="descriptionLinks"><button class="descriptionLink" href="#" wicket:id="descriptionLink"><span wicket:id="linkName"></span></button></li>
                     </ul>
@@ -62,18 +65,18 @@
                 </td>
                 </tr>
 	        	<tr>
-	        	<td colspan="2" class="submitarea"><input type="submit" wicket:id="submitRestaurant" class="submitButton"/> <button class="submit" wicket:id="buttonClearForm"><wicket:message key="button.clean"/></button></td>
+	        	<td colspan="2" class="submitarea buttons"><input type="submit" wicket:id="submitRestaurant" class="submitButton"/> <button class="submit" wicket:id="buttonClearForm"><wicket:message key="button.clean"/></button></td>
 	        	</tr>
 	        </table>
         	</fieldset>
         </form>
-        <p class="submitarea">
+        <p class="submitarea buttons">
             <input class="submitButton" type="submit" wicket:id="buttonOpenAddedRisto" wicket:message="value:button.openAddedRistoRight"></input>
          </p>
        </div>
        </div>
     <div id="navigation">
-    <div class="buttonNavigation">
+    <div class="buttonNavigation buttons">
     <p><input type="submit" wicket:id="submitRestaurantRight" class="submitButton"></input></p>
     <p><input class="submitButton" type="submit" wicket:id="buttonOpenAddedRistoRight" wicket:message="value:button.openAddedRistoRight"></input></p>
     </div>

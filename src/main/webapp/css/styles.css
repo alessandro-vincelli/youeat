@@ -161,11 +161,8 @@ div#footer p {
     
 }
 
-.buttonNavigation{
-    margin-left: 0px;
-    text-align: center;
-}
 .activitiesList {
+    width: 100%;
     list-style-image: none;
     list-style-type: none;
     font-size: x-small;
@@ -179,7 +176,6 @@ div#footer p {
 .activitiesList ul {
     display: inline;
     float: left;
-    
 }
 
 .activitiesList li {
@@ -216,9 +212,10 @@ div#footer p {
 
 .datatable {
     width: 70%;
-    margin-left: 15%;
-    margin-right: 15%;
+    margin-left: 10%;
+    margin-right: 10%;
     text-align: left;
+    font-size: medium;
 }
 
 .datatable tbody th {
@@ -243,16 +240,17 @@ div#footer p {
     width: 11em;
 }
 
-.datatable td.ristoname {
+.datatable td.ristoName {
     font-weight: normal;
     padding-top: 10px;
-    width: 22em;
+    width: 50em;
 }
 
 input[type="text"],fieldset input[type="password"],fieldset textarea,fieldset select,fieldset checkbox
     {
     border: 1px solid #AAAAAA;
     padding: 4px 2px;
+    display: block;
 }
 
 input {
@@ -260,14 +258,6 @@ input {
     padding: 4px 2px;
 }
 
-button {
-    border: 1px solid #AAAAAA;
-    padding: 4px 2px;
-    -moz-border-radius-bottomleft: 5px;
-    -moz-border-radius-topleft: 5px;
-    -moz-border-radius-bottomright: 5px;
-    -moz-border-radius-topright: 5px;
-}
 
 .searchRistoInput {
     border-color: #B4B4B4 #CCCCCC #CCCCCC #B4B4B4;
@@ -389,16 +379,32 @@ div .friendStatus {
     font-style: oblique;
 }
 
-div .friendRemoveButton {
+div .friendsButton {
     float: right;
-    font-style: oblique;
-    padding-right: 5px;
-    display: ;
+    font-size: xx-small;
+}
+
+div .friendsButton button{
+    float: right;
+    margin-left: 5px;
+    font-size: xx-small;
+}
+
+div .dialogButton {
+    float: right;
+    font-size: xx-small;
+}
+
+div .dialogButton button{
+    float: right;
+    margin-left: 5px;
+    font-size: xx-small;
 }
 
 .numberMessages{
     font-size: x-small; 
     color: #808080;
+    text-align: left;
 }
 .rowMessageUnread{
     background-color: #ECEEF4;
@@ -424,31 +430,31 @@ div .messageList {
 
 div .messageBody {
     float: left;
-    width: 380px;
+    width: 320px;
     color: #808080;
     
 }
 
 div .messageBody a {
     float: left;
-    width: 380px;
+    width: 320px;
     text-decoration: none;
     color: #808080;
 }
 
 div .messageCenterColumn {
-    width: 440px;
+    width: 400px;
     float: left;
 }
 
 div .messageTitle {
-    width: 380px;
+    width: 320px;
     float: left;
 }
 
 div .messageInfos {
     float: left;
-    width: 380px;
+    width: 320px;
     font-size: small;
 }
 
@@ -464,7 +470,7 @@ div .messageInfos a {
 
 .leftButtonMessage{
     text-align: center;
-    display: inline;
+    display: block;
 }    
 
 .autocomplete-risto ul {
@@ -477,16 +483,18 @@ div .messageInfos a {
     border-left: 1px solid gray;
     width: 250px;
     background-color: white;
+    font-size: small;
 }
 
 .autocomplete-risto .selected {
-    color: FFF;
+    color: #FFF;
     background: #3366CC;
 }
 
 .edit {
     text-align: right;
     padding-right: 10px;
+    padding-bottom: 20px;
 }
 
 .risoTypeBox input {
@@ -523,7 +531,7 @@ h1 {
 }
 
 input.deleteButton {
-    background: transparent url("images/delete_64_small.png") no-repeat
+    background: transparent url("../images/delete_64_small.png") no-repeat
         center top;
     cursor: pointer;;
     border: none;
@@ -533,8 +541,12 @@ input.deleteButton {
 }
 
 .titleMyActivities {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    float: left;
     text-align: center;
     display: block;
+    width: 100%;
 }
 
 input.submitButton {
@@ -544,12 +556,6 @@ input.submitButton {
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-bottomright: 5px;
     -moz-border-radius-topright: 5px;
-}
-
-button.descriptionLinkActive {
-    text-decoration: underline;
-    font-weight: bold;
-    padding: 8px 8px 8px 8px;
 }
 
 .descriptionLinks {
@@ -677,7 +683,7 @@ td.submitarea {
 }
 
 input.publishPictureButton {
-    background: transparent url("images/publish_picture.png") no-repeat
+    background: transparent url("../images/publish_picture.png") no-repeat
         center top;
     cursor: pointer;
     border: none;
@@ -687,7 +693,7 @@ input.publishPictureButton {
 }
 
 input.unpublishPictureButton {
-    background: transparent url("images/unpublish_picture.png") no-repeat
+    background: transparent url("../images/unpublish_picture.png") no-repeat
         center top;
     cursor: pointer;
     border: none;
@@ -820,7 +826,11 @@ feedbackPanelERROR {
     list-style-position: inside;
     list-style-type: none;
 }
-
+#commentArea{
+    float: left;
+    display: block;
+    width: 100%;
+}
 #commentsList {
     float: left;
     display: block;
@@ -915,9 +925,15 @@ feedbackPanelERROR {
     margin-left: 10px;
     margin-right: 25px; 
 }
+
 .smalltext {
     font-size: x-small;
 }
+
+.mediumtext {
+    font-size: medium;
+}
+
 .simpleSmallLink{
     text-decoration: none; 
     color: black;
@@ -926,3 +942,208 @@ feedbackPanelERROR {
 .risto-view{
     text-align: left;
 }
+
+.buttons button , .buttons input{
+    /*display: block;*/
+    margin:0px 0px 0px 0px;
+    background-color:#f5f5f5;
+    border:1px solid #dedede;
+    border-top:1px solid #eee;
+    border-left:1px solid #eee;
+    white-space: nowrap;
+    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    line-height:130%;
+    font: xx-small;
+    text-decoration:none;
+    font-weight:bold;
+    color:#565656;
+    cursor:pointer;
+    padding:5px 10px 6px 7px; /* Links */
+}
+.buttons button .buttons input{
+    /*width:auto;
+    overflow:visible;*/
+    padding:4px 10px 3px 7px; /* IE6 */
+}
+.buttons button[type]{
+    padding:5px 10px 5px 7px; /* Firefox */
+    line-height:17px; /* Safari */
+}
+*:first-child+html button[type]{
+    padding:4px 10px 3px 7px; /* IE7 */
+}
+.buttons button img, .buttons a img{
+    margin:0 3px -3px 0 !important;
+    padding:0;
+    border:none;
+    width:16px;
+    height:16px;
+}
+
+
+
+/* STANDARD */
+
+button:hover, .buttons input:hover{
+    background-color:#dff4ff;
+    border:1px solid #c2e1ef;
+    color:#336699;
+}
+.buttons a:active{
+    background-color:#6299c5;
+    border:1px solid #6299c5;
+    color:#fff;
+}
+
+/* POSITIVE */
+
+button.positive, .buttons a.positive{
+    color:#529214;
+}
+.buttons a.positive:hover, button.positive:hover{
+    background-color:#E6EFC2;
+    border:1px solid #C6D880;
+    color:#529214;
+}
+.buttons a.positive:active{
+    background-color:#529214;
+    border:1px solid #529214;
+    color:#fff;
+}
+
+/* NEGATIVE */
+
+.buttons a.negative, button.negative{
+    color:#d12f19;
+}
+.buttons a.negative:hover, button.negative:hover{
+    background:#fbe3e4;
+    border:1px solid #fbc2c4;
+    color:#d12f19;
+}
+.buttons a.negative:active{
+    background-color:#d12f19;
+    border:1px solid #d12f19;
+    color:#fff;
+}
+
+.buttons .descriptionLinkActive {
+    text-decoration: underline;
+    font-weight: bold;
+    padding: 8px 8px 8px 8px;
+    font-size: small;
+}
+
+.searchRisto {     
+    display: inline;
+    text-align: center;
+    padding: 0px 0px 0px 0px;
+    margin:   0px 0px 0px 0px;
+}
+
+.searchRisto input{
+    display: block;
+    float:left;
+}
+
+.searchRisto button{     
+    display: block;
+    float: right;    
+}
+
+
+#inputSearch {
+    display: block;
+    width: 20%;
+}
+
+#search-panel li {
+    display: inline;
+    font-size: 1em;
+    padding: 0.5em 0.15em 0.5em 0.5em;
+}
+
+.buttonNavigation{
+    margin-left: 0px;
+    text-align: center;   
+}
+
+.buttonNavigation ul {
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+}
+
+.buttonNavigation li {
+    display: block;
+    font-size: 1em;
+    padding: 5px 5px 5px 5px;
+}
+
+.inlinestyle{
+    display: block;
+    text-align: center!important;
+    width: 100%;
+}
+    
+
+.signInForm table{
+    text-align: center;
+    width: 100%;
+}
+
+.signInForm th{
+    text-align: right;    
+}
+
+.signInForm td{
+    text-align: left;   
+}
+
+.signInForm INPUT[type="text"], INPUT[type="password"]{
+    width: 200px;
+    size: 200px;
+}
+
+.formcenter table{
+    text-align: center;
+    width: 100%;
+}
+
+.forceinline{
+    display: inline;
+    width: auto;
+    background: yellow;
+}
+
+
+.messageFolder ul {
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+}
+
+
+.messageFolder li{
+    float: left;
+    text-align: left;
+    width: 100%;
+    padding-top: 10px;
+}
+
+.datatable{
+    width: 90%;
+    margin-left: 3%;
+    margin-right: 3%;
+    text-align: center;
+    display: block;
+}
+/*button {
+    border: 1px solid #AAAAAA;
+    padding: 4px 2px;
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-topright: 5px;
+}
+*/

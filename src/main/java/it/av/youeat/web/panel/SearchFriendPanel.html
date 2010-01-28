@@ -2,8 +2,12 @@
 <div id="search-panel">
 <form wicket:id="searchForm">
 <fieldset>
-<input type="text" wicket:id="searchData" wicket:message="title:searchPanel.SearchData" size="50"/>
-<input type="submit" wicket:id="ajax-button" wicket:message="value:searchPanel.SearchValue,title:searchPanel.SearchTitle"/>
+<table class="buttons searchRisto">
+<tr>
+<td><input type="text" wicket:id="searchData" wicket:message="title:searchPanel.SearchData" size="50"/></td>
+<td><input type="submit" wicket:id="ajax-button" wicket:message="value:searchPanel.SearchValue,title:searchPanel.SearchTitle"/></td>
+</tr>
+</table>
 </fieldset> 
 </form>
 </div>

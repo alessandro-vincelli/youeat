@@ -22,7 +22,7 @@
     <td><textarea wicket:id="body" autocomplete="off" accesskey="u" name="body-message" rows="4" cols="69"></textarea></td>
     </tr>
     <tr>
-    <td><button wicket:id="submit" type="button"><wicket:message key="button.sendMessageReply"/></button></td>
+    <td class="buttons"><button wicket:id="submit" type="button"><wicket:message key="button.sendMessageReply"/></button></td>
     </tr>
     </table>
     </form>
@@ -30,8 +30,8 @@
     </div>
     </div>
     <div id="navigation">
-        <div class="buttonNavigation">
-        <p><button wicket:id="goSearchFriendPage"><wicket:message key="basepage.goSearchFriendPage" /></button></p>
+        <div class="buttonNavigation buttons">
+        <button wicket:id="goSearchFriendPage"><wicket:message key="basepage.goSearchFriendPage" /></button>
         </div>
     </div>
 </wicket:extend>

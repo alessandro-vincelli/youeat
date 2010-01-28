@@ -13,7 +13,7 @@
     </div>
     <div class="messageBody"><a href="#" wicket:id="openMessage"><span wicket:id="body"></span></a></div>
     </div>
-    <div class="friendRemoveButton">
+    <div class="dialogButton buttons">
     <button wicket:id="open"><span><wicket:message key="button.openMessage" /></span></button>
     <button wicket:id="remove"><span><wicket:message key="button.remove" /></span></button>
     </div>
@@ -23,16 +23,20 @@
     </div>
     </div>
     <div id="navigation">
-        <div class="buttonNavigation">
+        <div class="buttonNavigation buttons">
         <p><button wicket:id="goSearchFriendPage"><wicket:message key="basepage.goSearchFriendPage" /></button></p>
         </div>
     </div>
-    <div id="extra" class="leftButtonMessage">
-        <p><button wicket:id="inbox"><span><wicket:message key="button.inbox" /></span></button>
+    <div id="extra" class="leftButtonMessage buttons messageFolder">
+        <ul>
+        <li>
+        <button wicket:id="inbox"><span><wicket:message key="button.inbox" /></span></button>
         <span wicket:id="numberMessages" class="numberMessages"></span><wicket:container wicket:id="separator">|</wicket:container><span wicket:id="unreadMessages" class="unreadMessages"></span>
-        </p>
-        <p><button wicket:id="sentitems"><span><wicket:message key="button.sentitems" /></span></button>
+        </li>
+        <li>
+        <button wicket:id="sentitems"><span><wicket:message key="button.sentitems" /></span></button>
         <span wicket:id="numberSentMessages" class="numberMessages"></span>
-        </p>
+        </li>
+        </ul>
     </div>
 </wicket:extend>

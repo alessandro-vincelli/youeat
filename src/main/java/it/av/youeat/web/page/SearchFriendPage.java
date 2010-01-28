@@ -56,7 +56,7 @@ public class SearchFriendPage extends BasePage {
      * 
      * @throws YoueatException
      */
-    public SearchFriendPage() throws YoueatException {
+    public SearchFriendPage(){
         searchFriendsContainer = new WebMarkupContainer("searchFriendsContainer");
         searchFriendsContainer.setOutputMarkupId(true);
         add(searchFriendsContainer);
@@ -69,7 +69,7 @@ public class SearchFriendPage extends BasePage {
 
             @Override
             public String getCssClass() {
-                return "friend-action";
+                return "friend-action buttons";
             }
 
             @Override
@@ -111,7 +111,7 @@ public class SearchFriendPage extends BasePage {
      * 
      * @throws YoueatException
      */
-    public final void refreshDataTable() throws YoueatException {
+    public final void refreshDataTable(){
         String pattern = searchFriendPanel.getSearchBean().getSearchData();
         searchFriendsDataProvider.fetchResults(pattern);
     }

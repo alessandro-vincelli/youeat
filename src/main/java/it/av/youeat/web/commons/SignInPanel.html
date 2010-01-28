@@ -18,18 +18,18 @@
 <body>
   <wicket:panel>
     <span wicket:id="feedback"/>
-        <form wicket:id="signInForm">
+        <form wicket:id="signInForm" class="signInForm">
             <table>
                 <tr>
-                    <td align="right">email:</td>
+                    <th>email:</th>
                     <td>
-                        <input wicket:id="username" type="text" value="" size="30"/>
+                        <input wicket:id="username" type="text" value="" />
                     </td>
                 </tr>
                 <tr>
-                    <td align="right">password:</td>
+                    <th>password:</th>
                     <td>
-                        <input wicket:id="password" type="password" value="" size="30"/>
+                        <input wicket:id="password" type="password" value="" />
                     </td>
                 </tr>
                 <tr wicket:id="rememberMeRow">
@@ -38,7 +38,7 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td>
+                    <td class="buttons">
                         <button type="submit" name="submit" value="Sign In"><wicket:message key="signIn.submit"/></button>
                         <button type="reset" value="Reset"><wicket:message key="signIn.reset"/></button>
                     </td>

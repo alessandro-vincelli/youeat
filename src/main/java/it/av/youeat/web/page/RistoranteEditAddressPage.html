@@ -1,7 +1,7 @@
 <wicket:extend>
 
     <div id="wrapper">
-    <div id="content">
+    <div id="content" class="formcenter">
 
         <form wicket:id="ristoranteForm">
         	<fieldset>
@@ -43,21 +43,20 @@
 	        	<td><input type="text" wicket:id="faxNumber"></input></td>
 	        	</tr>
 	        	<tr>
-	        	<td colspan="2" class="submitarea">
+	        	<td colspan="2" class="submitarea buttons">
                  <input type="submit" wicket:id="submitRestaurant" class="submitButton"/>
-                 <button class="submit" wicket:id="buttonClearForm"><wicket:message key="button.clean"/></button>
                 </td>
 	        	</tr>
 	        </table>
         	</fieldset>
         </form>
-        <p class="submitarea">
+        <p class="submitarea buttons">
             <input class="submitButton" type="submit" wicket:id="buttonOpenAddedRisto" wicket:message="value:button.openAddedRistoRight"></input>
          </p>
        </div>
        </div>
     <div id="navigation">
-    <div class="buttonNavigation">
+    <div class="buttonNavigation buttons">
     <p><input type="submit" wicket:id="submitRestaurantRight" class="submitButton"></input></p>
     <p><input class="submitButton" type="submit" wicket:id="buttonOpenAddedRistoRight" wicket:message="value:button.openAddedRistoRight"></input></p>
     </div>

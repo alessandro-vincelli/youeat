@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
@@ -175,17 +176,7 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         if (users.isEmpty()) {
             return new ArrayList<ActivityRistorante>(0);
         }
-        Disjunction orUSer = Restrictions.disjunction();
-        for (Eater eater : users) {
-            orUSer.add(Restrictions.eq(ActivityRistorante.USER, eater));
-        }
-        Order orderByDate = Order.desc(Activity.DATE);
-        if (!StringUtils.isBlank(activityType)) {
-            Criterion critByType = Restrictions.eq(ActivityRistorante.TYPE, activityType);
-            return findByCriteria(orderByDate, firstResult, maxResults, orUSer, critByType);
-        } else {
-            return findByCriteria(orderByDate, firstResult, maxResults, orUSer);
-        }
+        return find(users, null, firstResult, maxResults, activityType);
     }
 
     /**
@@ -207,6 +198,24 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         for (EaterRelation eaterRelation : friends) {
             users.add(eaterRelation.getToUser());
         }
-        return findByUsers(users, 0, 0, activityType);
+        return find(users, risto, 0, 0, activityType);
+    }
+
+    private List<ActivityRistorante> find(List<Eater> users, Ristorante risto, int firstResult, int maxResults,
+            String activityType) {
+        Conjunction and = Restrictions.conjunction();
+        Disjunction orUSer = Restrictions.disjunction();
+        for (Eater eater : users) {
+            orUSer.add(Restrictions.eq(ActivityRistorante.USER, eater));
+        }
+        and.add(orUSer);
+        Order orderByDate = Order.desc(Activity.DATE);
+        if (!StringUtils.isBlank(activityType)) {
+            and.add(Restrictions.eq(ActivityRistorante.TYPE, activityType));
+        }
+        if (risto != null) {
+            and.add(Restrictions.eq(ActivityRistorante.RISTORANTE, risto));
+        }
+        return findByCriteria(orderByDate, firstResult, maxResults, and);
     }
 }

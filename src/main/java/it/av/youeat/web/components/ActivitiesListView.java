@@ -55,7 +55,7 @@ public class ActivitiesListView extends PropertyListView<ActivityRistorante> {
                 setResponsePage(EaterViewPage.class, pp);
             }
         };
-        eater.add(new Label("eater.lastname"));
+        eater.add(new Label("eater.lastname", item.getModelObject().getEater().getFirstname() + " " + item.getModelObject().getEater().getLastname()));
         if(showEater){
             item.add(eater);
         }

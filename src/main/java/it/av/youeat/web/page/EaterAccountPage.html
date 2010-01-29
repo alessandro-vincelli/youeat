@@ -37,7 +37,7 @@
                 <td><input type="password" wicket:id="password-confirm"></input></td>
                 </tr>
                 <tr>
-                <td colspan="2" class="submitarea"><input class="submitButton" type="submit" wicket:message="value:button.saveAccount" wicket:id="saveAccount"></input></td>
+                <td colspan="2" class="submitarea buttons"><input class="submitButton" type="submit" wicket:message="value:button.saveAccount" wicket:id="saveAccount"></input></td>
                 </tr>
             </table>
             </fieldset>
@@ -45,14 +45,14 @@
          <form wicket:id="formAvatar">
             <fieldset>
             <ul>
-                <div wicket:id="imageContainer"><img class="avatar" wicket:id="avatar"></img></div>
+                <div wicket:id="imageContainer"><img class="avatar-account" wicket:id="avatar"></img></div>
             </ul>
             <table class="upload-picture">
                 <tr>
                 <td><input wicket:id="uploadField" id="upload" type="file" class="uploadfield"></input></td>                
                 </tr>
                 <tr>
-                <td><input type="submit" wicket:id="submitForm" class="submitButton" value="upload" wicket:message="value:button.uploadAvatar"></input></td>
+                <td class="buttons"><input type="submit" wicket:id="submitForm" class="submitButton" value="upload" wicket:message="value:button.uploadAvatar"></input></td>
                 </tr>
                 <tr>
                 <td><span wicket:id="progressBar"></span></td>

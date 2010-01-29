@@ -892,6 +892,10 @@ feedbackPanelERROR {
     height: 50px;
 }
 
+.avatar-account {
+    width: 150px;
+}
+
 .form-send-message {
     float: left;
     display: block;
@@ -920,7 +924,7 @@ feedbackPanelERROR {
 
 .gmap {
     display: block;
-    width: auto; 
+    width: 100%; 
     height: 300px;
     margin-left: 10px;
     margin-right: 25px; 
@@ -1125,6 +1129,19 @@ button.positive, .buttons a.positive{
 
 
 .messageFolder li{
+    float: left;
+    text-align: left;
+    width: 100%;
+    padding-top: 10px;
+}
+
+.buttonNavigation ul {
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+}
+
+.buttonNavigation li{
     float: left;
     text-align: left;
     width: 100%;

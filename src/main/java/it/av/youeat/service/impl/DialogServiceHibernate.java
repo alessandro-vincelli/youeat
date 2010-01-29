@@ -72,7 +72,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         Criterion critBySender2 = Restrictions.eq(Dialog.DELETED_FROM_SENDER_FIELD, false);
         senderFilter.add(critBySender1);
         senderFilter.add(critBySender2);
-        Order orderBYDate = Order.asc(Dialog.CREATION_TIME_FIELD);
+        Order orderBYDate = Order.desc(Dialog.CREATION_TIME_FIELD);
         return findByCriteria(orderBYDate, senderFilter);
     }
     

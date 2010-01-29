@@ -1,8 +1,12 @@
 package it.av.youeat.web.util;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.wicket.markup.html.image.resource.BufferedDynamicImageResource;
+import org.apache.wicket.util.resource.ResourceStreamNotFoundException;
 /**
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
@@ -55,5 +59,20 @@ public final class ImageUtil {
 
         resource.setImage(imageCrop.getSubimage(x, y, w, h));
         return resource;
+    }
+    
+    public final static byte[] getScaledImageByteArray(java.awt.Image img, int width, int height){
+        BufferedDynamicImageResource res = getScaledImage(img, width, height);
+        try {
+            InputStream is = res.getResourceStream().getInputStream();
+            return IOUtils.toByteArray(is);
+        } catch (ResourceStreamNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
     }
 }

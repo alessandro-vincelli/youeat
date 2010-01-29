@@ -27,7 +27,7 @@ public class ImagesAvatar {
      * @param isCachingImage if the Image is cachable
      * @return an avatar image
      */
-    public static Image getAvatar(String id, final Eater eater, Page page, boolean isCachingImage) {
+    public static Image getAvatar(String id, Eater eater, Page page, boolean isCachingImage) {
 
         Image avatar;
         ImageIcon icon;
@@ -50,7 +50,17 @@ public class ImagesAvatar {
             // });
         }
         java.awt.Image image2 = icon.getImage();
-        return new Image(id, ImageUtil.getScaledImage(image2, 50, 50));
+        if (isCachingImage) {
+            Image img = new Image(id, ImageUtil.getScaledImage(image2, 50, 50));
+            img.setOutputMarkupId(true);
+            return img;
+        } else {
+            // NonCachingImage img = new NonCachingImage(id, ImageUtil.getScaledImage(image2, 50, 50));
+            // NonCachingImage img = new NonCachingImage(id, new ImageAvateRend(50, 50, image2));
+            NonCachingImage img = new NonCachingImage(id, new ImageAvatarResource(eater));
+            img.setOutputMarkupId(true);
+            return img;
+        }
     }
 
     public static ResourceReference getDefaultAvatar(Page page) {

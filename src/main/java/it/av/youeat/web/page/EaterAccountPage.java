@@ -23,6 +23,7 @@ import it.av.youeat.ocm.model.data.Country;
 import it.av.youeat.service.CountryService;
 import it.av.youeat.service.EaterService;
 import it.av.youeat.service.LanguageService;
+import it.av.youeat.web.components.ImageAvatarResource;
 import it.av.youeat.web.components.ImagesAvatar;
 
 import org.apache.wicket.PageParameters;
@@ -30,6 +31,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadProgressBar;
+import org.apache.wicket.extensions.markup.html.image.resource.ThumbnailImageResource;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -41,9 +43,10 @@ import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.form.validation.EqualPasswordInputValidator;
 import org.apache.wicket.markup.html.image.Image;
-import org.apache.wicket.markup.html.image.resource.DynamicImageResource;
+import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.resource.ByteArrayResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Bytes;
 import org.apache.wicket.validation.IValidatable;
@@ -69,6 +72,7 @@ public class EaterAccountPage extends BasePage {
     private String newPasswordValue = "";
     private Eater eater;
     private Image avatar;
+    private WebMarkupContainer imagecontatiner;
 
     public EaterAccountPage(PageParameters pageParameters){
         if (!pageParameters.containsKey(YoueatHttpParams.YOUEAT_ID)) {
@@ -112,10 +116,10 @@ public class EaterAccountPage extends BasePage {
         formAvatar.add(uploadField);
         formAvatar.add(new UploadProgressBar("progressBar", accountForm));
         formAvatar.add(new SubmitAvatarButton("submitForm", formAvatar));
-        WebMarkupContainer imagecontatiner = new WebMarkupContainer("imageContainer");
+        imagecontatiner = new WebMarkupContainer("imageContainer");
         imagecontatiner.setOutputMarkupId(true);
         formAvatar.add(imagecontatiner);
-        avatar = ImagesAvatar.getAvatar("avatar", eater, this.getPage(), false);
+        avatar = new NonCachingImage("avatar", new ImageAvatarResource(eater));
         imagecontatiner.add(avatar);
     }
 
@@ -160,27 +164,27 @@ public class EaterAccountPage extends BasePage {
         @Override
         protected void onSubmit(AjaxRequestTarget target, Form form) {
             FileUpload upload = ((FileUploadField) form.get("uploadField")).getFileUpload();
+            Eater refreshedEater = new Eater();
             if (upload != null) {
                 eater.setAvatar(upload.getBytes());
                 try {
                     eaterService.update(eater);
                     eater = eaterService.getByID(eater.getId());
+                    refreshedEater = eaterService.getByID(eater.getId());
                     getFeedbackPanel().info("picture changed");
                 } catch (YoueatException e) {
-                    getFeedbackPanel().error(getString("An error occurred"));
+                    getFeedbackPanel().error(getString("genericErrorMessage"));
                 }
             }
             //it's necessary to remove the initial reference to default avatar
-            avatar.setImageResourceReference(null);
-            avatar.setImageResource(new DynamicImageResource() {
-                @Override
-                protected byte[] getImageData() {
-                    return eater.getAvatar();
-                }
-            });
+            //ImagesAvatar imagesAvatar = new ImagesAvatar();
+            //avatar = imagesAvatar.getAvatar(avatar.getId(), eater, this.getPage(), false);
+            avatar = new NonCachingImage(avatar.getId(), new ImageAvatarResource(eater));
+            //avatar = new NonCachingImage(avatar.getId(), new ThumbnailImageResource(new ByteArrayResource("image/png", refreshedEater.getAvatar()), 100));
             if (target != null) {
                 target.addComponent((form.get("imageContainer")));
                 target.addComponent(getFeedbackPanel());
+                target.addComponent(imagecontatiner);
             }
         }
     }

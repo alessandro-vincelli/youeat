@@ -17,6 +17,7 @@
 	        	</tr>
 	        </table>
             
+            <span wicket:id="picturesListContainer">
             <ul class="picturesList">
                 <li wicket:id="picturesList">
                 <div id="picturesList">
@@ -27,16 +28,17 @@
                 </div>
                 </li>
             </ul>
+            </span>
         	</fieldset>
         </form>
         <p class="submitarea buttons">
-            <input class="submitButton" type="submit" wicket:id="buttonOpenAddedRisto" wicket:message="value:button.openAddedRistoRight"></input>
+            <input class="submitButton" type="submit" wicket:id="buttonOpenAddedRisto" wicket:message="value:button.backToRistoRight"></input>
          </p>
        </div>
        </div>
     <div id="navigation">
         <div class="buttonNavigation buttons">
-        <input class="submitButton" type="submit" wicket:id="buttonOpenAddedRistoRight" wicket:message="value:button.openAddedRistoRight"></input>
+        <input class="submitButton" type="submit" wicket:id="buttonOpenAddedRistoRight" wicket:message="value:button.backToRistoRight"></input>
         </div>
     </div>
 </wicket:extend>

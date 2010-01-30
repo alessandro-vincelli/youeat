@@ -33,6 +33,7 @@ import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadProgressBar;
 import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
@@ -57,9 +58,9 @@ public class RistoranteEditPicturePage extends BasePage {
     private RistorantePictureService ristorantePictureService;
 
     private Form<Ristorante> pictForm;
-    private FileUploadField uploadField;
     private ListView<RistorantePicture> picturesList;
     private final String ristoranteId;
+    private WebMarkupContainer picturesListContainer;
 
     /**
      * @param ristorante
@@ -77,7 +78,7 @@ public class RistoranteEditPicturePage extends BasePage {
         add(getFeedbackPanel());
         ristoranteId = parameters.getString(YoueatHttpParams.RISTORANTE_ID, "");
         if (StringUtils.isNotBlank(ristoranteId)) {
-            //this.ristorante = ristoranteService.getByID(ristoranteId);
+            // this.ristorante = ristoranteService.getByID(ristoranteId);
         } else {
             throw new RestartResponseAtInterceptPageException(getApplication().getHomePage());
         }
@@ -89,14 +90,14 @@ public class RistoranteEditPicturePage extends BasePage {
             }
         });
         add(pictForm);
-        pictForm.setOutputMarkupId(true);
+        //pictForm.setOutputMarkupId(true);
         pictForm.setMultiPart(true);
         pictForm.setMaxSize(Bytes.megabytes(1));
-        uploadField = new FileUploadField("uploadField");
+        FileUploadField uploadField = new FileUploadField("uploadField");
         pictForm.add(uploadField);
         pictForm.add(new UploadProgressBar("progressBar", pictForm, uploadField));
         pictForm.add(new SubmitButton("submitForm", pictForm));
-
+        
         picturesList = new ListView<RistorantePicture>("picturesList", new PicturesModel()) {
             @Override
             protected void populateItem(final ListItem<RistorantePicture> item) {
@@ -133,7 +134,7 @@ public class RistoranteEditPicturePage extends BasePage {
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                         try {
                             RistorantePicture picture = item.getModelObject();
-                            Ristorante risto = ((Ristorante)getForm().getModelObject());
+                            Ristorante risto = ((Ristorante) getForm().getModelObject());
                             risto.getPictures().remove(picture);
                             ristoranteService.updateNoRevision(risto);
                             ristorantePictureService.remove(picture);
@@ -141,11 +142,11 @@ public class RistoranteEditPicturePage extends BasePage {
                         } catch (YoueatException e) {
                             error(getString("genericErrorMessage"));
                         }
-                        if(target != null){
-                            target.addComponent(pictForm);
-                            target.addComponent(getFeedbackPanel());  
+                        if (target != null) {
+                            target.addComponent(picturesListContainer);
+                            target.addComponent(getFeedbackPanel());
                         }
-                        
+
                     }
                 });
                 item.add(ImageRisto.getImage("picture", item.getModelObject().getPicture(), 130, 130, false));
@@ -153,12 +154,16 @@ public class RistoranteEditPicturePage extends BasePage {
         };
         picturesList.setOutputMarkupId(true);
         picturesList.setReuseItems(false);
-        pictForm.add(picturesList);
+        picturesListContainer = new WebMarkupContainer("picturesListContainer");
+        picturesListContainer.setOutputMarkupId(true);
+        pictForm.add(picturesListContainer);
+        picturesListContainer.add(picturesList);
 
-        ButtonOpenRisto buttonOpenAddedRisto = new ButtonOpenRisto("buttonOpenAddedRisto",  pictForm.getModel(), true);
+        ButtonOpenRisto buttonOpenAddedRisto = new ButtonOpenRisto("buttonOpenAddedRisto", pictForm.getModel(), true);
         add(buttonOpenAddedRisto);
 
-        ButtonOpenRisto buttonOpenAddedRistoRight = new ButtonOpenRisto("buttonOpenAddedRistoRight", pictForm.getModel(), true);
+        ButtonOpenRisto buttonOpenAddedRistoRight = new ButtonOpenRisto("buttonOpenAddedRistoRight", pictForm
+                .getModel(), true);
         add(buttonOpenAddedRistoRight);
     }
 
@@ -171,19 +176,20 @@ public class RistoranteEditPicturePage extends BasePage {
 
         @Override
         protected void onSubmit(AjaxRequestTarget target, Form form) {
-            final FileUpload upload = uploadField.getFileUpload();
+            FileUpload upload = ((FileUploadField)form.get("uploadField")).getFileUpload();
             if (upload != null) {
-                Ristorante risto = ((Ristorante)form.getModelObject());
+                Ristorante risto = ((Ristorante) form.getModelObject());
                 risto.addPicture(new RistorantePicture(upload.getBytes(), true));
                 try {
                     ristoranteService.updateNoRevision(risto);
                     picturesList.setModel(new PicturesModel());
+                    info(getString("info.pictureupLoaded"));
                 } catch (YoueatException e) {
                     getFeedbackPanel().error(getString("genericErrorMessage"));
                 }
             }
             if (target != null) {
-                target.addComponent(form);
+                target.addComponent(picturesListContainer);
                 target.addComponent(getFeedbackPanel());
             }
         }
@@ -191,7 +197,10 @@ public class RistoranteEditPicturePage extends BasePage {
         @Override
         protected void onError(AjaxRequestTarget target, Form<?> form) {
             super.onError(target, form);
-            target.addComponent(getFeedbackPanel());
+            getFeedbackPanel().error(getString("genericErrorMessage"));
+            if (target != null) {
+                target.addComponent(getFeedbackPanel());
+            }
         }
     }
 

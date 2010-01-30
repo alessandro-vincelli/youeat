@@ -102,6 +102,7 @@ div#footer p {
     display: inline;
     font-size: 1em;
     padding: 0.5em 0.15em 0.5em 0.5em;
+    white-space: nowrap;
 }
 
 #menu li a {
@@ -162,14 +163,13 @@ div#footer p {
 }
 
 .activitiesList {
-    width: 100%;
+    width: 95%;
     list-style-image: none;
     list-style-type: none;
     font-size: x-small;
     text-align: left;
     padding-bottom: 2px;
     padding-left: 6px;
-    padding-right: 2px;
     margin-left: 0px;
 }
 
@@ -622,6 +622,15 @@ td.submitarea {
     width: auto;
 }
 
+.buttons-centered-area{
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+.buttons-centered-area a {
+    
+}
+
 .moreActivitiesArea {
     text-align: center;
 }
@@ -924,10 +933,12 @@ feedbackPanelERROR {
 
 .gmap {
     display: block;
-    width: 100%; 
+    width: auto; 
     height: 300px;
     margin-left: 10px;
-    margin-right: 25px; 
+    margin-top: 5px;
+    margin-right: 25px;
+    margin-bottom: 5px; 
 }
 
 .smalltext {
@@ -947,7 +958,7 @@ feedbackPanelERROR {
     text-align: left;
 }
 
-.buttons button , .buttons input{
+.buttons button , .buttons input, .buttons a{
     /*display: block;*/
     margin:0px 0px 0px 0px;
     background-color:#f5f5f5;
@@ -963,8 +974,9 @@ feedbackPanelERROR {
     color:#565656;
     cursor:pointer;
     padding:5px 10px 6px 7px; /* Links */
+    float: none;
 }
-.buttons button .buttons input{
+.buttons button, .buttons input, .buttons a{
     /*width:auto;
     overflow:visible;*/
     padding:4px 10px 3px 7px; /* IE6 */
@@ -988,7 +1000,7 @@ feedbackPanelERROR {
 
 /* STANDARD */
 
-button:hover, .buttons input:hover{
+button:hover, .buttons input:hover, .buttons a:hover{
     background-color:#dff4ff;
     border:1px solid #c2e1ef;
     color:#336699;
@@ -1068,7 +1080,7 @@ button.positive, .buttons a.positive{
 }
 
 .buttonNavigation{
-    margin-left: 0px;
+    margin-left: -20px;
     text-align: center;   
 }
 

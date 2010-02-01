@@ -87,7 +87,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         GLatLng gLatLng = getGLatLng(ristoToSave);
         ristoToSave.setLatitude(gLatLng.getLat());
         ristoToSave.setLongitude(gLatLng.getLng());
-        return update(risto, user);
+        return update(ristoToSave, user);
     }
 
     /**

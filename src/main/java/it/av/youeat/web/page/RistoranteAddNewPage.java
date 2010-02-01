@@ -99,7 +99,7 @@ public class RistoranteAddNewPage extends BasePage {
      * 
      * @throws YoueatException
      */
-    public RistoranteAddNewPage(){
+    public RistoranteAddNewPage() {
         ristorante = new Ristorante();
         ristorante.addDescriptions(getDescriptionI18n());
         ristorante.setCountry(getLoggedInUser().getCountry());
@@ -153,14 +153,23 @@ public class RistoranteAddNewPage extends BasePage {
                 cityName = (String) object;
             }
         });
-        // With this component the city model is updated correctly after every change
+        // With this component the city model is updated correctly after every change, fixing also the case of the city
         city.add(new AjaxFormComponentUpdatingBehavior("onchange") {
             @Override
             protected void onUpdate(AjaxRequestTarget target) {
-                // TODO Auto-generated method stub
+                String ristoName = getComponent().getDefaultModelObjectAsString();
+                Country ristoCountry = ((DropDownChoice<Country>) form.get(Ristorante.COUNTRY)).getModelObject();
+                ristoName = StringEscapeUtils.unescapeHtml(ristoName);
+                City city = cityService.getByNameAndCountry(ristoName, ristoCountry);
+                if(city != null){
+                    getComponent().setDefaultModelObject(city.getName());    
+                }
+                if(target != null){
+                    target.addComponent(getComponent());
+                }
             }
         });
-        //city.add(new CityValidator());
+        // city.add(new CityValidator());
         form.add(city);
         form.add(new RequiredTextField<String>(Ristorante.PROVINCE));
         form.add(new RequiredTextField<String>(Ristorante.POSTALCODE));
@@ -305,7 +314,6 @@ public class RistoranteAddNewPage extends BasePage {
             }
         }
     }
-
 
     public RistoranteDescriptionI18n getDescriptionI18n() throws YoueatException {
         Locale locale = Locales.getSupportedLocale(getLocale());

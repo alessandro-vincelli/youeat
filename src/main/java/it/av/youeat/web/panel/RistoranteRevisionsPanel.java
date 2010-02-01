@@ -1,6 +1,7 @@
 package it.av.youeat.web.panel;
 
 import it.av.youeat.YoueatException;
+import it.av.youeat.ocm.model.Language;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.RistoranteRevision;
 import it.av.youeat.web.util.TextDiffRender;
@@ -9,10 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.LoadableDetachableModel;
 
 /**
  * The panel displays the revisions form
@@ -25,11 +28,12 @@ public class RistoranteRevisionsPanel extends Panel {
     private PropertyListView<RistoranteRevision> productsVersionsList;
     private List<RistoranteRevision> revisions = new ArrayList<RistoranteRevision>();
     final FeedbackPanel feedbackPanel;
+    private String descriptionOri = "";
+    private String descriptionNew = "";
 
     /**
      * Constructor
      * 
-     * @param revisions
      * @param id
      * @param feedbackPanel
      */
@@ -45,6 +49,7 @@ public class RistoranteRevisionsPanel extends Panel {
                 item.add(new Label("modificationTime"));
                 item.add(new Label("name").setEscapeModelStrings(false));
                 item.add(new Label("address").setEscapeModelStrings(false));
+                item.add(new MultiLineLabel("descriptionDiff").setEscapeModelStrings(false));
             }
         };
         add(productsVersionsList.setOutputMarkupId(true));
@@ -56,25 +61,26 @@ public class RistoranteRevisionsPanel extends Panel {
      * 
      * @throws YoueatException
      */
-    public void refreshRevisionsList(Ristorante ristoSelected) {
-        try {
-            if (ristoSelected != null) {
-                // revisions = RistoranteRevisionUtil.cloneList(ristoSelected.getRevisions());
-                revisions = ristoSelected.getRevisions();
-                if (revisions.size() > 1) {
-                    // Latest two releases
-                    RistoranteRevision r1 = revisions.get(revisions.size() - 1);
-                    RistoranteRevision r2 = revisions.get(revisions.size() - 2);
-                    performDiff(r2, r1);
-                }
+    public void refreshRevisionsList(final Ristorante ristoSelected, final Language langSelected) {
+        if (ristoSelected != null) {
+            // revisions = RistoranteRevisionUtil.cloneList(ristoSelected.getRevisions());
 
-                productsVersionsList.setModelObject(revisions);
-            } else {
-                productsVersionsList.setModelObject(revisions);
-            }
-        } catch (YoueatException e) {
-            feedbackPanel.error(e.getMessage());
+            productsVersionsList.setModel(new LoadableDetachableModel<List<RistoranteRevision>>() {
+
+                @Override
+                protected List<RistoranteRevision> load() {
+                    List<RistoranteRevision> revisions = ristoSelected.getRevisions();
+                    if (revisions.size() > 1) {
+                        // Latest two releases, reverse order!
+                        RistoranteRevision r1 = revisions.get(1);
+                        RistoranteRevision r2 = revisions.get(0);
+                        performDiff(r1, r2, langSelected);
+                    }
+                    return revisions;
+                }
+            });
         }
+
     }
 
     public final PropertyListView<RistoranteRevision> getProductsVersionsList() {
@@ -85,15 +91,15 @@ public class RistoranteRevisionsPanel extends Panel {
         this.productsVersionsList = productsVersionsList;
     }
 
-    private void performDiff(RistoranteRevision ori, RistoranteRevision newVer) throws YoueatException {
+    private void performDiff(RistoranteRevision ori, RistoranteRevision newVer, Language lang) throws YoueatException {
         TextDiffRender diffRender = new TextDiffRender();
 
-        // description is deprecated, now it must be supported multilanguage descriptions
-        // String[] diff = diffRender.render(ori.getDescription(), newVer.getDescription());
-        // ori.setDescription(diff[0]);
-        // newVer.setDescription(diff[1]);
+        //description is deprecated, now it must be supported multilanguage descriptions
+        String[] diff = diffRender.render(ori.getDesctiptionByLanguage(lang).getDescription(), newVer.getDesctiptionByLanguage(lang).getDescription());
+        ori.setDescriptionDiff(diff[0]);
+        newVer.setDescriptionDiff(diff[1]);
 
-        String[] diff = diffRender.render(ori.getName(), newVer.getName());
+        diff = diffRender.render(ori.getName(), newVer.getName());
         ori.setName(diff[0]);
         newVer.setName(diff[1]);
 

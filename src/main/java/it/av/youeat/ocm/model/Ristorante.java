@@ -66,7 +66,7 @@ import org.hibernate.search.annotations.TokenizerDef;
         @TokenFilterDef(factory = StopFilterFactory.class, params = {
                 @Parameter(name = "words", value = "properties/stoplist.properties"),
                 @Parameter(name = "ignoreCase", value = "true") }) })
-public class Ristorante extends BasicEntity{
+public class Ristorante extends BasicEntity {
 
     public static final String PATH = "path";
     public static final String NAME = "name";
@@ -93,7 +93,7 @@ public class Ristorante extends BasicEntity{
     private int version;
     @Field(index = Index.TOKENIZED, store = Store.NO)
     @Analyzer(definition = "ristoranteanalyzer")
-    @org.hibernate.annotations.Index(name="risto_name_index")
+    @org.hibernate.annotations.Index(name = "risto_name_index")
     private String name;
     @Field
     private String address;
@@ -121,7 +121,7 @@ public class Ristorante extends BasicEntity{
     private Date creationTime;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @org.hibernate.annotations.Index(name="risto_modificationtime_index")
+    @org.hibernate.annotations.Index(name = "risto_modificationtime_index")
     private Date modificationTime;
 
     private String phoneNumber;
@@ -129,7 +129,7 @@ public class Ristorante extends BasicEntity{
     private String mobilePhoneNumber;
 
     private String faxNumber;
-    @org.hibernate.annotations.Index(name="risto_revisionNumber_index")
+    @org.hibernate.annotations.Index(name = "risto_revisionNumber_index")
     private int revisionNumber;
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
@@ -168,7 +168,6 @@ public class Ristorante extends BasicEntity{
         tags = new ArrayList<Tag>();
         activities = new ArrayList<ActivityRistorante>();
         revisions = new ArrayList<RistoranteRevision>();
-        types = new RistoranteTypes();
         descriptions = new ArrayList<RistoranteDescriptionI18n>();
         pictures = new ArrayList<RistorantePicture>();
     }
@@ -496,7 +495,7 @@ public class Ristorante extends BasicEntity{
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
-    
+
     /**
      * Add a new comment
      * 
@@ -525,14 +524,14 @@ public class Ristorante extends BasicEntity{
             return 0;
         }
     }
-    
+
     /**
-     * Add a {@link RistoranteDescriptionI18n} item of not yet present for the given language  
+     * Add a {@link RistoranteDescriptionI18n} item of not yet present for the given language
      * 
      * @param language
      * @return ristorante
      */
-    public Ristorante addDescLangIfNotPresent(Language language){
+    public Ristorante addDescLangIfNotPresent(Language language) {
         boolean langpresent = false;
         for (RistoranteDescriptionI18n ristoranteDescriptionI18n : this.getDescriptions()) {
             if (ristoranteDescriptionI18n.getLanguage().equals(language)) {
@@ -541,8 +540,42 @@ public class Ristorante extends BasicEntity{
         }
         if (!(langpresent)) {
             this.addDescriptions(new RistoranteDescriptionI18n(language));
-        }    
+        }
         return this;
     }
-    
+
+    /**
+     * Chek if exists a description for the given language and is not empty
+     * 
+     * @param language the language to check
+     * @return true if the exists a description
+     */
+    public boolean checkDesctiption(Language language) {
+        boolean langpresent = false;
+        for (RistoranteDescriptionI18n ristoranteDescriptionI18n : this.getDescriptions()) {
+            if (ristoranteDescriptionI18n.getLanguage().equals(language)
+                    && ristoranteDescriptionI18n.getDescription() != null
+                    && !ristoranteDescriptionI18n.getDescription().isEmpty()) {
+                langpresent = true;
+            }
+        }
+        return langpresent;
+    }
+
+    /**
+     * return the description for the current language, empty description otherwise
+     * 
+     * @param language the language to check
+     * @return a description
+     */
+    public RistoranteDescriptionI18n getDesctiptionByLanguage(Language language) {
+        RistoranteDescriptionI18n i18n = new RistoranteDescriptionI18n(language);
+        for (RistoranteDescriptionI18n ristoranteDescriptionI18n : this.getDescriptions()) {
+            if (ristoranteDescriptionI18n.getLanguage().equals(language)) {
+                i18n = ristoranteDescriptionI18n;
+            }
+        }
+        return i18n;
+    }
+
 }

@@ -39,6 +39,7 @@ public class CityAutocompleteBox extends AutoCompleteTextField<String> {
         setRequired(true);
         setLabel(new Model<String>(getString("city")));
         InjectorHolder.getInjector().inject(this);
+        setOutputMarkupId(true);
     }
 
     /**

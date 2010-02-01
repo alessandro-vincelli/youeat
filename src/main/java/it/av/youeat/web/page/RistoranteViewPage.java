@@ -154,7 +154,7 @@ public class RistoranteViewPage extends BasePage {
                     @Override
                     protected void onComponentTag(ComponentTag tag) {
                         super.onComponentTag(tag);
-                        boolean langpresent = isDescriptionPresentOnTheGivenLanguage(ristorante, item.getModelObject());
+                        boolean langpresent = ristorante.checkDesctiption(item.getModelObject());
                         HashMap<String, String> tagAttrs = new HashMap<String, String>();
                         if (!langpresent) {
                             tagAttrs.put("title", getString("descriptionNotAvailableLang"));
@@ -230,6 +230,10 @@ public class RistoranteViewPage extends BasePage {
                     setHasVoted(Boolean.TRUE);
                     ristoranteService.addRate(getRistorante(), getLoggedInUser(), rating);
                     ristorante = ristoranteService.getByID(ristorante.getId());
+                    info(getString("info.ratingSaved"));
+                    if(target != null){
+                        target.addComponent(getFeedbackPanel());
+                    }
                 } catch (YoueatException e) {
                     error(e);
                 }
@@ -326,7 +330,7 @@ public class RistoranteViewPage extends BasePage {
         add(new AjaxLink("showsAllRevisions") {
             public void onClick(AjaxRequestTarget target) {
                 ((RistoranteRevisionsPanel) revisionsPanel.get(revisionsPanel.getContentId()))
-                        .refreshRevisionsList(ristorante);
+                        .refreshRevisionsList(ristorante, actualDescriptionLanguage);
                 revisionsPanel.show(target);
             }
         });
@@ -521,44 +525,6 @@ public class RistoranteViewPage extends BasePage {
         }
         Assert.notNull(lang);
         return lang;
-    }
-
-    /**
-     * Chek if the given risto has a not empty description on the given language
-     * 
-     * @param ristorante the risto to verify
-     * @param language the language to check
-     * @return true if the risto has desc on the given lang
-     */
-    private boolean isDescriptionPresentOnTheGivenLanguage(Ristorante ristorante, Language language) {
-        List<RistoranteDescriptionI18n> descs = ristorante.getDescriptions();
-        boolean langpresent = false;
-        for (RistoranteDescriptionI18n ristoranteDescriptionI18n : descs) {
-            if (ristoranteDescriptionI18n.getLanguage().equals(language)
-                    && ristoranteDescriptionI18n.getDescription() != null
-                    && !ristoranteDescriptionI18n.getDescription().isEmpty()) {
-                langpresent = true;
-            }
-        }
-        return langpresent;
-    }
-
-    /**
-     * Chek if the given risto has a not empty description on the given language
-     * 
-     * @param ristorante the risto to verify
-     * @param language the language to check
-     * @return true if the description is currently the
-     */
-    private boolean isTheCurrentDescriptionLanguage(Ristorante ristorante, Language language) {
-        List<RistoranteDescriptionI18n> descs = ristorante.getDescriptions();
-        boolean langpresent = false;
-        for (RistoranteDescriptionI18n ristoranteDescriptionI18n : descs) {
-            if (ristoranteDescriptionI18n.getLanguage().equals(language)) {
-                langpresent = true;
-            }
-        }
-        return langpresent;
     }
 
     private final class NewCommentButton extends AjaxFallbackLink<String> {

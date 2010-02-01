@@ -1,12 +1,12 @@
 <wicket:panel>
-	<table class="datatable">
+	<table class="datatableRevision">
 		<tr>
-			<td colspan="3"><label><strong>Revisions</strong></label></td>	
+			<td colspan="6"><label><strong><wicket:message key="revisions"/></strong></label></td>	
 		</tr>
         <tr>
-        	<th></th>
-        	<th><label for="versionNumber"><wicket:message key="revisionNumber"/></label></th>
-        	<th><label for="modificationTime"><wicket:message key="modificationTime"/></label></th>
+        	<th class="small"></th>
+        	<th class="small"></th>
+        	<th class="medium"><label for="modificationTime"><wicket:message key="modificationTime"/></label></th>
         	<th><label for="name"><wicket:message key="name"/></label></th>
         	<th><label for="address"><wicket:message key="address"/></label></th>
         	<th><label for="description"><wicket:message key="description"/></label></th>
@@ -17,6 +17,7 @@
 			<td><span wicket:id="modificationTime"></span></td>
 			<td><span wicket:id="name"></span></td>
 			<td><span wicket:id="address"></span></td>
+            <td class="description"><span wicket:id="descriptionDiff"></span></td>
 		</tr>
 	</table>
 </wicket:panel>

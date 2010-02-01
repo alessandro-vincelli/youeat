@@ -118,7 +118,7 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
      */
     @Override
     public Collection<DataRistorante> getBy(String pattern, String city, Country country) {
-        Criterion critByName = Restrictions.eq(Ristorante.NAME, pattern);
+        Criterion critByName = Restrictions.ilike(Ristorante.NAME, pattern);
         Criterion critByCity = Restrictions.eq(Ristorante.CITY, city);
         Criterion critByCountry = Restrictions.eq(Ristorante.COUNTRY, country.getIso2());
         List<DataRistorante> results = findByCriteria(critByName, critByCity, critByCountry);

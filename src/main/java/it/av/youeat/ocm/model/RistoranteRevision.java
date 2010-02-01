@@ -31,6 +31,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -49,7 +50,7 @@ import org.springframework.beans.BeansException;
 @Table(appliesTo = "ristorante_revision", indexes = {
         @Index(name = "ristoRevision_revisionnumber_index", columnNames = { "revisionNumber" }),
         @Index(name = "ristoRevision_modificationtime_index", columnNames = { "modificationTime" }) })
-public class RistoranteRevision extends BasicEntity implements Cloneable {
+public class RistoranteRevision extends BasicEntity{
 
     public static final String RISTORANTEREVISION = "ristoranteRevision";
     public static final String ID_RISTORANTE = "ristorante_id";
@@ -90,6 +91,11 @@ public class RistoranteRevision extends BasicEntity implements Cloneable {
     @Fetch(FetchMode.SELECT)
     @JoinTable
     private List<RistoranteDescriptionI18n> descriptions;
+    /**
+     * the field is used only to show difference on description
+     */
+    @Transient
+    private transient String descriptionDiff;
     
     private double longitude;
     private double latitude;
@@ -250,6 +256,36 @@ public class RistoranteRevision extends BasicEntity implements Cloneable {
         this.revisionNumber = revisionNumber;
     }
 
+    /**
+     * @return the descriptionDiff
+     */
+    public String getDescriptionDiff() {
+        return descriptionDiff;
+    }
+
+    /**
+     * @param descriptionDiff the descriptionDiff to set
+     */
+    public void setDescriptionDiff(String descriptionDiff) {
+        this.descriptionDiff = descriptionDiff;
+    }
+
+    /**
+     * return the description for the current language, empty description otherwise
+     * 
+     * @param language the language to check
+     * @return a description
+     */
+    public RistoranteDescriptionI18n getDesctiptionByLanguage(Language language) {
+        RistoranteDescriptionI18n i18n = new RistoranteDescriptionI18n(language);
+        for (RistoranteDescriptionI18n ristoranteDescriptionI18n : this.getDescriptions()) {
+            if (ristoranteDescriptionI18n.getLanguage().equals(language)) {
+                i18n = ristoranteDescriptionI18n;
+            }
+        }
+        return i18n;
+    }
+    
 //    @Override
 //    public RistoranteRevision clone() {
 //        return BeanUtils.;

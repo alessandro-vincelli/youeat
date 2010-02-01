@@ -34,6 +34,7 @@ public class RistoranteDescriptionI18n extends BasicEntity {
     public RistoranteDescriptionI18n(Language language) {
         super();
         this.language = language;
+        this.description = "";
     }
 
     public Language getLanguage() {

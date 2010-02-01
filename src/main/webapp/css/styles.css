@@ -246,6 +246,10 @@ div#footer p {
     width: 50em;
 }
 
+.datatable tr.norecords-tr{
+    display: none;
+}
+
 input[type="text"],fieldset input[type="password"],fieldset textarea,fieldset select,fieldset checkbox
     {
     border: 1px solid #AAAAAA;
@@ -1167,6 +1171,10 @@ button.positive, .buttons a.positive{
     text-align: center;
     display: block;
 }
+
+.signupLinkMenu{
+    margin-right: 20px;
+}
 /*button {
     border: 1px solid #AAAAAA;
     padding: 4px 2px;
@@ -1176,3 +1184,35 @@ button.positive, .buttons a.positive{
     -moz-border-radius-topright: 5px;
 }
 */
+
+.datatableRevision {
+    width: 90%;
+    margin-left: 3%;
+    margin-right: 3%;
+    text-align: left;
+    font-size: x-small;
+}
+
+.datatableRevision th {
+    text-align: center;
+}
+
+.datatableRevision td {
+    font-weight: normal;
+    border-bottom: 1px solid #EEEEEE;
+    text-align: center;
+}
+
+.datatableRevision td.description {
+    font-weight: normal;
+    text-align: justify;
+    width: 45em;
+}
+
+.datatableRevision th.small {
+    width: 2em;
+}
+
+.datatableRevision th.medium {
+    width: 10em;
+}

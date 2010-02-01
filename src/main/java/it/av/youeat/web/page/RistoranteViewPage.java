@@ -125,16 +125,6 @@ public class RistoranteViewPage extends BasePage {
         formRisto.setOutputMarkupId(true);
         formRisto.add(new Label(Ristorante.NAME));
 
-        Label typeRistoranteLabel = new Label("typeRistoranteLabel", getString("type.Ristorante"));
-        typeRistoranteLabel.setVisible(ristorante.getTypes().isRistorante());
-        formRisto.add(typeRistoranteLabel);
-        Label typePizzeriaLabel = new Label("typePizzeriaLabel", getString("type.Pizzeria"));
-        typePizzeriaLabel.setVisible(ristorante.getTypes().isPizzeria());
-        formRisto.add(typePizzeriaLabel);
-        Label typeBarLabel = new Label("typeBarLabel", getString("type.Bar"));
-        typeBarLabel.setVisible(ristorante.getTypes().isBar());
-        formRisto.add(typeBarLabel);
-
         formRisto.add(new SmartLinkLabel(Ristorante.WWW));
         formRisto.add(new ListView<Tag>(Ristorante.TAGS) {
             private static final long serialVersionUID = 1L;

@@ -8,4 +8,8 @@ public class YoueatHttpParams {
     public static final String YOUEAT_ID = "eater";
     public static final String DIALOG_ID = "dialogId";
     public static final String RISTORANTE_ID = "ristoId";
+    /**
+     * prevalently used to create a URL that contains the name and the city of the risto 
+     */
+    public static final String RISTORANTE_NAME_AND_CITY = "nameRistoCity";
 }

@@ -32,6 +32,7 @@ import it.av.youeat.web.components.FriedEaterListView;
 import it.av.youeat.web.components.ImageRisto;
 import it.av.youeat.web.panel.RistoranteRevisionsPanel;
 import it.av.youeat.web.util.DefaultFocusBehavior;
+import it.av.youeat.web.util.RistoranteUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -488,7 +489,7 @@ public class RistoranteViewPage extends BasePage {
     }
 
     public RistoranteViewPage(Ristorante ristorante) throws YoueatException {
-        this(new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
+        this(RistoranteUtil.createParamsForRisto(ristorante));
     }
 
     public final Ristorante getRistorante() {

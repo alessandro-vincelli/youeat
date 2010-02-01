@@ -102,7 +102,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new MixedParamHybridUrlCodingStrategy("/editRistorante", RistoranteEditDataPage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
         mount(new MixedParamHybridUrlCodingStrategy("/editAddressRistorante", RistoranteEditAddressPage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
         mount(new MixedParamHybridUrlCodingStrategy("/editPicturesRistorante", RistoranteEditPicturePage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
-        mount(new MixedParamHybridUrlCodingStrategy("/viewRistorante", RistoranteViewPage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
+        mount(new MixedParamHybridUrlCodingStrategy("/viewRistorante", RistoranteViewPage.class, new String[]{YoueatHttpParams.RISTORANTE_NAME_AND_CITY, YoueatHttpParams.RISTORANTE_ID}));
         mount(new HybridUrlCodingStrategy("/searchFriends", SearchFriendPage.class));
         mount(new HybridUrlCodingStrategy("/friends", FriendsPage.class)); 
         mount(new IndexedParamUrlCodingStrategy("/signUp", SignUpPage.class));

@@ -27,6 +27,7 @@ import it.av.youeat.web.commons.ActivityCommons;
 import it.av.youeat.web.commons.ActivityPaging;
 import it.av.youeat.web.components.SendMessageButton;
 import it.av.youeat.web.components.SendMessageModalWindow;
+import it.av.youeat.web.util.RistoranteUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,8 +104,7 @@ public class EaterViewPage extends BasePage {
                 item.add(new Label("date.time", periodUtil.getPeriod(item.getModelObject().getDate().getTime(),
                         getLocale())));
                 BookmarkablePageLink<String> ristoLink = new BookmarkablePageLink<String>("ristorante.link",
-                        RistoranteViewPage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "="
-                                + item.getModelObject().getRistorante().getId()));
+                        RistoranteViewPage.class, RistoranteUtil.createParamsForRisto(item.getModelObject().getRistorante()));
                 ristoLink.add(new Label("ristorante.name"));
                 item.add(ristoLink);
             }

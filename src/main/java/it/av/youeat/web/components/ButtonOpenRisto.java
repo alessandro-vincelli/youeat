@@ -2,11 +2,8 @@ package it.av.youeat.web.components;
 
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.web.page.RistoranteViewPage;
-import it.av.youeat.web.page.YoueatHttpParams;
+import it.av.youeat.web.util.RistoranteUtil;
 
-import java.util.HashMap;
-
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.model.IModel;
@@ -29,8 +26,6 @@ public class ButtonOpenRisto extends AjaxFallbackLink<Ristorante> {
 
     @Override
     public void onClick(AjaxRequestTarget target) {
-        HashMap<String, String> parameterMap = new HashMap<String, String>();
-        parameterMap.put(YoueatHttpParams.RISTORANTE_ID, getModelObject().getId());
-        setResponsePage(RistoranteViewPage.class, new PageParameters(parameterMap));
+        setResponsePage(RistoranteViewPage.class, RistoranteUtil.createParamsForRisto(getModelObject()));
     }
 }

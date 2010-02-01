@@ -6,6 +6,7 @@ import it.av.youeat.web.commons.ActivityCommons;
 import it.av.youeat.web.page.EaterViewPage;
 import it.av.youeat.web.page.RistoranteViewPage;
 import it.av.youeat.web.page.YoueatHttpParams;
+import it.av.youeat.web.util.RistoranteUtil;
 
 import java.util.List;
 
@@ -19,6 +20,12 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+/**
+ * Shows a list of activities on risto
+ * 
+ * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
+ * 
+ */
 public class ActivitiesListView extends PropertyListView<ActivityRistorante> {
     private boolean showEater;
     @SpringBean
@@ -42,8 +49,7 @@ public class ActivitiesListView extends PropertyListView<ActivityRistorante> {
         item.add(ActivityCommons.createActivityIcon(getPage().getClass(), item));
         item.add(new Label("date.time", periodUtil.getPeriod(item.getModelObject().getDate().getTime(), getLocale())));
         BookmarkablePageLink<String> ristoLink = new BookmarkablePageLink<String>("ristorante.link",
-                RistoranteViewPage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "="
-                        + item.getModelObject().getRistorante().getId()));
+                RistoranteViewPage.class, RistoranteUtil.createParamsForRisto(item.getModelObject().getRistorante()));
         ristoLink.add(new Label("ristorante.name"));
         item.add(ristoLink);
         item.add(new Label("activityDesc", getString(item.getModelObject().getType())));

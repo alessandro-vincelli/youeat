@@ -2,11 +2,8 @@ package it.av.youeat.web.components;
 
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.web.page.RistoranteViewPage;
-import it.av.youeat.web.page.YoueatHttpParams;
+import it.av.youeat.web.util.RistoranteUtil;
 
-import java.util.HashMap;
-
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -30,9 +27,7 @@ public class RistoNameColumn extends Panel {
 
             @Override
             public void onClick() {
-                HashMap<String, String> parameterMap = new HashMap<String, String>();
-                parameterMap.put(YoueatHttpParams.RISTORANTE_ID, getModelObject().getId());
-                setResponsePage(RistoranteViewPage.class, new PageParameters(parameterMap));
+                setResponsePage(RistoranteViewPage.class, RistoranteUtil.createParamsForRisto(getModelObject()));
             }
         };
         link.add(new Label("name", model.getObject().getName()));

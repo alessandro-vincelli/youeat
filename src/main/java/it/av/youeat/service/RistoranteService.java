@@ -43,6 +43,16 @@ public interface RistoranteService {
      */
     @Transactional
     Ristorante update(Ristorante risto, Eater user);
+    
+    /**
+     * Update a ristorante, and refresh latitude and longitude
+     * 
+     * @param risto the Risto to be modified
+     * @param user the user that is performing the modification
+     * @return ristorante
+     */
+    @Transactional
+    Ristorante updateAddress(Ristorante risto, Eater user);
 
     /**
      * Insert a new ristorante

@@ -77,6 +77,18 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
                 ActivityRistorante.TYPE_MODIFICATION)));
         return save(risto);
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Ristorante updateAddress(Ristorante risto, Eater user) {
+        Ristorante ristoToSave = risto;
+        GLatLng gLatLng = getGLatLng(ristoToSave);
+        ristoToSave.setLatitude(gLatLng.getLat());
+        ristoToSave.setLongitude(gLatLng.getLng());
+        return update(risto, user);
+    }
 
     /**
      * {@inheritDoc}

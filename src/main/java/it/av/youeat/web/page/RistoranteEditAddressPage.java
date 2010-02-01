@@ -71,18 +71,16 @@ public class RistoranteEditAddressPage extends BasePage {
     /**
      * 
      * @param ristorante
-     * @throws YoueatException
      */
-    public RistoranteEditAddressPage(Ristorante ristorante) throws YoueatException {
+    public RistoranteEditAddressPage(Ristorante ristorante){
         this(new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
     }
 
     /**
      * 
      * @param parameters
-     * @throws YoueatException
      */
-    public RistoranteEditAddressPage(PageParameters parameters) throws YoueatException {
+    public RistoranteEditAddressPage(PageParameters parameters){
 
         String ristoranteId = parameters.getString(YoueatHttpParams.RISTORANTE_ID, "");
         if (StringUtils.isNotBlank(ristoranteId)) {
@@ -169,7 +167,7 @@ public class RistoranteEditAddressPage extends BasePage {
                         invalid();
                     }
                     ristorante.setCity(city);
-                    ristorante = ristoranteService.update(ristorante, getLoggedInUser());
+                    ristorante = ristoranteService.updateAddress(ristorante, getLoggedInUser());
                     getFeedbackPanel().info(getString("info.ristoranteupdated"));
                 } else {
                     getFeedbackPanel().error(getString("error.onUpdate"));
@@ -189,7 +187,9 @@ public class RistoranteEditAddressPage extends BasePage {
         @Override
         protected void onError(AjaxRequestTarget target, Form form) {
             getFeedbackPanel().anyErrorMessage();
-            target.addComponent(getFeedbackPanel());
+            if(target != null){
+                target.addComponent(getFeedbackPanel());    
+            }
         }
     }
 

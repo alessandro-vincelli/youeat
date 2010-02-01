@@ -2,11 +2,10 @@ package it.av.youeat.web.components;
 
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.web.page.RistoranteViewPage;
-import it.av.youeat.web.page.YoueatHttpParams;
+import it.av.youeat.web.util.RistoranteUtil;
 
 import java.util.List;
 
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -30,8 +29,7 @@ public class RistosListView extends PropertyListView<Ristorante> {
     @Override
     protected void populateItem(final ListItem<Ristorante> item) {
         BookmarkablePageLink<String> ristoLink = new BookmarkablePageLink<String>("ristorante.link",
-                RistoranteViewPage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "="
-                        + item.getModelObject().getId()));
+                RistoranteViewPage.class, RistoranteUtil.createParamsForRisto(item.getModelObject()));
         StringBuffer risto = new StringBuffer();
         risto.append(item.getModelObject().getName());
         risto.append(" <i>(");

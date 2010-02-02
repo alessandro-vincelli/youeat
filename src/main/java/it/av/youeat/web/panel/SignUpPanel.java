@@ -108,9 +108,8 @@ public class SignUpPanel extends Panel {
         signUpForm
                 .add(new RequiredTextField<String>(Eater.EMAIL).add(emailAddressValidator).add(emailPresentValidator));
 
-        DropDownChoice<Country> country = new DropDownChoice<Country>(Eater.COUNTRY, countryService.getAll());
+        DropDownChoice<Country> country = new DropDownChoice<Country>(Eater.COUNTRY, countryService.getAll(), new CountryRenderer());
         country.setRequired(true);
-        country.setModel(new Model<Country>(userCountry));
         signUpForm.add(country);
         signUpForm.add(new DropDownChoice<Language>("language", languageService.getAll(), new LanguageRenderer())
                 .setRequired(true));
@@ -215,6 +214,18 @@ public class SignUpPanel extends Panel {
 
         @Override
         public String getIdValue(Language object, int index) {
+            return object.getId();
+        }
+    }
+    
+    private class CountryRenderer implements IChoiceRenderer<Country> {
+        @Override
+        public Object getDisplayValue(Country object) {
+            return object.getName();
+        }
+
+        @Override
+        public String getIdValue(Country object, int index) {
             return object.getId();
         }
     }

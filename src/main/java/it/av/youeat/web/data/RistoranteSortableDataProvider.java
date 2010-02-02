@@ -71,7 +71,12 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
      */
     @Override
     public final int size() {
-        return results.size();
+        if(results != null){
+            return results.size();    
+        }
+        else{
+            return 0;
+        }
     }
 
     /**

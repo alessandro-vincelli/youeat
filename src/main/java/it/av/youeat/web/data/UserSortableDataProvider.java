@@ -65,7 +65,12 @@ public class UserSortableDataProvider extends SortableDataProvider<Eater> {
      */
     @Override
     public final int size() {
-        return results.size();
+        if(results != null){
+            return results.size();    
+        }
+        else{
+            return 0;
+        }
     }
 
     /**

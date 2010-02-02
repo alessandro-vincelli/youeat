@@ -421,7 +421,7 @@ div .dialogButton button{
 div .messageList {
     text-align: left;
     display: block;
-    height: 50px;
+    overflow: auto;
     border-bottom: 1px solid #EEEEEE;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -436,7 +436,7 @@ div .messageBody {
     float: left;
     width: 320px;
     color: #808080;
-    
+    font-size: x-small;
 }
 
 div .messageBody a {
@@ -449,6 +449,7 @@ div .messageBody a {
 div .messageCenterColumn {
     width: 400px;
     float: left;
+    font-size: small;
 }
 
 div .messageTitle {
@@ -459,12 +460,12 @@ div .messageTitle {
 div .messageInfos {
     float: left;
     width: 320px;
-    font-size: small;
+    font-size: xx-small;
 }
 
 div .messageInfos a {
     font-style: normal;
-    font-size: medium;
+    font-size: x-small;
 }
 
 .replyMessage{
@@ -843,6 +844,8 @@ feedbackPanelERROR {
     float: left;
     display: block;
     width: 100%;
+    overflow: auto;
+    padding-bottom: 15px;
 }
 #commentsList {
     float: left;
@@ -936,13 +939,11 @@ feedbackPanelERROR {
 }
 
 .gmap {
-    display: block;
-    width: auto; 
+    width: 500px; 
     height: 300px;
-    margin-left: 10px;
-    margin-top: 5px;
-    margin-right: 25px;
-    margin-bottom: 5px; 
+    overflow: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .smalltext {

@@ -118,12 +118,12 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     private GLatLng getGLatLng(Ristorante risto) {
         StringBuffer address = new StringBuffer();
         address.append(risto.getAddress());
-        address.append(" ");
+        address.append(" - ");
         address.append(risto.getPostalCode());
         address.append(" ");
         address.append(risto.getCity().getName());
         address.append(" ");
-        address.append(risto.getCountry().getName());
+        address.append("italia");
         try {
             return geocoder.findAddress(address.toString());
         } 

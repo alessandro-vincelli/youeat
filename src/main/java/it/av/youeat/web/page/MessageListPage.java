@@ -27,6 +27,7 @@ import it.av.youeat.web.components.OpenFriendPageButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
@@ -96,7 +97,7 @@ public class MessageListPage extends BasePage {
                 item.add(new Label(Message.SENTTIME_FIELD));
                 item.add(new Label(Message.TITLE_FIELD));
                 item.add(new OpenMessage("openMessage", new Model<Message>(item.getModelObject()), item).add(new Label(
-                        Message.BODY_FIELD)));
+                        Message.BODY_FIELD, StringUtils.abbreviate(item.getModelObject().getBody(), 150))));
                 item.add(new AjaxFallbackLink<Message>("remove", new Model<Message>(item.getModelObject())) {
                     private static final long serialVersionUID = 1L;
 

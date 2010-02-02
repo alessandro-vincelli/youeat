@@ -75,7 +75,7 @@ public class SendMessagePanel extends Panel {
             @Override
             protected void onError(AjaxRequestTarget target, Form<?> form) {
                 super.onError(target, form);
-                // for the moment I don't want show the error message
+                // I don't want show the error message, layout issues
                 // target.addComponent(feedbackPanelSMP);
             }
         });

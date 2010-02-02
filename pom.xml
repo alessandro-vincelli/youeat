@@ -343,6 +343,21 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 			<version>3.0.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.facebookapi</groupId>
+			<artifactId>facebook-java-api</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.facebookapi</groupId>
+			<artifactId>facebook-java-api-schema</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.facebookapi</groupId>
+			<artifactId>facebook-java-api-annotation-processor</artifactId>
+			<version>3.0.2</version>
 		</dependency>   
 		<!-- SPRING -->
 		

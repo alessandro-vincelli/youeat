@@ -34,7 +34,7 @@ public class MailServiceImpl implements MailService {
     @Override
     public void sendMessageReceivedNotification(Eater eater, Message message) {
         Locale locale = Locales.getSupportedLocale(eater.getLanguage().getLanguage());
-        Object[] params = { eater.getFirstname() + " " + eater.getLastname() };
+        Object[] params = { message.getSender().getFirstname() + " " + message.getSender().getLastname() };
         String subject = messageSource.getMessage("notification.newmessage.mailSubject", params, locale);
         String body = prepareMailTextNotifyNewMessage(eater, message, locale);
         sendNotificationMail(subject, body, eater.getEmail());
@@ -59,7 +59,7 @@ public class MailServiceImpl implements MailService {
     private String prepareMailTextNotifyNewMessage(Eater eater, Message message, Locale locale) {
         StringBuffer textBody = new StringBuffer();
         textBody.append("\n\n");
-        String[] params = { eater.getFirstname() };
+        String[] params = { message.getSender().getFirstname() };
         textBody.append(messageSource.getMessage("notification.newmessage.startMailBody", params, locale));
         textBody.append("\n\n");
         if (StringUtils.isNotBlank(message.getTitle())) {

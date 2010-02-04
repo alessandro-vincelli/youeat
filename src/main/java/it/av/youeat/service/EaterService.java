@@ -84,6 +84,14 @@ public interface EaterService {
      */
     @Transactional(readOnly = true)
     Collection<Eater> getAll();
+    
+    /**
+     * Return all the admin user
+     * 
+     * @return all the admin
+     */
+    @Transactional(readOnly = true)
+    Collection<Eater> getAllAdminUsers();
 
     /**
      * Search users

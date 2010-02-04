@@ -18,6 +18,7 @@ package it.av.youeat.service.impl;
 import it.av.youeat.UserAlreadyExistsException;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
+import it.av.youeat.ocm.model.EaterProfile;
 import it.av.youeat.ocm.model.EaterRelation;
 import it.av.youeat.ocm.model.SocialType;
 import it.av.youeat.ocm.util.DateUtil;
@@ -141,6 +142,13 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         for (EaterRelation userRelation : relatedUser) {
             relatedUserId.add(userRelation.getToUser().getId());
             searchPattern.append(userRelation.getToUser().getId());
+            searchPattern.append(" ");
+        }
+        //exclude also the admin users
+        Collection<Eater> adminUsers = getAllAdminUsers();
+        for (Eater admin : adminUsers) {
+            relatedUserId.add(admin.getId());
+            searchPattern.append(admin.getId());
             searchPattern.append(" ");
         }
         searchPattern.append(")");
@@ -275,11 +283,21 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
      */
     @Override
     public Eater addFacebookUser(Eater eater) {
-        if(StringUtils.isBlank(eater.getSocialUID())){
+        if (StringUtils.isBlank(eater.getSocialUID())) {
             throw new YoueatException("Impossible add a facebook user without a socialUid");
         }
         eater.setSocialType(SocialType.FACEBOOK);
         eater.setEmail(eater.getSocialUID() + "-disabled@youeat.org");
         return addRegolarUser(eater);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Collection<Eater> getAllAdminUsers() {
+        EaterProfile profile = eaterProfileService.getAdminUserProfile();
+        Criterion critByAdmin = Restrictions.eq(Eater.USERPROFILE, profile);
+        return super.findByCriteria(critByAdmin);
     }
 }

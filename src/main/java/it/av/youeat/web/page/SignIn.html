@@ -22,15 +22,24 @@
     <div id="content">
     <div id="login">
     	<h2 class="sbtitle">Sign in</h2>
-		<span wicket:id="signInPanel"></span>
-        <span wicket:id="facebookSignInPanel"></span>
+		<div>
+        <span wicket:id="signInPanel"></span>
+        </div>
+        <table class="facebookPanel">
+        <tr class="buttons">
+        <th><wicket:message key="message.join"></wicket:message></th>
+        <td><button title="" wicket:id="signUp" wicket:message="title:signIn.signUpLinkTitle"><wicket:message key="signIn.signUpLink"/></button></td>
+        </tr>
+        <tr>
+        <th><wicket:message key="signin.or"></wicket:message></th>
+        <td><span wicket:id="facebookSignInPanel"></span></td> 
+        </tr>
+        </table>
 	</div>
     </div>
     </div>
     <div id="navigation" class="buttons">
         <div class="buttonNavigation">
-        <p><wicket:message key="message.join"></wicket:message> 
-        <button title="" wicket:id="signUp" wicket:message="title:signIn.signUpLinkTitle"><wicket:message key="signIn.signUpLink"/></button></p>
         <p><button title="" wicket:id="passwordRecover" wicket:message="title:signIn.signUpLinkTitle"><wicket:message key="signIn.passwordRecovery"/></button></p>
         </div>
     </div>

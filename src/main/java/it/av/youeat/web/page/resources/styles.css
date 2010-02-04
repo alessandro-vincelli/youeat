@@ -1239,3 +1239,16 @@ button.positive, .buttons a.positive{
     border:0px;
     color: buttontext;
 }
+
+.facebookPanel{
+    display: inline;
+    width: 100%;
+}
+.facebookPanel td{
+    text-align: left;
+    padding-top: 15px;
+}
+.facebookPanel th{
+    text-align: right;
+    padding-top: 15px;
+}

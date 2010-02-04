@@ -1,9 +1,29 @@
 <wicket:extend>
+  <!-- facebook api as of 8/11/09 -->
+    <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
+    
+    <!-- function for facebook to execute on login-->
+    <!--<script type="text/javascript">
+    FB.init("083c31f005625c34a27aa011a279322b", "http://www.youeat.org", {"ifUserConnected":"/"}); 
+    FB.ensureInit(function() { FB.Connect.get_status().waitUntilReady( 
+            function( status ) { 
+                switch ( status ) { 
+                case FB.ConnectState.connected: loggedIn = true; break; 
+                case FB.ConnectState.appNotAuthorized: 
+                    case FB.ConnectState.userNotLoggedIn: FB.Connect.requireSession(); loggedIn = false; 
+                    } 
+                }); 
+    }); 
+    
+    
+    </script>-->
+ 
 	<div id="wrapper">
     <div id="content">
     <div id="login">
     	<h2 class="sbtitle">Sign in</h2>
 		<span wicket:id="signInPanel"></span>
+        <span wicket:id="facebookSignInPanel"></span>
 	</div>
     </div>
     </div>

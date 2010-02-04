@@ -19,6 +19,7 @@ import it.av.youeat.UserAlreadyExistsException;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.EaterRelation;
+import it.av.youeat.ocm.model.SocialType;
 import it.av.youeat.ocm.util.DateUtil;
 import it.av.youeat.service.EaterProfileService;
 import it.av.youeat.service.EaterRelationService;
@@ -252,5 +253,33 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
     public Eater setRandomPassword(Eater eater) {
         eater.setPassword(encodePassword(UUID.randomUUID().toString().substring(0, 8), eater.getPasswordSalt()));
         return update(eater);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Eater getBySocialUID(String uid, SocialType socialType) {
+        Criterion critById = Restrictions.eq(Eater.SOCIALUID, uid);
+        Criterion critBySt = Restrictions.eq(Eater.SOCIALTYPE, socialType);
+        List<Eater> result = super.findByCriteria(critById, critBySt);
+        if (result != null && result.size() == 1) {
+            return result.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Eater addFacebookUser(Eater eater) {
+        if(StringUtils.isBlank(eater.getSocialUID())){
+            throw new YoueatException("Impossible add a facebook user without a socialUid");
+        }
+        eater.setSocialType(SocialType.FACEBOOK);
+        eater.setEmail(eater.getSocialUID() + "-disabled@youeat.org");
+        return addRegolarUser(eater);
     }
 }

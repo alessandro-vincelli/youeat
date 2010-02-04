@@ -32,10 +32,12 @@ import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.resources.CompressedResourceReference;
@@ -84,7 +86,7 @@ public class BasePage extends WebPage {
         }
         HtmlUtil.fixInitialHtml(this);
         // add(JavascriptPackageResource.getHeaderContribution(BASEPAGE_JS));
-        //add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
+        add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
         feedbackPanel = new FeedbackPanel("feedBackPanel");
         feedbackPanel.setOutputMarkupPlaceholderTag(true);
         add(feedbackPanel);
@@ -124,17 +126,7 @@ public class BasePage extends WebPage {
             }*/
         });
 
-        add(new AjaxFallbackLink<String>("goUserProfilePage") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                if (getApplication().getSecuritySettings().getAuthorizationStrategy().isInstantiationAuthorized(
-                        UserProfilePage.class)) {
-                    setResponsePage(UserProfilePage.class);
-                }
-            }
-
+        add(new BookmarkablePageLink<String>("goUserProfilePage", UserProfilePage.class) {
             @Override
             protected void onBeforeRender() {
                 super.onBeforeRender();
@@ -143,17 +135,7 @@ public class BasePage extends WebPage {
             }
         });
 
-        add(new AjaxFallbackLink<String>("goSearchRistorantePage") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                if (getApplication().getSecuritySettings().getAuthorizationStrategy().isInstantiationAuthorized(
-                        UserHomePage.class)) {
-                    setResponsePage(UserHomePage.class);
-                }
-            }
-
+        add(new BookmarkablePageLink<String>("goSearchRistorantePage", UserHomePage.class) {
             @Override
             protected void onBeforeRender() {
                 super.onBeforeRender();
@@ -162,17 +144,7 @@ public class BasePage extends WebPage {
             }
         });
 
-        add(new AjaxFallbackLink<String>("goRistoranteAddNewPage") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                if (getApplication().getSecuritySettings().getAuthorizationStrategy().isInstantiationAuthorized(
-                        RistoranteAddNewPage.class)) {
-                    setResponsePage(RistoranteAddNewPage.class);
-                }
-            }
-
+        add(new BookmarkablePageLink<String>("goRistoranteAddNewPage", RistoranteAddNewPage.class) {
             @Override
             protected void onBeforeRender() {
                 super.onBeforeRender();
@@ -185,17 +157,7 @@ public class BasePage extends WebPage {
         final Label pendingFriendRequests = new Label("pendingFriendRequests", new Model<String>("(" + numberPendingFrienRequest + ")"));
         pendingFriendRequests.setOutputMarkupPlaceholderTag(true);
         pendingFriendRequests.setVisible(numberPendingFrienRequest > 0);
-        add(new AjaxFallbackLink<String>("goFriendPage") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                if (getApplication().getSecuritySettings().getAuthorizationStrategy().isInstantiationAuthorized(
-                        FriendsPage.class)) {
-                    setResponsePage(FriendsPage.class);
-                }
-            }
-
+        add(new BookmarkablePageLink<String>("goFriendPage", FriendsPage.class) {
             @Override
             protected void onBeforeRender() {
                 super.onBeforeRender();
@@ -204,17 +166,7 @@ public class BasePage extends WebPage {
             }
         }.add(pendingFriendRequests));
 
-        AjaxFallbackLink<String> goMessagesPage = new AjaxFallbackLink<String>("goMessagesPage") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                if (getApplication().getSecuritySettings().getAuthorizationStrategy().isInstantiationAuthorized(
-                        MessageListPage.class)) {
-                    setResponsePage(MessageListPage.class);
-                }
-            }
-
+        BookmarkablePageLink goMessagesPage = new BookmarkablePageLink<String>("goMessagesPage", MessageListPage.class) {
             @Override
             protected void onBeforeRender() {
                 super.onBeforeRender();

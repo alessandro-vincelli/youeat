@@ -16,6 +16,7 @@
 package it.av.youeat.service;
 
 import it.av.youeat.ocm.model.Eater;
+import it.av.youeat.ocm.model.SocialType;
 
 import java.util.Collection;
 
@@ -66,6 +67,15 @@ public interface EaterService {
      */
     @Transactional
     Eater addAdminUser(Eater object);
+    
+    /**
+     * Add a new facebook user
+     * 
+     * @param eater
+     * @return just added user
+     */
+    @Transactional
+    Eater addFacebookUser(Eater eater);
 
     /**
      * Return all the users
@@ -129,6 +139,16 @@ public interface EaterService {
      */
     @Transactional(readOnly = true)
     Eater getByID(String id);
+    
+    /**
+     * Return the user by a social UID
+     * 
+     * @param socialUID
+     * @param socialType
+     * @return user with the passed email
+     */
+    @Transactional(readOnly = true)
+    Eater getBySocialUID(String socialUId, SocialType socialType);
 
     /**
      * create/update lucene index on eaters

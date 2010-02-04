@@ -20,6 +20,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
+import it.av.youeat.ocm.model.SocialType;
 
 import java.util.Collection;
 
@@ -40,7 +41,8 @@ public class UserServiceTest extends YoueatTest {
 
     @Autowired
     private EaterService userService;
-    
+    private static String socialUid = "1x1x1x1";
+
     @Before
     public void setUp() {
         super.setUp();
@@ -58,6 +60,8 @@ public class UserServiceTest extends YoueatTest {
         a.setUserProfile(getProfile());
         a.setCountry(getNocountry());
         a.setLanguage(getLanguage());
+        a.setSocialType(SocialType.FACEBOOK);
+        a.setSocialUID(socialUid);
 
         userService.add(a);
 
@@ -74,6 +78,10 @@ public class UserServiceTest extends YoueatTest {
         userService.update(a);
         assertEquals("Invalid value for test", "Modified", a.getLastname());
         a = userService.getByEmail("userServiceTest@test");
+        assertNotNull("A is null", a);
+        assertEquals("Invalid value for test", "Alessandro", a.getFirstname());
+
+        a = userService.getBySocialUID(socialUid, SocialType.FACEBOOK);
         assertNotNull("A is null", a);
         assertEquals("Invalid value for test", "Alessandro", a.getFirstname());
 
@@ -108,7 +116,7 @@ public class UserServiceTest extends YoueatTest {
         c.setCountry(getNocountry());
         c.setLanguage(getLanguage());
         c = userService.addRegolarUser(c);
-        
+
         assertNotNull("C is null", c);
 
         // EaterRelation relations = UserRelationImpl.createFriendRelation(c, a);
@@ -128,5 +136,30 @@ public class UserServiceTest extends YoueatTest {
         // eaterService.remove(eaterService.getByPath(aPath));
 
     }
-    
+
+    @Test
+    public void testFacebookUser() {
+
+        // Basic Test
+        Eater a = new Eater();
+        a.setFirstname("Alessandro");
+        a.setLastname("Vincelli");
+        a.setPassword("secret");
+        a.setEmail("userServiceTest@test");
+        a.setCountry(getNocountry());
+        a.setLanguage(getLanguage());
+        a.setSocialUID(socialUid);
+
+        userService.addFacebookUser(a);
+
+        // a = eaterService.getByPath(a.getPath());
+        assertNotNull("A is null", a);
+        assertNotNull("Profile is null", a.getUserProfile());
+        assertEquals("Invalid value for test", "Alessandro", a.getFirstname());
+
+        a = userService.getBySocialUID(socialUid, SocialType.FACEBOOK);
+        assertNotNull("A is null", a);
+        assertEquals("Invalid value for test", "Alessandro", a.getFirstname());
+        userService.remove(a);
+    }
 }

@@ -16,11 +16,15 @@
 package it.av.youeat.web.page;
 
 import it.av.youeat.web.commons.SignInPanel;
+import it.av.youeat.web.panel.FacebookLoginPanel;
+import it.av.youeat.web.security.SecuritySession;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
+import org.apache.wicket.protocol.http.WebRequest;
 
 /**
+ * SignIn page performs authentication on an internal youeat db and on Facebook
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
@@ -31,7 +35,14 @@ public class SignIn extends BasePageSimple {
      * Constructor
      */
     public SignIn() {
-        getFeedbackPanel().setVisible(false);
+
+        // try a facebook authentication
+        ((SecuritySession) getSession()).authenticate(((WebRequest) getRequest()).getHttpServletRequest());
+        // if facebook authentication sucedeed redirect to home page
+        if (getSession().getAuthorizationStrategy().isInstantiationAuthorized(UserHomePage.class)) {
+            getRequestCycle().setResponsePage(UserHomePage.class);
+        }
+
         add(new SignInPanel("signInPanel", true));
 
         add(new AjaxFallbackLink<String>("signUp") {
@@ -40,13 +51,22 @@ public class SignIn extends BasePageSimple {
                 setResponsePage(SignUpPage.class);
             }
         });
-        
+
         add(new AjaxFallbackLink<String>("passwordRecover") {
             @Override
             public void onClick(AjaxRequestTarget target) {
                 setResponsePage(PasswordRecoverPage.class);
             }
         });
+
+        FacebookLoginPanel myPanel = new FacebookLoginPanel("facebookSignInPanel");
+        // make sure you add the panel first
+        add(myPanel);
+        // now you can create the panel contents
+        myPanel.createPanel();
+        myPanel.setEnabled(true);
+        //
+
     }
 
 }

@@ -29,7 +29,7 @@ public enum RistoranteType {
 
     /**
 	 * @param dbValue - the given dbValue.
-	 * @return - the AuthorityCategory with the given dbValue or null when it is unknown
+	 * @return - the SocialType with the given dbValue or null when it is unknown
 	 */
 	static RistoranteType getAuthorityCategoryByDbValue(String dbValue) {
 		for (RistoranteType oc : RistoranteType.values()) {
@@ -63,7 +63,7 @@ public enum RistoranteType {
 	}
 
 	/**
-	 * @return the value to retrieve the i18n value of the AuthorityCategory.
+	 * @return the value to retrieve the i18n value of the SocialType.
 	 */
 	public String getI18N() {
 		return this.i18n;

@@ -1217,3 +1217,25 @@ button.positive, .buttons a.positive{
 .datatableRevision th.medium {
     width: 10em;
 }
+
+.facebookSignUpButton{
+    margin:0px 0px 0px 0px;
+    background-color:transparent;
+    border:0px ;
+    white-space: nowrap;
+    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    line-height:130%;
+    font: xx-small;
+    text-decoration:none;
+    font-weight:bold;
+    color: buttontext;
+    cursor:pointer;
+    padding:0px 0px 0px 0px; /* Links */
+    float: none;
+}
+
+.facebookSignUpButton:hover{
+    background-color: transparent;
+    border:0px;
+    color: buttontext;
+}

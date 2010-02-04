@@ -17,6 +17,7 @@ import org.hibernate.search.annotations.Store;
 public class Country extends BasicEntity {
 
     public static final String NAME = "name";
+    public static final String ISO2 = "iso2";
 
     @Index(name = "iso2name")
     @Field(index = org.hibernate.search.annotations.Index.TOKENIZED, store = Store.YES)

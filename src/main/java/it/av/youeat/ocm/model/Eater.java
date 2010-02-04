@@ -30,6 +30,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
@@ -67,6 +68,9 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
     public static final String COUNTRY = "country";
     public static final String LANGUAGE = "language";
     public static final String AVATAR = "avatar";
+    public static final String SOCIALTYPE = "socialType";
+    public static final String SOCIALUID = "socialUID";
+    
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
@@ -85,6 +89,10 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable=false)
     private Date creationTime;
+    private String socialUID;
+    private SocialType socialType;
+    @Transient
+    private String socialSessionKey;
     
     /**
      * used in sign up confirmation
@@ -275,5 +283,29 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
 
     public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public String getSocialUID() {
+        return socialUID;
+    }
+
+    public void setSocialUID(String socialUID) {
+        this.socialUID = socialUID;
+    }
+
+    public SocialType getSocialType() {
+        return socialType;
+    }
+
+    public void setSocialType(SocialType socialType) {
+        this.socialType = socialType;
+    }
+
+    public String getSocialSessionKey() {
+        return socialSessionKey;
+    }
+
+    public void setSocialSessionKey(String socialSessionKey) {
+        this.socialSessionKey = socialSessionKey;
     }
 }

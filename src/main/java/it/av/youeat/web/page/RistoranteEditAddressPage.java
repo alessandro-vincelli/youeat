@@ -70,14 +70,6 @@ public class RistoranteEditAddressPage extends BasePage {
 
     /**
      * 
-     * @param ristorante
-     */
-    public RistoranteEditAddressPage(Ristorante ristorante){
-        this(new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
-    }
-
-    /**
-     * 
      * @param parameters
      */
     public RistoranteEditAddressPage(PageParameters parameters){

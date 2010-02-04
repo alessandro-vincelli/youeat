@@ -36,12 +36,19 @@ import it.av.youeat.web.page.SignUpPage;
 import it.av.youeat.web.page.UserHomePage;
 import it.av.youeat.web.page.UserManagerPage;
 import it.av.youeat.web.page.UserProfilePage;
+import it.av.youeat.web.page.XdReceiver;
 import it.av.youeat.web.page.YoueatHttpParams;
+import it.av.youeat.web.security.FaceBookAuthHandler;
+import it.av.youeat.web.security.FacebookNumbers;
 import it.av.youeat.web.security.SecuritySession;
 
+import java.util.ArrayList;
+
+import javax.security.auth.login.FailedLoginException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.wicket.Application;
+import org.apache.wicket.Page;
 import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
@@ -50,6 +57,7 @@ import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadWebRequest;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebRequest;
+import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
 import org.apache.wicket.request.target.coding.IndexedParamUrlCodingStrategy;
 import org.apache.wicket.request.target.coding.MixedParamHybridUrlCodingStrategy;
@@ -58,6 +66,12 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.google.code.facebookapi.FacebookJaxbRestClient;
+import com.google.code.facebookapi.ProfileField;
+import com.google.code.facebookapi.schema.User;
+import com.google.code.facebookapi.schema.UsersGetInfoResponse;
+import com.google.code.facebookapi.schema.User.EmailHashes;
 
 /**
  * Wicket Application.
@@ -114,6 +128,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/messages", MessageListPage.class));
         mount(new MixedParamHybridUrlCodingStrategy("/message", MessagePage.class, new String[]{YoueatHttpParams.DIALOG_ID}));
         mount(new HybridUrlCodingStrategy("/picture", ImageViewPage.class));
+        mount(new MixedParamUrlCodingStrategy("/xd_receiver.htm", XdReceiver.class, null));
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
     }
@@ -163,6 +178,35 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         return (YoueatApplication) Application.get();
     }
     
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void onUnauthorizedPage(Page page) {
+        try {           
+            FacebookJaxbRestClient authClient = FaceBookAuthHandler.getAuthenticatedClient(page.getRequest(), FacebookNumbers.apiKey,
+                    FacebookNumbers.secret);
+            long userId = authClient.users_getLoggedInUser();
+            ArrayList<Long> ids = new ArrayList<Long>();
+            ids.add(userId);
+            ArrayList<ProfileField> fields = new ArrayList<ProfileField>();
+            fields.add(ProfileField.FIRST_NAME);
+            fields.add(ProfileField.LAST_NAME);
+            fields.add(ProfileField.EMAIL_HASHES);
+            UsersGetInfoResponse users = authClient.users_getInfo(ids, fields);
+            User user = users.getUser().get(0);
+            String name = user.getFirstName();
+            EmailHashes email = user.getEmailHashes();
+            //session.setClient(authClient);
+        } catch (FailedLoginException fle) {
+            // user not logged in
+            page.getRequestCycle().setRequestTarget(new RedirectRequestTarget("http://www.facebook.com/login.php?api_key=" + FacebookNumbers.apiKey + "&return_session=1&v=1.0&next=http%3A%2F%2Fwww.youeat.org"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * @return true when running in deployment configuration, false for development configuration
      */

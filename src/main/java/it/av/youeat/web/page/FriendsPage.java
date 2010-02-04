@@ -24,13 +24,13 @@ import it.av.youeat.service.EaterRelationService;
 import it.av.youeat.web.commons.ActivityPaging;
 import it.av.youeat.web.components.ActivitiesRelationListView;
 import it.av.youeat.web.components.ImagesAvatar;
-import it.av.youeat.web.components.OpenFriendPageButton;
 import it.av.youeat.web.components.SendMessageButton;
 import it.av.youeat.web.components.SendMessageModalWindow;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
@@ -38,6 +38,7 @@ import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -99,8 +100,10 @@ public class FriendsPage extends BasePage {
                 }
                 boolean isPendingFriendRequest = item.getModelObject().getStatus().equals(EaterRelation.STATUS_PENDING)
                         && item.getModelObject().getToUser().equals(getLoggedInUser());
-                AjaxFallbackLink<String> linkToUser = new OpenFriendPageButton("linkToUser", item.getModelObject()
-                        .getToUser());
+                BookmarkablePageLink linkToUser = new BookmarkablePageLink(
+                        "linkToUser",
+                        EaterViewPage.class,
+                        new PageParameters(YoueatHttpParams.YOUEAT_ID + "=" + item.getModelObject().getToUser().getId()));
                 item.add(linkToUser);
                 final Eater eaterToshow;
                 if (getLoggedInUser().equals(item.getModelObject().getToUser())) {

@@ -146,9 +146,12 @@
 			</bean>
 		</property>
 	</bean>
+	
+	<bean id="facebookAuthenticationProvider" class="it.av.youeat.web.security.FacebookAuthenticationProvider"/>
 
 	<bean id="authenticationProvider" class="it.av.youeat.web.security.AuthenticationProvider">
 		<constructor-arg ref="daoAuthenticationProvider" />
+		<constructor-arg ref="facebookAuthenticationProvider" />
 	</bean>
 	
 	<bean id="serverGeocoder" class="it.av.youeat.util.ServerGeocoder">

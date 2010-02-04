@@ -19,6 +19,7 @@ import it.av.youeat.ocm.model.data.Country;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Services on {@Link Country}
@@ -29,5 +30,14 @@ import org.springframework.stereotype.Service;
 @Service
 @Repository
 public interface CountryService extends ApplicationService<Country> {
+
+    /**
+     * get a country using the iso2 code
+     * 
+     * @param iso2
+     * @return country
+     */
+    @Transactional(readOnly = true)
+    Country getByIso2(String iso2);
 
 }

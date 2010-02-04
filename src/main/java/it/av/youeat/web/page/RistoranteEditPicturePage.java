@@ -63,14 +63,6 @@ public class RistoranteEditPicturePage extends BasePage {
     private WebMarkupContainer picturesListContainer;
 
     /**
-     * @param ristorante
-     * @throws YoueatException
-     */
-    public RistoranteEditPicturePage(Ristorante ristorante) throws YoueatException {
-        this(new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
-    }
-
-    /**
      * @param parameters
      * @throws YoueatException
      */

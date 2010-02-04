@@ -16,6 +16,7 @@ import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.springframework.beans.BeanUtils;
 
 /**
  * The panel displays the revisions form
@@ -70,13 +71,20 @@ public class RistoranteRevisionsPanel extends Panel {
                 @Override
                 protected List<RistoranteRevision> load() {
                     List<RistoranteRevision> revisions = ristoSelected.getRevisions();
+                    List<RistoranteRevision> revisionsDiff = new ArrayList<RistoranteRevision>(ristoSelected
+                            .getRevisions().size());
                     if (revisions.size() > 1) {
+                        for (RistoranteRevision ristoranteRevision : revisions) {
+                            RistoranteRevision diffRisto = new RistoranteRevision();
+                            BeanUtils.copyProperties(ristoranteRevision, diffRisto);
+                            revisionsDiff.add(diffRisto);
+                        }
                         // Latest two releases, reverse order!
-                        RistoranteRevision r1 = revisions.get(1);
-                        RistoranteRevision r2 = revisions.get(0);
+                        RistoranteRevision r1 = revisionsDiff.get(1);
+                        RistoranteRevision r2 = revisionsDiff.get(0);
                         performDiff(r1, r2, langSelected);
                     }
-                    return revisions;
+                    return revisionsDiff;
                 }
             });
         }
@@ -94,8 +102,9 @@ public class RistoranteRevisionsPanel extends Panel {
     private void performDiff(RistoranteRevision ori, RistoranteRevision newVer, Language lang) throws YoueatException {
         TextDiffRender diffRender = new TextDiffRender();
 
-        //description is deprecated, now it must be supported multilanguage descriptions
-        String[] diff = diffRender.render(ori.getDesctiptionByLanguage(lang).getDescription(), newVer.getDesctiptionByLanguage(lang).getDescription());
+        // description is deprecated, now it must be supported multilanguage descriptions
+        String[] diff = diffRender.render(ori.getDesctiptionByLanguage(lang).getDescription(), newVer
+                .getDesctiptionByLanguage(lang).getDescription());
         ori.setDescriptionDiff(diff[0]);
         newVer.setDescriptionDiff(diff[1]);
 

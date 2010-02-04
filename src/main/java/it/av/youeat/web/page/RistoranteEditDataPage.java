@@ -81,15 +81,6 @@ public class RistoranteEditDataPage extends BasePage {
 
     /**
      * 
-     * @param ristorante
-     * @throws YoueatException
-     */
-    public RistoranteEditDataPage(Ristorante ristorante) throws YoueatException {
-        this(new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
-    }
-
-    /**
-     * 
      * @param parameters
      * @throws YoueatException
      */

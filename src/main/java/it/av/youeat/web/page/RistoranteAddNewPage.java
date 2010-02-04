@@ -52,6 +52,7 @@ import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -91,8 +92,8 @@ public class RistoranteAddNewPage extends BasePage {
     private Form<Ristorante> form;
     private SubmitButton submitRestaurantRight;
     private String cityName = "";
-    private AjaxFallbackLink<Ristorante> buttonOpenAddedRisto;
-    private AjaxFallbackLink<Ristorante> buttonOpenAddedRistoRight;
+    private BookmarkablePageLink<Ristorante> buttonOpenAddedRisto;
+    private BookmarkablePageLink<Ristorante> buttonOpenAddedRistoRight;
 
     /**
      * Constructor that is invoked when page is invoked without a session.

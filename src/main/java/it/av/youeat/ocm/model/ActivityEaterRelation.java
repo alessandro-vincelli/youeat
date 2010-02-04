@@ -18,6 +18,9 @@ package it.av.youeat.ocm.model;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
@@ -39,6 +42,8 @@ public class ActivityEaterRelation extends Activity {
     public static final String WITH_USER = "withUser";
 
     private String eaterActivityType;
+    @ManyToOne(optional=false)
+    @ForeignKey(name="activity_relation_with_user_fk")
     private Eater withUser;
 
     public ActivityEaterRelation() {

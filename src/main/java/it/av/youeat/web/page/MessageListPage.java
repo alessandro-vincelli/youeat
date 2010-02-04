@@ -22,7 +22,6 @@ import it.av.youeat.ocm.model.Message;
 import it.av.youeat.service.DialogService;
 import it.av.youeat.service.MessageService;
 import it.av.youeat.web.components.ImagesAvatar;
-import it.av.youeat.web.components.OpenFriendPageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +34,7 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.model.IModel;
@@ -93,7 +93,7 @@ public class MessageListPage extends BasePage {
                 }
                 Eater sender = item.getModelObject().getSender();
                 item.add(ImagesAvatar.getAvatar("avatar", sender, this.getPage(), true));
-                item.add(new OpenFriendPageButton("linkToUser", sender).add(new Label(Message.SENDER_FIELD)));
+                item.add(new BookmarkablePageLink("linkToUser", EaterViewPage.class, new PageParameters(YoueatHttpParams.YOUEAT_ID + "=" + sender.getId())).add(new Label(Message.SENDER_FIELD)));
                 item.add(new Label(Message.SENTTIME_FIELD));
                 item.add(new Label(Message.TITLE_FIELD));
                 item.add(new OpenMessage("openMessage", new Model<Message>(item.getModelObject()), item).add(new Label(
@@ -123,12 +123,8 @@ public class MessageListPage extends BasePage {
             }
         };
         messagesListContainer.add(messageList);
-        add(new AjaxFallbackLink<String>("goSearchFriendPage") {
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                setResponsePage(SearchFriendPage.class);
-            }
-        });
+        
+        add(new BookmarkablePageLink("goSearchFriendPage", SearchFriendPage.class));
         
         long numberUnreadMsgs = messageService.countUnreadMessages(getLoggedInUser());
         final WebMarkupContainer separator = new WebMarkupContainer("separator");

@@ -56,6 +56,7 @@ import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -63,7 +64,6 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.StringValidator;
 import org.springframework.util.Assert;
@@ -94,7 +94,7 @@ public class RistoranteViewPage extends BasePage {
 
     private Ristorante ristorante = new Ristorante();;
 
-    private ModalWindow revisionsPanel;
+    private ModalWindow revisionModal;
     private boolean hasVoted = Boolean.FALSE;
     private Language actualDescriptionLanguage;
     private ListView<RistoranteDescriptionI18n> descriptions;
@@ -230,55 +230,23 @@ public class RistoranteViewPage extends BasePage {
                 }
             }
         });
-
-        AjaxFallbackLink<String> editRistorante = new AjaxFallbackLink<String>("editRistorante") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                try {
-                    setResponsePage(new RistoranteEditAddressPage(getRistorante()));
-                } catch (YoueatException e) {
-                    error(new StringResourceModel("genericErrorMessage", this, null).getString());
-                }
-            }
-        };
-        editRistorante.setOutputMarkupId(true);
+        BookmarkablePageLink editAddressRistorante = new BookmarkablePageLink("editAddressRistorante", RistoranteEditAddressPage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
+        editAddressRistorante.setOutputMarkupId(true);
+        add(editAddressRistorante);
+        
         if (getApplication().getSecuritySettings().getAuthorizationStrategy().isInstantiationAuthorized(
                 RistoranteEditAddressPage.class)) {
-            editRistorante.setVisible(true);
+            editAddressRistorante.setVisible(true);
         } else {
-            editRistorante.setVisible(false);
+            editAddressRistorante.setVisible(false);
         }
-        add(editRistorante);
+        add(editAddressRistorante);
 
-        AjaxFallbackLink<String> editDataRistorante = new AjaxFallbackLink<String>("editDataRistorante") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                try {
-                    setResponsePage(new RistoranteEditDataPage(getRistorante()));
-                } catch (YoueatException e) {
-                    error(new StringResourceModel("genericErrorMessage", this, null).getString());
-                }
-            }
-        };
+        BookmarkablePageLink editDataRistorante = new BookmarkablePageLink("editDataRistorante", RistoranteEditDataPage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
         editDataRistorante.setOutputMarkupId(true);
         add(editDataRistorante);
 
-        AjaxFallbackLink<String> editPictures = new AjaxFallbackLink<String>("editPictures") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                try {
-                    setResponsePage(new RistoranteEditPicturePage(getRistorante()));
-                } catch (YoueatException e) {
-                    error(new StringResourceModel("genericErrorMessage", this, null).getString());
-                }
-            }
-        };
+        BookmarkablePageLink editPictures = new BookmarkablePageLink("editPictures", RistoranteEditPicturePage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
         editPictures.setOutputMarkupId(true);
         add(editPictures);
 
@@ -297,22 +265,25 @@ public class RistoranteViewPage extends BasePage {
             }
         };
         formRisto.add(picturesList);
-        add(revisionsPanel = new ModalWindow("revisionsPanel"));
-        revisionsPanel.setWidthUnit("%");
-        revisionsPanel.setInitialHeight(450);
-        revisionsPanel.setInitialWidth(100);
-        revisionsPanel.setResizable(false);
-        revisionsPanel.setContent(new RistoranteRevisionsPanel(revisionsPanel.getContentId(), getFeedbackPanel()));
-        revisionsPanel.setTitle("Revisions list");
-        revisionsPanel.setCookieName("SC-revisionLists");
+        
+        add(revisionModal = new ModalWindow("revisionsPanel"));
+        revisionModal.setWidthUnit("%");
+        revisionModal.setInitialHeight(450);
+        revisionModal.setInitialWidth(100);
+        revisionModal.setResizable(false);
+        RistoranteRevisionsPanel revisionsPanel =  new RistoranteRevisionsPanel(revisionModal.getContentId(), getFeedbackPanel());
+        revisionsPanel.refreshRevisionsList(ristorante, actualDescriptionLanguage);
+        revisionModal.setContent(revisionsPanel);
+        revisionModal.setTitle("Revisions list");
+        revisionModal.setCookieName("SC-revisionLists");
 
-        revisionsPanel.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
+        revisionModal.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
             public boolean onCloseButtonClicked(AjaxRequestTarget target) {
                 return true;
             }
         });
 
-        revisionsPanel.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
+        revisionModal.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
             public void onClose(AjaxRequestTarget target) {
 
             }
@@ -320,9 +291,7 @@ public class RistoranteViewPage extends BasePage {
 
         add(new AjaxLink("showsAllRevisions") {
             public void onClick(AjaxRequestTarget target) {
-                ((RistoranteRevisionsPanel) revisionsPanel.get(revisionsPanel.getContentId()))
-                        .refreshRevisionsList(ristorante, actualDescriptionLanguage);
-                revisionsPanel.show(target);
+                revisionModal.show(target);
             }
         });
 

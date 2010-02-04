@@ -1,0 +1,116 @@
+/**
+ * Copyright 2009 the original author or authors
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+package it.av.youeat.web.security;
+
+import it.av.youeat.ocm.model.Eater;
+import it.av.youeat.ocm.model.SocialType;
+import it.av.youeat.service.CountryService;
+import it.av.youeat.service.EaterService;
+import it.av.youeat.service.LanguageService;
+
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AbstractAuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+
+import com.google.code.facebookapi.FacebookJaxbRestClient;
+import com.google.code.facebookapi.ProfileField;
+import com.google.code.facebookapi.schema.User;
+import com.google.code.facebookapi.schema.UsersGetInfoResponse;
+
+/**
+ * 
+ * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
+ * 
+ */
+public class FacebookAuthenticationProvider extends AbstractAuthenticationManager {
+    @Autowired
+    private EaterService eaterService;
+    @Autowired
+    private CountryService countryService;
+    @Autowired
+    private LanguageService languageService;
+    
+    private static Logger log = LoggerFactory.getLogger(FacebookAuthenticationProvider.class);
+
+    @Override
+    protected Authentication doAuthentication(Authentication authentication) throws AuthenticationException {
+        HttpServletRequest request = (HttpServletRequest) authentication.getPrincipal();
+
+        FacebookJaxbRestClient authClient;
+        try {
+            authClient = FaceBookAuthHandler.getAuthenticatedClient(request, FacebookNumbers.apiKey,
+                    FacebookNumbers.secret);
+            String facebookSession = authClient.getCacheSessionKey();
+            long facebookUserId = authClient.users_getLoggedInUser();
+
+            Eater eater = eaterService.getBySocialUID(Long.toString(facebookUserId), SocialType.FACEBOOK);
+            if (eater == null) {
+                ArrayList<Long> ids = new ArrayList<Long>();
+                ids.add(facebookUserId);
+                ArrayList<ProfileField> fields = new ArrayList<ProfileField>();
+                fields.add(ProfileField.FIRST_NAME);
+                fields.add(ProfileField.LAST_NAME);
+                fields.add(ProfileField.LOCALE);
+                fields.add(ProfileField.PIC);
+
+                UsersGetInfoResponse users = authClient.users_getInfo(ids, fields);
+                User user = users.getUser().get(0);
+                eater = new Eater();
+                eater.setFirstname(user.getFirstName());
+                eater.setLastname(user.getLastName());
+                eater.setSocialUID(Long.toString(facebookUserId));
+                eater.setAvatar(getTheAvatar(user.getPic()));
+                eater.setCountry(countryService.getByIso2(user.getLocale().substring(3, 5)));
+                eater.setLanguage(languageService.getSupportedLanguage(new Locale(user.getLocale())));
+                eaterService.addFacebookUser(eater);
+            }
+
+            eater = eaterService.getBySocialUID(Long.toString(facebookUserId), SocialType.FACEBOOK);
+            eater.setSocialSessionKey(facebookSession);
+            Authentication authenticationToReturn = new FacebookAuthenticationToken(eater);
+            authenticationToReturn.setAuthenticated(true);
+            return authenticationToReturn;
+        } catch (Exception e) {
+            log.info("impossible perform the authentication on facebook");
+        }
+        return authentication;
+
+    }
+
+    private byte[] getTheAvatar(String avatarUrl) {
+        URL url;
+        try {
+            url = new URL(avatarUrl);
+            InputStream is = url.openStream();
+            return IOUtils.toByteArray(is);
+        } catch (Exception e) {
+            log.error("impossible get The avatar from facebokk", e);
+        } 
+        return null;
+    }
+
+}

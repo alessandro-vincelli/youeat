@@ -4,19 +4,20 @@ import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.web.page.RistoranteViewPage;
 import it.av.youeat.web.util.RistoranteUtil;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
+import org.apache.wicket.PageParameters;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.IModel;
 
 /**
- * Create a button to open the given risto
+ * Create a links to open the given risto
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class ButtonOpenRisto extends AjaxFallbackLink<Ristorante> {
+public class ButtonOpenRisto extends BookmarkablePageLink<Ristorante> {
     public ButtonOpenRisto(String id, IModel<Ristorante> risto, boolean visibleByDefault) {
-        super(id, risto);
+        super(id, RistoranteViewPage.class);
+        setModel(risto);
         setOutputMarkupId(true);
         if (!visibleByDefault) {
             setVisible(false);
@@ -25,7 +26,9 @@ public class ButtonOpenRisto extends AjaxFallbackLink<Ristorante> {
     }
 
     @Override
-    public void onClick(AjaxRequestTarget target) {
-        setResponsePage(RistoranteViewPage.class, RistoranteUtil.createParamsForRisto(getModelObject()));
+    public PageParameters getPageParameters() {
+        // necessary because some time the button is created without a risto, see newRistoPage
+        return RistoranteUtil.createParamsForRisto(getModelObject());
     }
+
 }

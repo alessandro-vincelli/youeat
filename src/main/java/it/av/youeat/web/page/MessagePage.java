@@ -21,7 +21,6 @@ import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 import it.av.youeat.service.DialogService;
 import it.av.youeat.web.components.ImagesAvatar;
-import it.av.youeat.web.components.OpenFriendPageButton;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,13 +29,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -83,7 +82,8 @@ public class MessagePage extends BasePage {
 
             @Override
             protected void populateItem(final ListItem<Message> item) {
-                item.add(new OpenFriendPageButton("linkToUser", item.getModelObject().getSender()).add(new Label(
+                item.add(new BookmarkablePageLink("linkToUser", EaterViewPage.class, new PageParameters(
+                        YoueatHttpParams.YOUEAT_ID + "=" + item.getModelObject().getSender().getId())).add(new Label(
                         Message.SENDER_FIELD)));
                 item.add(new Label(Message.SENTTIME_FIELD));
                 item.add(new Label(Message.BODY_FIELD));
@@ -121,12 +121,7 @@ public class MessagePage extends BasePage {
             }
         });
 
-        add(new AjaxFallbackLink<String>("goSearchFriendPage") {
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                setResponsePage(SearchFriendPage.class);
-            }
-        });
+        add(new BookmarkablePageLink("goSearchFriendPage", SearchFriendPage.class));
     }
 
     private Eater getCounterpart(Dialog dialog) {

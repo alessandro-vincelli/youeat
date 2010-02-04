@@ -15,6 +15,8 @@
  */
 package it.av.youeat.web.security;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -26,12 +28,19 @@ import org.springframework.security.core.Authentication;
  */
 public class AuthenticationProvider {
     private static DaoAuthenticationProvider authenticationProvider;
-    
-    private AuthenticationProvider(DaoAuthenticationProvider authenticationProvider){
+    private static FacebookAuthenticationProvider facebookAuthenticationProvider;
+
+    private AuthenticationProvider(DaoAuthenticationProvider authenticationProvider,
+            FacebookAuthenticationProvider facebookAuthenticationProvider) {
         AuthenticationProvider.authenticationProvider = authenticationProvider;
+        AuthenticationProvider.facebookAuthenticationProvider = facebookAuthenticationProvider;
     }
-    
-    public static Authentication authenticate(String username, String password){
-        return authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(username, password));        
-    }	
+
+    public static Authentication authenticate(String username, String password) {
+        return authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+    }
+
+    public static Authentication faceBookAuthenticate(HttpServletRequest request) {
+        return facebookAuthenticationProvider.authenticate(new FacebookAuthenticationToken(request));
+    }
 }

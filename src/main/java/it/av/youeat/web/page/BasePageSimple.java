@@ -18,6 +18,7 @@ package it.av.youeat.web.page;
 import it.av.youeat.web.util.HtmlUtil;
 
 import org.apache.wicket.ResourceReference;
+import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -39,7 +40,7 @@ public class BasePageSimple extends WebPage {
      */
     public BasePageSimple() {
         HtmlUtil.fixInitialHtml(this);
-        //add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
+        add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
         ResourceReference img = new ResourceReference(this.getClass(), "resources/images/logo-mela-small.png");
         add(new Image("logo", img));
         

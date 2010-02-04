@@ -19,6 +19,8 @@ import it.av.youeat.ocm.model.Eater;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.wicket.Request;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
@@ -47,6 +49,8 @@ public class SecuritySession extends AuthenticatedWebSession {
     private String username = "";
     private String[] roles;
     private Eater loggedInUser;
+    private String facebookSession;
+    private long facebookUserId;
 
     /**
      * @see org.apache.wicket.authentication.AuthenticatedWebSession#authenticate(java.lang.String, java.lang.String)
@@ -66,6 +70,31 @@ public class SecuritySession extends AuthenticatedWebSession {
             }
             loggedInUser = ((UserDetailsImpl) auth.getPrincipal()).getUser();
             return auth.isAuthenticated();
+        } catch (BadCredentialsException e) {
+            // in general this error on a not existing user
+            return false;
+        }
+    }
+
+    public boolean authenticate(HttpServletRequest request) {
+
+        // Check if the request contains a facebook session key
+        try {
+            auth = AuthenticationProvider.faceBookAuthenticate(request);
+            if(!auth.isAuthenticated()){
+                return false;
+            }
+            
+            Collection<GrantedAuthority> authss = auth.getAuthorities();
+            this.roles = new String[authss.size()];
+            int count = 0;
+            for (GrantedAuthority grantedAuthority : authss) {
+                this.roles[count] = grantedAuthority.getAuthority();
+                count = count + 1;
+            }
+            loggedInUser = ((Eater) auth.getPrincipal());
+            signIn(true);
+            return true;
         } catch (BadCredentialsException e) {
             // in general this error on a not existing user
             return false;
@@ -99,6 +128,20 @@ public class SecuritySession extends AuthenticatedWebSession {
 
     public Eater getLoggedInUser() {
         return loggedInUser;
+    }
+
+    /**
+     * @return the facebookSession
+     */
+    public String getFacebookSession() {
+        return facebookSession;
+    }
+
+    /**
+     * @return the facebookUserId
+     */
+    public long getFacebookUserId() {
+        return facebookUserId;
     }
 
 }

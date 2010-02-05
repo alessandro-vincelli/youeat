@@ -22,6 +22,7 @@ import it.av.youeat.ocm.model.Message;
 import it.av.youeat.ocm.util.DateUtil;
 import it.av.youeat.service.DialogService;
 import it.av.youeat.service.MessageService;
+import it.av.youeat.service.SocialService;
 import it.av.youeat.service.system.MailService;
 
 import java.util.List;
@@ -46,6 +47,8 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
     private MessageService messageService;
     @Autowired
     private MailService mailService;
+    @Autowired
+    private SocialService socialService;
 
     /**
      * {@inheritDoc}
@@ -67,7 +70,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      */
     @Override
     public List<Dialog> getCreatedDialogs(Eater eater) {
-    	Conjunction senderFilter = Restrictions.conjunction();
+        Conjunction senderFilter = Restrictions.conjunction();
         Criterion critBySender1 = Restrictions.eq(Dialog.SENDER_FIELD, eater);
         Criterion critBySender2 = Restrictions.eq(Dialog.DELETED_FROM_SENDER_FIELD, false);
         senderFilter.add(critBySender1);
@@ -75,7 +78,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         Order orderBYDate = Order.desc(Dialog.CREATION_TIME_FIELD);
         return findByCriteria(orderBYDate, senderFilter);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -89,7 +92,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         senderFilter.add(critBySender2);
         criteria.add(senderFilter);
         criteria.setProjection(Projections.rowCount());
-        return (Integer)criteria.list().get(0);
+        return (Integer) criteria.list().get(0);
     }
 
     /**
@@ -97,18 +100,18 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      */
     @Override
     public List<Dialog> getDialogs(Eater eater) {
-    	Conjunction receiverFilter = Restrictions.conjunction();
-    	Criterion critByReceiver1 = Restrictions.eq(Dialog.RECEIVER_FIELD, eater);
-    	Criterion critByReceiver2 = Restrictions.eq(Dialog.DELETED_FROM_RECEIVER_FIELD, false);
-    	receiverFilter.add(critByReceiver1);
-    	receiverFilter.add(critByReceiver2);
-    	
-    	Conjunction senderFilter = Restrictions.conjunction();
-    	Criterion critBySender1 = Restrictions.eq(Dialog.SENDER_FIELD, eater);
-    	Criterion critBySender2 = Restrictions.eq(Dialog.DELETED_FROM_SENDER_FIELD, false);
-    	senderFilter.add(critBySender1);
-    	senderFilter.add(critBySender2);
-    	
+        Conjunction receiverFilter = Restrictions.conjunction();
+        Criterion critByReceiver1 = Restrictions.eq(Dialog.RECEIVER_FIELD, eater);
+        Criterion critByReceiver2 = Restrictions.eq(Dialog.DELETED_FROM_RECEIVER_FIELD, false);
+        receiverFilter.add(critByReceiver1);
+        receiverFilter.add(critByReceiver2);
+
+        Conjunction senderFilter = Restrictions.conjunction();
+        Criterion critBySender1 = Restrictions.eq(Dialog.SENDER_FIELD, eater);
+        Criterion critBySender2 = Restrictions.eq(Dialog.DELETED_FROM_SENDER_FIELD, false);
+        senderFilter.add(critBySender1);
+        senderFilter.add(critBySender2);
+
         Disjunction or = Restrictions.disjunction();
         or.add(receiverFilter);
         or.add(senderFilter);
@@ -167,8 +170,11 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         return dialog;
     }
 
-    private void sendNotification(Eater eater, Message message) {
-        mailService.sendMessageReceivedNotification(eater, message);
+    private void sendNotification(Eater recipient, Message message) {
+        if (recipient.isSocialNetworkEater()) {
+            socialService.sendMessageReceivedNotification(recipient, message);
+        } else {
+            mailService.sendMessageReceivedNotification(recipient, message);
+        }
     }
-
 }

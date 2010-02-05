@@ -287,14 +287,14 @@ public class BasePage extends WebPage {
             }
         };
         
-        Link<String> goSignUp = new Link<String>("goSignUp") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick() {
-                setResponsePage(SignUpPage.class);
-            }
-        };
+//        Link<String> goSignUp = new Link<String>("goSignUp") {
+//            private static final long serialVersionUID = 1L;
+//
+//            @Override
+//            public void onClick() {
+//                setResponsePage(SignUpPage.class);
+//            }
+//        };
 
         goSignIn.setOutputMarkupId(true);
         goSignOut.setOutputMarkupId(true);
@@ -302,15 +302,15 @@ public class BasePage extends WebPage {
         if (isAuthenticated) {
             goSignOut.setVisible(true);
             goSignIn.setVisible(false);
-            goSignUp.setVisible(false);
+//            goSignUp.setVisible(false);
         } else {
             goSignOut.setVisible(false);
             goSignIn.setVisible(true);
-            goSignUp.setVisible(true);
+//            goSignUp.setVisible(true);
         }
         add(goSignOut);
         add(goSignIn);
-        add(goSignUp);
+//        add(goSignUp);
 
         Link<String> goAccount = new Link<String>("goAccount") {
             private static final long serialVersionUID = 1L;

@@ -81,6 +81,7 @@
 	
  	<bean id="wicketApplication" class="it.av.youeat.web.YoueatApplication">
 		<property name="configurationType" value="development" />
+		<property name="applicationURL" value="http://www.youeat.org"/>
 	</bean>
 
 	<bean id="eaterService" class="it.av.youeat.service.impl.EaterServiceHibernate" parent="jpaDaoSupport" />
@@ -159,5 +160,16 @@
 	</bean>
 	
 	<bean id="periodUtil" class="it.av.youeat.util.PeriodUtil"/>
+		
+	<bean id="socialServiceFacebook" class="it.av.youeat.service.impl.SocialServiceFacebook">
+		<property name="apiKey" value=""/>
+		<property name="secret" value=""/>
+		<property name="applicationID" value=""/>
+	</bean>
+	
+	<bean id="faceBookAuthHandler" class="it.av.youeat.web.security.FaceBookAuthHandler">
+		<property name="apiKey" value=""/>
+		<property name="secret" value=""/>
+	</bean>
 	
 </beans>

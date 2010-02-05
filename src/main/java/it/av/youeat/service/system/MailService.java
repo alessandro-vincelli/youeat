@@ -15,7 +15,7 @@ import it.av.youeat.ocm.model.Message;
 public interface MailService {
 
     /**
-     * Send an email to the notify the receiver of a new {@link Message}
+     * Send an email to notify the receiver of a new {@link Message}
      * 
      * @param eater the recipient
      * @param message the message to be notified

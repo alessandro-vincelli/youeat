@@ -53,17 +53,21 @@ public class FacebookAuthenticationProvider extends AbstractAuthenticationManage
     private CountryService countryService;
     @Autowired
     private LanguageService languageService;
-    
+    @Autowired
+    private FaceBookAuthHandler bookAuthHandler;
+
     private static Logger log = LoggerFactory.getLogger(FacebookAuthenticationProvider.class);
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected Authentication doAuthentication(Authentication authentication) throws AuthenticationException {
         HttpServletRequest request = (HttpServletRequest) authentication.getPrincipal();
 
         FacebookJaxbRestClient authClient;
         try {
-            authClient = FaceBookAuthHandler.getAuthenticatedClient(request, FacebookNumbers.apiKey,
-                    FacebookNumbers.secret);
+            authClient = bookAuthHandler.getAuthenticatedClient(request);
             String facebookSession = authClient.getCacheSessionKey();
             long facebookUserId = authClient.users_getLoggedInUser();
 
@@ -83,7 +87,10 @@ public class FacebookAuthenticationProvider extends AbstractAuthenticationManage
                 eater.setFirstname(user.getFirstName());
                 eater.setLastname(user.getLastName());
                 eater.setSocialUID(Long.toString(facebookUserId));
-                eater.setAvatar(getTheAvatar(user.getPic()));
+                byte[] avatar = getTheAvatar(user.getPic());
+                if(avatar != null){
+                    eater.setAvatar(avatar);
+                }
                 eater.setCountry(countryService.getByIso2(user.getLocale().substring(3, 5)));
                 eater.setLanguage(languageService.getSupportedLanguage(new Locale(user.getLocale())));
                 eaterService.addFacebookUser(eater);
@@ -108,8 +115,8 @@ public class FacebookAuthenticationProvider extends AbstractAuthenticationManage
             InputStream is = url.openStream();
             return IOUtils.toByteArray(is);
         } catch (Exception e) {
-            log.error("impossible get The avatar from facebokk", e);
-        } 
+            log.warn("impossible get The avatar from facebook", e);
+        }
         return null;
     }
 

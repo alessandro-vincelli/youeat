@@ -44,14 +44,11 @@ public class SecuritySession extends AuthenticatedWebSession {
         super(request);
     }
 
-    private static final long serialVersionUID = 1L;
     private Authentication auth;
     private String username = "";
     private String[] roles;
     private Eater loggedInUser;
-    private String facebookSession;
-    private long facebookUserId;
-
+    
     /**
      * @see org.apache.wicket.authentication.AuthenticatedWebSession#authenticate(java.lang.String, java.lang.String)
      */
@@ -81,10 +78,10 @@ public class SecuritySession extends AuthenticatedWebSession {
         // Check if the request contains a facebook session key
         try {
             auth = AuthenticationProvider.faceBookAuthenticate(request);
-            if(!auth.isAuthenticated()){
+            if (!auth.isAuthenticated()) {
                 return false;
             }
-            
+
             Collection<GrantedAuthority> authss = auth.getAuthorities();
             this.roles = new String[authss.size()];
             int count = 0;
@@ -128,20 +125,6 @@ public class SecuritySession extends AuthenticatedWebSession {
 
     public Eater getLoggedInUser() {
         return loggedInUser;
-    }
-
-    /**
-     * @return the facebookSession
-     */
-    public String getFacebookSession() {
-        return facebookSession;
-    }
-
-    /**
-     * @return the facebookUserId
-     */
-    public long getFacebookUserId() {
-        return facebookUserId;
     }
 
 }

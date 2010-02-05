@@ -308,4 +308,11 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
     public void setSocialSessionKey(String socialSessionKey) {
         this.socialSessionKey = socialSessionKey;
     }
+   
+    /**
+     * @return true if the user comes from a social network
+     */
+    public boolean isSocialNetworkEater(){
+        return socialType != null && socialUID != null;
+    }
 }

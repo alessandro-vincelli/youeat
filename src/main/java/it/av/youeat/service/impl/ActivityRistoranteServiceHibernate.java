@@ -7,6 +7,7 @@ import it.av.youeat.ocm.model.EaterRelation;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.service.ActivityRistoranteService;
 import it.av.youeat.service.EaterRelationService;
+import it.av.youeat.service.SocialService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,9 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
 
     @Autowired
     private EaterRelationService eaterRelationService;
-
+    @Autowired
+    private SocialService socialService; 
+    
     /**
      * {@inheritDoc}
      */
@@ -69,6 +72,9 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
      * {@inheritDoc}
      */
     public ActivityRistorante save(ActivityRistorante activityRistorante) {
+        if(activityRistorante.getEater().isSocialNetworkEater()){
+            socialService.publishRistoActivity(activityRistorante);    
+        }
         return super.save(activityRistorante);
     }
 

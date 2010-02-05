@@ -76,7 +76,7 @@ public class SocialServiceFacebook implements SocialService {
             if (activityRistorante.getEater().isSocialNetworkEater()) {
                 uid = Long.valueOf(activityRistorante.getEater().getSocialUID());
             }
-            client.stream_publish(prepareActivityMessage(activityRistorante), null, null, Long.valueOf("applicationID"),
+            client.stream_publish(prepareActivityMessage(activityRistorante), null, null, Long.valueOf(applicationID),
                     uid);
         } catch (FacebookException e) {
             log.error("Error sending notification througth facebook", e);

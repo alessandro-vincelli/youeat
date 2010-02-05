@@ -30,7 +30,7 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
+	
 	<!-- <listener>
 		<listener-class>org.springframework.security.ui.session.HttpSessionEventPublisher</listener-class>
 	</listener> -->
@@ -44,11 +44,6 @@
 	</listener> -->
 	
 	<filter>
-		<filter-name>FacebookUsers</filter-name>
-		<filter-class>it.av.youeat.web.filter.FacebookUserFilter</filter-class>
-	</filter>
-
-	<filter>
 		<filter-name>Wicket</filter-name>
 		<filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
 		<init-param>
@@ -56,12 +51,7 @@
 			<param-value>org.apache.wicket.spring.SpringWebApplicationFactory</param-value>	
 		</init-param>
 	</filter>
-
-	<!--  <filter-mapping>
-		<filter-name>FacebookUsers</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>-->
-
+	
 	<filter-mapping>
 		<filter-name>Wicket</filter-name>
 		<url-pattern>/*</url-pattern>

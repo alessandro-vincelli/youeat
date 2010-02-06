@@ -92,8 +92,14 @@ public class MessageListPage extends BasePage {
                     item.add(new AttributeAppender("class", new Model<String>("rowMessageUnread"), " "));
                 }
                 Eater sender = item.getModelObject().getSender();
+                Eater recipient = item.getModelObject().getDialog().checkCounterpart(sender);
                 item.add(ImagesAvatar.getAvatar("avatar", sender, this.getPage(), true));
                 item.add(new BookmarkablePageLink("linkToUser", EaterViewPage.class, new PageParameters(YoueatHttpParams.YOUEAT_ID + "=" + sender.getId())).add(new Label(Message.SENDER_FIELD)));
+                BookmarkablePageLink recipientLink = new BookmarkablePageLink("linkToRecipientUser", EaterViewPage.class, new PageParameters(YoueatHttpParams.YOUEAT_ID + "=" + recipient.getId()));
+                recipientLink.add(new Label("recipient", recipient.toString()));
+                //visible only on Sent page
+                recipientLink.setVisible(!inBox);
+                item.add(recipientLink);
                 item.add(new Label(Message.SENTTIME_FIELD));
                 item.add(new Label(Message.TITLE_FIELD));
                 item.add(new OpenMessage("openMessage", new Model<Message>(item.getModelObject()), item).add(new Label(

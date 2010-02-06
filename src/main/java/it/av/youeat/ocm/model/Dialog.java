@@ -129,5 +129,17 @@ public class Dialog extends BasicEntity {
     public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
     }
-    
+        
+    /**
+     * return the counterpart of the given user 
+     * @param eater
+     * @return the counterpart
+     */
+    public Eater checkCounterpart(Eater eater) {
+        if (getReceiver().equals(eater)) {
+            return getSender();
+        } else {
+            return getReceiver();
+        }
+    }
 }

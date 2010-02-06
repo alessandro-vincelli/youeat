@@ -17,7 +17,6 @@ package it.av.youeat.web.page;
 
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Dialog;
-import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 import it.av.youeat.service.DialogService;
 import it.av.youeat.web.components.ImagesAvatar;
@@ -103,7 +102,7 @@ public class MessagePage extends BasePage {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 Message msgToSend = (Message) form.getModelObject();
-                dialogService.reply(msgToSend, dialog, getCounterpart(dialog));
+                dialogService.reply(msgToSend, dialog, dialog.checkCounterpart(getLoggedInUser()));
                 dialog = dialogService.readDiscussion(dialogId, getLoggedInUser());
                 sendMessageForm.setModelObject(getNewMessage());
                 if (target != null) {
@@ -122,14 +121,6 @@ public class MessagePage extends BasePage {
         });
 
         add(new BookmarkablePageLink("goSearchFriendPage", SearchFriendPage.class));
-    }
-
-    private Eater getCounterpart(Dialog dialog) {
-        if (dialog.getReceiver().equals(getLoggedInUser())) {
-            return dialog.getSender();
-        } else {
-            return dialog.getReceiver();
-        }
     }
 
     private Message getNewMessage() {

@@ -9,6 +9,9 @@
     <div class="messageTitle"><strong><span wicket:id="title"></span></strong></div>
     <div class="messageInfos">
         <a href="#" wicket:id="linkToUser"><span wicket:id="sender"></span></a>
+        <wicket:enclosure child="linkToRecipientUser"><wicket:message key="sentTo" />
+        <a href="#" wicket:id="linkToRecipientUser"><span wicket:id="recipient"></span></a>
+        </wicket:enclosure>
         <span wicket:id="sentTime"></span>
     </div>
     <div class="messageBody"><a href="#" wicket:id="openMessage"><span wicket:id="body"></span></a></div>

@@ -57,7 +57,7 @@ import org.apache.wicket.validation.validator.StringValidator;
  */
 @AuthorizeInstantiation( { "USER", "ADMIN" })
 public class EaterAccountPage extends BasePage {
-    private static final long serialVersionUID = 1L;
+    
     @SpringBean
     private EaterService eaterService;
     @SpringBean
@@ -91,18 +91,21 @@ public class EaterAccountPage extends BasePage {
         accountForm.add(new DropDownChoice<Language>("language", languageService.getAll(), new LanguageRenderer()));
         PasswordTextField oldPassword = new PasswordTextField("oldPassword", new Model<String>(oldPasswordValue));
         oldPassword.add(new OldPasswordValidator());
+        oldPassword.setEnabled(!eater.isSocialNetworkEater());
         accountForm.add(oldPassword);
         PasswordTextField pwd1 = new PasswordTextField("newPassword", new Model<String>(newPasswordValue));
         pwd1.setRequired(false);
+        pwd1.setEnabled(!eater.isSocialNetworkEater());
         pwd1.add(pwdValidator);
         pwd1.setResetPassword(false);
         accountForm.add(pwd1);
         PasswordTextField pwd2 = new PasswordTextField("password-confirm", new Model<String>(confirmPassword));
         pwd2.setRequired(false);
+        pwd2.setEnabled(!eater.isSocialNetworkEater());
         accountForm.add(pwd2);
         EqualPasswordInputValidator passwordInputValidator = new EqualPasswordInputValidator(pwd1, pwd2);
         accountForm.add(passwordInputValidator);
-        accountForm.add(new SubmitButton("saveAccount", accountForm));
+        accountForm.add(new SubmitButton("saveAccount", accountForm).setVisible(!eater.isSocialNetworkEater()));
 
         Form formAvatar = new Form("formAvatar");
         add(formAvatar);
@@ -152,7 +155,6 @@ public class EaterAccountPage extends BasePage {
     }
 
     private class SubmitAvatarButton extends AjaxFallbackButton {
-        private static final long serialVersionUID = 1L;
 
         public SubmitAvatarButton(String id, Form<Ristorante> form) {
             super(id, form);

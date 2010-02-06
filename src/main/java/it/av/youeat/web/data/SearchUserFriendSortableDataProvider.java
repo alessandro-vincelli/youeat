@@ -36,7 +36,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  * 
  */
 public class SearchUserFriendSortableDataProvider extends SortableDataProvider<Eater> {
-    private static final long serialVersionUID = 1L;
     @SpringBean
     private EaterService usersService;
     private transient Collection<Eater> results;
@@ -108,7 +107,7 @@ public class SearchUserFriendSortableDataProvider extends SortableDataProvider<E
      */
     public final void fetchResults(String pattern) throws YoueatException {
         if (StringUtils.isNotBlank(pattern)) {
-            results = usersService.findUserWithoutRelation(forUser, pattern + "~");
+            results = usersService.findUserWithoutRelation(forUser, pattern);
         } else {
             results = usersService.findUserWithoutRelation(forUser);
         }

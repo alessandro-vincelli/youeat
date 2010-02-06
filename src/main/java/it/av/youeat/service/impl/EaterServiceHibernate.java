@@ -155,14 +155,14 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         // use the search pattern on the firstname and lastname
         if (StringUtils.isNotBlank(pattern)) {
             String patternClean = LuceneUtil.escapeSpecialChars(pattern);
-            patternClean = patternClean + "~";
+            String patternFuzzy = LuceneUtil.fuzzyAllTerms(patternClean);
             searchPattern.append(" %% (");
-            searchPattern.append(" firstname:(");
-            searchPattern.append(pattern);
-            searchPattern.append(") || ");
-            searchPattern.append(" lastname:(");
-            searchPattern.append(pattern);
-            searchPattern.append(")) ");
+            searchPattern.append(" firstname:");
+            searchPattern.append(patternFuzzy);
+            searchPattern.append(" || ");
+            searchPattern.append(" lastname:");
+            searchPattern.append(patternFuzzy);
+            searchPattern.append(") ");
         }
 
         FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search

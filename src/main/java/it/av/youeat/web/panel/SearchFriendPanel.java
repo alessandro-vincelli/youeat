@@ -126,7 +126,6 @@ public class SearchFriendPanel extends Panel {
     }
 
     private static class SearchBox extends AutoCompleteTextField<String> {
-        private static final long serialVersionUID = 1L;
         @SpringBean
         private EaterService eaterService;
         private Eater loggedUser;
@@ -148,7 +147,7 @@ public class SearchFriendPanel extends Panel {
             Collection<String> choises = new ArrayList<String>();
             try {
                 if (!input.isEmpty() && input.length() > 2)
-                    for (Eater eater : eaterService.findUserWithoutRelation(loggedUser, input + "~")) {
+                    for (Eater eater : eaterService.findUserWithoutRelation(loggedUser, input)) {
                         choises.add(eater.getFirstname() + " " + eater.getLastname() );
                     }
             } catch (YoueatException e) {

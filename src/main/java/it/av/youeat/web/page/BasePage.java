@@ -90,8 +90,7 @@ public class BasePage extends WebPage {
         feedbackPanel = new FeedbackPanel("feedBackPanel");
         feedbackPanel.setOutputMarkupPlaceholderTag(true);
         add(feedbackPanel);
-        
-        
+
         ResourceReference img = new ResourceReference(this.getClass(), "resources/images/logo-mela-small.png");
         add(new Image("logo", img));
         add(new AjaxFallbackLink<String>("goUserPage") {
@@ -153,8 +152,10 @@ public class BasePage extends WebPage {
             }
         });
 
-        long numberPendingFrienRequest = (getLoggedInUser() != null) ? eaterRelationService.getAllPendingFriendRequetToUsers(getLoggedInUser()).size() : 0;
-        final Label pendingFriendRequests = new Label("pendingFriendRequests", new Model<String>("(" + numberPendingFrienRequest + ")"));
+        long numberPendingFrienRequest = (getLoggedInUser() != null) ? eaterRelationService
+                .getAllPendingFriendRequetToUsers(getLoggedInUser()).size() : 0;
+        final Label pendingFriendRequests = new Label("pendingFriendRequests", new Model<String>("("
+                + numberPendingFrienRequest + ")"));
         pendingFriendRequests.setOutputMarkupPlaceholderTag(true);
         pendingFriendRequests.setVisible(numberPendingFrienRequest > 0);
         add(new BookmarkablePageLink<String>("goFriendPage", FriendsPage.class) {
@@ -175,21 +176,22 @@ public class BasePage extends WebPage {
             }
         };
         add(goMessagesPage);
-        long numberofMessages = (getLoggedInUser() != null) ? messageService.countIncomingMessages(getLoggedInUser()) : 0;
+        long numberofMessages = (getLoggedInUser() != null) ? messageService.countIncomingMessages(getLoggedInUser())
+                : 0;
         final Label numberMessages = new Label("numberMessages", new Model<Long>(numberofMessages));
         numberMessages.setOutputMarkupPlaceholderTag(true);
-//        numberMessages.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(30)) {
-//            @Override
-//            protected void onPostProcessTarget(AjaxRequestTarget target) {
-//                super.onPostProcessTarget(target);
-//                long numberMessagesRefreshed = messageService.countMessages(getLoggedInUser());
-//                numberMessages.setDefaultModelObject((Long) numberMessagesRefreshed);
-//                numberMessages.setVisible(numberMessagesRefreshed > 0);
-//                if (target != null) {
-//                    // target.appendJavascript("new Effect.Highlight($('" + numberMessages.getMarkupId() + "'));");
-//                }
-//            }
-//        });
+        // numberMessages.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(30)) {
+        // @Override
+        // protected void onPostProcessTarget(AjaxRequestTarget target) {
+        // super.onPostProcessTarget(target);
+        // long numberMessagesRefreshed = messageService.countMessages(getLoggedInUser());
+        // numberMessages.setDefaultModelObject((Long) numberMessagesRefreshed);
+        // numberMessages.setVisible(numberMessagesRefreshed > 0);
+        // if (target != null) {
+        // // target.appendJavascript("new Effect.Highlight($('" + numberMessages.getMarkupId() + "'));");
+        // }
+        // }
+        // });
         numberMessages.setVisible(numberofMessages > 0);
         goMessagesPage.add(numberMessages);
 
@@ -202,17 +204,17 @@ public class BasePage extends WebPage {
         final Label unreadMsgs = new Label("unreadMessages", new Model<Long>(numberUnreadMsgs));
         unreadMsgs.setOutputMarkupPlaceholderTag(true);
         unreadMsgs.setVisible(numberUnreadMsgs > 0);
-//        unreadMsgs.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(30)) {
-//            @Override
-//            protected void onPostProcessTarget(AjaxRequestTarget target) {
-//                super.onPostProcessTarget(target);
-//                long numberUnreadMessagesRefreshed = messageService.countUnreadMessages(getLoggedInUser());
-//                unreadMsgs.setDefaultModelObject((Long) numberUnreadMessagesRefreshed);
-//                if (target != null) {
-//                    // target.appendJavascript("new Effect.Highlight($('" + unreadMsgs.getMarkupId() + "'));");
-//                }
-//            }
-//        });
+        // unreadMsgs.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(30)) {
+        // @Override
+        // protected void onPostProcessTarget(AjaxRequestTarget target) {
+        // super.onPostProcessTarget(target);
+        // long numberUnreadMessagesRefreshed = messageService.countUnreadMessages(getLoggedInUser());
+        // unreadMsgs.setDefaultModelObject((Long) numberUnreadMessagesRefreshed);
+        // if (target != null) {
+        // // target.appendJavascript("new Effect.Highlight($('" + unreadMsgs.getMarkupId() + "'));");
+        // }
+        // }
+        // });
         goMessagesPage.add(unreadMsgs);
 
         Link<String> goItalian = new Link<String>("goItalian") {
@@ -269,32 +271,9 @@ public class BasePage extends WebPage {
         };
         add(goDutch);
 
-        Link<String> goSignOut = new Link<String>("goSignOut") {
-            private static final long serialVersionUID = 1L;
+        BookmarkablePageLink goSignOut = new BookmarkablePageLink("goSignOut", SignOut.class);
 
-            @Override
-            public void onClick() {
-                setResponsePage(SignOut.class);
-            }
-        };
-
-        Link<String> goSignIn = new Link<String>("goSignIn") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick() {
-                setResponsePage(SignIn.class);
-            }
-        };
-        
-//        Link<String> goSignUp = new Link<String>("goSignUp") {
-//            private static final long serialVersionUID = 1L;
-//
-//            @Override
-//            public void onClick() {
-//                setResponsePage(SignUpPage.class);
-//            }
-//        };
+        BookmarkablePageLink goSignIn = new BookmarkablePageLink("goSignIn", SignIn.class);
 
         goSignIn.setOutputMarkupId(true);
         goSignOut.setOutputMarkupId(true);
@@ -302,40 +281,29 @@ public class BasePage extends WebPage {
         if (isAuthenticated) {
             goSignOut.setVisible(true);
             goSignIn.setVisible(false);
-//            goSignUp.setVisible(false);
+            // goSignUp.setVisible(false);
         } else {
             goSignOut.setVisible(false);
             goSignIn.setVisible(true);
-//            goSignUp.setVisible(true);
+            // goSignUp.setVisible(true);
         }
         add(goSignOut);
         add(goSignIn);
-//        add(goSignUp);
+        // add(goSignUp);
 
-        Link<String> goAccount = new Link<String>("goAccount") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick() {
-                Eater eater = getLoggedInUser();
-                if (eater != null) {
-                    PageParameters pp = new PageParameters(YoueatHttpParams.YOUEAT_ID + "=" + eater.getId());
-                    setResponsePage(EaterAccountPage.class, pp);
-                }
-            }
-
+        PageParameters goAccountParameters = new PageParameters();
+        if (loggedInUser != null) {
+            goAccountParameters.add(YoueatHttpParams.YOUEAT_ID, loggedInUser.getId());
+        }
+        BookmarkablePageLink goAccount = new BookmarkablePageLink<String>("goAccount", EaterAccountPage.class,
+                goAccountParameters) {
             @Override
             protected void onBeforeRender() {
                 super.onBeforeRender();
                 setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
                         .isInstantiationAuthorized(EaterAccountPage.class)));
             }
-
-            @Override
-            protected boolean callOnBeforeRenderIfNotVisible() {
-                return true;
-            }
-        };        
+        };
         Label name = new Label("name", loggedInUser != null ? loggedInUser.toString() : "");
         goAccount.add(name);
         add(goAccount);

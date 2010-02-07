@@ -51,7 +51,6 @@ import org.apache.wicket.util.lang.Bytes;
 @AuthorizeInstantiation( { "USER", "ADMIN" })
 public class RistoranteEditPicturePage extends BasePage {
 
-    private static final long serialVersionUID = 1L;
     @SpringBean(name = "ristoranteService")
     private RistoranteService ristoranteService;
     @SpringBean

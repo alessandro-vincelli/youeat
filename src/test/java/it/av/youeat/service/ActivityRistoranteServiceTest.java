@@ -124,11 +124,15 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         
         activities = activityRistoranteService.findByFriendWithActivitiesOnRistorante(userFriend, risto, ActivityRistorante.TYPE_ADDED);
         assertTrue(activities.size() > 0);
-
-        /*activities = activityRistoranteService.getAll();
-        for (ActivityRistorante activityRistorante : activities) {
-            activityRistoranteService.remove(activityRistorante);
-        }*/
+        
+        int countByType  = activityRistoranteService.countByRistoAndType(risto, ActivityRistorante.TYPE_ADDED);
+        assertTrue(countByType > 0);
+        
+        activities  = activityRistoranteService.findByFriendContributionsOnRistorante(userFriend, risto);
+        assertTrue(activities.size() > 0);
+        
+        int countContributions  = activityRistoranteService.countContributionsOnRistorante(risto);
+        assertTrue(countContributions > 0);
 
     }
 

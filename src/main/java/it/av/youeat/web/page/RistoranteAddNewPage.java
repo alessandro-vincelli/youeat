@@ -71,10 +71,9 @@ import org.springframework.util.Assert;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@AuthorizeInstantiation( { "USER", "ADMIN", "EDITOR" })
+@AuthorizeInstantiation( { "USER", "ADMIN"})
 public class RistoranteAddNewPage extends BasePage {
 
-    private static final long serialVersionUID = 1L;
     @SpringBean(name = "ristoranteService")
     private RistoranteService ristoranteService;
     @SpringBean(name = "dataRistoranteService")

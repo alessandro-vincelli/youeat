@@ -554,6 +554,27 @@ input.deleteButton {
     width: 100%;
 }
 
+.titleActivitiesOnRisto {
+    padding-top: 4px;
+    float: left;
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-size: x-small;
+    font-weight: bold;
+}
+
+.titleActivitiesOnRisto2 {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    float: left;
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-size: x-small;
+    font-style: italic;
+}
+
 input.submitButton {
     border: 1px solid #AAAAAA;
     padding: 4px 4px;
@@ -561,6 +582,17 @@ input.submitButton {
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-bottomright: 5px;
     -moz-border-radius-topright: 5px;
+    font-size: x-small;
+}
+
+a.submitButton {
+    border: 1px solid #AAAAAA;
+    padding: 4px 4px;
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-topright: 5px;
+    font-size: x-small;
 }
 
 .descriptionLinks {

@@ -34,6 +34,7 @@ import it.av.youeat.web.panel.RistoranteRevisionsPanel;
 import it.av.youeat.web.util.DefaultFocusBehavior;
 import it.av.youeat.web.util.RistoranteUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -84,7 +85,6 @@ import wicket.contrib.gmap.api.GMarkerOptions;
  */
 public class RistoranteViewPage extends BasePage {
 
-    private static final long serialVersionUID = 1L;
     @SpringBean(name = "ristoranteService")
     private RistoranteService ristoranteService;
     @SpringBean
@@ -438,13 +438,27 @@ public class RistoranteViewPage extends BasePage {
             bottomMap.setVisible(false);
         }
         add(bottomMap);
-        List<ActivityRistorante> friendEatActiviet = new ArrayList<ActivityRistorante>(0);
+        // users that already tried infos
+        List<ActivityRistorante> friendThatAlreadyEat = new ArrayList<ActivityRistorante>(0);
+        int numberUsersThatAlreadyEat = 0;
         
         if(getLoggedInUser() != null){
-            friendEatActiviet = activityService.findByFriendThatEatOnRistorante(getLoggedInUser(), ristorante);
+            friendThatAlreadyEat = activityService.findByFriendWithActivitiesOnRistorante(getLoggedInUser(), ristorante, ActivityRistorante.TYPE_TRIED);
+            numberUsersThatAlreadyEat = activityService.countByRistoAndType(ristorante, ActivityRistorante.TYPE_TRIED);
         }
-        add(new WebMarkupContainer("friendEaterListTitle").setVisible(friendEatActiviet.size() > 0));
-        add(new FriedEaterListView("friendEaterList", friendEatActiviet).setVisible(friendEatActiviet.size() > 0));
+        add(new Label("friendEaterListTitle", getString("numberOfUsersAlreadyEatAt", new Model<NumberBean>(new NumberBean(numberUsersThatAlreadyEat)))).setVisible(numberUsersThatAlreadyEat > 0));
+        add(new FriedEaterListView("friendEaterList", friendThatAlreadyEat).setVisible(friendThatAlreadyEat.size() > 0));
+        
+        //contribution infos
+        List<ActivityRistorante> friendContributions = new ArrayList<ActivityRistorante>(0);
+        int numberOfContributions = 0;
+        
+        if(getLoggedInUser() != null){
+            friendContributions = activityService.findByFriendContributionsOnRistorante(getLoggedInUser(), ristorante);
+            numberOfContributions = activityService.countContributionsOnRistorante(ristorante);
+        }
+        add(new Label("numberOfContributions", getString("numberOfContributions", new Model<NumberBean>(new NumberBean(numberOfContributions)))).setVisible(numberOfContributions > 0));
+        add(new FriedEaterListView("friendContributionsList", friendContributions).setVisible(friendContributions.size() > 0));
     }
 
     public RistoranteViewPage(Ristorante ristorante) throws YoueatException {
@@ -552,6 +566,23 @@ public class RistoranteViewPage extends BasePage {
         @Override
         protected List<RistoranteDescriptionI18n> load() {
             return ristorante.getDescriptions();
+        }
+    }
+    
+    private class NumberBean implements Serializable{
+        private int number = 0;
+
+        public NumberBean(int number) {
+            super();
+            this.number = number;
+        }
+
+        public int getNumber() {
+            return number;
+        }
+
+        public void setNumber(int number) {
+            this.number = number;
         }
     }
 }

@@ -49,6 +49,15 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      * @return activities for the given user
      */
     List<ActivityRistorante> findByUserRistoType(Eater user, Ristorante risto, String activityType);
+    
+    /**
+     * Count activities on ristoranti of the activityType see {@link ActivityRistorante}
+     * 
+     * @param risto
+     * @param activityType
+     * @return number of activities
+     */
+    int countByRistoAndType(Ristorante risto, String... activityType);
 
     /**
      * Find activities on restaurants for the friends given user
@@ -141,7 +150,7 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
     List<ActivityRistorante> findByFriendThatEatOnRistorante(Eater eater, Ristorante risto);
 
     /**
-     * Find friends of the given user with activity on the given ristorante
+     * Find friends that tried the given ristorante
      * 
      * @param eater 
      * @param risto
@@ -150,5 +159,30 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      */
     @Transactional(readOnly = true)
     List<ActivityRistorante> findByFriendWithActivitiesOnRistorante(Eater eater, Ristorante risto, String activityType);
-    
+
+    /**
+     * Find friends activities on the given ristorante<br/>
+     * Activities like:<br/>
+     * <i>
+     * ActivityRistorante.TYPE_ADDED, ActivityRistorante.TYPE_MODIFICATION, ActivityRistorante.TYPE_ADDED_TAG, ActivityRistorante.TYPE_NEW_COMMENT
+     * </i>
+     * 
+     * @param eater 
+     * @param risto
+     * @return activities on the given restaurant
+     */
+    List<ActivityRistorante> findByFriendContributionsOnRistorante(Eater eater, Ristorante risto);
+
+    /**
+     * Count contributions on the given ristorante<br/>
+     * Activities like:<br/>
+     * <i>
+     * ActivityRistorante.TYPE_ADDED, ActivityRistorante.TYPE_MODIFICATION, ActivityRistorante.TYPE_ADDED_TAG, ActivityRistorante.TYPE_NEW_COMMENT
+     * </i>
+     * 
+     * @param eater 
+     * @param risto
+     * @return activities on the given restaurant
+     */
+    int countContributionsOnRistorante(Ristorante risto);
 }

@@ -121,7 +121,6 @@ public class FriendsPage extends BasePage {
                 item
                         .add(new AjaxFallbackLink<EaterRelation>("remove", new Model<EaterRelation>(item
                                 .getModelObject())) {
-                            private static final long serialVersionUID = 1L;
 
                             @Override
                             public void onClick(AjaxRequestTarget target) {
@@ -142,7 +141,6 @@ public class FriendsPage extends BasePage {
                         }.setVisible(!isPendingFriendRequest));
                 item.add(new AjaxFallbackLink<EaterRelation>("acceptFriend", new Model<EaterRelation>(item
                         .getModelObject())) {
-                    private static final long serialVersionUID = 1L;
 
                     @Override
                     public void onClick(AjaxRequestTarget target) {
@@ -164,8 +162,6 @@ public class FriendsPage extends BasePage {
 
                 item.add(new AjaxFallbackLink<EaterRelation>("ignoreFriendRequest", new Model<EaterRelation>(item
                         .getModelObject())) {
-
-                    private static final long serialVersionUID = 1L;
 
                     @Override
                     public void onClick(AjaxRequestTarget target) {

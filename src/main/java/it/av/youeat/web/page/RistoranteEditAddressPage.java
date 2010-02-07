@@ -56,7 +56,6 @@ import org.apache.wicket.validation.ValidationError;
 @AuthorizeInstantiation( { "USER", "ADMIN" })
 public class RistoranteEditAddressPage extends BasePage {
 
-    private static final long serialVersionUID = 1L;
     @SpringBean(name = "ristoranteService")
     private RistoranteService ristoranteService;
     @SpringBean(name = "countryService")

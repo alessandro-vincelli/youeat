@@ -146,13 +146,36 @@
         <li><button wicket:id="tried"><wicket:message key="button.IateHere" /></button></li>
         <li><button wicket:id="asfavourite"><span wicket:id="asfavouriteLabel"></span></button></li>
         </ul>
-        <span class="titleMyActivities" wicket:id="friendEaterListTitle"><wicket:message key="friendEaterListTitle" /></span>
+        <wicket:enclosure child="friendEaterListTitle">
+        <span class="titleActivitiesOnRisto">
+        <wicket:container wicket:id="friendEaterListTitle"></wicket:container>
+        </span>
+        <wicket:enclosure child="friendEaterList">
+        <span class="titleActivitiesOnRisto2"><wicket:message key="ofFriends" /></span>
         <ul class="activitiesList">
             <li wicket:id="friendEaterList">
                 <a wicket:id="view-eater"><span wicket:id="eater.firstname"></span> <span wicket:id="eater.lastname"></span></a>
                 <span wicket:id="date.time" class="dateActivities"></span>
             </li>
         </ul>
+        </wicket:enclosure>
+        </wicket:enclosure>
+        <!--  -->
+        <wicket:enclosure child="numberOfContributions">
+        <span class="titleActivitiesOnRisto">
+        <wicket:container wicket:id="numberOfContributions"></wicket:container>
+        </span>
+        <wicket:enclosure child="friendContributionsList">
+        <span class="titleActivitiesOnRisto2"><wicket:message key="ofFriends" /></span>
+        <ul class="activitiesList">
+            <li wicket:id="friendContributionsList">
+                <a wicket:id="view-eater"><span wicket:id="eater.firstname"></span> <span wicket:id="eater.lastname"></span></a>
+                <span wicket:id="date.time" class="dateActivities"></span>
+            </li>
+        </ul>
+        </wicket:enclosure>
+        </wicket:enclosure>
+        
         </div>
     </div>
 </wicket:extend>

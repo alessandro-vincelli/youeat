@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,6 +29,8 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
     private EaterRelationService eaterRelationService;
     @Autowired
     private SocialService socialService; 
+    
+    private String[] contributions = {ActivityRistorante.TYPE_ADDED, ActivityRistorante.TYPE_MODIFICATION, ActivityRistorante.TYPE_ADDED_TAG, ActivityRistorante.TYPE_NEW_COMMENT};
     
     /**
      * {@inheritDoc}
@@ -206,9 +210,30 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         }
         return find(users, risto, 0, 0, activityType);
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ActivityRistorante> findByFriendContributionsOnRistorante(Eater eater, Ristorante risto) {
+        List<EaterRelation> friends = eaterRelationService.getAllFriendUsers(eater);
+        List<Eater> users = new ArrayList<Eater>(friends.size());
+        for (EaterRelation eaterRelation : friends) {
+            users.add(eaterRelation.getToUser());
+        }
+        return find(users, risto, 0, 0, contributions);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int countContributionsOnRistorante(Ristorante risto) {
+        return countByRistoAndType(risto, contributions);
+    }
 
     private List<ActivityRistorante> find(List<Eater> users, Ristorante risto, int firstResult, int maxResults,
-            String activityType) {
+            String... activityType) {
         Conjunction and = Restrictions.conjunction();
         Disjunction orUSer = Restrictions.disjunction();
         for (Eater eater : users) {
@@ -216,12 +241,35 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         }
         and.add(orUSer);
         Order orderByDate = Order.desc(Activity.DATE);
-        if (!StringUtils.isBlank(activityType)) {
-            and.add(Restrictions.eq(ActivityRistorante.TYPE, activityType));
+        Disjunction disjunctionOnType = Restrictions.disjunction();
+        for (String type : activityType) {
+            if (StringUtils.isNotBlank(type)) {
+                disjunctionOnType.add(Restrictions.eq(ActivityRistorante.TYPE, type));
+            }
         }
+        and.add(disjunctionOnType);
         if (risto != null) {
             and.add(Restrictions.eq(ActivityRistorante.RISTORANTE, risto));
         }
         return findByCriteria(orderByDate, firstResult, maxResults, and);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int countByRistoAndType(Ristorante risto, String... activityType) {
+        Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
+        Conjunction senderFilter = Restrictions.conjunction();
+        Criterion critByRisto = Restrictions.eq(ActivityRistorante.RISTORANTE, risto);
+        Disjunction disjunction = Restrictions.disjunction();
+        for (String type : activityType) {
+            disjunction.add(Restrictions.eq(ActivityRistorante.TYPE, type));
+        }        
+        senderFilter.add(disjunction);
+        senderFilter.add(critByRisto);
+        criteria.add(senderFilter);
+        criteria.setProjection(Projections.rowCount());
+        return (Integer) criteria.list().get(0);
     }
 }

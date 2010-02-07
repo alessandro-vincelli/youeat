@@ -64,7 +64,6 @@ import org.springframework.util.Assert;
 @AuthorizeInstantiation( { "USER", "ADMIN" })
 public class RistoranteEditDataPage extends BasePage {
 
-    private static final long serialVersionUID = 1L;
     @SpringBean
     private RistoranteService ristoranteService;
     @SpringBean

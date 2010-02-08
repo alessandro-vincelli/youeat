@@ -54,7 +54,7 @@ public class FacebookLoginPanel extends Panel {
 
                 @Override
                 public void onClick(AjaxRequestTarget target) {
-                    getRequestCycle().setRequestTarget(new RedirectRequestTarget("http://www.facebook.com/login.php?api_key=083c31f005625c34a27aa011a279322b&extern=1&fbconnect=1&req_perms=publish_stream,read_stream,email&return_session=1&v=1.0&next=" + ((YoueatApplication)getApplication()).getApplicationURL() + "/signIn"));
+                    getRequestCycle().setRequestTarget(new RedirectRequestTarget("http://www.facebook.com/login.php?api_key=083c31f005625c34a27aa011a279322b&extern=1&fbconnect=1&req_perms=publish_stream&return_session=1&v=1.0&next=" + ((YoueatApplication)getApplication()).getApplicationURL() + "/signIn"));
                 }
                 
             });

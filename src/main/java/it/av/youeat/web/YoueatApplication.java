@@ -15,6 +15,7 @@
  */
 package it.av.youeat.web;
 
+import it.av.youeat.web.page.AboutPage;
 import it.av.youeat.web.page.EaterAccountPage;
 import it.av.youeat.web.page.EaterViewPage;
 import it.av.youeat.web.page.ErrorPage;
@@ -97,6 +98,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         if(getSpringContext() != null){
             addComponentInstantiationListener(new SpringComponentInjector(this, getSpringContext(), true));
         }
+        mount(new IndexedParamUrlCodingStrategy("/info", AboutPage.class));
         mount(new IndexedParamUrlCodingStrategy("/signIn", SignIn.class));
         mount(new IndexedParamUrlCodingStrategy("/signOut", SignOut.class));
         mount(new HybridUrlCodingStrategy("/userProfile", UserProfilePage.class));

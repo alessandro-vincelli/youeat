@@ -1284,3 +1284,27 @@ button.positive, .buttons a.positive{
     text-align: right;
     padding-top: 15px;
 }
+
+.infoTitle{
+    font-size: small;
+    text-align: justify;
+    font-weight: bold;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.infoText{
+    font-size: small;
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.infoText li{
+    padding-bottom: 5px;
+}
+
+.date{
+    font-size: x-small;
+    font-style: italic;
+}

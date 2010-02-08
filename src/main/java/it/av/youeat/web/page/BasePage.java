@@ -308,6 +308,8 @@ public class BasePage extends WebPage {
         goAccount.add(name);
         add(goAccount);
 
+        BookmarkablePageLink goInfo = new BookmarkablePageLink("goInfo", AboutPage.class);
+        add(goInfo);
     }
 
     public final FeedbackPanel getFeedbackPanel() {

@@ -18,6 +18,7 @@ package it.av.youeat.service;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.data.City;
+import it.av.youeat.ocm.model.data.Country;
 
 import java.util.Collection;
 import java.util.List;
@@ -43,7 +44,7 @@ public interface RistoranteService {
      */
     @Transactional
     Ristorante update(Ristorante risto, Eater user);
-    
+
     /**
      * Update a ristorante, and refresh latitude and longitude
      * 
@@ -136,18 +137,18 @@ public interface RistoranteService {
      */
     @Transactional
     Ristorante updateNoRevision(Ristorante ristorante);
-    
+
     /**
-     * Return the last added ristoranti 
+     * Return the last added ristoranti
      * 
      * @param numberOfResult number of result to return
      * @return lasts risto added
      */
     @Transactional(readOnly = true)
     List<Ristorante> getLastsAdded(int numberOfResult);
-   
+
     /**
-     * Return the last modified ristoranti 
+     * Return the last modified ristoranti
      * 
      * @param numberOfResult number of result to return
      * @return lasts risto modified
@@ -167,7 +168,31 @@ public interface RistoranteService {
     List<Ristorante> getByCity(City city, int firsResult, int maxResults);
 
     /**
-     * Return random list of ristoranti 
+     * Return cities with risto
+     * 
+     * @return found ristos
+     */
+    @Transactional(readOnly = true)
+    List<City> getCityWithRisto();
+
+    /**
+     * Return cities with risto by the given country
+     * 
+     * @return found cities
+     */
+    @Transactional(readOnly = true)
+    List<City> getCityWithRistoByCountry(Country country);
+
+    /**
+     * Return countries with risto
+     * 
+     * @return found countries
+     */
+    @Transactional(readOnly = true)
+    List<Country> getCountryWithRisto();
+
+    /**
+     * Return random list of ristoranti
      * 
      * @param numberOfResult number of result to return
      * @return lasts risto modified

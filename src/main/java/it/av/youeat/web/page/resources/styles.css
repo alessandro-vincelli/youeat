@@ -536,7 +536,7 @@ h1 {
 }
 
 input.deleteButton {
-    background: transparent url("../images/delete_64_small.png") no-repeat
+    background: transparent url("/images/delete_64_small.png") no-repeat
         center top;
     cursor: pointer;;
     border: none;
@@ -729,7 +729,7 @@ td.submitarea {
 }
 
 input.publishPictureButton {
-    background: transparent url("../images/publish_picture.png") no-repeat
+    background: transparent url("/images/publish_picture.png") no-repeat
         center top;
     cursor: pointer;
     border: none;
@@ -739,7 +739,7 @@ input.publishPictureButton {
 }
 
 input.unpublishPictureButton {
-    background: transparent url("../images/unpublish_picture.png") no-repeat
+    background: transparent url("/images/unpublish_picture.png") no-repeat
         center top;
     cursor: pointer;
     border: none;
@@ -1307,4 +1307,9 @@ button.positive, .buttons a.positive{
 .date{
     font-size: x-small;
     font-style: italic;
+}
+
+.cityOrCountrySelected{
+    font-size: medium;
+    font-weight: bold;
 }

@@ -310,6 +310,9 @@ public class BasePage extends WebPage {
 
         BookmarkablePageLink goInfo = new BookmarkablePageLink("goInfo", AboutPage.class);
         add(goInfo);
+        
+        BookmarkablePageLink goIndex = new BookmarkablePageLink("goIndex", IndexRistoPage.class);
+        add(goIndex);
     }
 
     public final FeedbackPanel getFeedbackPanel() {

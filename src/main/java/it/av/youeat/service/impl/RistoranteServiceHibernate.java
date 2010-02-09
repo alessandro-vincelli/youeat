@@ -22,6 +22,7 @@ import it.av.youeat.ocm.model.RateOnRistorante;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.RistoranteRevision;
 import it.av.youeat.ocm.model.data.City;
+import it.av.youeat.ocm.model.data.Country;
 import it.av.youeat.ocm.util.DateUtil;
 import it.av.youeat.service.ActivityRistoranteService;
 import it.av.youeat.service.RateRistoranteService;
@@ -32,6 +33,7 @@ import it.av.youeat.util.ServerGeocoder;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -40,8 +42,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +81,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
                 ActivityRistorante.TYPE_MODIFICATION)));
         return save(risto);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -112,7 +116,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     /**
      * Return latitude and longitude for the given risto
      * 
-     * @param risto 
+     * @param risto
      * @return longitude and latitude
      */
     private GLatLng getGLatLng(Ristorante risto) {
@@ -126,12 +130,11 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         address.append("italia");
         try {
             return geocoder.findAddress(address.toString());
-        } 
-        catch (IOException e) {
+        } catch (IOException e) {
             log.error("error getting address from google", e);
             return new GLatLng(0, 0);
         }
-        
+
     }
 
     /**
@@ -265,5 +268,40 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         Order orderBy = Order.desc(Ristorante.NAME);
         Criterion critByCity = Restrictions.eq(Ristorante.CITY, city);
         return findByCriteria(orderBy, firsResult, maxResults, critByCity);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<City> getCityWithRisto() {
+        return getCityWithRistoByCountry(null);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<City> getCityWithRistoByCountry(Country country) {
+        Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
+        if(country != null){
+            criteria.add(Restrictions.eq(Ristorante.COUNTRY, country));
+        }
+        criteria.setProjection(Projections.distinct(Projections.property(Ristorante.CITY)));
+        List<City> cities = (List<City>)criteria.list();
+        Collections.sort(cities);
+        return cities;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Country> getCountryWithRisto() {
+        Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
+        criteria.setProjection(Projections.distinct(Projections.property(Ristorante.COUNTRY)));
+        List<Country> countries = (List<Country>)criteria.list();
+        Collections.sort(countries);
+        return countries;
     }
 }

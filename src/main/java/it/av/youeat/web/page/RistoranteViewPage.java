@@ -260,7 +260,7 @@ public class RistoranteViewPage extends BasePage {
                         setResponsePage(new ImageViewPage(item.getModelObject().getPicture()));
                     }
                 };
-                imageLink.add(ImageRisto.getImage("picture", item.getModelObject().getPicture(), 130, 130, true));
+                imageLink.add(ImageRisto.getThumbnailImage("picture", item.getModelObject().getPicture(), true));
                 item.add(imageLink);
             }
         };

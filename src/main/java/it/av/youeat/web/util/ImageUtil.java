@@ -25,38 +25,45 @@ public final class ImageUtil {
     public final static BufferedDynamicImageResource getScaledImage(java.awt.Image img, int width, int height) {
         final BufferedDynamicImageResource resource = new BufferedDynamicImageResource();
         int widthImg = img.getWidth(null);
-        int heigthImg = img.getHeight(null);
+        int heightImg = img.getHeight(null);
 
-        final BufferedImage imgScaled = new BufferedImage(widthImg, heigthImg, BufferedImage.TYPE_INT_RGB);
+        final BufferedImage imgScaled = new BufferedImage(widthImg, heightImg, BufferedImage.TYPE_INT_RGB);
         imgScaled.getGraphics().drawImage(img, 0, 0, null);
-        // if width == heigth, crop not necessary, scole only
-        if (widthImg == heigthImg) {
+        // if the image is smaller than the request, don't do anything
+        if (widthImg <= width || heightImg <= height) {
+            imgScaled.getGraphics().drawImage(img, 0, 0, null);
+            resource.setImage(imgScaled);
+            return resource;
+        }
+        // if width == height, crop not necessary, scale only
+        if (widthImg == heightImg) {
             img = imgScaled.getScaledInstance(width, width, java.awt.Image.SCALE_DEFAULT);
             imgScaled.getGraphics().drawImage(img, 0, 0, null);
             resource.setImage(imgScaled);
             return resource;
         }
-        if (widthImg > heigthImg) {
+        if (widthImg > heightImg) {
             img = imgScaled.getScaledInstance(-width, height, java.awt.Image.SCALE_SMOOTH);
-        } else if (heigthImg > widthImg) {
+        } else if (heightImg > widthImg) {
             img = imgScaled.getScaledInstance(width, -height, java.awt.Image.SCALE_SMOOTH);
         }
         widthImg = img.getWidth(null);
-        heigthImg = img.getHeight(null);
-        final BufferedImage imageCrop = new BufferedImage(widthImg, heigthImg, BufferedImage.TYPE_INT_RGB);
+        heightImg = img.getHeight(null);
+        final BufferedImage imageCrop = new BufferedImage(widthImg, heightImg, BufferedImage.TYPE_INT_RGB);
         imageCrop.getGraphics().drawImage(img, 0, 0, null);
         int xCrop = 0;
         int yCrop = 0;
-        if (widthImg > heigthImg) {
+        if (widthImg > heightImg) {
             xCrop = (widthImg - width) / 2;
-        } else if (heigthImg > widthImg) {
-            yCrop = (heigthImg - height) / 2;
+        } else if (heightImg > widthImg) {
+            yCrop = (heightImg - height) / 2;
         }
         int x = 0 + xCrop;
         int y = 0 + yCrop;
         int w = width;
         int h = height;
-
+        imageCrop.flush();
+        imgScaled.flush();
         resource.setImage(imageCrop.getSubimage(x, y, w, h));
         return resource;
     }
@@ -75,4 +82,5 @@ public final class ImageUtil {
         }
         return null;
     }
+    
 }

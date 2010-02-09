@@ -22,6 +22,7 @@ import it.av.youeat.web.page.ErrorPage;
 import it.av.youeat.web.page.FriendsPage;
 import it.av.youeat.web.page.HomePage;
 import it.av.youeat.web.page.ImageViewPage;
+import it.av.youeat.web.page.IndexRistoPage;
 import it.av.youeat.web.page.MessageListPage;
 import it.av.youeat.web.page.MessagePage;
 import it.av.youeat.web.page.PasswordRecoverPage;
@@ -56,6 +57,7 @@ import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
 import org.apache.wicket.request.target.coding.IndexedParamUrlCodingStrategy;
 import org.apache.wicket.request.target.coding.MixedParamHybridUrlCodingStrategy;
 import org.apache.wicket.request.target.coding.MixedParamUrlCodingStrategy;
+import org.apache.wicket.request.target.coding.QueryStringUrlCodingStrategy;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.web.context.WebApplicationContext;
@@ -118,6 +120,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/messages", MessageListPage.class));
         mount(new MixedParamHybridUrlCodingStrategy("/message", MessagePage.class, new String[]{YoueatHttpParams.DIALOG_ID}));
         mount(new HybridUrlCodingStrategy("/picture", ImageViewPage.class));
+        mount(new QueryStringUrlCodingStrategy("/index", IndexRistoPage.class));
         mount(new MixedParamUrlCodingStrategy("/xd_receiver.htm", XdReceiver.class, null));
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);

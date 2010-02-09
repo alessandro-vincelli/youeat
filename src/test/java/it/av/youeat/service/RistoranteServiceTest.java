@@ -25,6 +25,8 @@ import it.av.youeat.ocm.model.Language;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.RistoranteDescriptionI18n;
 import it.av.youeat.ocm.model.RistorantePicture;
+import it.av.youeat.ocm.model.data.City;
+import it.av.youeat.ocm.model.data.Country;
 
 import java.io.File;
 import java.io.IOException;
@@ -143,7 +145,13 @@ public class RistoranteServiceTest extends YoueatTest {
         a = ristoranteService.getByID(a.getId());
         assertNotNull("A is null", a.getPictures());
         assertEquals("Invalid value for test", 1, a.getPictures().size());
-
+        
+        List<City> cities = ristoranteService.getCityWithRisto();
+        assertTrue(cities.size() > 0);
+        
+        List<Country> countries = ristoranteService.getCountryWithRisto();
+        assertTrue(countries.size() > 0);
+        
         ristoranteService.remove(a);
 
     }

@@ -1,0 +1,61 @@
+<wicket:extend>
+    <div id="wrapper">
+    <div id="content">
+    
+    <span wicket:id="instructions"></span>
+    <span wicket:id="ristoListContainer">
+    <div wicket:id="ristoList" class="messageList">
+    <div class="messageCenterColumn">
+    <div class="friendAvatar"><img src="#" wicket:id="picture"></img> </div>
+    <div class="messageTitle"><strong><a href="#" wicket:id="risto"><span wicket:id="ristoTitle"></span></a></strong></div>
+    <div class="messageInfos">
+        <!-- <a href="#" wicket:id="risto"><span wicket:id="RistoTitle"></span></a> -->
+        <!-- <wicket:enclosure child="linkToRecipientUser"><wicket:message key="sentTo" />
+        <a href="#" wicket:id="linkToRecipientUser"><span wicket:id="recipient"></span></a>
+        </wicket:enclosure>
+        <span wicket:id="sentTime"></span> -->
+    </div>
+    <div class="messageBody"><span wicket:id="ristoAddress"></span> <span wicket:id="ristoCity"></span>, <span wicket:id="ristoPhoneNumber"></span> <span wicket:id="ristoMobilePhoneNumber"></span></div>
+    <div class="messageBody"><span wicket:id="ristoWWW"></span></div>
+    </div>
+    <div class="dialogButton buttons">
+    <!-- <button wicket:id="open"><span><wicket:message key="button.openMessage" /></span></button> -->
+    </div>
+    </div>
+    </span>
+    </div> 
+    </div>
+    <div id="navigation">
+        <span class="titleMyActivities"><wicket:message key="indexPage.cities" /></span>
+        <span wicket:id="cityListContainer">
+        <ul class="activitiesList">
+            <li wicket:id="cityList"> 
+            <a wicket:id="city"><span wicket:id="cityTitle"></span></a> 
+            </li>
+        </ul>
+        </span>
+        <!-- <div class="buttonNavigation buttons">
+        <p><button wicket:id="goSearchFriendPage"><wicket:message key="basepage.goSearchFriendPage" /></button></p>
+        </div> -->
+    </div>
+    <div id="extra">
+        <span class="titleMyActivities"><wicket:message key="indexPage.countries" /></span>
+        <span wicket:id="countryListContainer">
+        <ul class="activitiesList">
+            <li wicket:id="countryList"> 
+            <a wicket:id="country"><span wicket:id="countryTitle"></span></a> 
+            </li>
+        </ul>
+    </span>
+        <!-- <ul>
+        <li>
+        <button wicket:id="inbox"><span><wicket:message key="button.inbox" /></span></button>
+        <span wicket:id="numberMessages" class="numberMessages"></span><wicket:container wicket:id="separator">|</wicket:container><span wicket:id="unreadMessages" class="unreadMessages"></span>
+        </li>
+        <li>
+        <button wicket:id="sentitems"><span><wicket:message key="button.sentitems" /></span></button>
+        <span wicket:id="numberSentMessages" class="numberMessages"></span>
+        </li>
+        </ul> -->
+    </div>
+</wicket:extend>

@@ -28,13 +28,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadProgressBar;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -81,30 +80,26 @@ public class RistoranteEditPicturePage extends BasePage {
             }
         });
         add(pictForm);
-        //pictForm.setOutputMarkupId(true);
+        // pictForm.setOutputMarkupId(true);
         pictForm.setMultiPart(true);
         pictForm.setMaxSize(Bytes.megabytes(1));
         FileUploadField uploadField = new FileUploadField("uploadField");
         pictForm.add(uploadField);
         pictForm.add(new UploadProgressBar("progressBar", pictForm, uploadField));
         pictForm.add(new SubmitButton("submitForm", pictForm));
-        
+
         picturesList = new ListView<RistorantePicture>("picturesList", new PicturesModel()) {
             @Override
             protected void populateItem(final ListItem<RistorantePicture> item) {
                 // Button disabled, because the getPicture is not yet implemented
-                item.add(new AjaxFallbackButton("publish-unpublish", pictForm) {
+                item.add(new SubmitLink("publish-unpublish", pictForm) {
                     @Override
-                    protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                    public void onSubmit() {
                         item.getModelObject().setActive(!item.getModelObject().isActive());
                         try {
                             ristorantePictureService.save(item.getModelObject());
                         } catch (YoueatException e) {
                             error(getString("genericErrorMessage"));
-                        }
-                        if (target != null) {
-                            target.addComponent(getFeedbackPanel());
-                            target.addComponent(form);
                         }
                     }
 
@@ -120,9 +115,9 @@ public class RistoranteEditPicturePage extends BasePage {
                         }
                     }
                 }.setVisible(false));
-                item.add(new AjaxFallbackButton("remove", pictForm) {
+                item.add(new SubmitLink("remove", pictForm) {
                     @Override
-                    protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                    public void onSubmit() {
                         try {
                             RistorantePicture picture = item.getModelObject();
                             Ristorante risto = ((Ristorante) getForm().getModelObject());
@@ -133,14 +128,9 @@ public class RistoranteEditPicturePage extends BasePage {
                         } catch (YoueatException e) {
                             error(getString("genericErrorMessage"));
                         }
-                        if (target != null) {
-                            target.addComponent(picturesListContainer);
-                            target.addComponent(getFeedbackPanel());
-                        }
-
                     }
                 });
-                item.add(ImageRisto.getImage("picture", item.getModelObject().getPicture(), 130, 130, false));
+                item.add(ImageRisto.getThumbnailImage("picture", item.getModelObject().getPicture(), false));
             }
         };
         picturesList.setOutputMarkupId(true);
@@ -158,40 +148,27 @@ public class RistoranteEditPicturePage extends BasePage {
         add(buttonOpenAddedRistoRight);
     }
 
-    private class SubmitButton extends AjaxFallbackButton {
-        private static final long serialVersionUID = 1L;
+    private class SubmitButton extends SubmitLink {
 
         public SubmitButton(String id, Form<Ristorante> form) {
             super(id, form);
         }
 
         @Override
-        protected void onSubmit(AjaxRequestTarget target, Form form) {
-            FileUpload upload = ((FileUploadField)form.get("uploadField")).getFileUpload();
+        public void onSubmit() {
+            super.onSubmit();
+            FileUpload upload = ((FileUploadField) getForm().get("uploadField")).getFileUpload();
             if (upload != null) {
-                Ristorante risto = ((Ristorante) form.getModelObject());
+                Ristorante risto = ((Ristorante) getForm().getModelObject());
                 risto.addPicture(new RistorantePicture(upload.getBytes(), true));
                 try {
                     ristoranteService.updateNoRevision(risto);
-                    picturesList.setModel(new PicturesModel());
                     info(getString("info.pictureupLoaded"));
                 } catch (YoueatException e) {
                     getFeedbackPanel().error(getString("genericErrorMessage"));
                 }
             }
-            if (target != null) {
-                target.addComponent(picturesListContainer);
-                target.addComponent(getFeedbackPanel());
-            }
-        }
 
-        @Override
-        protected void onError(AjaxRequestTarget target, Form<?> form) {
-            super.onError(target, form);
-            getFeedbackPanel().error(getString("genericErrorMessage"));
-            if (target != null) {
-                target.addComponent(getFeedbackPanel());
-            }
         }
     }
 

@@ -14,7 +14,7 @@ import org.hibernate.search.annotations.Store;
 
 @Entity
 @Indexed
-public class City extends BasicEntity {
+public class City extends BasicEntity implements Comparable<City>{
 
     public final static String NAME_FIELD = "name";
 
@@ -84,5 +84,10 @@ public class City extends BasicEntity {
     @Override
     public String toString() {
         return getName();
+    }
+
+    @Override
+    public int compareTo(City o) {
+        return this.getName().compareTo(o.getName());
     }
 }

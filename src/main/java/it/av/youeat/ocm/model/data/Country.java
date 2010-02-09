@@ -14,7 +14,7 @@ import org.hibernate.search.annotations.Store;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
 @Entity
-public class Country extends BasicEntity {
+public class Country extends BasicEntity implements Comparable<Country>{
 
     public static final String NAME = "name";
     public static final String ISO2 = "iso2";
@@ -91,5 +91,10 @@ public class Country extends BasicEntity {
     @Override
     public String toString() {
         return getName();
+    }
+
+    @Override
+    public int compareTo(Country o) {
+        return this.getName().compareTo(o.getName());
     }
 }

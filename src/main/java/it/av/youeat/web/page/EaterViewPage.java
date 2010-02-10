@@ -25,11 +25,13 @@ import it.av.youeat.service.EaterService;
 import it.av.youeat.util.PeriodUtil;
 import it.av.youeat.web.commons.ActivityCommons;
 import it.av.youeat.web.commons.ActivityPaging;
+import it.av.youeat.web.components.ImagesAvatar;
 import it.av.youeat.web.components.SendMessageButton;
 import it.av.youeat.web.components.SendMessageModalWindow;
 import it.av.youeat.web.util.RistoranteUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -44,6 +46,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -71,15 +74,17 @@ public class EaterViewPage extends BasePage {
     private PropertyListView<ActivityRistorante> activitiesList;
     private final SendFriendRequestButton sendFriendRequest;
     private final StartFollowEaterButton startFollow;;
+    // eater to show in this page
+    private Eater eater;
 
-    public EaterViewPage(PageParameters pageParameters){
+    public EaterViewPage(PageParameters pageParameters) {
         add(getFeedbackPanel());
         String eaterId = pageParameters.getString(YoueatHttpParams.YOUEAT_ID, "");
         if (StringUtils.isBlank(eaterId)) {
             throw new RestartResponseAtInterceptPageException(getApplication().getHomePage());
         }
 
-        Eater eater = eaterService.getByID(eaterId);
+        eater = eaterService.getByID(eaterId);
 
         add(new Label("eater", eater.getFirstname() + " " + eater.getLastname()));
 
@@ -104,7 +109,8 @@ public class EaterViewPage extends BasePage {
                 item.add(new Label("date.time", periodUtil.getPeriod(item.getModelObject().getDate().getTime(),
                         getLocale())));
                 BookmarkablePageLink<String> ristoLink = new BookmarkablePageLink<String>("ristorante.link",
-                        RistoranteViewPage.class, RistoranteUtil.createParamsForRisto(item.getModelObject().getRistorante()));
+                        RistoranteViewPage.class, RistoranteUtil.createParamsForRisto(item.getModelObject()
+                                .getRistorante()));
                 ristoLink.add(new Label("ristorante.name"));
                 item.add(ristoLink);
             }
@@ -136,6 +142,24 @@ public class EaterViewPage extends BasePage {
         startFollow = new StartFollowEaterButton("startFollow", getLoggedInUser(), eater, relation);
         add(startFollow);
 
+        PropertyListView<EaterRelation> friendsList = new PropertyListView<EaterRelation>("friendsList",
+                new RelationsModel()) {
+
+            @Override
+            protected void populateItem(final ListItem<EaterRelation> item) {
+
+                BookmarkablePageLink linkToUser = new BookmarkablePageLink(
+                        "linkToUser",
+                        EaterViewPage.class,
+                        new PageParameters(YoueatHttpParams.YOUEAT_ID + "=" + item.getModelObject().getToUser().getId()));
+                item.add(linkToUser);
+                linkToUser.add(new Label("eater.name", item.getModelObject().getToUser().toString()));
+                item.add(ImagesAvatar.getAvatar("avatar", item.getModelObject().getToUser(), this.getPage(), true));
+                // item.add(new Label(EaterRelation.TYPE));
+            }
+        };
+        add(friendsList);
+
     }
 
     /**
@@ -154,7 +178,8 @@ public class EaterViewPage extends BasePage {
             this.toUser = toUser;
             setOutputMarkupId(true);
             if (relation != null) {
-                this.setVisible(!relation.isPeningFriendRelation() && !relation.isActiveFriendRelation() && !relation.isFollowingRelation());
+                this.setVisible(!relation.isPeningFriendRelation() && !relation.isActiveFriendRelation()
+                        && !relation.isFollowingRelation());
             } else {
                 this.setVisible(!fromUser.equals(toUser));
             }
@@ -177,11 +202,11 @@ public class EaterViewPage extends BasePage {
             }
         }
     }
-    
+
     private final class StartFollowEaterButton extends AjaxFallbackLink<EaterRelation> {
         private final Eater fromUser;
         private final Eater toUser;
-        
+
         public StartFollowEaterButton(String id, Eater toUser, Eater fromUser, EaterRelation relation) {
             super(id);
             this.fromUser = fromUser;
@@ -208,4 +233,20 @@ public class EaterViewPage extends BasePage {
         }
     }
 
+    private class RelationsModel extends LoadableDetachableModel<List<EaterRelation>> {
+        public RelationsModel() {
+            super();
+        }
+
+        public RelationsModel(List<EaterRelation> relations) {
+            super(relations);
+        }
+
+        @Override
+        protected List<EaterRelation> load() {
+            List<EaterRelation> eaterRelations = eaterRelationService.getAllActiveRelations(eater);
+            Collections.sort(eaterRelations);
+            return eaterRelations;
+        }
+    }
 }

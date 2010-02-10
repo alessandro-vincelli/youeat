@@ -2,12 +2,16 @@
     <div wicket:id="sendMessagePanel"></div>
     <div id="wrapper">
     <div id="content">
-    <h1 wicket:id="eater"></h1><span><wicket:message key="viewUserPage.eaterActivities" /></span>
+    <span class="eaterAndAvatar">
+    <img src="#" wicket:id="avatar"></img>
+    <h1 wicket:id="eater"></h1>
+    </span>
     <span wicket:id="activitiesListContainer">
     <ul class="eateractivitiesList">
         <li wicket:id="activitiesList">
             <img wicket:id="type" class="iconActivities"></img>
-            <a href="#" wicket:id="ristorante.link"><span wicket:id="ristorante.name"></span></a>
+            <span wicket:id="activityDesc"></span>
+            <a href="#" wicket:id="ristorante.link"><wicket:container wicket:id="ristorante.name"></wicket:container></a>
             <span wicket:id="date.time" class="eaterdateActivities"></span>
         </li>
     </ul>

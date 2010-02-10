@@ -75,7 +75,7 @@ div#extra {
 div#footer {
     clear: left;
     width: 100%;
-    color: #000
+    color: #000;
 }
 
 div#footer p {
@@ -1348,4 +1348,16 @@ button.positive, .buttons a.positive{
 .friendSmallList li a:hover {
     color: #000;
     text-decoration: underline;
+}
+
+
+.eaterAndAvatar{
+    display: inline;
+    width: auto;
+    vertical-align: top;
+}
+.eaterAndAvatar h1{
+    vertical-align: top;
+    display: inline;
+    width: auto;
 }

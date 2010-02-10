@@ -54,7 +54,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  */
 @AuthorizeInstantiation( { "USER" })
 public class UserHomePage extends BasePage {
-    private static final long serialVersionUID = 1L;
+
     @SpringBean(name = "activityRistoranteService")
     private ActivityRistoranteService activityRistoranteService;
     @SpringBean

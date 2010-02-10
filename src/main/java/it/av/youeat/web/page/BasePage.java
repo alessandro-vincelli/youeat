@@ -295,22 +295,24 @@ public class BasePage extends WebPage {
         if (loggedInUser != null) {
             goAccountParameters.add(YoueatHttpParams.YOUEAT_ID, loggedInUser.getId());
         }
-        BookmarkablePageLink goAccount = new BookmarkablePageLink<String>("goAccount", EaterAccountPage.class,
-                goAccountParameters) {
-            @Override
-            protected void onBeforeRender() {
-                super.onBeforeRender();
-                setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
-                        .isInstantiationAuthorized(EaterAccountPage.class)));
-            }
-        };
+
+        BookmarkablePageLink goAccount;
+        if (loggedInUser != null && loggedInUser.isSocialNetworkEater()) {
+            goAccount = new BookmarkablePageLink<String>("goAccount", EaterFacebookAccountPage.class,
+                    goAccountParameters);
+        } else {
+            goAccount = new BookmarkablePageLink<String>("goAccount", EaterAccountPage.class, goAccountParameters);
+        }
+        goAccount.setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
+                .isInstantiationAuthorized(EaterAccountPage.class)));
+
         Label name = new Label("name", loggedInUser != null ? loggedInUser.toString() : "");
         goAccount.add(name);
         add(goAccount);
 
         BookmarkablePageLink goInfo = new BookmarkablePageLink("goInfo", AboutPage.class);
         add(goInfo);
-        
+
         BookmarkablePageLink goIndex = new BookmarkablePageLink("goIndex", IndexRistoPage.class);
         add(goIndex);
     }

@@ -22,13 +22,11 @@ import it.av.youeat.ocm.model.EaterRelation;
 import it.av.youeat.service.ActivityRistoranteService;
 import it.av.youeat.service.EaterRelationService;
 import it.av.youeat.service.EaterService;
-import it.av.youeat.util.PeriodUtil;
-import it.av.youeat.web.commons.ActivityCommons;
 import it.av.youeat.web.commons.ActivityPaging;
+import it.av.youeat.web.components.ActivitiesListView;
 import it.av.youeat.web.components.ImagesAvatar;
 import it.av.youeat.web.components.SendMessageButton;
 import it.av.youeat.web.components.SendMessageModalWindow;
-import it.av.youeat.web.util.RistoranteUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,8 +62,6 @@ public class EaterViewPage extends BasePage {
     @SpringBean
     private EaterService eaterService;
     @SpringBean
-    private PeriodUtil periodUtil;
-    @SpringBean
     private EaterRelationService eaterRelationService;
 
     private ActivityPaging activityPagingUser = new ActivityPaging(0, 20);
@@ -87,7 +83,7 @@ public class EaterViewPage extends BasePage {
         eater = eaterService.getByID(eaterId);
 
         add(new Label("eater", eater.getFirstname() + " " + eater.getLastname()));
-
+        add(ImagesAvatar.getAvatar("avatar", eater, this.getPage(), true));
         // User activities
         try {
             activities = activityRistoranteService.findByUser(eater, activityPagingUser.getFirstResult(),
@@ -100,21 +96,9 @@ public class EaterViewPage extends BasePage {
         activitiesListContainer = new WebMarkupContainer("activitiesListContainer");
         activitiesListContainer.setOutputMarkupId(true);
         add(activitiesListContainer);
-        activitiesList = new PropertyListView<ActivityRistorante>("activitiesList", activities) {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected void populateItem(final ListItem<ActivityRistorante> item) {
-                item.add(ActivityCommons.createActivityIcon(getPage().getClass(), item));
-                item.add(new Label("date.time", periodUtil.getPeriod(item.getModelObject().getDate().getTime(),
-                        getLocale())));
-                BookmarkablePageLink<String> ristoLink = new BookmarkablePageLink<String>("ristorante.link",
-                        RistoranteViewPage.class, RistoranteUtil.createParamsForRisto(item.getModelObject()
-                                .getRistorante()));
-                ristoLink.add(new Label("ristorante.name"));
-                item.add(ristoLink);
-            }
-        };
+        activitiesList = new ActivitiesListView("activitiesList", activities, false);          
+        add(activitiesList);
+           
         activitiesList.setOutputMarkupId(true);
         activitiesListContainer.add(activitiesList);
         AjaxFallbackLink<String> moreActivitiesLink = new AjaxFallbackLink<String>("moreActivities") {
@@ -122,7 +106,7 @@ public class EaterViewPage extends BasePage {
             public void onClick(AjaxRequestTarget target) {
                 activityPagingUser.addNewPage();
                 try {
-                    activities.addAll(activityRistoranteService.findByUser(getLoggedInUser(), activityPagingUser
+                    activities.addAll(activityRistoranteService.findByUser(eater, activityPagingUser
                             .getFirstResult(), activityPagingUser.getMaxResults()));
                     if (target != null) {
                         target.addComponent(activitiesListContainer);

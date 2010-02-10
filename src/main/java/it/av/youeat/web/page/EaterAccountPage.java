@@ -28,6 +28,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.validation.EqualPasswordInputValidator;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.IValidatable;
@@ -53,18 +54,18 @@ public class EaterAccountPage extends BaseEaterAccountPage {
         getAccountForm().add(new Label("email"));
         StringValidator pwdValidator = StringValidator.LengthBetweenValidator.lengthBetween(6, 20);
         PasswordTextField oldPassword = new PasswordTextField("oldPassword", new Model<String>(oldPasswordValue));
-        oldPassword.add(new OldPasswordValidator());
-        oldPassword.setEnabled(!getEater().isSocialNetworkEater());
+        oldPassword.add(new OldPasswordValidator(getAccountForm()));
+        oldPassword.setEnabled(!getLoggedInUser().isSocialNetworkEater());
         getAccountForm().add(oldPassword);
         PasswordTextField pwd1 = new PasswordTextField("newPassword", new Model<String>(newPasswordValue));
         pwd1.setRequired(false);
-        pwd1.setEnabled(!getEater().isSocialNetworkEater());
+        pwd1.setEnabled(!getLoggedInUser().isSocialNetworkEater());
         pwd1.add(pwdValidator);
         pwd1.setResetPassword(false);
         getAccountForm().add(pwd1);
         PasswordTextField pwd2 = new PasswordTextField("password-confirm", new Model<String>(confirmPassword));
         pwd2.setRequired(false);
-        pwd2.setEnabled(!getEater().isSocialNetworkEater());
+        pwd2.setEnabled(!getLoggedInUser().isSocialNetworkEater());
         getAccountForm().add(pwd2);
         EqualPasswordInputValidator passwordInputValidator = new EqualPasswordInputValidator(pwd1, pwd2);
         getAccountForm().add(passwordInputValidator);
@@ -78,15 +79,15 @@ public class EaterAccountPage extends BaseEaterAccountPage {
         }
 
         @Override
-        protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+        protected void onSubmit(AjaxRequestTarget target, Form form) {
             info(getString("info.accountSaved"));
             String newPwd = form.get("password-confirm").getDefaultModelObjectAsString();
             if ((!newPwd.isEmpty())) {
-                getEater().setPassword(eaterService.encodePassword(newPwd, getEater().getPasswordSalt()));
+                ((Eater)form.getModelObject()).setPassword(eaterService.encodePassword(newPwd, ((Eater)form.getModelObject()).getPasswordSalt()));
             }
-            eaterService.update((Eater) form.getModelObject());
-            setEater(eaterService.getByID(getEater().getId()));
-            form.setDefaultModelObject(getEater());
+            Eater eater = (Eater) form.getModelObject();
+            getEaterService().update(eater);
+            ((CompoundPropertyModel<Eater>)form.getModel()).setObject(getEaterService().getByID(eater.getId()));
             newPasswordValue = "";
             oldPasswordValue = "";
             confirmPassword = "";
@@ -104,10 +105,15 @@ public class EaterAccountPage extends BaseEaterAccountPage {
     }
 
     private class OldPasswordValidator extends AbstractValidator<String> {
+        Form<Eater> form;
+        public OldPasswordValidator(Form<Eater> form) {
+            super();
+            this.form = form;
+        }
 
         @Override
         protected void onValidate(IValidatable<String> validatable) {
-            if (!eaterService.isPasswordValid(getEater().getPassword(), validatable.getValue().toString(), getEater()
+            if (!eaterService.isPasswordValid(form.getModelObject().getPassword(), validatable.getValue().toString(), form.getModelObject()
                     .getPasswordSalt())) {
                 error(validatable);
             }

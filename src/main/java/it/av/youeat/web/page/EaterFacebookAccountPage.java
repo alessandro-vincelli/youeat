@@ -22,6 +22,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.model.CompoundPropertyModel;
 
 /**
  * User account manager page.
@@ -44,9 +45,9 @@ public class EaterFacebookAccountPage extends BaseEaterAccountPage {
         @Override
         protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
             info(getString("info.accountSaved"));
-            getEaterService().update((Eater) form.getModelObject());
-            setEater(getEaterService().getByID(getEater().getId()));
-            form.setDefaultModelObject(getEater());
+            Eater eater = (Eater) form.getModelObject();
+            getEaterService().update(eater);
+            ((CompoundPropertyModel<Eater>)form.getModel()).setObject(getEaterService().getByID(eater.getId()));
             if (target != null) {
                 target.addComponent(getFeedbackPanel());
                 target.addComponent(form);

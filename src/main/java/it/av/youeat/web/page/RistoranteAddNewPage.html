@@ -31,15 +31,6 @@
                 <th><label for="postalCode"><wicket:message key="postalCode"/></label></th>
                 <td><input type="text" wicket:id="postalCode"></input></td>
                 </tr>
-                <!-- Risto Type Disabled, probably replaced by the tags
-                <tr>
-                <th></th>
-                <td class="risoTypeBox">
-                    <label for="type"><wicket:message key="type.Ristorante" /></label><input type="checkbox" wicket:id="types.ristorante"></input>
-                    <label for="type"><wicket:message key="type.Pizzeria" /></label><input type="checkbox" wicket:id="types.pizzeria"></input> 
-                    <label for="type"><wicket:message key="type.Bar" /></label><input type="checkbox" wicket:id="types.bar"></input>
-                </td>
-                </tr> -->
                 <tr>
                 <th><label for="phoneNumber"><wicket:message key="phoneNumber"/></label></th>
                 <td><input type="text" wicket:id="phoneNumber"></input></td>
@@ -49,27 +40,9 @@
                 <td><input type="text" wicket:id="mobilePhoneNumber"></input></td>
                 </tr>
                 <tr>
-                <th><label for="faxNumber"><wicket:message key="faxNumber"/></label></th>
-                <td><input type="text" wicket:id="faxNumber"></input></td>
-                </tr>
-                <tr>
                 <th><label for="www"><wicket:message key="www"/></label></th>
                 <td><input type="text" wicket:id="www"></input></td>
                 </tr>
-                <span wicket:id="descriptions">
-                <tr>
-                <th></th>
-                <td id="descriptionArea">
-                    <span wicket:id="language"></span>
-                </td>
-                </tr>
-                <tr>
-                    <th><label for="description"><wicket:message key="description"/></label></th>
-                    <td id="descriptionArea">
-                    <textarea wicket:id="description" autocomplete="off" accesskey="u" name="description" rows="15" cols="60"></textarea>
-                </td>
-                </tr>
-                </span>
                 <tr>
                 <td colspan="2" class="submitarea buttons">
                     <button class="submitButton" type="submit" wicket:message="value:button.create" wicket:id="submitRestaurant"><wicket:message key="button.create"/></button> <button wicket:id="buttonClearForm"><wicket:message key="button.clean"/></button>

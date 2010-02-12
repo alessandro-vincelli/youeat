@@ -54,6 +54,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.springframework.util.Assert;
+import org.wicketstuff.scriptaculous.effect.Effect;
 
 /**
  * Edit a {@link Ristorante}.
@@ -162,7 +163,7 @@ public class RistoranteEditDataPage extends BasePage {
                         .getModelObject(), RistoranteDescriptionI18n.DESCRIPTION)).setVisible(visible));
             }
         };
-        descriptions.setReuseItems(true);
+        descriptions.setReuseItems(false);
         descriptions.setOutputMarkupId(true);
         descriptionsContainer.add(descriptions);
         // form.add(new DropDownChoice<EaterProfile>("userProfile", new
@@ -242,8 +243,9 @@ public class RistoranteEditDataPage extends BasePage {
         protected void onSubmit(AjaxRequestTarget target, Form form) {
             try {
                 if (StringUtils.isNotBlank(ristorante.getId())) {
-                    ristoranteService.update(ristorante, getLoggedInUser());
+                    ristoranteService.update((Ristorante)form.getModelObject(), getLoggedInUser());
                     ristorante = ristoranteService.getByID(ristorante.getId());
+                    form.getModel().setObject(ristorante);
                     getFeedbackPanel().info(getString("info.ristoranteupdated"));
                 } else {
                     getFeedbackPanel().error(getString("error.onUpdate"));
@@ -257,6 +259,7 @@ public class RistoranteEditDataPage extends BasePage {
             if (target != null) {
                 target.addComponent(form);
                 target.addComponent(getFeedbackPanel());
+                target.appendJavascript(new Effect.Shake( getFeedbackPanel()  ).toJavascript()); 
             }
         }
 

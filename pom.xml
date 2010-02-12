@@ -358,6 +358,11 @@
 			<groupId>com.google.code.facebookapi</groupId>
 			<artifactId>facebook-java-api-annotation-processor</artifactId>
 			<version>3.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.wicketstuff</groupId>
+			<artifactId>scriptaculous</artifactId>
+			<version>1.4.1</version>
 		</dependency>   
 		<!-- SPRING -->
 		

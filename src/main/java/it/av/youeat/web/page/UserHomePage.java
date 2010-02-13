@@ -52,7 +52,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@AuthorizeInstantiation( { "USER" })
+@AuthorizeInstantiation( { "USER", "ADMIN" })
 public class UserHomePage extends BasePage {
 
     @SpringBean(name = "activityRistoranteService")

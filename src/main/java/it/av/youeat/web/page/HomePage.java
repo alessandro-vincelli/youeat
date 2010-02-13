@@ -97,7 +97,7 @@ public class HomePage extends BasePage {
                 ristoranteSortableDataProvider, ristoranteDataTable, getFeedbackPanel());
         add(ristoranteSearchPanel);
         
-        ActivitiesListView lastActivitiesList = new ActivitiesListView("activitiesList", activityRistoranteService.getLasts(10), true);          
+        ActivitiesListView lastActivitiesList = new ActivitiesListView("activitiesList", activityRistoranteService.getLasts(10), false);          
         add(lastActivitiesList);
         
         RistosListView lastRistosList = new RistosListView("ristosList", ristoranteService.getRandom(10));          

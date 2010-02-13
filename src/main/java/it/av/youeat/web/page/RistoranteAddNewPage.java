@@ -72,9 +72,7 @@ public class RistoranteAddNewPage extends BasePage {
     private CountryService countryService;
     @SpringBean
     private CityService cityService;
-    @SpringBean
-    private LanguageService languageService;
-
+    
     private final AjaxFallbackLink<Ristorante> buttonClearForm;
 
     private Ristorante ristorante;
@@ -208,7 +206,6 @@ public class RistoranteAddNewPage extends BasePage {
     }
 
     private class SubmitButton extends AjaxFallbackButton {
-        private static final long serialVersionUID = 1L;
 
         public SubmitButton(String id, Form<Ristorante> form) {
             super(id, form);
@@ -240,6 +237,9 @@ public class RistoranteAddNewPage extends BasePage {
                 target.addComponent(submitRestaurantRight);
                 target.addComponent(getForm());
                 target.addComponent(getFeedbackPanel());
+                buttonOpenAddedRistoRight.remove();
+                buttonOpenAddedRistoRight =  new ButtonOpenRisto("buttonOpenAddedRistoRight", new Model<Ristorante>(ristorante),
+                        false);
                 target.addComponent(buttonOpenAddedRistoRight);
                 target.addComponent(buttonOpenAddedRisto);
             }

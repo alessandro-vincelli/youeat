@@ -259,7 +259,7 @@ public class RistoranteEditDataPage extends BasePage {
             if (target != null) {
                 target.addComponent(form);
                 target.addComponent(getFeedbackPanel());
-                target.appendJavascript(new Effect.Shake( getFeedbackPanel()  ).toJavascript()); 
+                //target.appendJavascript(new Effect.Shake( this  ).toJavascript()); 
             }
         }
 

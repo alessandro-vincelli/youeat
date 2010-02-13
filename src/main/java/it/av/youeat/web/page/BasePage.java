@@ -33,6 +33,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.CSSPackageResource;
+import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -52,8 +53,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  */
 public class BasePage extends WebPage {
 
-    // private static final CompressedResourceReference BASEPAGE_JS = new CompressedResourceReference(BasePage.class,
-    // "BasePage.js");
+    private static final CompressedResourceReference BASEPAGE_JS = new CompressedResourceReference(BasePage.class,
+     "BasePage.js");
     private static final CompressedResourceReference STYLES_CSS = new CompressedResourceReference(BasePage.class,
             "resources/styles.css");
     private FeedbackPanel feedbackPanel;
@@ -85,7 +86,7 @@ public class BasePage extends WebPage {
             }
         }
         HtmlUtil.fixInitialHtml(this);
-        // add(JavascriptPackageResource.getHeaderContribution(BASEPAGE_JS));
+        add(JavascriptPackageResource.getHeaderContribution(BASEPAGE_JS));
         add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
         feedbackPanel = new FeedbackPanel("feedBackPanel");
         feedbackPanel.setOutputMarkupPlaceholderTag(true);

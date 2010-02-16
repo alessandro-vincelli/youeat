@@ -270,6 +270,6 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         senderFilter.add(critByRisto);
         criteria.add(senderFilter);
         criteria.setProjection(Projections.rowCount());
-        return (Integer) criteria.list().get(0);
+        return (Integer) criteria.uniqueResult();
     }
 }

@@ -67,7 +67,6 @@ public class SignIn extends BasePageSimple {
         // now you can create the panel contents
         myPanel.createPanel();
         myPanel.setEnabled(true);
-        //
 
     }
 

@@ -35,7 +35,9 @@ import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.queryParser.QueryParser;
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.search.jpa.FullTextEntityManager;
@@ -299,5 +301,15 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         EaterProfile profile = eaterProfileService.getAdminUserProfile();
         Criterion critByAdmin = Restrictions.eq(Eater.USERPROFILE, profile);
         return super.findByCriteria(critByAdmin);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int count() {
+        Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
+        criteria.setProjection(Projections.rowCount());
+        return (Integer)criteria.uniqueResult();
     }
 }

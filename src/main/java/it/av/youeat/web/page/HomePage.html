@@ -6,6 +6,9 @@
 	</div>
 	</div>
     <div id="extra">
+    <p>
+        <wicket:message key="homepage.about"></wicket:message>
+    </p>
     <span class="titleMyActivities"><wicket:message key="homePage.lastActivities" /></span>
     <ul class="activitiesList">
         <li wicket:id="activitiesList">
@@ -13,6 +16,17 @@
             <span wicket:id="activityDesc" style="display: none;"></span>
             <a href="#" wicket:id="ristorante.link"><span wicket:id="ristorante.name"></span></a>
             <span wicket:id="date.time" class="dateActivities"></span>
+        </li>
+        <li>
+            <span wicket:id="facebookSignInPanel"></span>
+        </li>
+        <li>
+            <span wicket:id="numberOfRisto"></span>
+            <span><wicket:message key="numberOfArticles"></wicket:message></span>
+        </li>
+        <li>
+            <span wicket:id="numberOfUser"></span>
+            <span><wicket:message key="numberOfActiveUsers"></wicket:message></span>
         </li>
     </ul>
     <!-- <div class="moreActivitiesArea"><a href="#" wicket:id="moreActivities">more</a></div> -->

@@ -32,6 +32,7 @@ import it.av.youeat.util.LuceneUtil;
 import it.av.youeat.util.ServerGeocoder;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -43,11 +44,13 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.FullTextQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import wicket.contrib.gmap.api.GLatLng;
@@ -215,7 +218,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      * {@inheritDoc}
      */
     @Override
-    public List<Ristorante> freeTextSearch(String pattern) {
+    public List<Ristorante> freeTextSearch(String pattern, ArrayList<Eater> eaters) {
         FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
                 .getFullTextEntityManager(getJpaTemplate().getEntityManager());
         String[] fields = new String[] { "name", "city.name", "tags.tag" };
@@ -227,8 +230,23 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         } catch (ParseException e) {
             throw new YoueatException(e);
         }
-        javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Ristorante.class);
+        FullTextQuery persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Ristorante.class);
+        if(eaters != null){
+            Session session = (Session)getJpaTemplate().getEntityManager().getDelegate();
+            session.enableFilter("friends").setParameterList("friendlist", eaters);
+            List<Ristorante> results = persistenceQuery.getResultList();
+            session.disableFilter("friends");
+            return results;
+        }
         return persistenceQuery.getResultList();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Ristorante> freeTextSearch(String pattern) {
+        return freeTextSearch(pattern, null);
     }
 
     /**
@@ -303,5 +321,15 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         List<Country> countries = (List<Country>)criteria.list();
         Collections.sort(countries);
         return countries;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int count() {
+        Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
+        criteria.setProjection(Projections.rowCount());
+        return (Integer)criteria.uniqueResult();
     }
 }

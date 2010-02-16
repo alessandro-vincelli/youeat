@@ -60,7 +60,7 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
     int countByRistoAndType(Ristorante risto, String... activityType);
 
     /**
-     * Find activities on restaurants for the friends given user
+     * Find activities on restaurants done by friends of given user
      * 
      * @param ofUser
      * @return activities for the friends of the given user

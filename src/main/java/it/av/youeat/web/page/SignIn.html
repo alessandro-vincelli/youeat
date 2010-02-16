@@ -1,6 +1,8 @@
 <wicket:extend>
   <!-- facebook api as of 8/11/09 -->
     <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
+    <script type="text/javascript">FB.init("083c31f005625c34a27aa011a279322b");</script>
+    
     
     <!-- function for facebook to execute on login-->
     <!--<script type="text/javascript">
@@ -33,6 +35,12 @@
         <tr>
         <th><wicket:message key="signin.or"></wicket:message></th>
         <td><span wicket:id="facebookSignInPanel"></span></td> 
+        </tr>
+        <tr>
+        <th></th>
+        <td>
+         <fb:fan profile_id="278017674681" stream="0" connections="0" logobar="1" width="250"></fb:fan>
+        </td>
         </tr>
         </table>
 	</div>

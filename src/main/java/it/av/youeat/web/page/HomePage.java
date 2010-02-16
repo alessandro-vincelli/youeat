@@ -18,12 +18,14 @@ package it.av.youeat.web.page;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.service.ActivityRistoranteService;
+import it.av.youeat.service.EaterService;
 import it.av.youeat.service.RistoranteService;
 import it.av.youeat.web.components.ActivitiesListView;
 import it.av.youeat.web.components.RistoNameColumn;
 import it.av.youeat.web.components.RistoranteDataTable;
 import it.av.youeat.web.components.RistosListView;
 import it.av.youeat.web.data.RistoranteSortableDataProvider;
+import it.av.youeat.web.panel.FacebookLoginPanel;
 import it.av.youeat.web.panel.RistoranteSearchPanel;
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulato
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -53,6 +56,8 @@ public class HomePage extends BasePage {
     private ActivityRistoranteService activityRistoranteService;
     @SpringBean
     private RistoranteService ristoranteService;
+    @SpringBean
+    private EaterService eaterService;
 
     /**
      * Constructor that is invoked when page is invoked without a session.
@@ -97,11 +102,23 @@ public class HomePage extends BasePage {
                 ristoranteSortableDataProvider, ristoranteDataTable, getFeedbackPanel());
         add(ristoranteSearchPanel);
         
-        ActivitiesListView lastActivitiesList = new ActivitiesListView("activitiesList", activityRistoranteService.getLasts(10), false);          
+        ActivitiesListView lastActivitiesList = new ActivitiesListView("activitiesList", activityRistoranteService.getLasts(4), false);          
         add(lastActivitiesList);
         
-        RistosListView lastRistosList = new RistosListView("ristosList", ristoranteService.getRandom(10));          
+        RistosListView lastRistosList = new RistosListView("ristosList", ristoranteService.getRandom(6));
         add(lastRistosList);
+        
+        FacebookLoginPanel myPanel = new FacebookLoginPanel("facebookSignInPanel");
+        // make sure you add the panel first
+        add(myPanel);
+        // now you can create the panel contents
+        myPanel.createPanel();
+        myPanel.setEnabled(true);
+        
+        Label numberOfRisto = new Label("numberOfRisto", Integer.toString(ristoranteService.count()));
+        add(numberOfRisto);
+        Label numberOfUser = new Label("numberOfUser", Integer.toString(eaterService.count()));
+        add(numberOfUser);
     }
 
 }

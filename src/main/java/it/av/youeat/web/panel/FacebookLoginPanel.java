@@ -41,7 +41,6 @@ public class FacebookLoginPanel extends Panel {
         
         public FacebookLoginPanel(String id) {
             super(id);
-            // TODO Auto-generated constructor stub
         }
         
         /**

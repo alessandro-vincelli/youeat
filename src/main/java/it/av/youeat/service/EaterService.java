@@ -200,4 +200,11 @@ public interface EaterService {
      * @return eater with updated password
      */
     Eater setRandomPassword(Eater eater);
+    /**
+     * count users in the DB
+     * 
+     * @return number of users
+     */
+    @Transactional(readOnly = true)
+    int count();
 }

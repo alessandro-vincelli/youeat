@@ -20,6 +20,7 @@ import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.data.City;
 import it.av.youeat.ocm.model.data.Country;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -199,4 +200,24 @@ public interface RistoranteService {
      */
     @Transactional(readOnly = true)
     List<Ristorante> getRandom(int numberOfResult);
+
+    /**
+     * Find restaurants by the given pattern, using Lucene
+     * and filtering activties for the given map of users
+     * 
+     * @param pattern
+     * @param eaters
+     * @return List<Ristorante>
+     */
+    @Transactional(readOnly = true)
+    List<Ristorante> freeTextSearch(String pattern, ArrayList<Eater> eaters);
+    
+    
+    /**
+     * count risto in the DB
+     * 
+     * @return number of risto
+     */
+    @Transactional(readOnly = true)
+    int count();
 }

@@ -24,6 +24,7 @@ import it.av.youeat.service.CountryService;
 import it.av.youeat.service.EaterService;
 import it.av.youeat.service.LanguageService;
 import it.av.youeat.web.components.ImageAvatarResource;
+import it.av.youeat.web.components.ImagesAvatar;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -59,6 +60,7 @@ public class BaseEaterAccountPage extends BasePage {
     private CountryService countryService; 
     private Eater eater;
     private Image avatar;
+    private Image avatarDefault;
     private WebMarkupContainer imagecontatiner;
     final private Form<Eater> accountForm;
     
@@ -91,8 +93,19 @@ public class BaseEaterAccountPage extends BasePage {
         imagecontatiner = new WebMarkupContainer("imageContainer");
         imagecontatiner.setOutputMarkupId(true);
         formAvatar.add(imagecontatiner);
+        
         avatar = new NonCachingImage("avatar", new ImageAvatarResource(eater));
+        avatar.setOutputMarkupPlaceholderTag(true);
         imagecontatiner.add(avatar);
+        avatarDefault = ImagesAvatar.getAvatar("avatarDefault", eater, this, true);
+        if(eater.getAvatar() != null){
+            avatarDefault.setVisible(false);
+        }
+        else{
+            avatar.setVisible(false);
+        }
+        imagecontatiner.add(avatarDefault);
+        
     }
 
     
@@ -120,12 +133,14 @@ public class BaseEaterAccountPage extends BasePage {
             //it's necessary to remove the initial reference to default avatar
             //ImagesAvatar imagesAvatar = new ImagesAvatar();
             //avatar = imagesAvatar.getAvatar(avatar.getId(), eater, this.getPage(), false);
-            avatar = new NonCachingImage(avatar.getId(), new ImageAvatarResource(eater));
+            avatar.setImageResource(new ImageAvatarResource(eater));
+            avatar.setVisible(true);
+            avatarDefault.setVisible(false);
             //avatar = new NonCachingImage(avatar.getId(), new ThumbnailImageResource(new ByteArrayResource("image/png", refreshedEater.getAvatar()), 100));
             if (target != null) {
-                target.addComponent((form.get("imageContainer")));
                 target.addComponent(getFeedbackPanel());
                 target.addComponent(imagecontatiner);
+                target.addComponent(avatar);
             }
         }
     }

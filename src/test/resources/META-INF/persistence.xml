@@ -43,7 +43,7 @@
 			<property name="hibernate.jdbc.use_streams_for_binary" value="true"/>
 			
 			<property name="hibernate.search.default.directory_provider" value="org.hibernate.search.store.FSDirectoryProvider"/>
-			<property name="hibernate.search.default.indexBase" value="/var/lucene/youeat/luceneIndex"/>
+			<property name="hibernate.search.default.indexBase" value="/var/lucene/youeat-ci/luceneIndex"/>
 
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.format_sql" value="false" />
@@ -55,7 +55,7 @@
 				
 				<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
 				<property name="hibernate.connection.url"
-				value="jdbc:postgresql://localhost/eat" />
+				value="jdbc:postgresql://localhost/youeat_ci" />
 				<property name="hibernate.connection.username" value="eat" />
 				<property name="hibernate.connection.password" value="eat" />
 				<!-- <property name="hibernate.hbm2ddl.auto" value="update" /> -->

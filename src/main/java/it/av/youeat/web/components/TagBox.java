@@ -16,14 +16,19 @@ import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTe
 import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * suggests tags already presents and non yet used by this restaurant 
+ * suggests tags already presents and non yet used by this restaurant
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
- *
+ * 
  */
 public class TagBox extends AutoCompleteTextField<String> {
-    private static final long serialVersionUID = 1L;
+
+    private static Logger log = LoggerFactory.getLogger(TagBox.class);
+
     @SpringBean
     private TagService tagService;
     private Ristorante ristorante;
@@ -47,14 +52,13 @@ public class TagBox extends AutoCompleteTextField<String> {
     protected Iterator<String> getChoices(String input) {
         Collection<String> choises = new ArrayList<String>();
         try {
-            List<Tag> tags = tagService.freeTextSearch(LuceneUtil.removeSpecialChars(input) + "~");
+            List<Tag> tags = tagService.freeTextSearch(LuceneUtil.removeSpecialChars(input));
             tags.removeAll(ristorante.getTags());
             for (Tag tag : tags) {
                 choises.add(tag.getTag());
             }
         } catch (YoueatException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.warn("error getting the tage", e);
         }
         return choises.iterator();
     }

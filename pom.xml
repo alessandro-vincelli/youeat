@@ -8,9 +8,13 @@
 	<name>YouEat</name>
 	<description>Wiki and social network to share food experiences</description>
 	<url>http://code.google.com/p/youeat</url>
+	<issueManagement>
+		<system>code.google.com</system>
+		<url>http://code.google.com/p/youeat/issues/list</url>
+	</issueManagement>
 	<ciManagement>
 		<system>Hudson</system>
-		<url>http://www.youeat.org:8080/hudson/</url>
+		<url>http://www.alessandro.vincelli.name/hudson/</url>
 	</ciManagement>
 	<developers>
 		<developer>

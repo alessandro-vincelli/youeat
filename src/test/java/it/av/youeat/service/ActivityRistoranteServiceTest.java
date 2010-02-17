@@ -41,6 +41,7 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
     private RistoranteService ristoranteService;
     private Eater user;
     private Eater userFriend;
+    private Eater userNotFriend;
     private Ristorante risto;
    
 
@@ -67,6 +68,17 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         userFriend.setLanguage(getLanguage());
         userFriend = userService.addRegolarUser(userFriend);
         assertNotNull("userFriend is null", userFriend);
+        
+        userNotFriend = new Eater();
+        userNotFriend.setFirstname("Mario");
+        userNotFriend.setLastname("Bross");
+        userNotFriend.setPassword("secret");
+        userNotFriend.setEmail("mariobross@test.test");
+        userNotFriend.setCountry(getNocountry());
+        userNotFriend.setLanguage(getLanguage());
+        userNotFriend = userService.addRegolarUser(userNotFriend);
+        assertNotNull("userFriend is null", userNotFriend);
+
 
         risto = new Ristorante();
         risto.setName("RistoAlessandro");
@@ -133,6 +145,11 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         
         int countContributions  = activityRistoranteService.countContributionsOnRistorante(risto);
         assertTrue(countContributions > 0);
+        
+        List<Ristorante> ristos = ristoranteService.freeTextSearch(risto.getName());
+        for (Ristorante ristorante : ristos) {
+            System.out.println(ristorante.getName());
+        }
 
     }
 

@@ -24,14 +24,6 @@
     	<constructor-arg value="MD5"/>
 	</bean>
 	
-	<bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
-		<property name="locations">
-			<list>
-				<value>${springPropertiesLocation}</value>
-			</list>
-		</property>
-	</bean>
-	
 	<bean id="notificationTemplateMessage" class="org.springframework.mail.SimpleMailMessage">
 		<property name="from" value="a.vincelli@gmail.com"/>
 	</bean>

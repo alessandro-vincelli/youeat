@@ -109,7 +109,7 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
      */
     public final void fetchResults(String pattern) throws YoueatException {
         if (StringUtils.isNotBlank(pattern)) {
-            results = ristoranteService.freeTextSearch(LuceneUtil.removeSpecialChars(pattern) + "~");
+            results = ristoranteService.freeTextSearch(LuceneUtil.removeSpecialChars(pattern));
         }
     }
 

@@ -67,9 +67,7 @@ public class RistoranteEditPicturePage extends BasePage {
     public RistoranteEditPicturePage(PageParameters parameters) throws YoueatException {
         add(getFeedbackPanel());
         ristoranteId = parameters.getString(YoueatHttpParams.RISTORANTE_ID, "");
-        if (StringUtils.isNotBlank(ristoranteId)) {
-            // this.ristorante = ristoranteService.getByID(ristoranteId);
-        } else {
+        if (StringUtils.isBlank(ristoranteId)) {
             throw new RestartResponseAtInterceptPageException(getApplication().getHomePage());
         }
 

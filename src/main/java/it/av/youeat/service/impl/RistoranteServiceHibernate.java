@@ -226,7 +226,9 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
                 .getAnalyzer("ristoranteanalyzer"));
         org.apache.lucene.search.Query query;
         try {
-            query = parser.parse(LuceneUtil.escapeSpecialChars(pattern));
+            String patternClean = LuceneUtil.escapeSpecialChars(pattern);
+            String patternFuzzy = LuceneUtil.fuzzyAllTerms(patternClean);
+            query = parser.parse(patternFuzzy);
         } catch (ParseException e) {
             throw new YoueatException(e);
         }

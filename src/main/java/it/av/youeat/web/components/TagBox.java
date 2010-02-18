@@ -52,10 +52,13 @@ public class TagBox extends AutoCompleteTextField<String> {
     protected Iterator<String> getChoices(String input) {
         Collection<String> choises = new ArrayList<String>();
         try {
-            List<Tag> tags = tagService.freeTextSearch(LuceneUtil.removeSpecialChars(input));
-            tags.removeAll(ristorante.getTags());
-            for (Tag tag : tags) {
-                choises.add(tag.getTag());
+            String pattern = LuceneUtil.removeSpecialChars(input);
+            if(pattern.length() > 2);{
+                List<Tag> tags = tagService.freeTextSearch(pattern);
+                tags.removeAll(ristorante.getTags());
+                for (Tag tag : tags) {
+                    choises.add(tag.getTag());
+                }
             }
         } catch (YoueatException e) {
             log.warn("error getting the tage", e);

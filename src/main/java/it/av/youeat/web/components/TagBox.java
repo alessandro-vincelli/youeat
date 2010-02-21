@@ -53,7 +53,7 @@ public class TagBox extends AutoCompleteTextField<String> {
         Collection<String> choises = new ArrayList<String>();
         try {
             String pattern = LuceneUtil.removeSpecialChars(input);
-            if(pattern.length() > 2);{
+            if(pattern.length() > 2){
                 List<Tag> tags = tagService.freeTextSearch(pattern);
                 tags.removeAll(ristorante.getTags());
                 for (Tag tag : tags) {

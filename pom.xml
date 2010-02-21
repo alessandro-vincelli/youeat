@@ -279,7 +279,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>3.0.1.RELEASE</version>
+			<version>3.0.2.RELEASE</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>spring-support</artifactId>
@@ -290,27 +290,27 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>3.0.0.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>3.0.0.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
-			<version>3.0.0.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
-			<version>3.0.0.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>3.0.0.RELEASE</version>
+			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -321,12 +321,17 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>3.0.0.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
-			<version>3.0.0.RELEASE</version>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -337,11 +342,6 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.6.6</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>3.0.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.facebookapi</groupId>
@@ -377,6 +377,10 @@
 		</dependencies>
 	</dependencyManagement>
 	<scm>
+		<connection>scm:svm:https://youeat.googlecode.com/svn/trunk</connection>
+		<developerConnection>scm:svm:https://youeat.googlecode.com/svn/trunk</developerConnection>
+		<tag>scm:svm:https://youeat.googlecode.com/svn/tags</tag>
+		<url>https://youeat.googlecode.com/svn/trunk</url>
 	</scm>
 	<build>
 		<resources>
@@ -572,9 +576,14 @@
 			</plugin>
 	    </plugins>
   	</reporting>
+	<distributionManagement>
+		<site>
+		</site>
+	</distributionManagement>
 	<properties>
 		<wicket.version>1.4.6</wicket.version>
 		<jetty.version>6.1.4</jetty.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.version>3.0.1.RELEASE</spring.version>
 	</properties>
 </project>

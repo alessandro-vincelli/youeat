@@ -316,6 +316,9 @@ public class BasePage extends WebPage {
 
         BookmarkablePageLink goIndex = new BookmarkablePageLink("goIndex", IndexRistoPage.class);
         add(goIndex);
+        
+        BookmarkablePageLink goPrivacy = new BookmarkablePageLink("goPrivacy", PrivacyPage.class);
+        add(goPrivacy);
     }
 
     public final FeedbackPanel getFeedbackPanel() {

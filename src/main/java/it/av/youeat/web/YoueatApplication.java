@@ -26,6 +26,7 @@ import it.av.youeat.web.page.IndexRistoPage;
 import it.av.youeat.web.page.MessageListPage;
 import it.av.youeat.web.page.MessagePage;
 import it.av.youeat.web.page.PasswordRecoverPage;
+import it.av.youeat.web.page.PrivacyPage;
 import it.av.youeat.web.page.RistoranteAddNewPage;
 import it.av.youeat.web.page.RistoranteEditAddressPage;
 import it.av.youeat.web.page.RistoranteEditDataPage;
@@ -122,6 +123,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/picture", ImageViewPage.class));
         mount(new QueryStringUrlCodingStrategy("/index", IndexRistoPage.class));
         mount(new MixedParamUrlCodingStrategy("/xd_receiver.htm", XdReceiver.class, null));
+        mount(new IndexedParamUrlCodingStrategy("/privacy", PrivacyPage.class));
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
     }

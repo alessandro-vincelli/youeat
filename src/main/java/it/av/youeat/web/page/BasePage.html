@@ -40,8 +40,6 @@
             <span wicket:id="pendingFriendRequests" class="unreadMessages"></span>
             </a>
         </li>
-        <li><a href="#" wicket:id="goInfo">Info</a></li>
-        <li><a href="mailto:dev@mailing.antwoordvoorbedrijven.net">Help</a></li>
         <li>
             <a wicket:id="goSignOut"><wicket:message key="basepage.goSignOut" /></a>
             <!-- <a class="signupLinkMenu"  wicket:id="goSignUp"><wicket:message key="basepage.goSignUp" /></a> -->
@@ -55,7 +53,11 @@
 		<wicket:child />
 
 <div id="footer">
-<p>&#169; 2010 YouEat - by Alessandro Vincelli</p>
+<p class="firstLineFooter">&#169; 2010 YouEat - by Alessandro Vincelli 
+- <a title="our privacy policy" href="#" wicket:id="goPrivacy">Privacy</a>
+- <a href="#" wicket:id="goInfo">Info</a>
+- <a href="mailto:dev@mailing.antwoordvoorbedrijven.net">Help</a>
+</p>
 <p><a class="simpleSmallLink" title="creative commons license" href="http://creativecommons.org/licenses/by-sa/3.0/"><wicket:message key="contentLicense"></wicket:message></a></p>
 </div>
 </div>

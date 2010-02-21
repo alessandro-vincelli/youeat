@@ -1,4 +1,4 @@
-package it.av.youeat.todb;
+package it.av.youeat.service.todb;
 
 // Copyright (C) 2008 Alain COUTHURES
 //

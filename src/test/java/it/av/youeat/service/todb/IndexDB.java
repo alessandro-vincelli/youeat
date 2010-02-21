@@ -1,4 +1,4 @@
-package it.av.youeat.todb;
+package it.av.youeat.service.todb;
 
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;

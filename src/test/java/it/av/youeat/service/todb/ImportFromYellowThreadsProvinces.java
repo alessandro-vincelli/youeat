@@ -1,4 +1,4 @@
-package it.av.youeat.todb;
+package it.av.youeat.service.todb;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

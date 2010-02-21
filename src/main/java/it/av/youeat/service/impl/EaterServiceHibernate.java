@@ -69,7 +69,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         try {
             return add(eater);
         } catch (ConstraintViolationException e) {
-            throw new UserAlreadyExistsException(e.getMessage());
+            throw new UserAlreadyExistsException(e);
         }
     }
 
@@ -82,7 +82,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         try {
             return add(eater);
         } catch (ConstraintViolationException e) {
-            throw new UserAlreadyExistsException(e.getMessage());
+            throw new UserAlreadyExistsException(e);
         }
     }
 
@@ -146,7 +146,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
             searchPattern.append(userRelation.getToUser().getId());
             searchPattern.append(" ");
         }
-        //exclude also the admin users
+        // exclude also the admin users
         Collection<Eater> adminUsers = getAllAdminUsers();
         for (Eater admin : adminUsers) {
             relatedUserId.add(admin.getId());
@@ -191,14 +191,6 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         return findUserWithoutRelation(forUser, null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void remove(Eater user) {
-        super.remove(user);
-    }
-
     public void setUserProfileService(EaterProfileService userProfileService) {
         this.eaterProfileService = userProfileService;
     }
@@ -213,8 +205,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
     @Override
     public Collection<Eater> find(String pattern) {
         Criterion critByName = Restrictions.ilike(Eater.LASTNAME, pattern);
-        List<Eater> results = findByCriteria(critByName);
-        return results;
+        return findByCriteria(critByName);
     }
 
     /**
@@ -302,7 +293,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         Criterion critByAdmin = Restrictions.eq(Eater.USERPROFILE, profile);
         return super.findByCriteria(critByAdmin);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -310,6 +301,6 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
     public int count() {
         Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
         criteria.setProjection(Projections.rowCount());
-        return (Integer)criteria.uniqueResult();
+        return (Integer) criteria.uniqueResult();
     }
 }

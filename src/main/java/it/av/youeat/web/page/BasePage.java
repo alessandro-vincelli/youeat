@@ -29,8 +29,6 @@ import javax.servlet.http.Cookie;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ResourceReference;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.JavascriptPackageResource;
@@ -69,12 +67,13 @@ public class BasePage extends WebPage {
      * Construct.
      */
     public BasePage() {
-        if (((SecuritySession) getSession()).getAuth() != null
-                && ((SecuritySession) getSession()).getAuth().isAuthenticated()) {
+        SecuritySession securitySession = ((SecuritySession) getSession());
+        if (securitySession.getAuth() != null
+                && securitySession.getAuth().isAuthenticated()) {
             isAuthenticated = true;
         }
 
-        loggedInUser = ((SecuritySession) getSession()).getLoggedInUser();
+        loggedInUser = securitySession.getLoggedInUser();
         if (getWebRequestCycle().getWebRequest().getCookie(CookieUtil.LANGUAGE) != null) {
             getSession().setLocale(
                     new Locale(getWebRequestCycle().getWebRequest().getCookie(CookieUtil.LANGUAGE).getValue()));
@@ -94,36 +93,14 @@ public class BasePage extends WebPage {
 
         ResourceReference img = new ResourceReference(this.getClass(), "resources/images/logo-mela-small.png");
         add(new Image("logo", img));
-        add(new AjaxFallbackLink<String>("goUserPage") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                if (getApplication().getSecuritySettings().getAuthorizationStrategy().isInstantiationAuthorized(
-                        UserManagerPage.class)) {
-                    setResponsePage(UserManagerPage.class);
-                }
-            }
-
+        
+        add(new BookmarkablePageLink<String>("goUserPage", UserManagerPage.class) {
             @Override
             protected void onBeforeRender() {
                 super.onBeforeRender();
                 setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
                         .isInstantiationAuthorized(UserManagerPage.class)));
             }
-            /*To Show a JS alert on protected area
-             * @Override
-            protected IAjaxCallDecorator getAjaxCallDecorator() {
-                return new AjaxCallDecorator() {
-                    private static final long serialVersionUID = 1L;
-                    public CharSequence decorateScript(CharSequence script) {
-                        if (!(getApplication().getSecuritySettings().getAuthorizationStrategy().isInstantiationAuthorized(UserManagerPage.class))) {
-                            return "alert('" + new StringResourceModel("basePage.notLogged", getPage(), null).getString() + "'); " + script;
-                        }
-                        return script;
-                    }
-                };
-            }*/
         });
 
         add(new BookmarkablePageLink<String>("goUserProfilePage", UserProfilePage.class) {
@@ -325,7 +302,7 @@ public class BasePage extends WebPage {
         return feedbackPanel;
     }
 
-    public Eater getLoggedInUser() {
+    public final Eater getLoggedInUser() {
         return loggedInUser;
     }
 

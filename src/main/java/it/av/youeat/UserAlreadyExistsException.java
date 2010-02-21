@@ -15,12 +15,15 @@
  */
 package it.av.youeat;
 
-
 public class UserAlreadyExistsException extends YoueatException {
 
     private static final long serialVersionUID = 1L;
 
-    public UserAlreadyExistsException(String string) {
-        super(string);
+    public UserAlreadyExistsException(String s, Throwable throwable) {
+        super(s, throwable);
+    }
+
+    public UserAlreadyExistsException(Throwable throwable) {
+        super(throwable);
     }
 }

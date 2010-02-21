@@ -27,10 +27,8 @@ import org.springframework.beans.BeanUtils;
 public class RistoranteRevisionsPanel extends Panel {
     private static final long serialVersionUID = 1L;
     private PropertyListView<RistoranteRevision> productsVersionsList;
-    private List<RistoranteRevision> revisions = new ArrayList<RistoranteRevision>();
+    
     final FeedbackPanel feedbackPanel;
-    private String descriptionOri = "";
-    private String descriptionNew = "";
 
     /**
      * Constructor
@@ -40,6 +38,7 @@ public class RistoranteRevisionsPanel extends Panel {
      */
     public RistoranteRevisionsPanel(String id, final FeedbackPanel feedbackPanel) {
         super(id);
+        List<RistoranteRevision> revisions = new ArrayList<RistoranteRevision>();
         this.feedbackPanel = feedbackPanel;
         productsVersionsList = new PropertyListView<RistoranteRevision>("versions", revisions) {
             private static final long serialVersionUID = 1L;

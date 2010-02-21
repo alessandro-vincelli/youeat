@@ -120,12 +120,6 @@
 	
 	<bean id="ristorantePictureHibernate" class="it.av.youeat.service.impl.RistorantePictureHibernate" parent="jpaDaoSupport"/>
 
-	<bean id="repositoryInitStructure" class="it.av.youeat.repo.util.RepositoryInitStructureImpl"/>
-
-	<bean id="applicationInit" class="it.av.youeat.init.ApplicationInit">
-		<constructor-arg ref="repositoryInitStructure" />
-	</bean>
-
 	<bean id="userDetailsService" class="it.av.youeat.web.security.UserDetailsServiceImpl" scope="prototype">
 		<property name="service" ref="eaterService" />
 	</bean>

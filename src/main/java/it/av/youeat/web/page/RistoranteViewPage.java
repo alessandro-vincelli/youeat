@@ -189,7 +189,8 @@ public class RistoranteViewPage extends BasePage {
                             .setVisible(visible).setOutputMarkupPlaceholderTag(true));
                 } else {
                     item.add(new MultiLineLabel(RistoranteDescriptionI18n.DESCRIPTION, new PropertyModel<String>(item
-                            .getModelObject(), RistoranteDescriptionI18n.DESCRIPTION)).setVisible(visible).setOutputMarkupPlaceholderTag(true));
+                            .getModelObject(), RistoranteDescriptionI18n.DESCRIPTION)).setVisible(visible)
+                            .setOutputMarkupPlaceholderTag(true));
                 }
             }
         };
@@ -217,23 +218,21 @@ public class RistoranteViewPage extends BasePage {
 
             @Override
             protected void onRated(int rating, AjaxRequestTarget target) {
-                try {
-                    setHasVoted(Boolean.TRUE);
-                    ristoranteService.addRate(getRistorante(), getLoggedInUser(), rating);
-                    ristorante = ristoranteService.getByID(ristorante.getId());
-                    info(getString("info.ratingSaved"));
-                    if(target != null){
-                        target.addComponent(getFeedbackPanel());
-                    }
-                } catch (YoueatException e) {
-                    error(e);
+                setHasVoted(Boolean.TRUE);
+                ristoranteService.addRate(getRistorante(), getLoggedInUser(), rating);
+                ristorante = ristoranteService.getByID(ristorante.getId());
+                info(getString("info.ratingSaved"));
+                if (target != null) {
+                    target.addComponent(getFeedbackPanel());
                 }
             }
         });
-        BookmarkablePageLink editAddressRistorante = new BookmarkablePageLink("editAddressRistorante", RistoranteEditAddressPage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
+        BookmarkablePageLink editAddressRistorante = new BookmarkablePageLink("editAddressRistorante",
+                RistoranteEditAddressPage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "="
+                        + ristorante.getId()));
         editAddressRistorante.setOutputMarkupId(true);
         add(editAddressRistorante);
-        
+
         if (getApplication().getSecuritySettings().getAuthorizationStrategy().isInstantiationAuthorized(
                 RistoranteEditAddressPage.class)) {
             editAddressRistorante.setVisible(true);
@@ -242,11 +241,14 @@ public class RistoranteViewPage extends BasePage {
         }
         add(editAddressRistorante);
 
-        BookmarkablePageLink editDataRistorante = new BookmarkablePageLink("editDataRistorante", RistoranteEditDataPage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
+        BookmarkablePageLink editDataRistorante = new BookmarkablePageLink("editDataRistorante",
+                RistoranteEditDataPage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "="
+                        + ristorante.getId()));
         editDataRistorante.setOutputMarkupId(true);
         add(editDataRistorante);
 
-        BookmarkablePageLink editPictures = new BookmarkablePageLink("editPictures", RistoranteEditPicturePage.class, new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
+        BookmarkablePageLink editPictures = new BookmarkablePageLink("editPictures", RistoranteEditPicturePage.class,
+                new PageParameters(YoueatHttpParams.RISTORANTE_ID + "=" + ristorante.getId()));
         editPictures.setOutputMarkupId(true);
         add(editPictures);
 
@@ -254,7 +256,7 @@ public class RistoranteViewPage extends BasePage {
 
             @Override
             protected void populateItem(final ListItem<RistorantePicture> item) {
-                Link imageLink = new Link("pictureLink"){
+                Link imageLink = new Link("pictureLink") {
                     @Override
                     public void onClick() {
                         setResponsePage(new ImageViewPage(item.getModelObject().getPicture()));
@@ -265,13 +267,14 @@ public class RistoranteViewPage extends BasePage {
             }
         };
         formRisto.add(picturesList);
-        
+
         add(revisionModal = new ModalWindow("revisionsPanel"));
         revisionModal.setWidthUnit("%");
         revisionModal.setInitialHeight(450);
         revisionModal.setInitialWidth(100);
         revisionModal.setResizable(false);
-        RistoranteRevisionsPanel revisionsPanel =  new RistoranteRevisionsPanel(revisionModal.getContentId(), getFeedbackPanel());
+        RistoranteRevisionsPanel revisionsPanel = new RistoranteRevisionsPanel(revisionModal.getContentId(),
+                getFeedbackPanel());
         revisionsPanel.refreshRevisionsList(ristorante, actualDescriptionLanguage);
         revisionModal.setContent(revisionsPanel);
         revisionModal.setTitle("Revisions list");
@@ -441,24 +444,28 @@ public class RistoranteViewPage extends BasePage {
         // users that already tried infos
         List<ActivityRistorante> friendThatAlreadyEat = new ArrayList<ActivityRistorante>(0);
         int numberUsersThatAlreadyEat = 0;
-        
-        if(getLoggedInUser() != null){
-            friendThatAlreadyEat = activityService.findByFriendWithActivitiesOnRistorante(getLoggedInUser(), ristorante, ActivityRistorante.TYPE_TRIED);
+
+        if (getLoggedInUser() != null) {
+            friendThatAlreadyEat = activityService.findByFriendWithActivitiesOnRistorante(getLoggedInUser(),
+                    ristorante, ActivityRistorante.TYPE_TRIED);
             numberUsersThatAlreadyEat = activityService.countByRistoAndType(ristorante, ActivityRistorante.TYPE_TRIED);
         }
-        add(new Label("friendEaterListTitle", getString("numberOfUsersAlreadyEatAt", new Model<NumberBean>(new NumberBean(numberUsersThatAlreadyEat)))).setVisible(numberUsersThatAlreadyEat > 0));
+        add(new Label("friendEaterListTitle", getString("numberOfUsersAlreadyEatAt", new Model<NumberBean>(
+                new NumberBean(numberUsersThatAlreadyEat)))).setVisible(numberUsersThatAlreadyEat > 0));
         add(new FriedEaterListView("friendEaterList", friendThatAlreadyEat).setVisible(friendThatAlreadyEat.size() > 0));
-        
-        //contribution infos
+
+        // contribution infos
         List<ActivityRistorante> friendContributions = new ArrayList<ActivityRistorante>(0);
         int numberOfContributions = 0;
-        
-        if(getLoggedInUser() != null){
+
+        if (getLoggedInUser() != null) {
             friendContributions = activityService.findByFriendContributionsOnRistorante(getLoggedInUser(), ristorante);
             numberOfContributions = activityService.countContributionsOnRistorante(ristorante);
         }
-        add(new Label("numberOfContributions", getString("numberOfContributions", new Model<NumberBean>(new NumberBean(numberOfContributions)))).setVisible(numberOfContributions > 0));
-        add(new FriedEaterListView("friendContributionsList", friendContributions).setVisible(friendContributions.size() > 0));
+        add(new Label("numberOfContributions", getString("numberOfContributions", new Model<NumberBean>(new NumberBean(
+                numberOfContributions)))).setVisible(numberOfContributions > 0));
+        add(new FriedEaterListView("friendContributionsList", friendContributions).setVisible(friendContributions
+                .size() > 0));
     }
 
     public RistoranteViewPage(Ristorante ristorante) throws YoueatException {
@@ -471,13 +478,6 @@ public class RistoranteViewPage extends BasePage {
 
     public final void setRistorante(Ristorante ristorante) {
         this.ristorante = ristorante;
-    }
-
-    /**
-     * @return the hasVoted
-     */
-    private boolean isHasVoted() {
-        return hasVoted;
     }
 
     /**
@@ -568,8 +568,8 @@ public class RistoranteViewPage extends BasePage {
             return ristorante.getDescriptions();
         }
     }
-    
-    private class NumberBean implements Serializable{
+
+    private class NumberBean implements Serializable {
         private int number = 0;
 
         public NumberBean(int number) {

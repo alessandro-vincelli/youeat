@@ -145,7 +145,7 @@ public class CityServiceHibernate extends ApplicationServiceHibernate<City> impl
             fullTextEntityManager.index(city);
             position = position + 1;
         }
-        System.out.println("city indexed");
+        //System.out.println("city indexed");
         // TODO to much data improve the indexing method
         Collection<Country> countries = countryService.getAll();
         position = 0;
@@ -153,7 +153,7 @@ public class CityServiceHibernate extends ApplicationServiceHibernate<City> impl
             fullTextEntityManager.index(country);
             position = position + 1;
         }
-        System.out.println("country indexed");
+        //System.out.println("country indexed");
     }
 
 }

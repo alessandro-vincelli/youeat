@@ -88,14 +88,6 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
      * {@inheritDoc}
      */
     @Override
-    public void remove(DataRistorante object) {
-        super.remove(object);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public List<ProvIta> getAllProv() {
         Criteria criteria = getHibernateSession().createCriteria(ProvIta.class);
         return criteria.list();
@@ -121,8 +113,7 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
         Criterion critByName = Restrictions.ilike(Ristorante.NAME, pattern);
         Criterion critByCity = Restrictions.eq(Ristorante.CITY, city);
         Criterion critByCountry = Restrictions.eq(Ristorante.COUNTRY, country.getIso2());
-        List<DataRistorante> results = findByCriteria(critByName, critByCity, critByCountry);
-        return results;
+        return findByCriteria(critByName, critByCity, critByCountry);
     }
 
     /**
@@ -199,12 +190,11 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
                 .getFullTextEntityManager(getJpaTemplate().getEntityManager());
         fullTextEntityManager.getSearchFactory().getAnalyzer("dataristoranteanalyzer");
         Collection<DataRistorante> ristos = getAll();
-        int size = ristos.size();
         int position = 0;
         for (DataRistorante risto : ristos) {
             fullTextEntityManager.index(risto);
             position = position + 1;
-            System.out.println(position);
+            //System.out.println(position);
         }
     }
 }

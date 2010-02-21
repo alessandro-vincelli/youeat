@@ -43,6 +43,10 @@ import org.apache.solr.analysis.StopFilterFactory;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.FilterJoinTable;
+import org.hibernate.annotations.Filters;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.AnalyzerDef;
 import org.hibernate.search.annotations.Field;
@@ -66,6 +70,8 @@ import org.hibernate.search.annotations.TokenizerDef;
         @TokenFilterDef(factory = StopFilterFactory.class, params = {
                 @Parameter(name = "words", value = "properties/stoplist.properties"),
                 @Parameter(name = "ignoreCase", value = "true") }) })
+@FilterDef(name="friends", parameters=@ParamDef( name="friendlist", type="it.av.youeat.ocm.model.Eater" ), defaultCondition=(" activities.eater in :friendlist"))
+//@Filters( { @Filter(name = "friends", condition = "activities.eater in :friendlist") })
 public class Ristorante extends BasicEntity {
 
     public static final String PATH = "path";
@@ -141,6 +147,7 @@ public class Ristorante extends BasicEntity {
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     @JoinTable
+    @Filter(name="friends", condition = " activities.eater in :friendlist ")
     private List<ActivityRistorante> activities;
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
@@ -287,7 +294,7 @@ public class Ristorante extends BasicEntity {
     public List<ActivityRistorante> getActivities() {
         return activities;
     }
-
+    
     public void setActivities(List<ActivityRistorante> activities) {
         this.activities = activities;
     }

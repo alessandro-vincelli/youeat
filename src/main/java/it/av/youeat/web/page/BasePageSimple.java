@@ -21,6 +21,7 @@ import org.apache.wicket.ResourceReference;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.image.Image;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.resources.CompressedResourceReference;
 
@@ -48,6 +49,12 @@ public class BasePageSimple extends WebPage {
         feedbackPanel.setOutputMarkupId(true);
         feedbackPanel.setOutputMarkupPlaceholderTag(true);
         add(feedbackPanel);
+        
+        BookmarkablePageLink goInfo = new BookmarkablePageLink("goInfo", AboutPage.class);
+        add(goInfo);
+        
+        BookmarkablePageLink goPrivacy = new BookmarkablePageLink("goPrivacy", PrivacyPage.class);
+        add(goPrivacy);
     }
 
     public final FeedbackPanel getFeedbackPanel() {

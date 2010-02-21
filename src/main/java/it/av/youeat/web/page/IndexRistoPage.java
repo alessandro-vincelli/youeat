@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.extensions.markup.html.basic.SmartLinkLabel;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -90,29 +88,10 @@ public class IndexRistoPage extends BasePage {
 
             @Override
             protected void populateItem(ListItem<Country> item) {
-                WebMarkupContainer link;
-                // IF not logged user, use params, better for search engigne
-                if (getLoggedInUser() == null) {
-                    link = new BookmarkablePageLink<Country>("country", IndexRistoPage.class, new PageParameters(
-                            YoueatHttpParams.COUNTRY_ID + "=" + item.getModelObject().getId()));
-                }
-                // For logged user, use fast ajax impl
-                else {
-                    link = new AjaxFallbackLink<Country>("country", item.getModel()) {
-                        @Override
-                        public void onClick(AjaxRequestTarget target) {
-                            countrySelected = getModelObject();
-                            citySelected = null;
-                            if (target != null) {
-                                target.addComponent(target.getPage().get("cityListContainer"));
-                                target.addComponent(target.getPage().get("countryListContainer"));
-                                target.addComponent(target.getPage().get("ristoListContainer"));
-                                target.addComponent(target.getPage().get("instructions"));
-                            }
-                        }
-                    };
-                    link.setOutputMarkupId(true);
-                }
+
+                BookmarkablePageLink<Country> link = new BookmarkablePageLink<Country>("country", IndexRistoPage.class,
+                        new PageParameters(YoueatHttpParams.COUNTRY_ID + "=" + item.getModelObject().getId()));
+
                 link.add(new Label("countryTitle", item.getModelObject().getName()));
                 if (item.getModelObject().equals(countrySelected)) {
                     link.add(new SimpleAttributeModifier("class", "cityOrCountrySelected"));
@@ -132,27 +111,9 @@ public class IndexRistoPage extends BasePage {
             @Override
             protected void populateItem(ListItem<City> item) {
                 // IF not logged user, use params, better for search engigne
-                WebMarkupContainer link;
-                if (getLoggedInUser() == null) {
-                    link = new BookmarkablePageLink<Country>("city", IndexRistoPage.class, new PageParameters(
-                            YoueatHttpParams.CITY_ID + "=" + item.getModelObject().getId()));
-                }
-                // For logged user, use fast ajax impl
-                else {
-                    link = new AjaxFallbackLink<City>("city", item.getModel()) {
-                        @Override
-                        public void onClick(AjaxRequestTarget target) {
-                            citySelected = getModelObject();
-                            countrySelected = getModelObject().getCountry();
-                            if (target != null) {
-                                target.addComponent(target.getPage().get("cityListContainer"));
-                                target.addComponent(target.getPage().get("ristoListContainer"));
-                                target.addComponent(target.getPage().get("instructions"));
-                            }
-                        }
-                    };
-                    link.setOutputMarkupId(true);
-                }
+                BookmarkablePageLink link = new BookmarkablePageLink<Country>("city", IndexRistoPage.class,
+                        new PageParameters(YoueatHttpParams.CITY_ID + "=" + item.getModelObject().getId()));
+
                 if (item.getModelObject().equals(citySelected)) {
                     link.add(new SimpleAttributeModifier("class", "cityOrCountrySelected"));
                 }

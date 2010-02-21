@@ -14,16 +14,15 @@
 	</issueManagement>
 	<ciManagement>
 		<system>Hudson</system>
-		<url>http://www.alessandro.vincelli.name/hudson/</url>
+		<url>http://www.alessandro.vincelli.name/hudson</url>
 	</ciManagement>
 	<developers>
 		<developer>
 			<id>a.vincelli</id>
 			<name>Alessandro Vincelli</name>
 			<email>a.vincelli@gmail.com</email>
-			<url>http://www.alessandro.vincelli.name/</url>
-			<organization>Foundation ICTU</organization>
-			<organizationUrl>http://www.ictu.nl</organizationUrl>
+			<url>http://www.alessandro.vincelli.name</url>
+			<organizationUrl>http://www.alessandro.vincelli.name</organizationUrl>
 			<timezone>+1</timezone>
 			<roles>
 			</roles>

@@ -1,6 +1,6 @@
 Overview
  
-  <<EatTogether>> offers Wiki and social network functionalities to share food experiences.\
-  The Idea behind is create an open community that wants share informations and enjoy toghether the food time.\
-  <<EatTogether>> uses <<Apache Wicket>> and <<Apache Jackrabbit>> and is 100% open source.\
+  <<YouEat>> is wiki and social network platform to share food and drink experences. \
+  The Idea behind YouEat is create an open community that share informations and enjoy toghether the "meal time".\
+  <<YouEat>> uses <<Apache Wicket>>, <<Spring>>,<<Hibernate>> and <<Apache Lucene>> and is 100% open source.
   

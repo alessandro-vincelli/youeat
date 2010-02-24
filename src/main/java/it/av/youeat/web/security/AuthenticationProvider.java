@@ -26,7 +26,7 @@ import org.springframework.security.core.Authentication;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class AuthenticationProvider {
+public final class AuthenticationProvider {
     private static DaoAuthenticationProvider authenticationProvider;
     private static FacebookAuthenticationProvider facebookAuthenticationProvider;
 

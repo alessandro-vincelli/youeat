@@ -4,17 +4,17 @@
   
     <links>
       <item name="Alessandro Vincelli's blog" href="http://www.alessandro.vincelli.name/"/>
-      <item name="EatTogether Demo" href="http://www.alessandro.vincelli.name/eattogether/"/>
+      <item name="YouEat Live" href="http://www.youeat.org"/>
     </links>
 
     <menu name="Overview">
       <item name="Introduction" href="index.html"/>
-      <item name="Demo" href="demo.html"/>
+      <item name="Live" href="live.html"/>
     </menu>
    
-    <menu name="Docs">
-      <item name="Quickstart" href="quickstart.html"/>
-    </menu>
+    <!--<menu name="Docs">
+       <item name="Quickstart" href="quickstart.html"/>
+    </menu>-->
     
     <menu ref="reports"/>
     

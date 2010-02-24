@@ -3,7 +3,10 @@ package it.av.youeat.web.components;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 
-public class SendMessageModalWindow {
+public final class SendMessageModalWindow {
+
+    private SendMessageModalWindow() {
+    }
 
     public static ModalWindow getNewModalWindow(String id) {
         ModalWindow sendMessageMW = new ModalWindow(id);

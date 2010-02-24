@@ -146,10 +146,11 @@ public class SearchFriendPanel extends Panel {
         protected Iterator<String> getChoices(String input) {
             Collection<String> choises = new ArrayList<String>();
             try {
-                if (!input.isEmpty() && input.length() > 2)
+                if (!input.isEmpty() && input.length() > 2){
                     for (Eater eater : eaterService.findUserWithoutRelation(loggedUser, input)) {
                         choises.add(eater.getFirstname() + " " + eater.getLastname() );
                     }
+                }
             } catch (YoueatException e) {
             }
             return choises.iterator();

@@ -3,6 +3,9 @@ package it.av.youeat.web.commons;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteSettings;
 
 public final class AutocompleteUtils {
+    
+    private AutocompleteUtils(){
+    }
 
     /**
      * 

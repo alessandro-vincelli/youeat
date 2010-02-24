@@ -23,7 +23,6 @@ import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.service.EaterProfileService;
 import it.av.youeat.service.EaterService;
 import it.av.youeat.service.LanguageService;
-import it.av.youeat.service.RistoranteService;
 import it.av.youeat.web.Locales;
 
 import javax.annotation.Resource;
@@ -39,8 +38,6 @@ public class RepositoryInitStructureImpl implements RepositoryInitStructure {
     private EaterProfileService userProfileService;
     @Resource(name="eaterService")
     private EaterService userService;
-    @Resource(name="ristoranteService")
-    private RistoranteService ristoranteService;
     @Resource(name="languageService")
     private LanguageService languageService;
 

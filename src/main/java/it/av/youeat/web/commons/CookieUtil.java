@@ -1,6 +1,9 @@
 package it.av.youeat.web.commons;
 
-public class CookieUtil {
+public final class CookieUtil {
 
     public static final String LANGUAGE = "youeat.org.language";
+    
+    private CookieUtil(){
+    }
 }

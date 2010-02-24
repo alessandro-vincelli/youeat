@@ -1,6 +1,6 @@
 package it.av.youeat.web.page;
 
-public class YoueatHttpParams {
+public final class YoueatHttpParams {
 
     /**
      * http param for user id
@@ -14,4 +14,7 @@ public class YoueatHttpParams {
      * prevalently used to create a URL that contains the name and the city of the risto 
      */
     public static final String RISTORANTE_NAME_AND_CITY = "nameRistoCity";
+    
+    private YoueatHttpParams(){
+    }
 }

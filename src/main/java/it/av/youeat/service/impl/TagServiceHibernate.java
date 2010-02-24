@@ -55,8 +55,7 @@ public class TagServiceHibernate extends ApplicationServiceHibernate<Tag> implem
     @Override
     public List<Tag> find(String query) {
         Criterion crit = Restrictions.ilike(Tag.TAG, query);
-        List<Tag> results = findByCriteria(crit);
-        return results;
+        return findByCriteria(crit);
     }
 
     /**

@@ -147,9 +147,9 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     public Ristorante addRate(Ristorante risto, Eater user, int rate) {
         if (user != null && risto != null && !(hasUsersAlreadyRated(risto, user))) {
             if (rate >= 0 && rate <= 5) {
-                ActivityRistorante activity = activityRistoranteService.save(new ActivityRistorante(user, risto,
+                activityRistoranteService.save(new ActivityRistorante(user, risto,
                         ActivityRistorante.TYPE_VOTED));
-                risto.addARate(rateRistoranteService.insert(new RateOnRistorante(rate, activity)));
+                risto.addARate(rateRistoranteService.insert(new RateOnRistorante(rate)));
                 return save(risto);
             } else {
                 throw new YoueatException("Rate non valid");
@@ -178,26 +178,26 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         return findByCriteria(critByName);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void remove(Ristorante object) {
-        // for (ActivityRistorante activityRistorante : object.getActivities()) {
-        // getJpaTemplate().remove(activityRistorante);
-        // }
-        // for (TagOnRistorante tag : object.getTags()) {
-        // getJpaTemplate().remove(tag);
-        // }
-        // for (RateOnRistorante rate : object.getRates()) {
-        // getJpaTemplate().remove(rate);
-        // }
-        // for(RistoranteRevision revision :object.getRevisions()){
-        // getJpaTemplate().remove(revision);
-        // }
-        // getJpaTemplate().flush();
-        super.remove(object);
-    }
+//    /**
+//     * {@inheritDoc}
+//     */
+//    @Override
+//    public void remove(Ristorante object) {
+//        // for (ActivityRistorante activityRistorante : object.getActivities()) {
+//        // getJpaTemplate().remove(activityRistorante);
+//        // }
+//        // for (TagOnRistorante tag : object.getTags()) {
+//        // getJpaTemplate().remove(tag);
+//        // }
+//        // for (RateOnRistorante rate : object.getRates()) {
+//        // getJpaTemplate().remove(rate);
+//        // }
+//        // for(RistoranteRevision revision :object.getRevisions()){
+//        // getJpaTemplate().remove(revision);
+//        // }
+//        // getJpaTemplate().flush();
+//        super.remove(object);
+//    }
 
     /**
      * @param activityRistoranteService

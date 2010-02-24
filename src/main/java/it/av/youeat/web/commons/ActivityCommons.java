@@ -7,7 +7,10 @@ import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListItem;
 
-public class ActivityCommons {
+public final class ActivityCommons {
+    
+    private ActivityCommons(){};
+    
     public static final Image createActivityIcon(Class pageClass, final ListItem<ActivityRistorante> item) {
         // default activity icon is plus
         ResourceReference img = new ResourceReference(pageClass, "resources/images/plus_64.png");

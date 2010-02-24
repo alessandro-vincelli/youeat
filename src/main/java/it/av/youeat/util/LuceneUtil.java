@@ -11,6 +11,9 @@ public class LuceneUtil {
     private static final Pattern LUCENE_PATTERN = Pattern.compile(LUCENE_ESCAPE_CHARS);
     private static final String REPLACEMENT_STRING = "\\\\$0";
 
+    private LuceneUtil() {
+    }
+
     /**
      * Remove special characters not valid in Lucene query
      * 

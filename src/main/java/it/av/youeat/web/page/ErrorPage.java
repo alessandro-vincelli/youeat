@@ -5,6 +5,7 @@ import it.av.youeat.YoueatException;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.protocol.http.WebResponse;
+import org.springframework.util.Assert;
 
 public class ErrorPage extends BasePage {
 
@@ -28,7 +29,7 @@ public class ErrorPage extends BasePage {
 		} else {
 			exception = (YoueatException) e;
 		}
-
+		Assert.notNull(exception);
 		add(new Label("errorMessage", "internal error"));
 		
 		((WebResponse)RequestCycle.get().getResponse()).getHttpServletResponse().setStatus(400);

@@ -220,7 +220,7 @@ public class RistoranteRevision extends BasicEntity{
         return descriptions;
     }
 
-    public void setDescriptions(List<RistoranteDescriptionI18n> descriptions) {
+    public final void setDescriptions(List<RistoranteDescriptionI18n> descriptions) {
         this.descriptions = descriptions;
     }
 

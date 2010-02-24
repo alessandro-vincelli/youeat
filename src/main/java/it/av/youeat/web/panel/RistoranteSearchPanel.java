@@ -133,10 +133,11 @@ public class RistoranteSearchPanel extends Panel {
         protected Iterator<String> getChoices(String input) {
             Collection<String> choises = new ArrayList<String>();
             try {
-                if (!input.isEmpty() && input.length() > 2)
+                if (!input.isEmpty() && input.length() > 2){
                     for (Ristorante risto : ristoranteService.freeTextSearch(input)) {
                         choises.add(risto.getName() + " <i>(" + risto.getCity() + ")</i>" );
                     }
+                }
             } catch (YoueatException e) {
             }
             return choises.iterator();

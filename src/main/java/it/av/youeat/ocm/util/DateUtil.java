@@ -21,7 +21,11 @@ import java.util.Calendar;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-public class DateUtil {
+public final class DateUtil {
+
+    private DateUtil() {
+
+    }
 
     /**
      * Format used in the UI. dd/MM/yyyy HH:mm:ss

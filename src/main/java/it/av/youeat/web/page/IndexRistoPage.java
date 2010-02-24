@@ -172,8 +172,9 @@ public class IndexRistoPage extends BasePage {
         protected List<City> load() {
             if (countrySelected != null) {
                 return ristoranteService.getCityWithRistoByCountry(countrySelected);
-            } else
+            } else{
                 return new ArrayList<City>(0);
+            }
         }
     }
 
@@ -186,8 +187,9 @@ public class IndexRistoPage extends BasePage {
         protected List<Ristorante> load() {
             if (citySelected != null) {
                 return ristoranteService.getByCity(citySelected, 0, 0);
-            } else
+            } else{
                 return new ArrayList<Ristorante>(0);
+            }
         }
     }
 }

@@ -31,7 +31,7 @@ public class RateOnRistorante extends BasicEntity {
     
     public RateOnRistorante() {}
     
-    public RateOnRistorante(Integer rate, ActivityRistorante activityRistorante) {
+    public RateOnRistorante(Integer rate) {
         this.rate = rate;
         
     }

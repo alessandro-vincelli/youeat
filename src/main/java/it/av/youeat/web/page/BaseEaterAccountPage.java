@@ -118,13 +118,12 @@ public class BaseEaterAccountPage extends BasePage {
         @Override
         protected void onSubmit(AjaxRequestTarget target, Form form) {
             FileUpload upload = ((FileUploadField) form.get("uploadField")).getFileUpload();
-            Eater refreshedEater = new Eater();
             if (upload != null) {
                 eater.setAvatar(upload.getBytes());
                 try {
                     eaterService.update(eater);
                     eater = eaterService.getByID(eater.getId());
-                    refreshedEater = eaterService.getByID(eater.getId());
+                    eaterService.getByID(eater.getId());
                     getFeedbackPanel().info("picture changed");
                 } catch (YoueatException e) {
                     getFeedbackPanel().error(getString("genericErrorMessage"));

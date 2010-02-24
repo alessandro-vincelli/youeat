@@ -28,6 +28,8 @@ public final class Locales {
 
     private static final List<Locale> SUPPORTED_LOCALES = Arrays.asList(DUTCH, ENGLISH, ITALIAN);
 
+    private Locales(){};
+    
     /**
      * Tries to find a supported locale that best matches the requested locale.
      * 

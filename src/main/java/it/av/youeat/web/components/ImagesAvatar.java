@@ -16,7 +16,10 @@ import org.apache.wicket.markup.html.image.NonCachingImage;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class ImagesAvatar {
+public final class ImagesAvatar {
+    
+    private ImagesAvatar(){
+    }
 
     /**
      * Return the avatar for the given user, the default image if no avatar presents

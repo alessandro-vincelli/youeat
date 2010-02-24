@@ -18,8 +18,10 @@ import org.apache.wicket.markup.html.image.resource.DynamicImageResource;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class ImageRisto {
+public final class ImageRisto {
     
+    private ImageRisto(){
+    }
     
     /**
      * Return wicket image scaled to 130x130

@@ -15,6 +15,9 @@ import org.apache.wicket.PageParameters;
  * 
  */
 public final class RistoranteUtil {
+    
+    private RistoranteUtil(){}; 
+    
     /**
      * Creates parameters for the given risto.
      * 

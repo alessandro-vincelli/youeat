@@ -4,8 +4,10 @@ import javax.security.auth.login.FailedLoginException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.code.facebookapi.FacebookException;
 import com.google.code.facebookapi.FacebookJaxbRestClient;
 
 public class FaceBookAuthHandler {
@@ -14,7 +16,7 @@ public class FaceBookAuthHandler {
     private String secret;
 
     
-    public FacebookJaxbRestClient getAuthenticatedClient(HttpServletRequest request) throws Exception {
+    public FacebookJaxbRestClient getAuthenticatedClient(HttpServletRequest request) throws FailedLoginException, FacebookException, JSONException {
         String cacheSessionKey = "";
         long cacheUserId = 0;
         long cacheSessionExpires = 0;

@@ -423,7 +423,7 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
-					<optimise>true</optimise>
+					<optimize>true</optimize>
 					<debug>true</debug>
 				</configuration>
 			</plugin>
@@ -539,7 +539,7 @@
 	    <plugins>
 	      <plugin>
 	        <groupId>org.apache.maven.plugins</groupId>
-	        <artifactId>maven-project-info-reports-plugin</artifactId>
+             <artifactId>maven-project-info-reports-plugin</artifactId>
 	        <configuration>
 	          <webAccessUrl>https://youeat.googlecode.com/svn/trunk</webAccessUrl>
 	          <anonymousConnection>scm:svn:https://youeat.googlecode.com/svn/trunk</anonymousConnection>

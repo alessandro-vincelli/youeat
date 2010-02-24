@@ -9,7 +9,7 @@ import org.joda.time.format.PeriodFormatterBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
-public final class PeriodUtil {
+public  class PeriodUtil {
 
     @Autowired
     private MessageSource ms;

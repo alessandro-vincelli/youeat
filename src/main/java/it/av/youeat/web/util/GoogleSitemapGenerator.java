@@ -31,16 +31,19 @@ public class GoogleSitemapGenerator {
         MixedParamUrlCodingStrategy mixedParamUrlCodingStrategy = new MixedParamUrlCodingStrategy("/viewRistorante", RistoranteViewPage.class, new String[]{YoueatHttpParams.RISTORANTE_NAME_AND_CITY});
         StringBuffer sb = new StringBuffer();
         sb.append(XML_DECLARATION);
+        sb.append("\n");
         sb.append(URLSET_START);
+        sb.append("\n");
         //home page
         sb.append(generateUrl(baseURL, Calendar.getInstance().getTime(), "daily", "1.0"));
-        
+        sb.append("\n");
         Collection<Ristorante> ristoranteList = ristoranteService.getAll();
         for (Iterator<Ristorante> ristoranteIterator = ristoranteList.iterator(); ristoranteIterator.hasNext();) {
             Ristorante ristorante = ristoranteIterator.next();
             IRequestTarget target = mixedParamUrlCodingStrategy.decode(RistoranteUtil.createRequestParamsForRisto(ristorante));
             String url =  baseURL + mixedParamUrlCodingStrategy.encode(target).toString();
             sb.append(generateUrl(url, ristorante.getModificationTime(), "weekly", "0.2"));
+            sb.append("\n");
         }
 
         sb.append(URLSET_END);
@@ -76,6 +79,7 @@ public class GoogleSitemapGenerator {
         sb.append(prio);
         sb.append("</priority>");
         sb.append("</url>");
+
         return sb;
     }
 

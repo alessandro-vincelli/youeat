@@ -10,6 +10,9 @@ import org.apache.wicket.protocol.http.RequestUtils;
 import org.apache.wicket.request.RequestParameters;
 import org.apache.wicket.request.target.coding.BookmarkablePageRequestTargetUrlCodingStrategy;
 import org.apache.wicket.request.target.coding.MixedParamUrlCodingStrategy;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -65,20 +68,20 @@ public class GoogleSitemapGenerator {
      */
     private StringBuffer generateUrl(String loc, Date lastMod, String frequency, String prio) {
         StringBuffer sb = new StringBuffer();
-        sb.append("<url>");
+        sb.append("<url>\n");
         sb.append("<loc>");
         sb.append(loc);
-        sb.append("</loc>");
+        sb.append("</loc>\n");
         sb.append("<lastmod>");
-        sb.append(DateUtil.SDF2SIMPLEUSA.print(lastMod.getTime()));
-        sb.append("</lastmod>");
+        sb.append(ISODateTimeFormat.dateTime().print(lastMod.getTime()));
+        sb.append("</lastmod>\n");
         sb.append("<changefreq>");
         sb.append(frequency);
-        sb.append("</changefreq>");
+        sb.append("</changefreq>\n");
         sb.append("<priority>");
         sb.append(prio);
-        sb.append("</priority>");
-        sb.append("</url>");
+        sb.append("</priority>\n");
+        sb.append("</url>\n");
 
         return sb;
     }

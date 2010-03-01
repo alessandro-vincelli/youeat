@@ -9,7 +9,9 @@ import it.av.youeat.web.page.YoueatHttpParams;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.protocol.http.WicketURLEncoder;
 import org.apache.wicket.request.RequestParameters;
+import org.apache.wicket.util.string.Strings;
 import org.apache.wicket.util.string.UrlUtils;
 
 import java.util.HashMap;
@@ -51,7 +53,7 @@ public final class RistoranteUtil {
         RequestParameters parameters = new RequestParameters();
         HashMap<String, String> map = new HashMap<String, String>();
         String cleanedNameandCity = StringUtils.replace(risto.getName() + " " + risto.getCity().getName(), " ", "-");
-        cleanedNameandCity = LuceneUtil.removeSpecialChars(cleanedNameandCity);
+        cleanedNameandCity = WicketURLEncoder.QUERY_INSTANCE.encode(cleanedNameandCity);
         map.put(YoueatHttpParams.RISTORANTE_NAME_AND_CITY, cleanedNameandCity);
         map.put(YoueatHttpParams.RISTORANTE_ID, risto.getId());
         parameters.setParameters(map);

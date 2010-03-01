@@ -20,7 +20,7 @@ import java.util.*;
 public class GoogleSitemapGenerator {
 
     private static final String XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-    private static final String URLSET_START = "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
+    private static final String URLSET_START = "<urlset xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
     private static final String URLSET_END = "</urlset>";
     private static final String baseURL = "http://www.youeat.org/";
 

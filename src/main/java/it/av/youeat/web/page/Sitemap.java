@@ -10,7 +10,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 /**
  * @author Alessandro Vincelli
  */
-public class Sitemap extends WebPage{
+public class Sitemap extends WebPage {
 
     @SpringBean
     private GoogleSitemapGenerator sitemapGenerator;
@@ -21,4 +21,10 @@ public class Sitemap extends WebPage{
         sitemap.setEscapeModelStrings(false);
         add(sitemap);
     }
+
+    @Override
+    public String getMarkupType() {
+        return "xml";
+    }
+
 }

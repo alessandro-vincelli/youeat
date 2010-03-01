@@ -62,6 +62,7 @@ public class GoogleSitemapGenerator {
      */
     private StringBuffer generateUrl(String loc, Date lastMod, String frequency, String prio) {
         StringBuffer sb = new StringBuffer();
+        sb.append("<url>");
         sb.append("<loc>");
         sb.append(loc);
         sb.append("</loc>");
@@ -74,6 +75,7 @@ public class GoogleSitemapGenerator {
         sb.append("<priority>");
         sb.append(prio);
         sb.append("</priority>");
+        sb.append("</url>");
         return sb;
     }
 

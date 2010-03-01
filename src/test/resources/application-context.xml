@@ -124,6 +124,8 @@
 		<property name="service" ref="eaterService" />
 	</bean>
 
+    <bean id="googleSitemapGenerator" class="it.av.youeat.web.util.GoogleSitemapGenerator"></bean>
+
 	<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
 		<property name="userDetailsService" ref="userDetailsService" />
 		<property name="passwordEncoder" ref="passwordEncoder" />

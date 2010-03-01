@@ -33,6 +33,12 @@ public final class DateUtil {
     public static final DateTimeFormatter SDF2SHOW = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
 
     /**
+     * Format yyyy-MM-dd
+     */
+    public static final DateTimeFormatter SDF2SIMPLEUSA = DateTimeFormat.forPattern("yyyy-MM-dd");
+
+
+    /**
      * Return the actual time
      * 
      * @return Timestamp

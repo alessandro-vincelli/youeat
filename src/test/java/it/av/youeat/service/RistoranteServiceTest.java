@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import it.av.youeat.web.util.GoogleSitemapGenerator;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -56,6 +57,8 @@ public class RistoranteServiceTest extends YoueatTest {
     private EaterService eaterService;
     @Autowired
     private LanguageService languageService;
+    @Autowired
+    private GoogleSitemapGenerator googleSitemapGenerator;
 
     private Eater user;
 
@@ -154,6 +157,22 @@ public class RistoranteServiceTest extends YoueatTest {
         
         ristoranteService.remove(a);
 
+    }
+
+     @Test
+    public void testGoogleSitemapGenerator() throws YoueatException, IOException {
+
+        Ristorante a = new Ristorante();
+        a.setName("RistoAlessandro");
+        a.setCity(getNocity());
+        a.setCountry(getNocountry());
+        a.setDescriptions(getDescriptionI18ns());
+        a = ristoranteService.insert(a, user);
+
+        assertNotNull(a.getRevisions());
+        assertEquals(a.getRevisions().size(), 1);
+        String sm = googleSitemapGenerator.run();
+        assertNotNull(sm);
     }
 
     private List<RistoranteDescriptionI18n> getDescriptionI18ns() throws YoueatException {

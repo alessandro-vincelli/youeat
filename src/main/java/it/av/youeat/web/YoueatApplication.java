@@ -15,32 +15,7 @@
  */
 package it.av.youeat.web;
 
-import it.av.youeat.web.page.AboutPage;
-import it.av.youeat.web.page.EaterAccountPage;
-import it.av.youeat.web.page.EaterViewPage;
-import it.av.youeat.web.page.ErrorPage;
-import it.av.youeat.web.page.FriendsPage;
-import it.av.youeat.web.page.HomePage;
-import it.av.youeat.web.page.ImageViewPage;
-import it.av.youeat.web.page.IndexRistoPage;
-import it.av.youeat.web.page.MessageListPage;
-import it.av.youeat.web.page.MessagePage;
-import it.av.youeat.web.page.PasswordRecoverPage;
-import it.av.youeat.web.page.PrivacyPage;
-import it.av.youeat.web.page.RistoranteAddNewPage;
-import it.av.youeat.web.page.RistoranteEditAddressPage;
-import it.av.youeat.web.page.RistoranteEditDataPage;
-import it.av.youeat.web.page.RistoranteEditPicturePage;
-import it.av.youeat.web.page.RistoranteViewPage;
-import it.av.youeat.web.page.SearchFriendPage;
-import it.av.youeat.web.page.SignIn;
-import it.av.youeat.web.page.SignOut;
-import it.av.youeat.web.page.SignUpPage;
-import it.av.youeat.web.page.UserHomePage;
-import it.av.youeat.web.page.UserManagerPage;
-import it.av.youeat.web.page.UserProfilePage;
-import it.av.youeat.web.page.XdReceiver;
-import it.av.youeat.web.page.YoueatHttpParams;
+import it.av.youeat.web.page.*;
 import it.av.youeat.web.security.SecuritySession;
 
 import javax.servlet.http.HttpServletRequest;
@@ -115,7 +90,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new HybridUrlCodingStrategy("/friends", FriendsPage.class)); 
         mount(new IndexedParamUrlCodingStrategy("/signUp", SignUpPage.class));
         mount(new IndexedParamUrlCodingStrategy("/userHomePage", UserHomePage.class));
-        mount(new MixedParamHybridUrlCodingStrategy("/viewuser", EaterViewPage.class, new String[]{YoueatHttpParams.YOUEAT_ID}));
+        mount(new MixedParamHybridUrlCodingStrategy("/viewUser", EaterViewPage.class, new String[]{YoueatHttpParams.YOUEAT_ID}));
         mount(new MixedParamHybridUrlCodingStrategy("/account", EaterAccountPage.class, new String[]{YoueatHttpParams.YOUEAT_ID}));
         mount(new HybridUrlCodingStrategy("/passwordRecover", PasswordRecoverPage.class));
         mount(new HybridUrlCodingStrategy("/messages", MessageListPage.class));
@@ -124,6 +99,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new QueryStringUrlCodingStrategy("/index", IndexRistoPage.class));
         mount(new MixedParamUrlCodingStrategy("/xd_receiver.htm", XdReceiver.class, null));
         mount(new IndexedParamUrlCodingStrategy("/privacy", PrivacyPage.class));
+        mount(new IndexedParamUrlCodingStrategy("/sitemap.xml", Sitemap.class));
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
     }

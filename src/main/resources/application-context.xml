@@ -165,5 +165,7 @@
 		<property name="apiKey" value=""/>
 		<property name="secret" value=""/>
 	</bean>
+
+    <bean id="googleSitemapGenerator" class="it.av.youeat.web.util.GoogleSitemapGenerator"></bean>
 	
 </beans>

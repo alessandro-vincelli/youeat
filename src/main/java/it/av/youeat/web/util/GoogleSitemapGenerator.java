@@ -62,7 +62,7 @@ public class GoogleSitemapGenerator {
      *
      * @param loc the url;
      * @param lastMod last modification date
-     * @param frequency the frequency: daily, montly, weekly
+     * @param frequency the frequency: daily, monthly, weekly
      * @param prio priority: 1.0 - 0.8 - 0.2
      *
      */
@@ -82,7 +82,6 @@ public class GoogleSitemapGenerator {
         sb.append(prio);
         sb.append("</priority>\n");
         sb.append("</url>\n");
-
         return sb;
     }
 

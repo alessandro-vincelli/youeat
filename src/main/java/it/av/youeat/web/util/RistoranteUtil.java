@@ -4,15 +4,12 @@
 package it.av.youeat.web.util;
 
 import it.av.youeat.ocm.model.Ristorante;
-import it.av.youeat.util.LuceneUtil;
 import it.av.youeat.web.page.YoueatHttpParams;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.protocol.http.WicketURLEncoder;
 import org.apache.wicket.request.RequestParameters;
-import org.apache.wicket.util.string.Strings;
-import org.apache.wicket.util.string.UrlUtils;
 
 import java.util.HashMap;
 
@@ -37,7 +34,7 @@ public final class RistoranteUtil {
      */
     public static PageParameters createParamsForRisto(Ristorante risto) {
         PageParameters parameters = new PageParameters();
-        parameters.add(YoueatHttpParams.RISTORANTE_NAME_AND_CITY, risto.getName() + " " + risto.getCity().getName());
+        parameters.add(YoueatHttpParams.RISTORANTE_NAME_AND_CITY, cleansNameAndCity(risto));
         parameters.add(YoueatHttpParams.RISTORANTE_ID, risto.getId());
         return parameters;
     }
@@ -52,13 +49,23 @@ public final class RistoranteUtil {
     public static RequestParameters createRequestParamsForRisto(Ristorante risto) {
         RequestParameters parameters = new RequestParameters();
         HashMap<String, String> map = new HashMap<String, String>();
-        String cleanedNameandCity = StringUtils.replace(risto.getName() + " " + risto.getCity().getName(), " ", "-");
-        cleanedNameandCity = WicketURLEncoder.QUERY_INSTANCE.encode(cleanedNameandCity);
-        map.put(YoueatHttpParams.RISTORANTE_NAME_AND_CITY, cleanedNameandCity);
+        map.put(YoueatHttpParams.RISTORANTE_NAME_AND_CITY, cleansNameAndCity(risto));
         map.put(YoueatHttpParams.RISTORANTE_ID, risto.getId());
         parameters.setParameters(map);
         parameters.setPath("www.youeat.org");
         return parameters;
+    }
+
+    /**
+     * Replaces empty space with underscore, and encodes the URL
+     *
+     * @param risto
+     * @return cleaned name + city
+     */
+    private static String cleansNameAndCity(Ristorante risto) {
+        String cleanedNameandCity = StringUtils.replace(risto.getName() + " " + risto.getCity().getName(), " ", "_");
+        cleanedNameandCity = WicketURLEncoder.QUERY_INSTANCE.encode(cleanedNameandCity);
+        return cleanedNameandCity;
     }
 
 }

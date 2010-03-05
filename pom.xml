@@ -22,7 +22,6 @@
 			<name>Alessandro Vincelli</name>
 			<email>a.vincelli@gmail.com</email>
 			<url>http://www.alessandro.vincelli.name</url>
-			<organizationUrl>http://www.alessandro.vincelli.name</organizationUrl>
 			<timezone>+1</timezone>
 			<roles>
 			</roles>
@@ -541,9 +540,10 @@
 	        <groupId>org.apache.maven.plugins</groupId>
              <artifactId>maven-project-info-reports-plugin</artifactId>
 	        <configuration>
-	          <webAccessUrl>https://youeat.googlecode.com/svn/trunk</webAccessUrl>
+	          <webAccessUrl>http://youeat.googlecode.com/svn/trunk</webAccessUrl>
 	          <anonymousConnection>scm:svn:https://youeat.googlecode.com/svn/trunk</anonymousConnection>
 	          <developerConnection>scm:svn:https://youeat.googlecode.com/svn/trunk</developerConnection>
+              <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
 	        </configuration>
 	      </plugin>
 	      <plugin>
@@ -577,7 +577,9 @@
   	</reporting>
 	<distributionManagement>
 		<site>
-		</site>
+	      <id>www.alessandro.vincelli.name</id>
+    	  <url>scp://www.alessandro.vincelli.name/var/www/www.alessandro.vincelli.name/htdocs/youeat</url>
+    	</site>
 	</distributionManagement>
 	<properties>
 		<wicket.version>1.4.6</wicket.version>

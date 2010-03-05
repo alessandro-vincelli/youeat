@@ -16,6 +16,7 @@
 package it.av.youeat.web;
 
 import it.av.youeat.web.page.*;
+import it.av.youeat.web.page.manager.RistoranteMananagerPage;
 import it.av.youeat.web.security.SecuritySession;
 
 import javax.servlet.http.HttpServletRequest;
@@ -100,6 +101,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new MixedParamUrlCodingStrategy("/xd_receiver.htm", XdReceiver.class, null));
         mount(new IndexedParamUrlCodingStrategy("/privacy", PrivacyPage.class));
         mount(new IndexedParamUrlCodingStrategy("/sitemap.xml", Sitemap.class));
+        mount(new IndexedParamUrlCodingStrategy("/ristoManager", RistoranteMananagerPage.class));
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
     }

@@ -20,6 +20,7 @@ import it.av.youeat.service.EaterRelationService;
 import it.av.youeat.service.MessageService;
 import it.av.youeat.web.Locales;
 import it.av.youeat.web.commons.CookieUtil;
+import it.av.youeat.web.page.manager.RistoranteMananagerPage;
 import it.av.youeat.web.security.SecuritySession;
 import it.av.youeat.web.util.HtmlUtil;
 
@@ -296,6 +297,17 @@ public class BasePage extends WebPage {
         
         BookmarkablePageLink goPrivacy = new BookmarkablePageLink("goPrivacy", PrivacyPage.class);
         add(goPrivacy);
+
+
+        add(new BookmarkablePageLink<String>("goRistoManager", RistoranteMananagerPage.class) {
+            @Override
+            protected void onBeforeRender() {
+                super.onBeforeRender();
+                setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
+                        .isInstantiationAuthorized(RistoranteMananagerPage.class)));
+            }
+        });
+
     }
 
     public final FeedbackPanel getFeedbackPanel() {

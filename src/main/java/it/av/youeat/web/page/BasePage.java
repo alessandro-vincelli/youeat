@@ -29,14 +29,12 @@ import java.util.Locale;
 import javax.servlet.http.Cookie;
 
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -92,9 +90,6 @@ public class BasePage extends WebPage {
         feedbackPanel.setOutputMarkupPlaceholderTag(true);
         add(feedbackPanel);
 
-        ResourceReference img = new ResourceReference(this.getClass(), "resources/images/logo-mela-small.png");
-        add(new Image("logo", img));
-        
         add(new BookmarkablePageLink<String>("goUserPage", UserManagerPage.class) {
             @Override
             protected void onBeforeRender() {

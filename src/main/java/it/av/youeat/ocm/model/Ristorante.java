@@ -40,12 +40,11 @@ import org.apache.solr.analysis.ISOLatin1AccentFilterFactory;
 import org.apache.solr.analysis.LowerCaseFilterFactory;
 import org.apache.solr.analysis.StandardTokenizerFactory;
 import org.apache.solr.analysis.StopFilterFactory;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.FilterJoinTable;
-import org.hibernate.annotations.Filters;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.AnalyzerDef;
@@ -139,19 +138,21 @@ public class Ristorante extends BasicEntity {
     private int revisionNumber;
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private List<RateOnRistorante> rates;
     @IndexedEmbedded
-    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = { CascadeType.MERGE,  CascadeType.PERSIST,  CascadeType.REFRESH  }, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     private List<Tag> tags;
-    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy="ristorante")
     @Fetch(FetchMode.SELECT)
-    @JoinTable
     @Filter(name="friends", condition = " activities.eater in :friendlist ")
+    @Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<ActivityRistorante> activities;
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     @OrderBy("revisionNumber DESC")
+    @Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<RistoranteRevision> revisions;
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Deprecated
@@ -160,12 +161,14 @@ public class Ristorante extends BasicEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
     @Fetch(FetchMode.SELECT)
     @JoinTable
+    @Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<RistoranteDescriptionI18n> descriptions;
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
     @Fetch(FetchMode.SELECT)
     private List<RistorantePicture> pictures;
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
     @Fetch(FetchMode.SELECT)
+    @Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<Comment> comments;
     private double longitude;
     private double latitude;

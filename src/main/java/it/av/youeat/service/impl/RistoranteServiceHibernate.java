@@ -147,8 +147,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     public Ristorante addRate(Ristorante risto, Eater user, int rate) {
         if (user != null && risto != null && !(hasUsersAlreadyRated(risto, user))) {
             if (rate >= 0 && rate <= 5) {
-                activityRistoranteService.save(new ActivityRistorante(user, risto,
-                        ActivityRistorante.TYPE_VOTED));
+                activityRistoranteService.save(new ActivityRistorante(user, risto, ActivityRistorante.TYPE_VOTED));
                 risto.addARate(rateRistoranteService.insert(new RateOnRistorante(rate)));
                 return save(risto);
             } else {
@@ -178,26 +177,14 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         return findByCriteria(critByName);
     }
 
-//    /**
-//     * {@inheritDoc}
-//     */
-//    @Override
-//    public void remove(Ristorante object) {
-//        // for (ActivityRistorante activityRistorante : object.getActivities()) {
-//        // getJpaTemplate().remove(activityRistorante);
-//        // }
-//        // for (TagOnRistorante tag : object.getTags()) {
-//        // getJpaTemplate().remove(tag);
-//        // }
-//        // for (RateOnRistorante rate : object.getRates()) {
-//        // getJpaTemplate().remove(rate);
-//        // }
-//        // for(RistoranteRevision revision :object.getRevisions()){
-//        // getJpaTemplate().remove(revision);
-//        // }
-//        // getJpaTemplate().flush();
-//        super.remove(object);
-//    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void remove(Ristorante risto) {
+        Ristorante ristoToRemove = getByID(risto.getId());
+        super.remove(ristoToRemove);
+    }
 
     /**
      * @param activityRistoranteService
@@ -233,8 +220,8 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
             throw new YoueatException(e);
         }
         FullTextQuery persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Ristorante.class);
-        if(eaters != null){
-            Session session = (Session)getJpaTemplate().getEntityManager().getDelegate();
+        if (eaters != null) {
+            Session session = (Session) getJpaTemplate().getEntityManager().getDelegate();
             session.enableFilter("friends").setParameterList("friendlist", eaters);
             List<Ristorante> results = persistenceQuery.getResultList();
             session.disableFilter("friends");
@@ -242,7 +229,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         }
         return persistenceQuery.getResultList();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -297,22 +284,22 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     public List<City> getCityWithRisto() {
         return getCityWithRistoByCountry(null);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public List<City> getCityWithRistoByCountry(Country country) {
         Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
-        if(country != null){
+        if (country != null) {
             criteria.add(Restrictions.eq(Ristorante.COUNTRY, country));
         }
         criteria.setProjection(Projections.distinct(Projections.property(Ristorante.CITY)));
-        List<City> cities = (List<City>)criteria.list();
+        List<City> cities = (List<City>) criteria.list();
         Collections.sort(cities);
         return cities;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -320,7 +307,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     public List<Country> getCountryWithRisto() {
         Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
         criteria.setProjection(Projections.distinct(Projections.property(Ristorante.COUNTRY)));
-        List<Country> countries = (List<Country>)criteria.list();
+        List<Country> countries = (List<Country>) criteria.list();
         Collections.sort(countries);
         return countries;
     }
@@ -332,6 +319,22 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     public int count() {
         Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
         criteria.setProjection(Projections.rowCount());
-        return (Integer)criteria.uniqueResult();
+        return (Integer) criteria.uniqueResult();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void indexData() {
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
+                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+        fullTextEntityManager.getSearchFactory().getAnalyzer("ristoranteanalyzer");
+        Collection<Ristorante> ristos = getAll();
+        int position = 0;
+        for (Ristorante risto : ristos) {
+            fullTextEntityManager.index(risto);
+            position = position + 1;
+        }
     }
 }

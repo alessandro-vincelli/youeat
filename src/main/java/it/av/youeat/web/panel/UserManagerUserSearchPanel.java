@@ -37,7 +37,7 @@ import org.apache.wicket.util.time.Duration;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class SearchPanel extends Panel {
+public class UserManagerUserSearchPanel extends Panel {
     private static final long serialVersionUID = 1L;
     private SearchBean searchBean = new SearchBean();
     private Form<SearchBean> form;
@@ -50,7 +50,7 @@ public class SearchPanel extends Panel {
      * @param id
      * @param feedbackPanel
      */
-    public SearchPanel(final UserSortableDataProvider dataProvider, final AjaxFallbackDefaultDataTable dataTable,
+    public UserManagerUserSearchPanel(final UserSortableDataProvider dataProvider, final AjaxFallbackDefaultDataTable dataTable,
             String id, final FeedbackPanel feedbackPanel) {
         super(id);
         form = new Form<SearchBean>("searchForm", new CompoundPropertyModel<SearchBean>(searchBean));

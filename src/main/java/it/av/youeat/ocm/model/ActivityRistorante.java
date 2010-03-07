@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -70,6 +71,7 @@ public class ActivityRistorante extends Activity {
     public static final String TYPE_NEW_COMMENT = "new comment";
 
     @ManyToOne(optional=false)
+    @JoinColumn(name="ristorante_fk")
     private Ristorante ristorante;
     @Column(nullable=false)
     private String type;

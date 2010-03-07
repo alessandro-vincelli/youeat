@@ -1,7 +1,7 @@
 package it.av.youeat.web.page;
 
 import it.av.youeat.web.util.GoogleSitemapGenerator;
-import org.apache.wicket.markup.html.WebMarkupContainer;
+
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.Model;

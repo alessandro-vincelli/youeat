@@ -27,6 +27,7 @@ import it.av.youeat.ocm.model.RistoranteDescriptionI18n;
 import it.av.youeat.ocm.model.RistorantePicture;
 import it.av.youeat.ocm.model.data.City;
 import it.av.youeat.ocm.model.data.Country;
+import it.av.youeat.web.util.GoogleSitemapGenerator;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import it.av.youeat.web.util.GoogleSitemapGenerator;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;

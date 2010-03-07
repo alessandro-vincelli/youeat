@@ -31,7 +31,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
@@ -121,7 +120,7 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
     public void remove(T object) {
         try {
             getJpaTemplate().remove(object);
-            // getJpaTemplate().flush();
+            //getJpaTemplate().flush();
         } catch (DataAccessException e) {
             throw new YoueatException(e);
         }
@@ -171,8 +170,7 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
      */
     @Override
     public T getByID(String id) {
-        Criterion crit = Restrictions.idEq(id);
-        return findByCriteria(crit).iterator().next();
+        return getJpaTemplate().getEntityManager().find(getPersistentClass(), id);
     }
 
     protected Session getHibernateSession() {

@@ -272,4 +272,13 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         criteria.setProjection(Projections.rowCount());
         return (Integer) criteria.uniqueResult();
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void remove(ActivityRistorante object) {
+        ActivityRistorante activityRistorante = getByID(object.getId());
+        super.remove(activityRistorante);
+    }
 }

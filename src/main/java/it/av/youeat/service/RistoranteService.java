@@ -220,4 +220,10 @@ public interface RistoranteService {
      */
     @Transactional(readOnly = true)
     int count();
+    
+    /**
+     * create/update lucene index on ristoranti 
+     */
+    @Transactional    
+    void indexData();
 }

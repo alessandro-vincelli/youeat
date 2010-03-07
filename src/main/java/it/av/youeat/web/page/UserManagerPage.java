@@ -22,8 +22,9 @@ import it.av.youeat.service.CityService;
 import it.av.youeat.service.DataRistoranteService;
 import it.av.youeat.service.EaterProfileService;
 import it.av.youeat.service.EaterService;
+import it.av.youeat.service.RistoranteService;
 import it.av.youeat.web.data.UserSortableDataProvider;
-import it.av.youeat.web.panel.SearchPanel;
+import it.av.youeat.web.panel.UserManagerUserSearchPanel;
 import it.av.youeat.web.panel.UserTableActionPanel;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@AuthorizeInstantiation( {"ADMIN"})
+@AuthorizeInstantiation( { "ADMIN" })
 public class UserManagerPage extends BasePage {
 
     private static final long serialVersionUID = 1L;
@@ -68,12 +69,14 @@ public class UserManagerPage extends BasePage {
     @SpringBean
     private DataRistoranteService dataRistoranteService;
     @SpringBean
+    private RistoranteService ristoranteService;
+    @SpringBean
     private CityService cityService;
 
     private AjaxFallbackDefaultDataTable<Eater> usersDataTable;
     private UserSortableDataProvider dataProvider;
     private Form<Eater> form;
-    private SearchPanel searchPanel;
+    private UserManagerUserSearchPanel searchPanel;
 
     /**
      * Constructor that is invoked when page is invoked without a session.
@@ -119,9 +122,9 @@ public class UserManagerPage extends BasePage {
         dataProvider = new UserSortableDataProvider();
         usersDataTable = new AjaxFallbackDefaultDataTable<Eater>("usersDataTable", columns, dataProvider, 10);
         add(usersDataTable);
-        searchPanel = new SearchPanel(dataProvider, usersDataTable, "searchPanel", getFeedbackPanel());
+        searchPanel = new UserManagerUserSearchPanel(dataProvider, usersDataTable, "searchPanel", getFeedbackPanel());
         add(searchPanel);
-        
+
         add(new AjaxLink<Eater>("indexDataRistorante", new Model<Eater>()) {
             @Override
             public void onClick(AjaxRequestTarget target) {
@@ -132,6 +135,13 @@ public class UserManagerPage extends BasePage {
             @Override
             public void onClick(AjaxRequestTarget target) {
                 cityService.getAll();
+            }
+        });
+
+        add(new AjaxLink<Eater>("indexRisto", new Model<Eater>()) {
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                ristoranteService.indexData();
             }
         });
     }

@@ -6,12 +6,12 @@ package it.av.youeat.web.util;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.web.page.YoueatHttpParams;
 
+import java.util.HashMap;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.protocol.http.WicketURLEncoder;
 import org.apache.wicket.request.RequestParameters;
-
-import java.util.HashMap;
 
 /**
  * Utils

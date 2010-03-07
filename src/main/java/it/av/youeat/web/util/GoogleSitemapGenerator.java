@@ -1,21 +1,19 @@
 package it.av.youeat.web.util;
 
 import it.av.youeat.ocm.model.Ristorante;
-import it.av.youeat.ocm.util.DateUtil;
 import it.av.youeat.service.RistoranteService;
 import it.av.youeat.web.page.RistoranteViewPage;
 import it.av.youeat.web.page.YoueatHttpParams;
+
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+
 import org.apache.wicket.IRequestTarget;
-import org.apache.wicket.protocol.http.RequestUtils;
-import org.apache.wicket.request.RequestParameters;
-import org.apache.wicket.request.target.coding.BookmarkablePageRequestTargetUrlCodingStrategy;
 import org.apache.wicket.request.target.coding.MixedParamUrlCodingStrategy;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.*;
 
 /**
  * @author Alessandro Vincelli

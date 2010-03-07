@@ -150,6 +150,7 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         for (Ristorante ristorante : ristos) {
             System.out.println(ristorante.getName());
         }
+        
 
     }
 

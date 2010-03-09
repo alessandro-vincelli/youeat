@@ -24,9 +24,10 @@ public class GoogleSitemapGenerator {
 
     @Autowired
     private RistoranteService ristoranteService;
+    @Autowired
+    private GeneratorRistoranteURL ristoranteURL;
 
     public String run() {
-        GeneratorRistoranteURL ristoranteURL = new GeneratorRistoranteURL();
         StringBuffer sb = new StringBuffer();
         sb.append(XML_DECLARATION);
         sb.append("\n");

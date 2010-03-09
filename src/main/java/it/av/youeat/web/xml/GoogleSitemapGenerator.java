@@ -1,17 +1,14 @@
-package it.av.youeat.web.util;
+package it.av.youeat.web.xml;
 
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.service.RistoranteService;
-import it.av.youeat.web.page.RistoranteViewPage;
-import it.av.youeat.web.page.YoueatHttpParams;
+import it.av.youeat.web.util.GeneratorRistoranteURL;
 
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
-import org.apache.wicket.IRequestTarget;
-import org.apache.wicket.request.target.coding.MixedParamUrlCodingStrategy;
 import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,13 +20,13 @@ public class GoogleSitemapGenerator {
     private static final String XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
     private static final String URLSET_START = "<urlset xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
     private static final String URLSET_END = "</urlset>";
-    private static final String baseURL = "http://www.youeat.org/";
+    private String baseURL;    
 
     @Autowired
     private RistoranteService ristoranteService;
 
     public String run() {
-        MixedParamUrlCodingStrategy mixedParamUrlCodingStrategy = new MixedParamUrlCodingStrategy("/viewRistorante", RistoranteViewPage.class, new String[]{YoueatHttpParams.RISTORANTE_NAME_AND_CITY});
+        GeneratorRistoranteURL ristoranteURL = new GeneratorRistoranteURL();
         StringBuffer sb = new StringBuffer();
         sb.append(XML_DECLARATION);
         sb.append("\n");
@@ -41,9 +38,7 @@ public class GoogleSitemapGenerator {
         Collection<Ristorante> ristoranteList = ristoranteService.getAll();
         for (Iterator<Ristorante> ristoranteIterator = ristoranteList.iterator(); ristoranteIterator.hasNext();) {
             Ristorante ristorante = ristoranteIterator.next();
-            IRequestTarget target = mixedParamUrlCodingStrategy.decode(RistoranteUtil.createRequestParamsForRisto(ristorante));
-            String url =  baseURL + mixedParamUrlCodingStrategy.encode(target).toString();
-            sb.append(generateUrl(url, ristorante.getModificationTime(), "weekly", "0.2"));
+            sb.append(generateUrl(ristoranteURL.getUrl(ristorante), ristorante.getModificationTime(), "weekly", "0.2"));
             sb.append("\n");
         }
 
@@ -81,6 +76,10 @@ public class GoogleSitemapGenerator {
         sb.append("</priority>\n");
         sb.append("</url>\n");
         return sb;
+    }
+
+    public void setBaseURL(String baseURL) {
+        this.baseURL = baseURL;
     }
 
 }

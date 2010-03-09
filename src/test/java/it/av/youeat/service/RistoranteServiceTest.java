@@ -27,7 +27,7 @@ import it.av.youeat.ocm.model.RistoranteDescriptionI18n;
 import it.av.youeat.ocm.model.RistorantePicture;
 import it.av.youeat.ocm.model.data.City;
 import it.av.youeat.ocm.model.data.Country;
-import it.av.youeat.web.util.GoogleSitemapGenerator;
+import it.av.youeat.web.xml.GoogleSitemapGenerator;
 
 import java.io.File;
 import java.io.IOException;

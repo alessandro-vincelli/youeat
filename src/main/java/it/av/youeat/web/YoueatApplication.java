@@ -36,13 +36,14 @@ import it.av.youeat.web.page.SearchFriendPage;
 import it.av.youeat.web.page.SignIn;
 import it.av.youeat.web.page.SignOut;
 import it.av.youeat.web.page.SignUpPage;
-import it.av.youeat.web.page.Sitemap;
 import it.av.youeat.web.page.UserHomePage;
 import it.av.youeat.web.page.UserManagerPage;
 import it.av.youeat.web.page.UserProfilePage;
 import it.av.youeat.web.page.XdReceiver;
 import it.av.youeat.web.page.YoueatHttpParams;
 import it.av.youeat.web.page.manager.RistoranteManagerPage;
+import it.av.youeat.web.page.xml.FeedPage;
+import it.av.youeat.web.page.xml.SitemapPage;
 import it.av.youeat.web.security.SecuritySession;
 
 import javax.servlet.http.HttpServletRequest;
@@ -126,7 +127,8 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new QueryStringUrlCodingStrategy("/index", IndexRistoPage.class));
         mount(new MixedParamUrlCodingStrategy("/xd_receiver.htm", XdReceiver.class, null));
         mount(new IndexedParamUrlCodingStrategy("/privacy", PrivacyPage.class));
-        mount(new IndexedParamUrlCodingStrategy("/sitemap.xml", Sitemap.class));
+        mount(new IndexedParamUrlCodingStrategy("/sitemap.xml", SitemapPage.class));
+        mount(new IndexedParamUrlCodingStrategy("/feed", FeedPage.class));
         mount(new IndexedParamUrlCodingStrategy("/ristoManager", RistoranteManagerPage.class));
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);

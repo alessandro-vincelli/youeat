@@ -21,6 +21,7 @@ import it.av.youeat.service.MessageService;
 import it.av.youeat.web.Locales;
 import it.av.youeat.web.commons.CookieUtil;
 import it.av.youeat.web.page.manager.RistoranteManagerPage;
+import it.av.youeat.web.page.xml.FeedPage;
 import it.av.youeat.web.security.SecuritySession;
 import it.av.youeat.web.util.HtmlUtil;
 
@@ -292,6 +293,9 @@ public class BasePage extends WebPage {
         
         BookmarkablePageLink goPrivacy = new BookmarkablePageLink("goPrivacy", PrivacyPage.class);
         add(goPrivacy);
+        
+        BookmarkablePageLink goFeed = new BookmarkablePageLink("goFeed", FeedPage.class);
+        add(goFeed);
 
 
         add(new BookmarkablePageLink<String>("goRistoManager", RistoranteManagerPage.class) {

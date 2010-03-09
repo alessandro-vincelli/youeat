@@ -166,6 +166,13 @@
 		<property name="secret" value=""/>
 	</bean>
 
-    <bean id="googleSitemapGenerator" class="it.av.youeat.web.util.GoogleSitemapGenerator"></bean>
+    <bean id="googleSitemapGenerator" class="it.av.youeat.web.xml.GoogleSitemapGenerator">
+    	<property name="baseURL" value="http://www.youeat.org"></property>
+    </bean>
+    
+    <bean id="generatorRistoranteURL" class="it.av.youeat.web.util.GeneratorRistoranteURL">
+    	<property name="baseURL" value="http://www.youeat.org"></property>
+    </bean>
 	
+	<bean id="atomGenerator" class="it.av.youeat.web.xml.AtomGenerator"/>
 </beans>

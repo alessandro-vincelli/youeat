@@ -135,9 +135,6 @@ public class EaterRelation extends BasicEntity implements Comparable<EaterRelati
      */
     @Override
     public int compareTo(EaterRelation o) {
-        if (!(getStatus().equals(o.getStatus()) && o.getStatus().equals(EaterRelation.STATUS_PENDING))) {
-            return 0;
-        }
         return o.getToUser().compareTo(getToUser());
     }
 

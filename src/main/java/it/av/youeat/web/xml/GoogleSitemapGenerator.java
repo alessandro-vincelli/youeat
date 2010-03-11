@@ -27,6 +27,10 @@ public class GoogleSitemapGenerator {
     @Autowired
     private GeneratorRistoranteURL ristoranteURL;
 
+    /**
+     * 
+     * @return string containing google XML sitemap 
+     */
     public String run() {
         StringBuffer sb = new StringBuffer();
         sb.append(XML_DECLARATION);
@@ -42,7 +46,6 @@ public class GoogleSitemapGenerator {
             sb.append(generateUrl(ristoranteURL.getUrl(ristorante), ristorante.getModificationTime(), "weekly", "0.2"));
             sb.append("\n");
         }
-
         sb.append(URLSET_END);
         return sb.toString();
     }

@@ -69,30 +69,28 @@
 		<property name="nestedTransactionAllowed" value="false"></property>
 	</bean>
 	
-	<bean id="jpaDaoSupport" class="org.springframework.orm.jpa.support.JpaDaoSupport" abstract="true"/>
-	
  	<bean id="wicketApplication" class="it.av.youeat.web.YoueatApplication">
 		<property name="configurationType" value="development" />
 		<property name="applicationURL" value="http://www.youeat.org"/>
 	</bean>
 
-	<bean id="eaterService" class="it.av.youeat.service.impl.EaterServiceHibernate" parent="jpaDaoSupport" />
+	<bean id="eaterService" class="it.av.youeat.service.impl.EaterServiceHibernate" />
 
-	<bean id="commentService" class="it.av.youeat.service.impl.CommentServiceHibernate" parent="jpaDaoSupport" />
+	<bean id="commentService" class="it.av.youeat.service.impl.CommentServiceHibernate"/>
 
-	<bean id="eaterProfileService" class="it.av.youeat.service.impl.EaterProfileServiceHibernate" parent="jpaDaoSupport" />
+	<bean id="eaterProfileService" class="it.av.youeat.service.impl.EaterProfileServiceHibernate"/>
 
-	<bean id="activityService" class="it.av.youeat.service.impl.ActivityServiceHibernate" parent="jpaDaoSupport" />
+	<bean id="activityService" class="it.av.youeat.service.impl.ActivityServiceHibernate" />
 
-	<bean id="activityRistoranteService" class="it.av.youeat.service.impl.ActivityRistoranteServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="activityRistoranteService" class="it.av.youeat.service.impl.ActivityRistoranteServiceHibernate" />
 
-	<bean id="tagService" class="it.av.youeat.service.impl.TagServiceHibernate" parent="jpaDaoSupport" />
+	<bean id="tagService" class="it.av.youeat.service.impl.TagServiceHibernate" />
 
 	<bean id="ristoranteRevisionService" class="it.av.youeat.service.impl.RistoranteRevisionServiceHibernate"/>
 	
 	<bean id="rateRistoranteService" class="it.av.youeat.service.impl.RateRistoranteServiceHibernate"/>
 	
-	<bean id="ristoranteService" class="it.av.youeat.service.impl.RistoranteServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="ristoranteService" class="it.av.youeat.service.impl.RistoranteServiceHibernate" />
 	
 	
 	<!--<bean id="jcrRistoranteService" class="it.av.youeat.service.impl.JcrRistoranteServiceJackrabbit">
@@ -100,25 +98,25 @@
 		<property name="basePath" value="/ristoranti" />
 	</bean>-->
 	
-	<bean id="eaterRelationService" class="it.av.youeat.service.impl.EaterRelationServiceHibernate" parent="jpaDaoSupport" />
+	<bean id="eaterRelationService" class="it.av.youeat.service.impl.EaterRelationServiceHibernate" />
 	
-	<bean id="activityRelationService" class="it.av.youeat.service.impl.ActivityRelationServiceHibernate" parent="jpaDaoSupport" />
+	<bean id="activityRelationService" class="it.av.youeat.service.impl.ActivityRelationServiceHibernate" />
 	
-	<bean id="dataRistoranteService" class="it.av.youeat.service.impl.DataRistoranteServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="dataRistoranteService" class="it.av.youeat.service.impl.DataRistoranteServiceHibernate" />
 	
-	<bean id="countryRegionService" class="it.av.youeat.service.impl.CountryRegionServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="countryRegionService" class="it.av.youeat.service.impl.CountryRegionServiceHibernate" />
 	
-	<bean id="countryService" class="it.av.youeat.service.impl.CountryServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="countryService" class="it.av.youeat.service.impl.CountryServiceHibernate" />
 	
-	<bean id="cityService" class="it.av.youeat.service.impl.CityServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="cityService" class="it.av.youeat.service.impl.CityServiceHibernate" />
 	
-	<bean id="languageService" class="it.av.youeat.service.impl.LanguageServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="languageService" class="it.av.youeat.service.impl.LanguageServiceHibernate" />
 	
-	<bean id="messageService" class="it.av.youeat.service.impl.MessageServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="messageService" class="it.av.youeat.service.impl.MessageServiceHibernate" />
 	
-	<bean id="dialogService" class="it.av.youeat.service.impl.DialogServiceHibernate" parent="jpaDaoSupport"/>
+	<bean id="dialogService" class="it.av.youeat.service.impl.DialogServiceHibernate" />
 	
-	<bean id="ristorantePictureHibernate" class="it.av.youeat.service.impl.RistorantePictureHibernate" parent="jpaDaoSupport"/>
+	<bean id="ristorantePictureHibernate" class="it.av.youeat.service.impl.RistorantePictureHibernate" />
 
 	<bean id="userDetailsService" class="it.av.youeat.web.security.UserDetailsServiceImpl" scope="prototype">
 		<property name="service" ref="eaterService" />

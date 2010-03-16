@@ -17,8 +17,6 @@ package it.av.youeat.service;
 
 import it.av.youeat.ocm.model.data.Country;
 
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * Services on {@Link Country}
  * 
@@ -33,7 +31,6 @@ public interface CountryService extends ApplicationService<Country> {
      * @param iso2
      * @return country
      */
-    @Transactional(readOnly = true)
     Country getByIso2(String iso2);
 
 }

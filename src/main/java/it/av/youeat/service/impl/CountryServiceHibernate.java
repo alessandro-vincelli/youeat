@@ -23,13 +23,15 @@ import java.util.List;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implements operations on {@link Country}
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
- */
+ */    
+@Transactional(readOnly = true)
 public class CountryServiceHibernate extends ApplicationServiceHibernate<Country> implements CountryService {
     
     /**

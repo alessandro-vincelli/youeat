@@ -21,6 +21,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
@@ -45,6 +46,7 @@ public class Activity extends BasicEntity {
     @Column(nullable=false)
     private Timestamp date;
     @ManyToOne(optional=false)
+    @JoinColumn(name="eater")
     @ForeignKey(name="activity_to_eater_fk")
     private Eater eater;
     

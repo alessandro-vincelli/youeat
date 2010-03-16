@@ -16,11 +16,15 @@
 package it.av.youeat.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import it.av.youeat.ocm.model.Comment;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.util.DateUtil;
 
+import java.util.Collection;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,51 +38,104 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
-public class CommentServiceTest extends YoueatTest{
+public class CommentServiceTest extends YoueatTest {
     @Autowired
     private EaterService eaterService;
     @Autowired
     private RistoranteService ristoranteService;
     @Autowired
     private CommentService commentService;
-    
+
+    private Eater user = new Eater();
+    private Ristorante rist = new Ristorante();
+
     @Before
     @Transactional
     public void setUp() {
         super.setUp();
-    }
-    
-    @Test
-    public void testCommentsBasic() {
-        Eater a = new Eater();
-        a.setFirstname("Alessandro");
-        a.setLastname("Vincelli");
-        a.setPassword("secret");
-        a.setEmail("a.commentService@test.com");
-        a.setLanguage(getLanguage());
-        a.setCountry(getNocountry());
-        
-        a = eaterService.addRegolarUser(a);
 
-        Ristorante rist = new Ristorante();
+        user.setFirstname("Alessandro");
+        user.setLastname("Vincelli");
+        user.setPassword("secret");
+        user.setEmail("a.commentService@test.com");
+        user.setLanguage(getLanguage());
+        user.setCountry(getNocountry());
+
+        user = eaterService.addRegolarUser(user);
+
         rist.setName("RistoTest");
         rist.setCity(getNocity());
         rist.setCountry(getNocountry());
-        rist = ristoranteService.insert(rist, a);
+        rist = ristoranteService.insert(rist, user);
+    }
+
+    @After
+    @Transactional
+    public void tearDown() {
+        eaterService.remove(user);
+        ristoranteService.remove(rist);
+    }
+
+    @Test
+    public void testCommentsGeneric() {
 
         Comment comment = new Comment();
         comment.setTitle("ArticleTest");
-        comment.setAuthor(a);
+        comment.setAuthor(user);
         comment.setCreationTime(DateUtil.getTimestamp());
         commentService.save(comment);
 
         assertEquals(comment.getTitle(), "ArticleTest");
         assertEquals(comment.getAuthor().getFirstname(), "Alessandro");
 
+        Collection<Comment> comments = commentService.getByEater(user);
+        assertTrue(comments.size() == 1);
+
         commentService.remove(comment);
 
-        ristoranteService.remove(rist);
-        eaterService.remove(a);
+    }
+
+    @Test
+    public void testComments_getByEater() {
+
+        Comment comment = new Comment();
+        comment.setTitle("ArticleTest");
+        comment.setAuthor(user);
+        comment.setCreationTime(DateUtil.getTimestamp());
+        commentService.save(comment);
+
+        Collection<Comment> comments = commentService.getByEater(user);
+        assertTrue(comments.size() == 1);
+
+    }
+
+    @Test
+    public void testComments_removeByEater() {
+
+        Comment comment = new Comment();
+        comment.setTitle("ArticleTest");
+        comment.setAuthor(user);
+        comment.setCreationTime(DateUtil.getTimestamp());
+        commentService.save(comment);
+
+        commentService.removeByEater(user);
+        Collection<Comment> comments = commentService.getByEater(user);
+        assertTrue(comments.size() == 0);
+
+    }
+
+    @Test
+    public void testComments_removeCollection() {
+
+        Comment comment = new Comment();
+        comment.setTitle("ArticleTest");
+        comment.setAuthor(user);
+        comment.setCreationTime(DateUtil.getTimestamp());
+        commentService.save(comment);
+
+        commentService.remove(commentService.getAll());
+        Collection<Comment> comments = commentService.getAll();
+        assertTrue(comments.size() == 0);
 
     }
 }

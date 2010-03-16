@@ -8,6 +8,7 @@ import it.av.youeat.service.ActivityRelationService;
 import it.av.youeat.service.EaterRelationService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.criterion.Criterion;
@@ -58,8 +59,7 @@ public class ActivityRelationServiceHibernate extends ApplicationServiceHibernat
         return findByEaterFriend(eater, firstResult, maxResults, false);
     }
 
-    private List<ActivityEaterRelation> findByEaterFriend(Eater eater, int firstResult, int maxResults,
-            boolean includeTheUser) {
+    private List<ActivityEaterRelation> findByEaterFriend(Eater eater, int firstResult, int maxResults, boolean includeTheUser) {
         // TODO, improve this method using a method that return the Friends as Eater and not as Relation
         List<EaterRelation> relations = eaterRelationService.getAllActiveRelations(eater);
         // if the user hasn't friends, just return an empty list
@@ -100,5 +100,16 @@ public class ActivityRelationServiceHibernate extends ApplicationServiceHibernat
     @Override
     public List<ActivityEaterRelation> findByEaterFriendAndEater(Eater eater, int firstResult, int maxResults) {
         return findByEaterFriend(eater, firstResult, maxResults, true);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeByEater(Eater eater) {
+        Collection<ActivityEaterRelation> activities = findByEater(eater);
+        for (ActivityEaterRelation activityEaterRelation : activities) {
+            remove(activityEaterRelation);
+        }
     }
 }

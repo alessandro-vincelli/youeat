@@ -86,7 +86,7 @@ public class EaterViewPage extends BasePage {
         add(ImagesAvatar.getAvatar("avatar", eater, this.getPage(), true));
         // User activities
         try {
-            activities = activityRistoranteService.findByUser(eater, activityPagingUser.getFirstResult(),
+            activities = activityRistoranteService.findByEater(eater, activityPagingUser.getFirstResult(),
                     activityPagingUser.getMaxResults());
         } catch (YoueatException e) {
             activities = new ArrayList<ActivityRistorante>();
@@ -106,7 +106,7 @@ public class EaterViewPage extends BasePage {
             public void onClick(AjaxRequestTarget target) {
                 activityPagingUser.addNewPage();
                 try {
-                    activities.addAll(activityRistoranteService.findByUser(eater, activityPagingUser
+                    activities.addAll(activityRistoranteService.findByEater(eater, activityPagingUser
                             .getFirstResult(), activityPagingUser.getMaxResults()));
                     if (target != null) {
                         target.addComponent(activitiesListContainer);

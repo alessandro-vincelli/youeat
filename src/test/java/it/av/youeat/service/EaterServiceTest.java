@@ -19,11 +19,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import it.av.youeat.YoueatException;
+import it.av.youeat.ocm.model.Comment;
 import it.av.youeat.ocm.model.Eater;
+import it.av.youeat.ocm.model.EaterRelation;
+import it.av.youeat.ocm.model.Message;
+import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.SocialType;
 
 import java.util.Collection;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,19 +42,34 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
-public class UserServiceTest extends YoueatTest {
+public class EaterServiceTest extends YoueatTest {
 
     @Autowired
     private EaterService userService;
+    @Autowired
+    private RistoranteService ristoranteService;
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private EaterRelationService eaterRelationService;
+    @Autowired
+    private DialogService dialogService;
     private static String socialUid = "1x1x1x1";
-
+    
     @Before
+    @Transactional
     public void setUp() {
         super.setUp();
     }
 
+    @After
+    @Transactional
+    public void tearDown() {
+    }
+
+
     @Test
-    public void testUsersBasic() throws YoueatException {
+    public void testEaterService_generic() throws YoueatException {
 
         // Basic Test
         Eater a = new Eater();
@@ -106,7 +126,7 @@ public class UserServiceTest extends YoueatTest {
         b.setCountry(getNocountry());
         b.setLanguage(getLanguage());
         b = userService.add(b);
-        assertNotNull("A is null", b);
+        assertNotNull("B is null", b);
 
         Eater c = new Eater();
         c.setFirstname("Arnaldo");
@@ -138,7 +158,7 @@ public class UserServiceTest extends YoueatTest {
     }
 
     @Test
-    public void testFacebookUser() {
+    public void testEaterService_FacebookUser() {
 
         // Basic Test
         Eater a = new Eater();
@@ -161,5 +181,49 @@ public class UserServiceTest extends YoueatTest {
         assertNotNull("A is null", a);
         assertEquals("Invalid value for test", "Alessandro", a.getFirstname());
         userService.remove(a);
+    }
+    
+    @Test
+    public void testEaterService_remove() throws YoueatException {
+
+        Eater a = new Eater();
+        a.setFirstname("Alessandro");
+        a.setLastname("Vincelli");
+        a.setPassword("secret");
+        a.setEmail("userServiceTest@test");
+        a.setUserProfile(getProfile());
+        a.setCountry(getNocountry());
+        a.setLanguage(getLanguage());
+
+        userService.add(a);
+        
+        Eater b = new Eater();
+        b.setFirstname("Alessandro");
+        b.setLastname("Vincelli");
+        b.setPassword("secret");
+        b.setEmail("userServiceTest@test.com");
+        b.setUserProfile(getProfile());
+        b.setCountry(getNocountry());
+        b.setLanguage(getLanguage());
+        b = userService.add(b);
+        assertNotNull("B is null", b);
+
+        userService.add(b);
+        
+        EaterRelation relation = eaterRelationService.addFriendRequest(a, b);
+        eaterRelationService.performFriendRequestConfirm(relation);
+        dialogService.startNewDialog(a, b, new Message("title", "body"));
+        
+        Ristorante rist = new Ristorante();
+        rist.setName("RistoTest");
+        rist.setCity(getNocity());
+        rist.setCountry(getNocountry());
+        rist = ristoranteService.insert(rist, a);
+
+        commentService.save(new Comment("", "body", a));
+        
+        userService.remove(a);
+        userService.remove(b);
+        
     }
 }

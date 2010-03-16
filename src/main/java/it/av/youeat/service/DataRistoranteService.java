@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -31,8 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@Service
 @Repository
+@Transactional(readOnly = true)
 public interface DataRistoranteService {
 
     /**
@@ -58,7 +57,6 @@ public interface DataRistoranteService {
      * 
      * @return Collection<DataRistorante>
      */
-    @Transactional(readOnly = true)
     Collection<DataRistorante> getAll();
 
     /**
@@ -68,7 +66,6 @@ public interface DataRistoranteService {
      * @param maxResults the max number of results, 0 for unlimited
      * @return Collection<DataRistorante>
      */
-    @Transactional(readOnly = true)
     Collection<DataRistorante> find(String pattern, int maxResults);
 
     /**
@@ -80,7 +77,6 @@ public interface DataRistoranteService {
      * @param maxResults the max number of results, 0 for unlimited
      * @return Collection<DataRistorante>
      */
-    @Transactional(readOnly = true)
     Collection<DataRistorante> find(String pattern, String city, Country country, int maxResults);
 
     /**
@@ -97,10 +93,12 @@ public interface DataRistoranteService {
      * @param id
      * @return DataRistorante
      */
-    @Transactional(readOnly = true)
     DataRistorante getByID(String id);
 
-    @Transactional(readOnly = true)
+    /**
+     * 
+     * @return all the provinces
+     */
     public List<ProvIta> getAllProv();
 
     /**
@@ -111,13 +109,12 @@ public interface DataRistoranteService {
      * @param country
      * @return found datRisto
      */
-    @Transactional(readOnly = true)
     Collection<DataRistorante> getBy(String pattern, String city, Country country);
 
     /**
-     * create/update lucene index on data_ristorante 
+     * create/update lucene index on data_ristorante
      */
-    @Transactional    
+    @Transactional
     void indexData();
 
     /**
@@ -127,9 +124,8 @@ public interface DataRistoranteService {
      * @param maxResult max number of results, 0 or negative for unlimited results
      * @return found risto
      */
-    @Transactional(readOnly=true)
     List<DataRistorante> freeTextSearch(String pattern, int maxResult);
-    
+
     /**
      * Find restaurants by the given pattern, using Lucene
      * 
@@ -139,7 +135,6 @@ public interface DataRistoranteService {
      * @param maxResult max number of results, 0 or negative for unlimited results
      * @return found risto
      */
-    @Transactional(readOnly=true)
     List<DataRistorante> freeTextSearch(String pattern, String city, String country, int maxResult);
 
 }

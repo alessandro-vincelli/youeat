@@ -6,17 +6,24 @@ import it.av.youeat.ocm.model.Ristorante;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
-public interface ActivityRistoranteService extends ApplicationService<ActivityRistorante> {
+/**
+ * Operation to manage activities on ristoranti 
+ * 
+ * @author Alessandro Vincelli
+ *
+ */
+@Transactional(readOnly = true)
+@Repository
+public interface ActivityRistoranteService {
     /**
      * Find activities on the given restaurant
      * 
      * @param risto
      * @return activities on the given restaurant
      */
-    @Transactional(readOnly = true)
     List<ActivityRistorante> findByRistorante(Ristorante risto);
 
     /**
@@ -25,8 +32,7 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      * @param user
      * @return activities for the given user
      */
-    @Transactional(readOnly = true)
-    List<ActivityRistorante> findByUser(Eater user);
+    List<ActivityRistorante> findByEater(Eater user);
 
     /**
      * Find activities on ristoranti for the given user
@@ -36,8 +42,7 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      * @param maxResults number of results
      * @return activities for the given user
      */
-    @Transactional(readOnly = true)
-    List<ActivityRistorante> findByUser(Eater user, int firstResult, int maxResults);
+    List<ActivityRistorante> findByEater(Eater user, int firstResult, int maxResults);
 
     /**
      * Find activities on ristoranti for the given user and activityType see {@link ActivityRistorante} for the list of
@@ -48,7 +53,7 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      * @param activityType
      * @return activities for the given user
      */
-    List<ActivityRistorante> findByUserRistoType(Eater user, Ristorante risto, String activityType);
+    List<ActivityRistorante> findByEaterRistoType(Eater user, Ristorante risto, String activityType);
     
     /**
      * Count activities on ristoranti of the activityType see {@link ActivityRistorante}
@@ -65,8 +70,7 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      * @param ofUser
      * @return activities for the friends of the given user
      */
-    @Transactional(readOnly = true)
-    List<ActivityRistorante> findByUserFriend(Eater ofUser);
+    List<ActivityRistorante> findByEaterFriend(Eater ofUser);
 
     /**
      * Find activities on restaurants for the friends given user
@@ -76,7 +80,6 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      * @param maxResults number of results
      * @return activities for the friends of the given user
      */
-    @Transactional(readOnly = true)
     List<ActivityRistorante> findByUserFriend(Eater ofUser, int firstResult, int maxResults);
     
     /**
@@ -87,7 +90,6 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      * @param maxResults number of results
      * @return activities for the friends of the given user
      */
-    @Transactional(readOnly = true)
     List<ActivityRistorante> findByUserFriendAndUser(Eater ofUser, int firstResult, int maxResults);
 
     /**
@@ -98,8 +100,7 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      * @param maxResults number of results
      * @return activities for the given user
      */
-    @Transactional(readOnly = true)
-    List<ActivityRistorante> findByUsers(List<Eater> users, int firstResult, int maxResults);
+    List<ActivityRistorante> findByEaters(List<Eater> users, int firstResult, int maxResults);
     
     /**
      * Find activities on ristoranti for the given users
@@ -110,8 +111,7 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      * @param activityType activity type, null to disable 
      * @return activities for the given user
      */
-    @Transactional(readOnly = true)
-    List<ActivityRistorante> findByUsers(List<Eater> users, int firstResult, int maxResults, String activityType);
+    List<ActivityRistorante> findByEaters(List<Eater> users, int firstResult, int maxResults, String activityType);
 
     /**
      * Is the given ristorante favourite for the given user
@@ -120,14 +120,12 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      * @param ristorante
      * @return true if the risto is favourite
      */
-    @Transactional(readOnly = true)
     boolean isFavouriteRisto(Eater user, Ristorante ristorante);
 
     /**
      * {@inheritDoc}
      */
     @Transactional
-    @Override
     ActivityRistorante save(ActivityRistorante activityRistorante);
 
     /**
@@ -136,7 +134,6 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      * @param numberOfResult number of result to return
      * @return lasts activities
      */
-    @Transactional(readOnly = true)
     List<ActivityRistorante> getLasts(int numberOfResult);
 
     /**
@@ -146,7 +143,6 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      * @param risto
      * @return activities on the given restaurant
      */
-    @Transactional(readOnly = true)
     List<ActivityRistorante> findByFriendThatEatOnRistorante(Eater eater, Ristorante risto);
 
     /**
@@ -157,7 +153,6 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      * @param activityType null to disable
      * @return activities on the given restaurant
      */
-    @Transactional(readOnly = true)
     List<ActivityRistorante> findByFriendWithActivitiesOnRistorante(Eater eater, Ristorante risto, String activityType);
 
     /**
@@ -185,4 +180,20 @@ public interface ActivityRistoranteService extends ApplicationService<ActivityRi
      * @return activities on the given restaurant
      */
     int countContributionsOnRistorante(Ristorante risto);
+
+    /**
+     * Remove the given activity
+     * 
+     * @param activity activity to remove
+     */
+    @Transactional
+    void remove(ActivityRistorante activity);
+    
+    /**
+     * remove all the activities related to the given users
+     * 
+     * @param eater
+     */
+    @Transactional
+    void removeByEater(Eater eater);
 }

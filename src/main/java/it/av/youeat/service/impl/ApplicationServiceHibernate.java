@@ -34,6 +34,8 @@ import org.hibernate.criterion.Order;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
@@ -41,6 +43,7 @@ import org.springframework.orm.jpa.support.JpaDaoSupport;
  * 
  * @param <T>
  */
+@Repository
 public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSupport implements ApplicationService<T> {
 
     /**
@@ -55,6 +58,7 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public T save(T obj) {
         if (obj == null) {
             throw new YoueatException("Object is null");
@@ -62,9 +66,9 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
 
         try {
             if (obj.getId() != null && !obj.getId().isEmpty()) {
-                getJpaTemplate().merge(obj);
+                return (getJpaTemplate().getEntityManager().merge(obj));
             } else {
-                getJpaTemplate().persist(obj);
+                getJpaTemplate().getEntityManager().persist(obj);
             }
             return obj;
         } catch (OptimisticLockingFailureException e) {
@@ -78,6 +82,7 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
      * {@inheritDoc}
      */
     @Override
+    @Transactional(readOnly = true)
     public List<T> getAll() {
         return findByCriteria();
     }
@@ -87,29 +92,6 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
      */
     @Deprecated
     public List<T> findFullText(String query) {
-        /*        //DetachedCriteria criteria = DetachedCriteria.forClass(getPersistentClass());
-                DetachedCriteria criteria = DetachedCriteria.forClass(getPersistentClass());
-                //return getHibernateTemplate().findByCriteria(criteria, 0, -1);
-                //TODO implement a default search strategy
-                FullTextSession fullTextSession = Search.getFullTextSession(getSession(false));
-                org.apache.lucene.queryParser.QueryParser parser = new QueryParser("tag", new StopAnalyzer() );
-
-                org.apache.lucene.search.Query luceneQuery;
-                try {
-                    String[] ddd = new String[1];
-                    ddd[0] = "tag";
-                    parser = new MultiFieldQueryParser( ddd, new StandardAnalyzer());
-                    Term t = new Term("tag", "*tag1*");
-                    TermQuery query2 = new TermQuery(t);
-                    parser.setAllowLeadingWildcard( true );
-                    Query queryinutile= parser.parse(query);
-                    org.hibernate.Query fullTextQuery = fullTextSession.createFullTextQuery( query2, getPersistentClass() );
-                    
-                    List<T> result = fullTextQuery.list();
-                    return result;
-                } catch (ParseException e) {
-                    throw new JackWicketException(e);
-                }*/
         throw new YoueatException("not implememted yet");
     }
 
@@ -117,16 +99,16 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void remove(T object) {
         try {
-            getJpaTemplate().remove(object);
-            //getJpaTemplate().flush();
+            getJpaTemplate().getEntityManager().remove(object);
         } catch (DataAccessException e) {
             throw new YoueatException(e);
         }
     }
 
-    public Class<T> getPersistentClass() {
+    protected final Class<T> getPersistentClass() {
         return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
@@ -134,21 +116,24 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
      * {@inheritDoc}
      */
     @Override
+    @Transactional(readOnly = true)
     public List<T> findByCriteria(Criterion... criterion) {
         return findByCriteria(getPersistentClass(), null, 0, 0, criterion);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<T> findByCriteria(Order order, int firstResult, int maxResults, Criterion... criterion) {
         return findByCriteria(getPersistentClass(), order, firstResult, maxResults, criterion);
     }
 
+    @Transactional(readOnly = true)
     protected List<T> findByCriteria(Order order, Criterion... criterion) {
         return findByCriteria(getPersistentClass(), order, 0, 0, criterion);
     }
 
-    protected List<T> findByCriteria(Class<T> actualClass, Order order, int firstResult, int maxResults,
-            Criterion... criterion) {
+    @Transactional(readOnly = true)
+    protected List<T> findByCriteria(Class<T> actualClass, Order order, int firstResult, int maxResults, Criterion... criterion) {
         Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
         if (order != null) {
             criteria.addOrder(order);
@@ -169,11 +154,12 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
      * {@inheritDoc}
      */
     @Override
+    @Transactional(readOnly = true)
     public T getByID(String id) {
         return getJpaTemplate().getEntityManager().find(getPersistentClass(), id);
     }
 
-    protected Session getHibernateSession() {
+    protected final Session getHibernateSession() {
         return (Session) getJpaTemplate().getEntityManager().getDelegate();
     }
 

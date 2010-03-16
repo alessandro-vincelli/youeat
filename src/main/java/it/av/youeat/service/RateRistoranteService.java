@@ -18,7 +18,6 @@ package it.av.youeat.service;
 import it.av.youeat.ocm.model.RateOnRistorante;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -27,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Service
 @Repository
 public interface RateRistoranteService {
 

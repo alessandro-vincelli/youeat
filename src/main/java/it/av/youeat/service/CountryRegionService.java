@@ -17,17 +17,12 @@ package it.av.youeat.service;
 
 import it.av.youeat.ocm.model.data.CountryRegion;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-
 /**
  * Services on {@Link CountryRegion}
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Service
-@Repository
 public interface CountryRegionService extends ApplicationService<CountryRegion> {
 
 }

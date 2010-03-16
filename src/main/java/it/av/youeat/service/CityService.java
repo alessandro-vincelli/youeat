@@ -21,7 +21,6 @@ import it.av.youeat.ocm.model.data.Country;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -29,8 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@Service
 @Repository
+@Transactional(readOnly = true)
 public interface CityService extends ApplicationService<City> {
 
     /**
@@ -40,7 +39,6 @@ public interface CityService extends ApplicationService<City> {
      * @param maxResults
      * @return found cities
      */
-    @Transactional(readOnly = true)
     List<City> find(String string, int maxResults);
 
     /**
@@ -50,7 +48,6 @@ public interface CityService extends ApplicationService<City> {
      * @param country
      * @return a city
      */
-    @Transactional(readOnly = true)
     City getByNameAndCountry(String cityName, Country country);
 
     /**
@@ -61,7 +58,6 @@ public interface CityService extends ApplicationService<City> {
      * @param maxResults
      * @return names of cities
      */
-    @Transactional(readOnly = true)
     List<String> findByName(String name, Country country, int maxResults);
 
     /**
@@ -71,9 +67,11 @@ public interface CityService extends ApplicationService<City> {
      * @param maxResults
      * @return found cities
      */
-    @Transactional(readOnly = true)
     List<String> findName(String string, int maxResults);
 
+    /**
+     * Renews the lucene index on the cities 
+     */
     @Transactional
     void indexData();
 

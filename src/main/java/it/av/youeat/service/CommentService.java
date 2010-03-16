@@ -16,19 +16,15 @@
 package it.av.youeat.service;
 
 import it.av.youeat.ocm.model.Comment;
+import it.av.youeat.ocm.model.Eater;
 
 import java.util.Collection;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Operations on Comments
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@Service
-@Transactional
 public interface CommentService {
 
     /**
@@ -37,7 +33,6 @@ public interface CommentService {
      * @param comment
      * @return Comment
      */
-    @Transactional
     Comment save(Comment comment);
 
     /**
@@ -45,14 +40,34 @@ public interface CommentService {
      * 
      * @return Collection<Comment>
      */
-    @Transactional
     Collection<Comment> getAll();
 
     /**
-     * Remove an comment from the repository
+     * Remove comment from the data base
      * 
      * @param comment
      */
-    @Transactional
     void remove(Comment comment);
+
+    /**
+     * Remove comments from the data base
+     * 
+     * @param comments
+     */
+    void remove(Collection<Comment> comments);
+
+    /**
+     * remove all the comments added by the given users
+     * 
+     * @param eater
+     */
+    void removeByEater(Eater eater);
+
+    /**
+     * get all the comments of the given eater
+     * 
+     * @param eater
+     * @return user's comments
+     */
+    Collection<Comment> getByEater(Eater eater);
 }

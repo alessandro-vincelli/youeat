@@ -61,7 +61,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 @AuthorizeInstantiation( { "ADMIN" })
 public class UserManagerPage extends BasePage {
 
-    private static final long serialVersionUID = 1L;
     @SpringBean
     private EaterService userService;
     @SpringBean
@@ -142,6 +141,13 @@ public class UserManagerPage extends BasePage {
             @Override
             public void onClick(AjaxRequestTarget target) {
                 ristoranteService.indexData();
+            }
+        });
+        
+        add(new AjaxLink<Eater>("indexUsers", new Model<Eater>()) {
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                userService.indexData();
             }
         });
     }

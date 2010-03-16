@@ -19,7 +19,7 @@ import it.av.youeat.ocm.model.ActivityRistorante;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -27,19 +27,17 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@Service
+@Repository
 @Transactional
 public interface SocialService {
 
     /**
-     * <b>TODO</b>
-     * Sends a notification to the notify the receiver of a new {@link Message}
+     * <b>TODO</b> Sends a notification to the notify the receiver of a new {@link Message}
      * 
      * @param sender
      * @param recipient
      * @param message the message to be notified
      */
-    @Transactional
     void sendMessageReceivedNotification(Eater recipient, Message message);
 
     /**
@@ -47,6 +45,5 @@ public interface SocialService {
      * 
      * @param activityRistorante the activity to be published
      */
-    @Transactional
     void publishRistoActivity(ActivityRistorante activityRistorante);
 }

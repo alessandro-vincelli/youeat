@@ -18,13 +18,15 @@ package it.av.youeat.ocm.model;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.ForeignKey;
 
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
- * 
  */
 @Entity
 public class ActivityEaterRelation extends Activity {
@@ -43,7 +45,9 @@ public class ActivityEaterRelation extends Activity {
 
     private String eaterActivityType;
     @ManyToOne(optional=false)
+    @JoinColumn(name="with_user")
     @ForeignKey(name="activity_relation_with_user_fk")
+    @Fetch(FetchMode.SELECT)
     private Eater withUser;
 
     public ActivityEaterRelation() {

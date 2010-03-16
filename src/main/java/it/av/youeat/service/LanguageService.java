@@ -19,26 +19,21 @@ import it.av.youeat.ocm.model.Language;
 
 import java.util.Locale;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Services on {@Link Language}
  * 
- * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a> 
+ * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@Service
-@Repository
 public interface LanguageService extends ApplicationService<Language> {
 
-    
     /**
      * Tries to find a supported language, best match for the requested locale.
      * 
      * @param locale the requested locale
      * @return a supported langauge
      */
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     Language getSupportedLanguage(Locale locale);
 }

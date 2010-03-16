@@ -178,7 +178,7 @@ public class MessageListPage extends BasePage {
     private List<Message> getLastMessages() {
         List<Dialog> dialogs;
         if (inBox) {
-            dialogs = dialogService.getDialogs(getLoggedInUser());
+            dialogs = dialogService.getDialogs(getLoggedInUser(), true);
         } else {
             dialogs = dialogService.getCreatedDialogs(getLoggedInUser());
         }

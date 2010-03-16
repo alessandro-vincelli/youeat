@@ -20,7 +20,7 @@ import it.av.youeat.ocm.model.Tag;
 import java.util.List;
 
 import org.hibernate.criterion.Criterion;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -29,7 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Service
+@Repository
+@Transactional(readOnly = true)
 public interface TagService {
 
     /**
@@ -46,7 +47,6 @@ public interface TagService {
      * 
      * @return List<Tag>
      */
-    @Transactional(readOnly = true)
     List<Tag> getAll();
 
     /**
@@ -55,16 +55,14 @@ public interface TagService {
      * @param pattern
      * @return List<Tag>
      */
-    @Transactional(readOnly = true)
     List<Tag> find(String pattern);
-    
+
     /**
      * Free text search by Lucene
      * 
      * @param pattern
      * @return List<Tag>
      */
-    @Transactional(readOnly = true)
     List<Tag> freeTextSearch(String pattern);
 
     /**
@@ -73,7 +71,6 @@ public interface TagService {
      * @param criterions
      * @return List<Tag>
      */
-    @Transactional(readOnly = true)
     List<Tag> findByCriteria(Criterion... criterions);
 
     /**
@@ -82,7 +79,6 @@ public interface TagService {
      * @param tagValue
      * @return Tag
      */
-    @Transactional(readOnly = true)
     Tag getByTagValue(String tagValue);
 
     /**

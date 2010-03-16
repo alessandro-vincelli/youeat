@@ -21,7 +21,7 @@ import it.av.youeat.ocm.model.Message;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Service
+@Repository
 @Transactional
 public interface DialogService {
 
@@ -38,11 +38,10 @@ public interface DialogService {
      * Create a new dialog containing the new message.
      * 
      * @param sender the creator of the dialog
-     * @param recipient the receiver of the first message of the dialog 
+     * @param recipient the receiver of the first message of the dialog
      * @param message to send
      * @return the created dialog
      */
-    @Transactional
     Dialog startNewDialog(Eater sender, Eater recipient, Message message);
 
     /**
@@ -53,39 +52,36 @@ public interface DialogService {
      * @param recipient the recipient of the reply
      * @return the sent message
      */
-    @Transactional
     Dialog reply(Message message, Dialog dialog, Eater recipient);
 
     /**
-     * Returns dialogs created(sent) by the given user
-     * not flagged as removed
+     * Returns dialogs created(sent) by the given user not flagged as removed
      * 
      * @param eater
      * @return dialogs for the given user
      */
     @Transactional(readOnly = true)
     List<Dialog> getCreatedDialogs(Eater eater);
-    
+
     /**
-     * Count number of created(sent) dialogs by the given user
-     * not flagged as removed
+     * Count number of created(sent) dialogs by the given user not flagged as removed
      * 
      * @param eater
      * @return dialogs for the given user
      */
     @Transactional(readOnly = true)
     int countCreatedDialogs(Eater eater);
-    
+
     /**
-     * Returns dialogs where the user is involved.
-     * The dialog sent by the user with only 1 message are excluded.
-     * not flagged as removed
+     * Returns dialogs where the user is involved. Not flagged as
+     * removed
      * 
      * @param eater
+     * @param excludeSingleMessage true to exclude dialogs with only 1 message
      * @return dialogs for the given user
      */
     @Transactional(readOnly = true)
-    List<Dialog> getDialogs(Eater eater);
+    List<Dialog> getDialogs(Eater eater, boolean excludeSingleMessage);
 
     /**
      * Remove logically a dialog
@@ -93,16 +89,21 @@ public interface DialogService {
      * @param dialog the dialog to delete
      * @param eater the author of the deletion
      */
-    @Transactional
     void delete(Dialog dialog, Eater eater);
 
     /**
      * Return the dialog. All the unread messages in the dialog are set as read.
      * 
-     * @param dialogId the id of the dialog 
+     * @param dialogId the id of the dialog
      * @param eater the user part of the dialog
      * @return the dialog
      */
-    @Transactional
     Dialog readDiscussion(String dialogId, Eater eater);
+
+    /**
+     * Remove all the dialogs where the eater is involved
+     * 
+     * @param eater
+     */
+    void removeByEater(Eater eater);
 }

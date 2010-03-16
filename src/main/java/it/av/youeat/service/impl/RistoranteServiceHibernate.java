@@ -80,8 +80,9 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         risto.setRevisionNumber(risto.getRevisionNumber() + 1);
         save(risto);
         risto.addRevision(ristoranteRevisionService.insert(new RistoranteRevision(risto)));
-        risto.addActivity(activityRistoranteService.save(new ActivityRistorante(DateUtil.getTimestamp(), user, risto,
+        activityRistoranteService.save(activityRistoranteService.save(new ActivityRistorante(DateUtil.getTimestamp(), user, risto,
                 ActivityRistorante.TYPE_MODIFICATION)));
+        
         return save(risto);
     }
 
@@ -111,7 +112,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         ristoToSave.setLongitude(gLatLng.getLng());
         ristoToSave = save(ristoToSave);
         ristoToSave.addRevision(ristoranteRevisionService.insert(new RistoranteRevision(ristoToSave)));
-        ristoToSave.addActivity(activityRistoranteService.save(new ActivityRistorante(DateUtil.getTimestamp(), user,
+        activityRistoranteService.save(activityRistoranteService.save(new ActivityRistorante(DateUtil.getTimestamp(), user,
                 ristoToSave, ActivityRistorante.TYPE_ADDED)));
         return save(ristoToSave);
     }
@@ -163,7 +164,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      */
     @Override
     public boolean hasUsersAlreadyRated(Ristorante risto, Eater user) {
-        List<ActivityRistorante> results = activityRistoranteService.findByUserRistoType(user, risto,
+        List<ActivityRistorante> results = activityRistoranteService.findByEaterRistoType(user, risto,
                 ActivityRistorante.TYPE_VOTED);
         return (results.size() != 0);
     }

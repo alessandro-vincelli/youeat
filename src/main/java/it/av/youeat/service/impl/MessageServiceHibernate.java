@@ -20,6 +20,8 @@ import it.av.youeat.ocm.model.Message;
 import it.av.youeat.ocm.util.DateUtil;
 import it.av.youeat.service.MessageService;
 
+import java.util.Collection;
+
 import javax.persistence.Query;
 
 /**
@@ -98,12 +100,20 @@ public class MessageServiceHibernate extends ApplicationServiceHibernate<Message
      */
     @Override
     public long countSentMessages(Eater eater) {
-        Query query = getJpaTemplate()
-                .getEntityManager()
-                .createQuery(
-                        "select count(msgs) from Message as msgs where msgs.sender = :msgSender");
+        Query query = getJpaTemplate().getEntityManager().createQuery(
+                "select count(msgs) from Message as msgs where msgs.sender = :msgSender");
         query.setParameter("msgSender", eater);
         return (Long) query.getSingleResult();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void remove(Collection<Message> messages) {
+        for (Message message : messages) {
+            remove(message);
+        }
     }
 
 }

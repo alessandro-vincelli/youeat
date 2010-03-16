@@ -99,7 +99,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      * {@inheritDoc}
      */
     @Override
-    public List<Dialog> getDialogs(Eater eater) {
+    public List<Dialog> getDialogs(Eater eater, boolean excludeSingleMessage) {
         Conjunction receiverFilter = Restrictions.conjunction();
         Criterion critByReceiver1 = Restrictions.eq(Dialog.RECEIVER_FIELD, eater);
         Criterion critByReceiver2 = Restrictions.eq(Dialog.DELETED_FROM_RECEIVER_FIELD, false);
@@ -117,9 +117,11 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         or.add(senderFilter);
         Order orderBYDate = Order.desc(Dialog.CREATION_TIME_FIELD);
         List<Dialog> results = findByCriteria(orderBYDate, or);
-        for (int i = 0; i < results.size(); i++) {
-            if (results.get(i).getSender().equals(eater) && results.get(i).getMessages().size() == 1) {
-                results.remove(i);
+        if(excludeSingleMessage){
+            for (int i = 0; i < results.size(); i++) {
+                if (results.get(i).getSender().equals(eater) && results.get(i).getMessages().size() == 1) {
+                    results.remove(i);
+                }
             }
         }
         return results;
@@ -176,5 +178,25 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         } else {
             mailService.sendMessageReceivedNotification(recipient, message);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeByEater(Eater eater) {
+        List<Dialog> dialogs = getDialogs(eater, false);
+        for (Dialog dialog : dialogs) {
+            this.remove(dialog);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void remove(Dialog dialog) {
+        messageService.remove(dialog.getMessages());
+        super.remove(dialog);
     }
 }

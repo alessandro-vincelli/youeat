@@ -22,6 +22,10 @@ import it.av.youeat.ocm.model.EaterProfile;
 import it.av.youeat.ocm.model.EaterRelation;
 import it.av.youeat.ocm.model.SocialType;
 import it.av.youeat.ocm.util.DateUtil;
+import it.av.youeat.service.ActivityRelationService;
+import it.av.youeat.service.ActivityRistoranteService;
+import it.av.youeat.service.CommentService;
+import it.av.youeat.service.DialogService;
 import it.av.youeat.service.EaterProfileService;
 import it.av.youeat.service.EaterRelationService;
 import it.av.youeat.service.EaterService;
@@ -59,6 +63,14 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
     private EaterRelationService eaterRelationService;
     @Autowired
     private MailService mailService;
+    @Autowired
+    private ActivityRistoranteService activityRistoranteService;
+    @Autowired
+    private ActivityRelationService activityRelationService;
+    @Autowired
+    private DialogService dialogService;
+    @Autowired
+    private CommentService commentService;
 
     /**
      * {@inheritDoc}
@@ -71,6 +83,21 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         } catch (ConstraintViolationException e) {
             throw new UserAlreadyExistsException(e);
         }
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void remove(Eater eater) {
+        
+        Eater eaterToRemove = getByID(eater.getId());
+        activityRelationService.removeByEater(eater);
+        activityRistoranteService.removeByEater(eater);
+        commentService.removeByEater(eater);
+        dialogService.removeByEater(eater);
+        eaterRelationService.removeByEater(eater);
+        super.remove(eaterToRemove);
     }
 
     /**

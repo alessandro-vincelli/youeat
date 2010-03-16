@@ -20,7 +20,7 @@ import it.av.youeat.ocm.model.SocialType;
 
 import java.util.Collection;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -29,7 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Service
+@Repository
+@Transactional(readOnly = true)
 public interface EaterService {
 
     /**
@@ -67,7 +68,7 @@ public interface EaterService {
      */
     @Transactional
     Eater addAdminUser(Eater object);
-    
+
     /**
      * Add a new facebook user
      * 
@@ -82,15 +83,13 @@ public interface EaterService {
      * 
      * @return all the users
      */
-    @Transactional(readOnly = true)
     Collection<Eater> getAll();
-    
+
     /**
      * Return all the admin user
      * 
      * @return all the admin
      */
-    @Transactional(readOnly = true)
     Collection<Eater> getAllAdminUsers();
 
     /**
@@ -99,18 +98,16 @@ public interface EaterService {
      * @param pattern
      * @return the found users
      */
-    @Transactional(readOnly = true)
     Collection<Eater> find(String pattern);
 
     /**
-     * Return users without relations with the given user and the given pattern the search is performed on the firstname
-     * and lastname of the user
+     * Return users without relations with the given user and the given pattern the search is performed on the firstname and
+     * lastname of the user
      * 
      * @param forUser
      * @param pattern
      * @return all found users
      */
-    @Transactional(readOnly = true)
     Collection<Eater> findUserWithoutRelation(Eater forUser, String pattern);
 
     /**
@@ -119,7 +116,6 @@ public interface EaterService {
      * @param forUser
      * @return all users not related to this user
      */
-    @Transactional(readOnly = true)
     Collection<Eater> findUserWithoutRelation(Eater forUser);
 
     /**
@@ -136,7 +132,6 @@ public interface EaterService {
      * @param email
      * @return user with the passed email
      */
-    @Transactional(readOnly = true)
     Eater getByEmail(String email);
 
     /**
@@ -145,9 +140,8 @@ public interface EaterService {
      * @param id
      * @return user with the passed email
      */
-    @Transactional(readOnly = true)
     Eater getByID(String id);
-    
+
     /**
      * Return the user by a social UID
      * 
@@ -155,7 +149,6 @@ public interface EaterService {
      * @param socialType
      * @return user with the passed email
      */
-    @Transactional(readOnly = true)
     Eater getBySocialUID(String socialUId, SocialType socialType);
 
     /**
@@ -165,8 +158,7 @@ public interface EaterService {
     void indexData();
 
     /**
-     * Takes a previously encoded password and compares it with a rawpassword after mixing in the salt and encoding that
-     * value
+     * Takes a previously encoded password and compares it with a rawpassword after mixing in the salt and encoding that value
      * 
      * @param encPass previously encoded password
      * @param rawPass plain text password
@@ -176,8 +168,7 @@ public interface EaterService {
     boolean isPasswordValid(String encPass, String rawPass, Object salt);
 
     /**
-     * Encodes the rawPass using a MessageDigest. If a salt is specified it will be merged with the password before
-     * encoding.
+     * Encodes the rawPass using a MessageDigest. If a salt is specified it will be merged with the password before encoding.
      * 
      * @param rawPass The plain text password
      * @param salt The salt to sprinkle
@@ -200,6 +191,7 @@ public interface EaterService {
      * @return eater with updated password
      */
     Eater setRandomPassword(Eater eater);
+
     /**
      * count users in the DB
      * 

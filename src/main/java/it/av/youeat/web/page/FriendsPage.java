@@ -90,7 +90,6 @@ public class FriendsPage extends BasePage {
         friendsListContainer.setOutputMarkupId(true);
         add(friendsListContainer);
         friendsList = new PropertyListView<EaterRelation>("friendsList", new RelationsModel()) {
-            private static final long serialVersionUID = 1L;
 
             @Override
             protected void populateItem(final ListItem<EaterRelation> item) {

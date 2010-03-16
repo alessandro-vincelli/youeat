@@ -18,7 +18,9 @@ package it.av.youeat.service;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 
-import org.springframework.stereotype.Service;
+import java.util.Collection;
+
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -27,8 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Service
-@Transactional
+@Repository
+@Transactional(readOnly = true)
 public interface MessageService {
 
     /**
@@ -39,53 +41,51 @@ public interface MessageService {
      */
     @Transactional
     Message markMessageAsRead(Message msg);
-    
+
     /**
-     * Count unread messages for the given user
-     * not flagged as removed
+     * Count unread messages for the given user not flagged as removed
      * 
      * @param eater
      * @return number of unread messages
      */
-    @Transactional(readOnly=true)
     long countUnreadMessages(Eater eater);
-    
+
     /**
-     * Count messages for the given user, sent and received
-     * not flagged as removed
+     * Count messages for the given user, sent and received not flagged as removed
      * 
      * @param eater
      * @return number of messages
      */
-    @Transactional(readOnly=true)
     long countMessages(Eater eater);
-    
+
     /**
-     * Count messages received by the given user,
-     * not flagged as removed
+     * Count messages received by the given user, not flagged as removed
      * 
      * @param eater
      * @return number of messages
      */
-    @Transactional(readOnly=true)
     long countIncomingMessages(Eater eater);
-    
+
     /**
-     * Count messages sent by the given user,
-     * not flagged as removed
+     * Count messages sent by the given user, not flagged as removed
      * 
      * @param eater
      * @return number of messages
      */
-    @Transactional(readOnly=true)
     long countSentMessages(Eater eater);
-    
+
     /**
      * Get a message from the database
      * 
      * @param message message to retrieve
      * @return a message
      */
-    @Transactional(readOnly=true)
     Message getMessage(Message message);
+    
+    /**
+     * remove the given messages from the database
+     * 
+     * @param messages
+     */
+    void remove(Collection<Message> messages);
 }

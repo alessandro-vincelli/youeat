@@ -20,7 +20,7 @@ import it.av.youeat.ocm.model.EaterRelation;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -29,8 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@Service
-@Transactional
+@Transactional(readOnly = true)
+@Repository
 public interface EaterRelationService {
 
     /**
@@ -94,16 +94,14 @@ public interface EaterRelationService {
      * @param ofUser
      * @return list of all friends relations
      */
-    @Transactional(readOnly = true)
     List<EaterRelation> getAllFriendUsers(Eater ofUser);
-    
+
     /**
-     * Return all the the pending friends relations received by the given user 
+     * Return all the the pending friends relations received by the given user
      * 
      * @param ofUser
      * @return list of all friends relations
      */
-    @Transactional(readOnly = true)
     List<EaterRelation> getAllPendingFriendRequetToUsers(Eater toUser);
 
     /**
@@ -112,7 +110,6 @@ public interface EaterRelationService {
      * @param ofUser
      * @return list of all friends relations
      */
-    @Transactional(readOnly = true)
     List<EaterRelation> getAllFollowUsers(Eater ofUser);
 
     /**
@@ -121,7 +118,6 @@ public interface EaterRelationService {
      * @param ofUser
      * @return list of all friends relations
      */
-    @Transactional(readOnly = true)
     List<EaterRelation> getAllRelations(Eater ofUser);
 
     /**
@@ -130,9 +126,8 @@ public interface EaterRelationService {
      * @param ofUser
      * @return list of all friends relations
      */
-    @Transactional(readOnly = true)
     List<EaterRelation> getAllActiveRelations(Eater ofUser);
-    
+
     /**
      * Returns the relation between two users
      * 
@@ -140,6 +135,12 @@ public interface EaterRelationService {
      * @param toUser
      * @return relation between two user, <b>null</b> if no relation
      */
-    @Transactional(readOnly = true)
     EaterRelation getRelation(Eater ofUser, Eater toUser);
+
+    /**
+     * Remove all the relation of the given eater
+     * 
+     * @param eater
+     */
+    void removeByEater(Eater eater);
 }

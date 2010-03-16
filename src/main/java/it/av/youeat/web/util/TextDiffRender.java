@@ -7,6 +7,8 @@ import org.apache.wicket.util.diff.Diff;
 import org.apache.wicket.util.diff.DifferentiationFailedException;
 import org.apache.wicket.util.diff.Revision;
 
+import com.sun.syndication.io.FeedException;
+
 /**
  * Util class to render in Html RCS differences
  * 

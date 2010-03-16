@@ -15,6 +15,8 @@
  */
 package it.av.youeat.ocm.model;
 
+import it.av.youeat.ocm.util.DateUtil;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -61,6 +63,22 @@ public class Comment extends BasicEntity {
     public Comment() {
         super();
         this.enabled = true;
+    }
+    
+    /**
+     * sets the the comment as enabled
+     * 
+     * @param title
+     * @param body
+     * @param author
+     */
+    public Comment(String title, String body, Eater author) {
+        super();
+        this.title = title;
+        this.body = body;
+        this.author = author;
+        this.enabled = true;
+        this.creationTime = DateUtil.getTimestamp();
     }
 
     public final String getTitle() {

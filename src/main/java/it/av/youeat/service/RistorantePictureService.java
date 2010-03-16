@@ -17,17 +17,12 @@ package it.av.youeat.service;
 
 import it.av.youeat.ocm.model.RistorantePicture;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * Operations on {@Link RistorantePicture}
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Service
-@Transactional
 public interface RistorantePictureService extends ApplicationService<RistorantePicture> {
 
 }

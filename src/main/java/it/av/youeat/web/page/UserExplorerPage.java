@@ -46,7 +46,7 @@ public class UserExplorerPage extends BasePage {
         Collection<ActivityRistorante> activities;
         try {
             // FIXME pass the correct user
-            activities = activityRistoranteService.findByUser(null);
+            activities = activityRistoranteService.findByEater(null);
         } catch (YoueatException e) {
             activities = new ArrayList<ActivityRistorante>();
             error(new StringResourceModel("error.errorGettingListActivities", this, null).getString());

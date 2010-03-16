@@ -16,7 +16,15 @@
 package it.av.youeat.service.impl;
 
 import it.av.youeat.ocm.model.Comment;
+import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.service.CommentService;
+
+import java.util.Collection;
+
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Comment service
@@ -24,6 +32,36 @@ import it.av.youeat.service.CommentService;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class CommentServiceHibernate extends ApplicationServiceHibernate<Comment> implements CommentService{
+@Repository
+@Transactional
+public class CommentServiceHibernate extends ApplicationServiceHibernate<Comment> implements CommentService {
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeByEater(Eater eater) {
+        remove(getByEater(eater));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<Comment> getByEater(Eater eater) {
+        Criterion critByEater = Restrictions.eq(Comment.AUTHOR_FIELD, eater);
+        return findByCriteria(critByEater);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void remove(Collection<Comment> comments) {
+        for (Comment comment : comments) {
+            remove(comment);
+        }
+    }
 
 }

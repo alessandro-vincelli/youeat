@@ -108,7 +108,7 @@ public class MessageServiceTest extends YoueatTest {
         List<Dialog> dialogs = dialogService.getCreatedDialogs(userB);
         assertTrue("dialogs list empty", dialogs.size() == 1);
 
-        dialogs = dialogService.getDialogs(userC);
+        dialogs = dialogService.getDialogs(userC, true);
         assertTrue("dialogs list empty", dialogs.size() == 1);
 
         dialogs = dialogService.getCreatedDialogs(userC);
@@ -136,7 +136,7 @@ public class MessageServiceTest extends YoueatTest {
 
         Dialog dialog = dialogService.startNewDialog(userB, userC, msg);
 
-        List<Dialog> dialogs = dialogService.getDialogs(userC);
+        List<Dialog> dialogs = dialogService.getDialogs(userC, true);
         assertTrue("dialogs list empty", dialogs.size() == 1);        
         
         dialogs = dialogService.getCreatedDialogs(userB);
@@ -148,7 +148,7 @@ public class MessageServiceTest extends YoueatTest {
         //Dialog deleted by receiver
         dialogService.delete(dialog, userC);
         
-        dialogs = dialogService.getDialogs(userC);
+        dialogs = dialogService.getDialogs(userC, true);
         assertTrue("dialog not removed", dialogs.size() == 0);    
         
         dialogs = dialogService.getCreatedDialogs(userB);

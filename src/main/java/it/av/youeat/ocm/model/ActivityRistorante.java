@@ -24,6 +24,9 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  *
@@ -72,6 +75,7 @@ public class ActivityRistorante extends Activity {
 
     @ManyToOne(optional=false)
     @JoinColumn(name="ristorante_fk")
+    @Fetch(FetchMode.SELECT)
     private Ristorante ristorante;
     @Column(nullable=false)
     private String type;

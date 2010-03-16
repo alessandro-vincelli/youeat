@@ -5,10 +5,18 @@ import it.av.youeat.ocm.model.Eater;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
-public interface ActivityRelationService extends ApplicationService<ActivityEaterRelation> {
+/**
+ * Operation to manage activities on user relations
+ * 
+ * @author Alessandro Vincelli
+ * 
+ */
+@Transactional(readOnly = true)
+@Repository
+public interface ActivityRelationService {
 
     /**
      * Find relation activities for the given user
@@ -16,7 +24,6 @@ public interface ActivityRelationService extends ApplicationService<ActivityEate
      * @param eater
      * @return activities for the given user
      */
-    @Transactional(readOnly = true)
     List<ActivityEaterRelation> findByEater(Eater eater);
 
     /**
@@ -27,7 +34,6 @@ public interface ActivityRelationService extends ApplicationService<ActivityEate
      * @param maxResults number of results
      * @return activities for the given user
      */
-    @Transactional(readOnly = true)
     List<ActivityEaterRelation> findByEater(Eater eater, int firstResult, int maxResults);
 
     /**
@@ -36,7 +42,6 @@ public interface ActivityRelationService extends ApplicationService<ActivityEate
      * @param ofUser
      * @return activities for the friends of the given user
      */
-    @Transactional(readOnly = true)
     List<ActivityEaterRelation> findByEaterFriend(Eater ofUser);
 
     /**
@@ -47,9 +52,8 @@ public interface ActivityRelationService extends ApplicationService<ActivityEate
      * @param maxResults number of results
      * @return activities for the friends of the given user
      */
-    @Transactional(readOnly = true)
     List<ActivityEaterRelation> findByEaterFriend(Eater eater, int firstResult, int maxResults);
-    
+
     /**
      * Find relation activities for the friends given user and for the user himself
      * 
@@ -58,7 +62,6 @@ public interface ActivityRelationService extends ApplicationService<ActivityEate
      * @param maxResults number of results
      * @return activities for the friends of the given user
      */
-    @Transactional(readOnly = true)
     List<ActivityEaterRelation> findByEaterFriendAndEater(Eater eater, int firstResult, int maxResults);
 
     /**
@@ -69,13 +72,23 @@ public interface ActivityRelationService extends ApplicationService<ActivityEate
      * @param maxResults number of results
      * @return activities for the given user
      */
-    @Transactional(readOnly = true)
     List<ActivityEaterRelation> findByEaters(List<Eater> eaters, int firstResult, int maxResults);
 
     /**
-     * {@inheritDoc}
+     * store the activity in the database
+     * 
+     * @param activityRistorante the activity to save
+     * @return the just saved activity
      */
     @Transactional
-    @Override
     ActivityEaterRelation save(ActivityEaterRelation activityRistorante);
+
+    /**
+     * remove all the activities related to the given users
+     * 
+     * @param eater
+     */
+    @Transactional
+    void removeByEater(Eater eater);
+
 }

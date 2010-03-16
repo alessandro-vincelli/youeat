@@ -71,6 +71,12 @@ public class Message extends BasicEntity {
         super();
     }
 
+    public Message(String title, String body) {
+        super();
+        this.title = title;
+        this.body = body;
+    }
+
     public String getTitle() {
         return title;
     }

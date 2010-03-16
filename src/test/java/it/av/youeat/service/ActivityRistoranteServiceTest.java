@@ -122,11 +122,11 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         assertNotNull("Activity is null", activities);
         assertTrue(activities.size() > 0);
 
-        activities = activityRistoranteService.findByUser(user);
+        activities = activityRistoranteService.findByEater(user);
         assertNotNull("Activity is null", activities);
         assertTrue(activities.size() > 0);
 
-        activities = activityRistoranteService.findByUser(userFriend);
+        activities = activityRistoranteService.findByEater(userFriend);
         assertNotNull("Activity is null", activities);
         assertTrue(activities.size() > 0);
         
@@ -148,10 +148,30 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         
         List<Ristorante> ristos = ristoranteService.freeTextSearch(risto.getName());
         for (Ristorante ristorante : ristos) {
-            System.out.println(ristorante.getName());
+            //System.out.println(ristorante.getName());
         }
-        
+         
+    }
+    
+    
+    
+    @Test
+    @Transactional
+    public void testRistoAndRemovingActivity() {
+        // Manual
+        ActivityRistorante activity = new ActivityRistorante();
+        activity.setDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        activity.setEater(user);
+        activity.setRistorante(risto);
+        activity.setType(ActivityRistorante.TYPE_ADDED);
+        activityRistoranteService.save(activity);
 
+        assertNotNull("Activity is null", activity);
+                user = userService.getByEmail(user.getEmail());
+        // eaterService.remove(user);
+        //activityRistoranteService.remove(activity);
+        activityRistoranteService.removeByEater(user);
+         
     }
 
     @After
@@ -161,9 +181,9 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         for (EaterRelation userRelation : friends) {
             userRelationService.remove(userRelation);
         }
-        ristoranteService.remove(risto);
         userService.remove(user);
         userService.remove(userFriend);
+        ristoranteService.remove(risto);
     }
 
 }

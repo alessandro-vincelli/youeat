@@ -25,7 +25,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -33,8 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@Service
 @Repository
+@Transactional(readOnly = true)
 public interface RistoranteService {
     /**
      * Update a ristorante
@@ -63,7 +62,7 @@ public interface RistoranteService {
      * @param user the user that is performing the modification
      * @return Ristorante
      */
-    @Transactional
+    @Transactional(readOnly= false)
     Ristorante insert(Ristorante risto, Eater user);
 
     /**
@@ -71,7 +70,6 @@ public interface RistoranteService {
      * 
      * @return Collection<Ristorante>
      */
-    @Transactional(readOnly = true)
     Collection<Ristorante> getAll();
 
     /**
@@ -80,7 +78,6 @@ public interface RistoranteService {
      * @param pattern
      * @return Collection<Ristorante>
      */
-    @Transactional(readOnly = true)
     Collection<Ristorante> find(String pattern);
 
     /**
@@ -89,7 +86,6 @@ public interface RistoranteService {
      * @param pattern
      * @return List<Ristorante>
      */
-    @Transactional(readOnly = true)
     List<Ristorante> freeTextSearch(String pattern);
 
     /**
@@ -106,7 +102,6 @@ public interface RistoranteService {
      * @param id the id of the ristorante
      * @return Ristorante ristorante
      */
-    @Transactional(readOnly = true)
     Ristorante getByID(String id);
 
     /**
@@ -127,7 +122,6 @@ public interface RistoranteService {
      * @param user
      * @return boolean
      */
-    @Transactional(readOnly = true)
     boolean hasUsersAlreadyRated(Ristorante risto, Eater user);
 
     /**
@@ -145,7 +139,6 @@ public interface RistoranteService {
      * @param numberOfResult number of result to return
      * @return lasts risto added
      */
-    @Transactional(readOnly = true)
     List<Ristorante> getLastsAdded(int numberOfResult);
 
     /**
@@ -154,7 +147,6 @@ public interface RistoranteService {
      * @param numberOfResult number of result to return
      * @return lasts risto modified
      */
-    @Transactional(readOnly = true)
     List<Ristorante> getLastsModified(int numberOfResult);
 
     /**
@@ -165,7 +157,6 @@ public interface RistoranteService {
      * @param maxResults number of results
      * @return found ristos
      */
-    @Transactional(readOnly = true)
     List<Ristorante> getByCity(City city, int firsResult, int maxResults);
 
     /**
@@ -173,7 +164,6 @@ public interface RistoranteService {
      * 
      * @return found ristos
      */
-    @Transactional(readOnly = true)
     List<City> getCityWithRisto();
 
     /**
@@ -181,7 +171,6 @@ public interface RistoranteService {
      * 
      * @return found cities
      */
-    @Transactional(readOnly = true)
     List<City> getCityWithRistoByCountry(Country country);
 
     /**
@@ -189,7 +178,6 @@ public interface RistoranteService {
      * 
      * @return found countries
      */
-    @Transactional(readOnly = true)
     List<Country> getCountryWithRisto();
 
     /**
@@ -198,32 +186,27 @@ public interface RistoranteService {
      * @param numberOfResult number of result to return
      * @return lasts risto modified
      */
-    @Transactional(readOnly = true)
     List<Ristorante> getRandom(int numberOfResult);
 
     /**
-     * Find restaurants by the given pattern, using Lucene
-     * and filtering activties for the given map of users
+     * Find restaurants by the given pattern, using Lucene and filtering activties for the given map of users
      * 
      * @param pattern
      * @param eaters
      * @return List<Ristorante>
      */
-    @Transactional(readOnly = true)
     List<Ristorante> freeTextSearch(String pattern, ArrayList<Eater> eaters);
-    
-    
+
     /**
      * count risto in the DB
      * 
      * @return number of risto
      */
-    @Transactional(readOnly = true)
     int count();
-    
+
     /**
-     * create/update lucene index on ristoranti 
+     * create/update lucene index on ristoranti
      */
-    @Transactional    
+    @Transactional
     void indexData();
 }

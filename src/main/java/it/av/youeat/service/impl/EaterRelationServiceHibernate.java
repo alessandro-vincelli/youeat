@@ -23,6 +23,7 @@ import it.av.youeat.ocm.util.DateUtil;
 import it.av.youeat.service.ActivityRelationService;
 import it.av.youeat.service.EaterRelationService;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,8 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<EaterRelation> implements
-        EaterRelationService {
+public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<EaterRelation> implements EaterRelationService {
 
     @Autowired
     private ActivityRelationService activityRelationService;
@@ -89,8 +89,8 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
             inverseRelation.setStatus(EaterRelation.STATUS_ACTIVE);
             save(inverseRelation);
             EaterRelation savedRelation = save(relation);
-            ActivityEaterRelation activity = new ActivityEaterRelation(DateUtil.getTimestamp(), savedRelation
-                    .getFromUser(), savedRelation.getToUser(), ActivityEaterRelation.TYPE_ARE_FRIENDS);
+            ActivityEaterRelation activity = new ActivityEaterRelation(DateUtil.getTimestamp(), savedRelation.getFromUser(),
+                    savedRelation.getToUser(), ActivityEaterRelation.TYPE_ARE_FRIENDS);
             activityRelationService.save(activity);
             return savedRelation;
         } else {
@@ -151,6 +151,19 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
         return results;
     }
 
+    /**
+     * Return all the relations on the given user without any filter.
+     */
+    private Collection<EaterRelation> getRelations(Eater ofUser) {
+        Conjunction pendingFriend = Restrictions.conjunction();
+        pendingFriend.add(Restrictions.eq(EaterRelation.TO_USER, ofUser));
+        Disjunction inOr = Restrictions.disjunction();
+        inOr.add(pendingFriend);
+        inOr.add(Restrictions.eq(EaterRelation.FROM_USER, ofUser));
+        List<EaterRelation> results = findByCriteria(inOr);
+        return results;
+    }
+
     private List<EaterRelation> getOppositeRelation(EaterRelation relation) {
         Conjunction friend = Restrictions.conjunction();
         friend.add(Restrictions.eq(EaterRelation.TYPE, relation.getType()));
@@ -202,5 +215,16 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
         Criterion critType = Restrictions.eq(EaterRelation.TYPE, EaterRelation.TYPE_FRIEND);
         Criterion critStatus = Restrictions.eq(EaterRelation.STATUS, EaterRelation.STATUS_PENDING);
         return findByCriteria(critUser, critType, critStatus);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeByEater(Eater eater) {
+        Collection<EaterRelation> relations = getRelations(eater);
+        for (EaterRelation relation : relations) {
+            remove(relation);
+        }
     }
 }

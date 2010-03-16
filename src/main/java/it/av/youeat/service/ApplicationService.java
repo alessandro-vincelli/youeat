@@ -19,10 +19,9 @@ import java.util.List;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
- * General operations
+ * Common operations
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
@@ -34,7 +33,6 @@ public interface ApplicationService<T> {
      * @param item
      * @return just saved T item
      */
-    @Transactional
     T save(T item);
 
     /**
@@ -42,7 +40,6 @@ public interface ApplicationService<T> {
      * 
      * @return all T item
      */
-    @Transactional(readOnly=true)
     List<T> getAll();
 
     /**
@@ -59,7 +56,6 @@ public interface ApplicationService<T> {
      * 
      * @param item
      */
-    @Transactional
     void remove(T item);
 
     /**
@@ -68,12 +64,24 @@ public interface ApplicationService<T> {
      * @param id
      * @return T item
      */
-    @Transactional(readOnly=true)
     T getByID(String id);
     
-    @Transactional(readOnly=true)
+    /**
+     * find using hibernate criteria
+     * 
+     * @param criterion 
+     * @return list of found objects
+     */
     List<T> findByCriteria(Criterion... criterion);
     
-    @Transactional(readOnly=true)
+    /**
+     * find using hibernate criteria
+     * 
+     * @param order
+     * @param firstResult
+     * @param maxResults
+     * @param criterion
+     * @return list of found objects
+     */
     List<T> findByCriteria(Order order, int firstResult, int maxResults, Criterion[] criterion);
 }

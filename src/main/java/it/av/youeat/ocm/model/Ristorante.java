@@ -91,9 +91,6 @@ public class Ristorante extends BasicEntity {
     public static final String CREATION_TIME = "creationTime";
     public static final String MODIFICATION_TIME = "modificationTime";
 
-    /**
-     * used by JPA Hibernate optimistic locking system
-     */
     @Version
     private int version;
     @Field(index = Index.TOKENIZED, store = Store.NO)
@@ -144,11 +141,6 @@ public class Ristorante extends BasicEntity {
     @ManyToMany(cascade = { CascadeType.MERGE,  CascadeType.PERSIST,  CascadeType.REFRESH  }, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     private List<Tag> tags;
-    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy="ristorante")
-    @Fetch(FetchMode.SELECT)
-    @Filter(name="friends", condition = " activities.eater in :friendlist ")
-    @Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    private List<ActivityRistorante> activities;
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     @OrderBy("revisionNumber DESC")
@@ -176,18 +168,9 @@ public class Ristorante extends BasicEntity {
     public Ristorante() {
         rates = new ArrayList<RateOnRistorante>();
         tags = new ArrayList<Tag>();
-        activities = new ArrayList<ActivityRistorante>();
         revisions = new ArrayList<RistoranteRevision>();
         descriptions = new ArrayList<RistoranteDescriptionI18n>();
         pictures = new ArrayList<RistorantePicture>();
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
     }
 
     public final String getName() {
@@ -292,18 +275,6 @@ public class Ristorante extends BasicEntity {
 
     public void setMobilePhoneNumber(String mobilePhoneNumber) {
         this.mobilePhoneNumber = mobilePhoneNumber;
-    }
-
-    public List<ActivityRistorante> getActivities() {
-        return activities;
-    }
-    
-    public void setActivities(List<ActivityRistorante> activities) {
-        this.activities = activities;
-    }
-
-    public void addActivity(ActivityRistorante activity) {
-        this.activities.add(activity);
     }
 
     public Date getCreationTime() {

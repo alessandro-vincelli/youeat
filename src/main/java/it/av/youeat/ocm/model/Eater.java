@@ -26,7 +26,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,6 +36,8 @@ import javax.persistence.Version;
 import org.apache.solr.analysis.ISOLatin1AccentFilterFactory;
 import org.apache.solr.analysis.LowerCaseFilterFactory;
 import org.apache.solr.analysis.StandardTokenizerFactory;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.search.annotations.AnalyzerDef;
 import org.hibernate.search.annotations.Field;
@@ -110,15 +111,9 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
     @ForeignKey(name = "eater_to_profile_fk")
     @IndexedEmbedded
     private EaterProfile userProfile;
-    @OneToMany
-    // ( cascade = {CascadeType.ALL} , mappedBy="user")
-    @OrderBy(Activity.DATE)
-    @ForeignKey(name = "eater_to_activities_fk")
-    private List<Activity> activities;
-    // @Collection(collectionClassName=EaterRelation.class)// The proxy doesn't work the session is closed (proxy=true)
-    // @NaturalId
     @OneToMany(mappedBy = "fromUser", cascade = { CascadeType.ALL })
     @ForeignKey(name = "eater_to_eaterRelation_fk")
+    @Fetch(FetchMode.SELECT)
     private List<EaterRelation> userRelation;
     @Version
     private int version;
@@ -190,14 +185,6 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
         this.userProfile = userProfile;
     }
 
-    public List<Activity> getActivities() {
-        return activities;
-    }
-
-    public void setActivities(List<Activity> activities) {
-        this.activities = activities;
-    }
-
     public List<EaterRelation> getUserRelation() {
         return userRelation;
     }
@@ -247,14 +234,6 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
 
     public void setBlocked(boolean blocked) {
         this.blocked = blocked;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
     }
 
     /**

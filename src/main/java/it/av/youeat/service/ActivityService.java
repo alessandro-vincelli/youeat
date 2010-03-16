@@ -21,7 +21,7 @@ import it.av.youeat.ocm.model.Eater;
 import java.util.Collection;
 import java.util.Date;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -30,9 +30,9 @@ import org.springframework.transaction.annotation.Transactional;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Service
-@Transactional
-public interface ActivityService extends ApplicationService<Activity> {
+@Transactional(readOnly = true)
+@Repository
+public interface ActivityService{
 
     /**
      * {@inheritDoc}
@@ -46,7 +46,6 @@ public interface ActivityService extends ApplicationService<Activity> {
      * @param date
      * @return activities on the given date
      */
-    @Transactional(readOnly = true)
     Collection<Activity> findByDate(Date date);
 
     /**
@@ -55,7 +54,6 @@ public interface ActivityService extends ApplicationService<Activity> {
      * @param user
      * @return activities for the given user
      */
-    @Transactional(readOnly = true)
     Collection<Activity> findByUser(Eater user);
 
     /**

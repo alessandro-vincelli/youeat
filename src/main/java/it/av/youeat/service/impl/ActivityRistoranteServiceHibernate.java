@@ -10,6 +10,7 @@ import it.av.youeat.service.EaterRelationService;
 import it.av.youeat.service.SocialService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -21,7 +22,14 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 
+ * @author Alessandro Vincelli
+ *
+ */
+@Transactional(readOnly = true)
 public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibernate<ActivityRistorante> implements
         ActivityRistoranteService {
 
@@ -45,18 +53,18 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
      * {@inheritDoc}
      */
     @Override
-    public List<ActivityRistorante> findByUser(Eater user) {
-        return findByUser(user, 0, 0);
+    public List<ActivityRistorante> findByEater(Eater user) {
+        return findByEater(user, 0, 0);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<ActivityRistorante> findByUserFriend(Eater ofUser) {
+    public List<ActivityRistorante> findByEaterFriend(Eater ofUser) {
         List<ActivityRistorante> results = new ArrayList<ActivityRistorante>();
         for (EaterRelation relation : eaterRelationService.getAllActiveRelations(ofUser)) {
-            results.addAll(findByUser(relation.getToUser()));
+            results.addAll(findByEater(relation.getToUser()));
         }
         return results;
     }
@@ -65,7 +73,7 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
      * {@inheritDoc}
      */
     @Override
-    public List<ActivityRistorante> findByUserRistoType(Eater user, Ristorante risto, String activityType) {
+    public List<ActivityRistorante> findByEaterRistoType(Eater user, Ristorante risto, String activityType) {
         Criterion critByUser = Restrictions.eq(ActivityRistorante.USER, user);
         Criterion critByRisto = Restrictions.eq(ActivityRistorante.RISTORANTE, risto);
         Criterion critByType = Restrictions.eq(ActivityRistorante.TYPE, activityType);
@@ -75,6 +83,8 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
     /**
      * {@inheritDoc}
      */
+    @Transactional
+    @Override
     public ActivityRistorante save(ActivityRistorante activityRistorante) {
         if(activityRistorante.getEater().isSocialNetworkEater()){
             socialService.publishRistoActivity(activityRistorante);    
@@ -86,7 +96,7 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
      * {@inheritDoc}
      */
     @Override
-    public List<ActivityRistorante> findByUser(Eater user, int firstResult, int maxResults) {
+    public List<ActivityRistorante> findByEater(Eater user, int firstResult, int maxResults) {
         Criterion crit = Restrictions.eq(ActivityRistorante.USER, user);
         Order orderByDate = Order.desc(Activity.DATE);
         return findByCriteria(orderByDate, firstResult, maxResults, crit);
@@ -116,15 +126,15 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         else if (relations.isEmpty()) {
             return new ArrayList<ActivityRistorante>(1);
         }
-        return findByUsers(friends, firstResult, maxResults);
+        return findByEaters(friends, firstResult, maxResults);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<ActivityRistorante> findByUsers(List<Eater> users, int firstResult, int maxResults) {
-        return findByUsers(users, firstResult, maxResults, null);
+    public List<ActivityRistorante> findByEaters(List<Eater> users, int firstResult, int maxResults) {
+        return findByEaters(users, firstResult, maxResults, null);
     }
 
     /**
@@ -133,10 +143,10 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
     @Override
     public boolean isFavouriteRisto(Eater user, Ristorante ristorante) {
         List<ActivityRistorante> removedAsFavourite = new ArrayList<ActivityRistorante>();
-        List<ActivityRistorante> addedAsFavourite = findByUserRistoType(user, ristorante,
+        List<ActivityRistorante> addedAsFavourite = findByEaterRistoType(user, ristorante,
                 ActivityRistorante.TYPE_ADDED_AS_FAVOURITE);
         if (addedAsFavourite.size() > 0) {
-            removedAsFavourite = findByUserRistoType(user, ristorante, ActivityRistorante.TYPE_REMOVED_AS_FAVOURITE);
+            removedAsFavourite = findByEaterRistoType(user, ristorante, ActivityRistorante.TYPE_REMOVED_AS_FAVOURITE);
         }
         if (removedAsFavourite.size() > 0 && addedAsFavourite.size() > 0) {
             ActivityRistorante mostRecentAsFavourite = null;
@@ -181,7 +191,7 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
      * {@inheritDoc}
      */
     @Override
-    public List<ActivityRistorante> findByUsers(List<Eater> users, int firstResult, int maxResults, String activityType) {
+    public List<ActivityRistorante> findByEaters(List<Eater> users, int firstResult, int maxResults, String activityType) {
         // if the users list is empty, just return an empty list
         if (users.isEmpty()) {
             return new ArrayList<ActivityRistorante>(0);
@@ -276,9 +286,22 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
     /**
      * {@inheritDoc}
      */
+    @Transactional
     @Override
     public void remove(ActivityRistorante object) {
         ActivityRistorante activityRistorante = getByID(object.getId());
         super.remove(activityRistorante);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Transactional
+    @Override
+    public void removeByEater(Eater eater) {
+        Collection<ActivityRistorante> activities = findByEater(eater);
+        for (ActivityRistorante activityRistorante : activities) {
+            super.remove(activityRistorante);
+        }
     }
 }

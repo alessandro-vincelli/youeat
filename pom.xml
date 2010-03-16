@@ -3,7 +3,7 @@
 	<groupId>it.av.youeat</groupId>
 	<artifactId>youeat</artifactId>
 	<packaging>war</packaging>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.2</version>
 	<name>YouEat</name>
 	<description>Wiki and social network to share food experiences</description>
 	<url>http://code.google.com/p/youeat</url>
@@ -388,9 +388,9 @@
 		</dependencies>
 	</dependencyManagement>
 	<scm>
-		<connection>scm:svn:https://youeat.googlecode.com/svn/trunk</connection>
-		<developerConnection>scm:svn:https://youeat.googlecode.com/svn/trunk</developerConnection>
-		<url>https://youeat.googlecode.com/svn/trunk</url>
+		<connection>scm:svn:https://youeat.googlecode.com/svn/tags/youeat-1.2</connection>
+		<developerConnection>scm:svn:https://youeat.googlecode.com/svn/tags/youeat-1.2</developerConnection>
+		<url>https://youeat.googlecode.com/svn/tags/youeat-1.2</url>
 	</scm>
 	<build>
 		<resources>

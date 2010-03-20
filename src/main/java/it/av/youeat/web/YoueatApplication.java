@@ -93,7 +93,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
     }
     
     @Override
-    protected final void init() {
+    protected void init() {
         super.init(); 
         getMarkupSettings().setCompressWhitespace(true);
         getMarkupSettings().setStripWicketTags(true);

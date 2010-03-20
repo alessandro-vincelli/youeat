@@ -9,7 +9,6 @@ import javax.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.Entity;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.search.annotations.DocumentId;
 
 @MappedSuperclass
 @Entity
@@ -19,7 +18,7 @@ public class BasicEntity implements Serializable {
     @GenericGenerator(name = "generator", strategy = "uuid", parameters = {})
     @GeneratedValue(generator = "generator")
     @Column(updatable = false, length = 36)
-    @DocumentId
+    //@DocumentId
     private String id;
 
     /**

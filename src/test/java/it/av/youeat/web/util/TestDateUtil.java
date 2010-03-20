@@ -1,4 +1,4 @@
-package it.av.eatt.util;
+package it.av.youeat.web.util;
 
 import static junit.framework.Assert.assertEquals;
 import it.av.youeat.util.PeriodUtil;

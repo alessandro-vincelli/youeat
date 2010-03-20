@@ -28,7 +28,10 @@ import it.av.youeat.web.commons.AutocompleteUtils;
 import it.av.youeat.web.components.ButtonOpenRisto;
 import it.av.youeat.web.components.CityAutocompleteBox;
 import it.av.youeat.web.components.RistoranteAutocompleteBox;
+import it.av.youeat.web.modal.WarningOnAlreadyPresentRistoModalWindow;
+import it.av.youeat.web.panel.ShowAlreadyPresentRistoPanel;
 import it.av.youeat.web.security.SecuritySession;
+import it.av.youeat.web.util.RistoranteUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,7 @@ import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
@@ -60,7 +64,7 @@ import org.apache.wicket.validation.ValidationError;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@AuthorizeInstantiation( { "USER", "ADMIN"})
+@AuthorizeInstantiation( { "USER", "ADMIN" })
 public class RistoranteAddNewPage extends BasePage {
 
     @SpringBean(name = "ristoranteService")
@@ -71,15 +75,27 @@ public class RistoranteAddNewPage extends BasePage {
     private CountryService countryService;
     @SpringBean
     private CityService cityService;
-    
+
     private final AjaxFallbackLink<Ristorante> buttonClearForm;
 
     private Ristorante ristorante;
     private Form<Ristorante> form;
     private SubmitButton submitRestaurantRight;
+    private SubmitButton submitRestaurantBottom;
     private String cityName = "";
     private BookmarkablePageLink<Ristorante> buttonOpenAddedRisto;
     private BookmarkablePageLink<Ristorante> buttonOpenAddedRistoRight;
+    
+
+    private ModalWindow modalWindow;
+    /**
+     * used by the ShowAlreadyPresentRistoPanel
+     */
+    private boolean persistTheRisto = false;
+    /**
+     * used by the ShowAlreadyPresentRistoPanel, if the user click on already present risto
+     */
+    private Ristorante ristoranteToRedirect;
 
     /**
      * Constructor that is invoked when page is invoked without a session.
@@ -99,8 +115,8 @@ public class RistoranteAddNewPage extends BasePage {
                     String ristoName = form.get(Ristorante.NAME).getDefaultModelObjectAsString();
                     ristoName = StringEscapeUtils.unescapeHtml(ristoName);
                     Country ristoCountry = ((DropDownChoice<Country>) form.get(Ristorante.COUNTRY)).getModelObject();
-                    List<DataRistorante> ristosFound = new ArrayList<DataRistorante>(dataRistoranteService.getBy(
-                            ristoName, cityName, ristoCountry));
+                    List<DataRistorante> ristosFound = new ArrayList<DataRistorante>(dataRistoranteService.getBy(ristoName,
+                            cityName, ristoCountry));
                     if (!(ristosFound.isEmpty())) {
                         DataRistorante dataRistorante = ristosFound.get(0);
                         form.get(Ristorante.ADDRESS).setDefaultModelObject(dataRistorante.getAddress());
@@ -125,18 +141,18 @@ public class RistoranteAddNewPage extends BasePage {
         ristoName.add(updatingBehavior);
         form.add(ristoName);
         form.add(new RequiredTextField<String>(Ristorante.ADDRESS));
-        CityAutocompleteBox city = new CityAutocompleteBox("city-autocomplete", AutocompleteUtils
-                .getAutoCompleteSettings(), new Model<String>(cityName) {
-            @Override
-            public String getObject() {
-                return cityName;
-            }
+        CityAutocompleteBox city = new CityAutocompleteBox("city-autocomplete", AutocompleteUtils.getAutoCompleteSettings(),
+                new Model<String>(cityName) {
+                    @Override
+                    public String getObject() {
+                        return cityName;
+                    }
 
-            @Override
-            public void setObject(String object) {
-                cityName = (String) object;
-            }
-        });
+                    @Override
+                    public void setObject(String object) {
+                        cityName = (String) object;
+                    }
+                });
         // With this component the city model is updated correctly after every change, fixing also the case of the city
         city.add(new AjaxFormComponentUpdatingBehavior("onchange") {
             @Override
@@ -145,18 +161,18 @@ public class RistoranteAddNewPage extends BasePage {
                 Country ristoCountry = ((DropDownChoice<Country>) form.get(Ristorante.COUNTRY)).getModelObject();
                 ristoName = StringEscapeUtils.unescapeHtml(ristoName);
                 City city = cityService.getByNameAndCountry(ristoName, ristoCountry);
-                if(city != null){
-                    getComponent().setDefaultModelObject(city.getName());    
+                if (city != null) {
+                    getComponent().setDefaultModelObject(city.getName());
                 }
-                if(target != null){
+                if (target != null) {
                     target.addComponent(getComponent());
                 }
             }
         });
         // city.add(new CityValidator());
         form.add(city);
-        form.add(new RequiredTextField<String>(Ristorante.PROVINCE));
-        form.add(new RequiredTextField<String>(Ristorante.POSTALCODE));
+        form.add(new TextField<String>(Ristorante.PROVINCE));
+        form.add(new TextField<String>(Ristorante.POSTALCODE));
         DropDownChoice<Country> country = new DropDownChoice<Country>(Ristorante.COUNTRY, countryService.getAll(),
                 new CountryChoiceRenderer());
         country.add(new OnChangeAjaxBehavior() {
@@ -169,7 +185,7 @@ public class RistoranteAddNewPage extends BasePage {
         form.add(new TextField<String>(Ristorante.PHONE_NUMBER));
         form.add(new TextField<String>(Ristorante.MOBILE_PHONE_NUMBER));
         form.add(new TextField<String>(Ristorante.WWW));
-        
+
         buttonClearForm = new AjaxFallbackLink<Ristorante>("buttonClearForm", new Model<Ristorante>(ristorante)) {
             @Override
             public void onClick(AjaxRequestTarget target) {
@@ -183,65 +199,57 @@ public class RistoranteAddNewPage extends BasePage {
         buttonOpenAddedRisto = new ButtonOpenRisto("buttonOpenAddedRisto", new Model<Ristorante>(ristorante), false);
         add(buttonOpenAddedRisto);
 
-        buttonOpenAddedRistoRight = new ButtonOpenRisto("buttonOpenAddedRistoRight", new Model<Ristorante>(ristorante),
-                false);
+        buttonOpenAddedRistoRight = new ButtonOpenRisto("buttonOpenAddedRistoRight", new Model<Ristorante>(ristorante), false);
         add(buttonOpenAddedRistoRight);
 
-        form.add(new SubmitButton("submitRestaurant", form));
+        submitRestaurantBottom = new SubmitButton("submitRestaurant", form);
+        form.add(submitRestaurantBottom);
         submitRestaurantRight = new SubmitButton("submitRestaurantRight", form);
-        submitRestaurantRight.setOutputMarkupId(true);
         add(submitRestaurantRight);
 
-        // OnChangeAjaxBehavior onChangeAjaxBehavior = new OnChangeAjaxBehavior() {
-        // @Override
-        // protected void onUpdate(AjaxRequestTarget target) {
-        // // label.setModelObject(getValue(city.getModelObjectAsString()));
-        // // target.addComponent(label);
-        // }
-        // };
-        // city.add(onChangeAjaxBehavior);
-
         add(form);
+
+        modalWindow = new WarningOnAlreadyPresentRistoModalWindow("warningOnAlreadyPresentRistoModalWindow", this);
+        add(modalWindow);
     }
 
     private class SubmitButton extends AjaxFallbackButton {
 
         public SubmitButton(String id, Form<Ristorante> form) {
             super(id, form);
+            setOutputMarkupId(true);
         }
 
         @Override
-        protected void onSubmit(AjaxRequestTarget target, Form form) {
-            try {
-                Ristorante ristorante = (Ristorante) form.getModelObject();
-                City city = cityService.getByNameAndCountry(cityName, ristorante.getCountry());
-                if (city == null) {
-                    error(getString("validatioError.city"));
-                    invalid();
-                }
-                ristorante.setCity(city);
-                ristorante = ristoranteService.insert(ristorante, ((SecuritySession) getSession()).getLoggedInUser());
-                getFeedbackPanel().info(getString("info.ristoranteadded", new Model<Ristorante>(ristorante)));
-                form.setModelObject(ristorante);
-            } catch (YoueatException e) {
-                getFeedbackPanel().error(getString("genericErrorMessage"));
+        protected void onSubmit(AjaxRequestTarget target, final Form form) {
+            Ristorante ristorante = (Ristorante) form.getModelObject();
+            City city = cityService.getByNameAndCountry(cityName, ristorante.getCountry());
+            if (city == null) {
+                error(getString("validatioError.city"));
+                invalid();
             }
-            getForm().setEnabled(false);
-            setVisible(false);
-            submitRestaurantRight.setVisible(false);
-            buttonClearForm.setVisible(false);
-            buttonOpenAddedRisto.setVisible(true);
-            buttonOpenAddedRistoRight.setVisible(true);
-            if (target != null) {
-                target.addComponent(submitRestaurantRight);
-                target.addComponent(getForm());
-                target.addComponent(getFeedbackPanel());
-                buttonOpenAddedRistoRight.remove();
-                buttonOpenAddedRistoRight =  new ButtonOpenRisto("buttonOpenAddedRistoRight", new Model<Ristorante>(ristorante),
-                        false);
-                target.addComponent(buttonOpenAddedRistoRight);
-                target.addComponent(buttonOpenAddedRisto);
+            ristorante.setCity(city);
+            List<Ristorante> possiblExistingRisto = ristoranteService.freeTextSearchOnName(ristorante.getName() + " "
+                    + ristorante.getCity().getName());
+            final Ristorante ristoTopersist = ristorante;
+            if (possiblExistingRisto.size() > 0) {
+                modalWindow.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
+                    public void onClose(AjaxRequestTarget target) {
+                        if (persistTheRisto) {
+                            persistRistorante(target, form, ristoTopersist);
+                        } else {
+                            getRequestCycle().setResponsePage(RistoranteViewPage.class,
+                                    RistoranteUtil.createParamsForRisto(ristoranteToRedirect));
+                        }
+                    }
+                });
+                modalWindow.setContent(new ShowAlreadyPresentRistoPanel(modalWindow.getContentId(), (RistoranteAddNewPage) this
+                        .getPage(), modalWindow, ristoTopersist, possiblExistingRisto));
+                modalWindow.show(target);
+            } else {
+                persistRistorante(target, form, ristoTopersist);
             }
+
         }
 
         @Override
@@ -283,6 +291,48 @@ public class RistoranteAddNewPage extends BasePage {
                 }
             }
         }
+    }
+
+    /**
+     * @param target
+     * @param form
+     * @param ristorante
+     */
+    private void persistRistorante(AjaxRequestTarget target, Form form, Ristorante ristorante) {
+        try {
+            ristorante = ristoranteService.insert(ristorante, ((SecuritySession) getSession()).getLoggedInUser());
+            getFeedbackPanel().info(getString("info.ristoranteadded", new Model<Ristorante>(ristorante)));
+            form.setModelObject(ristorante);
+        } catch (YoueatException e) {
+            getFeedbackPanel().error(getString("genericErrorMessage"));
+        }
+        getForm().setEnabled(false);
+        submitRestaurantBottom.setVisible(false);
+        submitRestaurantRight.setVisible(false);
+        buttonClearForm.setVisible(false);
+        buttonOpenAddedRisto.setVisible(true);
+        buttonOpenAddedRistoRight.setVisible(true);
+        if (target != null) {
+            target.addComponent(submitRestaurantRight);
+            target.addComponent(getForm());
+            target.addComponent(getFeedbackPanel());
+            buttonOpenAddedRistoRight.remove();
+            buttonOpenAddedRistoRight = new ButtonOpenRisto("buttonOpenAddedRistoRight", new Model<Ristorante>(ristorante), false);
+            target.addComponent(buttonOpenAddedRistoRight);
+            target.addComponent(buttonOpenAddedRisto);
+        }
+    }
+
+    public boolean isPersistTheRisto() {
+        return persistTheRisto;
+    }
+
+    public void setPersistTheRisto(boolean persistTheRisto) {
+        this.persistTheRisto = persistTheRisto;
+    }
+
+    public void setRistoranteToRedirect(Ristorante ristoranteToRedirect) {
+        this.ristoranteToRedirect = ristoranteToRedirect;
     }
 
     public String getCityName() {

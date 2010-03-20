@@ -15,8 +15,9 @@ import org.apache.wicket.model.IModel;
  * 
  */
 public final class HtmlUtil {
-    
-    private HtmlUtil(){};
+
+    private HtmlUtil() {
+    };
 
     public static final void fixInitialHtml(final Page page) {
         TransparentWebMarkupContainer html = new TransparentWebMarkupContainer("html");

@@ -1392,3 +1392,21 @@ button.positive, .buttons a.positive{
 .firstLineFooter{
     font-size: x-small;
 }
+
+.modal-warning-text{
+	margin-bottom: 5px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 10px;
+	font-size: small;
+}
+
+.modal-warning-button{
+	padding-top: 10px;
+	display: block;
+	text-align: center;
+}
+
+.imageBig{
+	max-width: 450px; 
+}

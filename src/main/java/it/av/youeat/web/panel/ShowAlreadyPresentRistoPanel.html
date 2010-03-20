@@ -1,0 +1,18 @@
+<wicket:panel>
+<span wicket:id="feedbackPanelSMP"></span>
+<div class="modal-warning-text">
+<div>
+<wicket:message key="warning-risto-already-present"/>
+</div>
+
+<div class="modal-warning-button buttons">
+<wicket:message key="warning-risto-already-present-continue"/>
+<a href="#" wicket:id="continueAndPersistTheRisto" type="button"><wicket:message key="button.continueAndPersistTheRisto"/></a></div>
+<ul>
+<li wicket:id="ristoList">
+	<a href="#" wicket:id="ristorante.link"><wicket:container wicket:id="name"></wicket:container></a>
+	<span wicket:id="city"></span>
+</li>
+</ul>
+</div>
+</wicket:panel>

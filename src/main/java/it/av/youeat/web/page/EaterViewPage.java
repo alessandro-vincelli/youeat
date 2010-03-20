@@ -26,7 +26,7 @@ import it.av.youeat.web.commons.ActivityPaging;
 import it.av.youeat.web.components.ActivitiesListView;
 import it.av.youeat.web.components.ImagesAvatar;
 import it.av.youeat.web.components.SendMessageButton;
-import it.av.youeat.web.components.SendMessageModalWindow;
+import it.av.youeat.web.modal.SendMessageModalWindow;
 
 import java.util.ArrayList;
 import java.util.Collections;

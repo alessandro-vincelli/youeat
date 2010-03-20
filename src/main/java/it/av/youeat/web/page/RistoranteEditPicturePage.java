@@ -36,6 +36,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -128,7 +129,14 @@ public class RistoranteEditPicturePage extends BasePage {
                         }
                     }
                 });
-                item.add(ImageRisto.getThumbnailImage("picture", item.getModelObject().getPicture(), false));
+                Link<RistorantePicture> imageLink = new Link<RistorantePicture>("pictureLink", item.getModel()) {
+                    @Override
+                    public void onClick() {
+                        setResponsePage(new ImageViewPage(getModelObject().getPicture()));
+                    }
+                };
+                imageLink.add(ImageRisto.getThumbnailImage("picture", item.getModelObject().getPicture(), false));
+                item.add(imageLink);
             }
         };
         picturesList.setOutputMarkupId(true);

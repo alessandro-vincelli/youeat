@@ -1,4 +1,4 @@
-package it.av.youeat.web.components;
+package it.av.youeat.web.panel;
 
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
@@ -20,6 +20,12 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.StringValidator;
 import org.springframework.util.Assert;
 
+/**
+ * Contains a form to send internal message to eater 
+ * 
+ * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
+ *
+ */
 public class SendMessagePanel extends Panel {
 
     @SpringBean
@@ -28,6 +34,7 @@ public class SendMessagePanel extends Panel {
     /**
      * 
      * @param id
+     * @param container (not null)
      * @param sender the sender of the message (not null)
      * @param recipient the recipient to send a message (not null)
      */
@@ -35,6 +42,7 @@ public class SendMessagePanel extends Panel {
         super(id);
         Assert.notNull(sender);
         Assert.notNull(recipient);
+        Assert.notNull(container);
         InjectorHolder.getInjector().inject(this);
         final FeedbackPanel feedbackPanelSMP = new FeedbackPanel("feedbackPanelSMP");
         feedbackPanelSMP.setOutputMarkupId(true);

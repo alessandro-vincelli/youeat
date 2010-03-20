@@ -2,6 +2,7 @@ package it.av.youeat.web.components;
 
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.EaterRelation;
+import it.av.youeat.web.panel.SendMessagePanel;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;

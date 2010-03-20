@@ -62,7 +62,7 @@ public interface RistoranteService {
      * @param user the user that is performing the modification
      * @return Ristorante
      */
-    @Transactional(readOnly= false)
+    @Transactional(readOnly = false)
     Ristorante insert(Ristorante risto, Eater user);
 
     /**
@@ -81,12 +81,24 @@ public interface RistoranteService {
     Collection<Ristorante> find(String pattern);
 
     /**
-     * Find restaurants by the given pattern, using Lucene
+     * Find restaurants using the given pattern.
+     * <p>
+     * <b>Note: fuzzy free text search performed on the <b>name</b>, <b>city</b>, and <b>tags</b> of the risto
      * 
      * @param pattern
-     * @return List<Ristorante>
+     * @return found ristos
      */
     List<Ristorante> freeTextSearch(String pattern);
+
+    /**
+     * Find restaurants using the given pattern.
+     * <p>
+     * <b>Note: fuzzy free text search performed only on the <b>name</b> of the risto.
+     * 
+     * @param pattern
+     * @return found ristos
+     */
+    List<Ristorante> freeTextSearchOnName(String pattern);
 
     /**
      * Remove a ristorante

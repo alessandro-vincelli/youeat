@@ -230,6 +230,28 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         }
         return persistenceQuery.getResultList();
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Ristorante> freeTextSearchOnName(String pattern) {
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
+                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+        String[] fields = new String[] { "name"};
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, fullTextEntityManager.getSearchFactory()
+                .getAnalyzer("ristoranteanalyzer"));
+        org.apache.lucene.search.Query query;
+        try {
+            String patternClean = LuceneUtil.escapeSpecialChars(pattern);
+            String patternFuzzy = LuceneUtil.fuzzyAllTerms(patternClean);
+            query = parser.parse(patternFuzzy);
+        } catch (ParseException e) {
+            throw new YoueatException(e);
+        }
+        FullTextQuery persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Ristorante.class);
+        return persistenceQuery.getResultList();
+    }
 
     /**
      * {@inheritDoc}

@@ -256,10 +256,10 @@ public class RistoranteViewPage extends BasePage {
 
             @Override
             protected void populateItem(final ListItem<RistorantePicture> item) {
-                Link imageLink = new Link("pictureLink") {
+                Link<RistorantePicture> imageLink = new Link<RistorantePicture>("pictureLink", item.getModel()) {
                     @Override
                     public void onClick() {
-                        setResponsePage(new ImageViewPage(item.getModelObject().getPicture()));
+                        setResponsePage(new ImageViewPage(getModelObject().getPicture()));
                     }
                 };
                 imageLink.add(ImageRisto.getThumbnailImage("picture", item.getModelObject().getPicture(), true));

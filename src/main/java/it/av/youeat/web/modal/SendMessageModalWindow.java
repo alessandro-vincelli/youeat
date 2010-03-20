@@ -1,4 +1,4 @@
-package it.av.youeat.web.components;
+package it.av.youeat.web.modal;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;

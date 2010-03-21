@@ -26,7 +26,7 @@ import org.springframework.beans.BeanUtils;
  */
 public class RistoranteRevisionsPanel extends Panel {
     private PropertyListView<RistoranteRevision> productsVersionsList;
-    final FeedbackPanel feedbackPanel;
+    private final FeedbackPanel feedbackPanel;
 
     /**
      * Constructor

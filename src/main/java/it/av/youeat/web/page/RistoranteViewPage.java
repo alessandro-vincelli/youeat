@@ -28,7 +28,7 @@ import it.av.youeat.service.ActivityRistoranteService;
 import it.av.youeat.service.LanguageService;
 import it.av.youeat.service.RistoranteService;
 import it.av.youeat.web.Locales;
-import it.av.youeat.web.components.FriedEaterListView;
+import it.av.youeat.web.components.FriendEaterListView;
 import it.av.youeat.web.components.ImageRisto;
 import it.av.youeat.web.panel.RistoranteRevisionsPanel;
 import it.av.youeat.web.util.DefaultFocusBehavior;
@@ -454,7 +454,7 @@ public class RistoranteViewPage extends BasePage {
         }
         add(new Label("friendEaterListTitle", getString("numberOfUsersAlreadyEatAt", new Model<NumberBean>(
                 new NumberBean(numberUsersThatAlreadyEat)))).setVisible(numberUsersThatAlreadyEat > 0));
-        add(new FriedEaterListView("friendEaterList", friendThatAlreadyEat).setVisible(friendThatAlreadyEat.size() > 0));
+        add(new FriendEaterListView("friendEaterList", friendThatAlreadyEat).setVisible(friendThatAlreadyEat.size() > 0));
 
         // contribution infos
         List<ActivityRistorante> friendContributions = new ArrayList<ActivityRistorante>(0);
@@ -466,7 +466,7 @@ public class RistoranteViewPage extends BasePage {
         }
         add(new Label("numberOfContributions", getString("numberOfContributions", new Model<NumberBean>(new NumberBean(
                 numberOfContributions)))).setVisible(numberOfContributions > 0));
-        add(new FriedEaterListView("friendContributionsList", friendContributions).setVisible(friendContributions
+        add(new FriendEaterListView("friendContributionsList", friendContributions).setVisible(friendContributions
                 .size() > 0));
     }
 

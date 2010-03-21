@@ -157,6 +157,10 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         activityRistoranteService.addRistoAsFavourite(user, risto);
         List<Ristorante> favouritesRisto = activityRistoranteService.findFavoriteRisto(user, 1);
         assertTrue(favouritesRisto.get(0).equals(risto));
+        
+        activityRistoranteService.removeRistoAsFavourite(user, risto);
+        favouritesRisto = activityRistoranteService.findFavoriteRisto(user, 1);
+        assertTrue(favouritesRisto.isEmpty());
     }
     
     

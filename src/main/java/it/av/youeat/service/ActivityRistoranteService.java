@@ -213,5 +213,13 @@ public interface ActivityRistoranteService {
      * @param ristorante
      */
     void addRistoAsFavourite(Eater eater, Ristorante ristorante);
+
+    /**
+     * Remove the given risto as favorite for the given user
+     * 
+     * @param eater
+     * @param ristorante
+     */
+    void removeRistoAsFavourite(Eater eater, Ristorante ristorante);
     
 }

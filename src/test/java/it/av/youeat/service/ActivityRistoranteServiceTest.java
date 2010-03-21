@@ -150,7 +150,13 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         for (Ristorante ristorante : ristos) {
             //System.out.println(ristorante.getName());
         }
-         
+        
+        List<Ristorante> contributenRisto = activityRistoranteService.findContributedByEater(user, 0);
+        assertTrue(contributenRisto.get(0).equals(risto));
+        
+        activityRistoranteService.addRistoAsFavourite(user, risto);
+        List<Ristorante> favouritesRisto = activityRistoranteService.findFavoriteRisto(user, 1);
+        assertTrue(favouritesRisto.get(0).equals(risto));
     }
     
     

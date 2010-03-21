@@ -6,7 +6,7 @@
     <div wicket:id="messagesList" class="messageList">
     <div class="messageCenterColumn">
     <div class="friendAvatar"><img src="#" wicket:id="avatar"></img> </div>
-    <div class="messageTitle"><strong><span wicket:id="title"></span></strong></div>
+    <div class="messageTitle"><strong><a href="#" wicket:id="openMessageTitle"><span wicket:id="title"></span></a></strong></div>
     <div class="messageInfos">
         <a href="#" wicket:id="linkToUser"><span wicket:id="sender"></span></a>
         <wicket:enclosure child="linkToRecipientUser"><wicket:message key="sentTo" />
@@ -17,8 +17,8 @@
     <div class="messageBody"><a href="#" wicket:id="openMessage"><span wicket:id="body"></span></a></div>
     </div>
     <div class="dialogButton buttons">
-    <button wicket:id="open"><span><wicket:message key="button.openMessage" /></span></button>
-    <button wicket:id="remove"><span><wicket:message key="button.remove" /></span></button>
+    <a wicket:id="open"><span><wicket:message key="button.openMessage" /></span></a>
+    <a wicket:id="remove"><span><wicket:message key="button.remove" /></span></a>
     </div>
     <!--<li style="padding: 10px;"><span wicket:id="toUser.userRelation"></span></li>-->
     </div>
@@ -27,17 +27,17 @@
     </div>
     <div id="navigation">
         <div class="buttonNavigation buttons">
-        <p><button wicket:id="goSearchFriendPage"><wicket:message key="basepage.goSearchFriendPage" /></button></p>
+        <p><a wicket:id="goSearchFriendPage"><wicket:message key="basepage.goSearchFriendPage" /></a></p>
         </div>
     </div>
     <div id="extra" class="leftButtonMessage buttons messageFolder">
         <ul>
         <li>
-        <button wicket:id="inbox"><span><wicket:message key="button.inbox" /></span></button>
+        <a wicket:id="inbox"><wicket:message key="button.inbox" /></a>
         <span wicket:id="numberMessages" class="numberMessages"></span><wicket:container wicket:id="separator">|</wicket:container><span wicket:id="unreadMessages" class="unreadMessages"></span>
         </li>
         <li>
-        <button wicket:id="sentitems"><span><wicket:message key="button.sentitems" /></span></button>
+        <a wicket:id="sentitems"><wicket:message key="button.sentitems" /></a>
         <span wicket:id="numberSentMessages" class="numberMessages"></span>
         </li>
         </ul>

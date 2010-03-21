@@ -81,7 +81,6 @@ public class MessageListPage extends BasePage {
         messagesListContainer.setOutputMarkupPlaceholderTag(true);
         add(messagesListContainer);
         messageList = new PropertyListView<Message>("messagesList", new MessagesModel()) {
-            private static final long serialVersionUID = 1L;
 
             @Override
             protected void populateItem(final ListItem<Message> item) {
@@ -100,7 +99,7 @@ public class MessageListPage extends BasePage {
                 recipientLink.setVisible(!inBox);
                 item.add(recipientLink);
                 item.add(new Label(Message.SENTTIME_FIELD));
-                item.add(new Label(Message.TITLE_FIELD));
+                item.add(new OpenMessage("openMessageTitle", new Model<Message>(item.getModelObject()), item).add(new Label(Message.TITLE_FIELD)));
                 item.add(new OpenMessage("openMessage", new Model<Message>(item.getModelObject()), item).add(new Label(
                         Message.BODY_FIELD, StringUtils.abbreviate(item.getModelObject().getBody(), 150))));
                 item.add(new AjaxFallbackLink<Message>("remove", new Model<Message>(item.getModelObject())) {

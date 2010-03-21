@@ -13,7 +13,6 @@ import org.apache.wicket.markup.html.list.PropertyListView;
 
 public class RistosListView extends PropertyListView<Ristorante> {
 
-    private static final long serialVersionUID = 1L;
 
     /**
      * Generate a list of ristos

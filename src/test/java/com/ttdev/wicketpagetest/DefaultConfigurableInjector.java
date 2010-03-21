@@ -1,15 +1,11 @@
 package com.ttdev.wicketpagetest;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.print.attribute.standard.Fidelity;
-
 import org.apache.wicket.injection.ConfigurableInjector;
 import org.apache.wicket.injection.IFieldValueFactory;
-import org.apache.wicket.injection.Injector;
 
 /**
  * An {@link ConfigurableInjector} that uses a provided

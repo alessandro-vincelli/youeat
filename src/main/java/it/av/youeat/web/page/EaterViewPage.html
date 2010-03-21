@@ -20,7 +20,7 @@
     </div>
     </div>
     <div id="extra">
-    <span class="titleMyActivities"><wicket:message key="eaterViewPage.friendsTitle" /></span>
+    <span class="titleSmallBold"><wicket:message key="eaterViewPage.friendsTitle" /></span>
     <ul class="friendSmallList">
         <li wicket:id="friendsList">
             <!-- <img wicket:id="type" class="iconActivities"></img>-->
@@ -35,5 +35,41 @@
         <p><button wicket:id="sendFriendRequest"><wicket:message key="datatableactionpanel.addFriend"/></button></p>
         <p><button wicket:id="startFollow"><wicket:message key="datatableactionpanel.followUser"/></button></p>
         </div>
-    </div>
+        
+        <wicket:enclosure child="favoriteRistosList">
+        <span class="titleSmallBold"><wicket:message key="userFavoritedRistos" /></span>
+        <ul class="smallRistoList">
+            <li wicket:id="favoriteRistosList">
+            	<a href="#" wicket:id="ristorante.link"><span wicket:id="name"></span></a>
+        	</li>
+        </ul>
+        </wicket:enclosure>
+        
+        <wicket:enclosure child="contributionsList">
+        <span class="titleSmallBold"><wicket:message key="contributionsByUser" /></span>
+        <ul class="smallRistoList">
+            <li wicket:id="contributionsList">
+            	<a href="#" wicket:id="ristorante.link"><span wicket:id="name"></span></a>
+        	</li>
+        </ul>
+        </wicket:enclosure>
+        
+        <!--
+          
+        <wicket:enclosure child="numberOfContributions">
+        <span class="titleActivitiesOnRisto">
+        <wicket:container wicket:id="numberOfContributions"></wicket:container>
+        </span>
+        <wicket:enclosure child="friendContributionsList">
+        <span class="titleActivitiesOnRisto2"><wicket:message key="ofFriends" /></span>
+        <ul class="activitiesList">
+            <li wicket:id="friendContributionsList">
+                <a wicket:id="view-eater"><span wicket:id="eater.firstname"></span> <span wicket:id="eater.lastname"></span></a>
+                <span wicket:id="date.time" class="dateActivities"></span>
+            </li>
+        </ul>
+        </wicket:enclosure>
+        </wicket:enclosure>
+        
+    --></div>
 </wicket:extend>

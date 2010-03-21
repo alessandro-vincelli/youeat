@@ -22,13 +22,15 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
  * @author Alessandro Vincelli
- *
+ * 
  */
+@Repository
 @Transactional(readOnly = true)
 public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibernate<ActivityRistorante> implements
         ActivityRistoranteService {
@@ -36,10 +38,11 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
     @Autowired
     private EaterRelationService eaterRelationService;
     @Autowired
-    private SocialService socialService; 
-    
-    private String[] contributions = {ActivityRistorante.TYPE_ADDED, ActivityRistorante.TYPE_MODIFICATION, ActivityRistorante.TYPE_ADDED_TAG, ActivityRistorante.TYPE_NEW_COMMENT};
-    
+    private SocialService socialService;
+
+    private String[] contributions = { ActivityRistorante.TYPE_ADDED, ActivityRistorante.TYPE_MODIFICATION,
+            ActivityRistorante.TYPE_ADDED_TAG, ActivityRistorante.TYPE_NEW_COMMENT };
+
     /**
      * {@inheritDoc}
      */
@@ -86,8 +89,8 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
     @Transactional
     @Override
     public ActivityRistorante save(ActivityRistorante activityRistorante) {
-        if(activityRistorante.getEater().isSocialNetworkEater()){
-            socialService.publishRistoActivity(activityRistorante);    
+        if (activityRistorante.getEater().isSocialNetworkEater()) {
+            socialService.publishRistoActivity(activityRistorante);
         }
         return super.save(activityRistorante);
     }
@@ -110,8 +113,7 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         return findByUserFriend(ofUser, firstResult, maxResults, false);
     }
 
-    private List<ActivityRistorante> findByUserFriend(Eater ofUser, int firstResult, int maxResults,
-            boolean includeTheUser) {
+    private List<ActivityRistorante> findByUserFriend(Eater ofUser, int firstResult, int maxResults, boolean includeTheUser) {
         // TODO, improve this method using a method that return the Friends as Eater and not as Relation
         List<EaterRelation> relations = eaterRelationService.getAllActiveRelations(ofUser);
 
@@ -151,8 +153,7 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         if (removedAsFavourite.size() > 0 && addedAsFavourite.size() > 0) {
             ActivityRistorante mostRecentAsFavourite = null;
             for (ActivityRistorante activityRistorante : addedAsFavourite) {
-                if (mostRecentAsFavourite == null
-                        || activityRistorante.getDate().after(mostRecentAsFavourite.getDate())) {
+                if (mostRecentAsFavourite == null || activityRistorante.getDate().after(mostRecentAsFavourite.getDate())) {
                     mostRecentAsFavourite = activityRistorante;
                 }
             }
@@ -211,8 +212,7 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
      * {@inheritDoc}
      */
     @Override
-    public List<ActivityRistorante> findByFriendWithActivitiesOnRistorante(Eater eater, Ristorante risto,
-            String activityType) {
+    public List<ActivityRistorante> findByFriendWithActivitiesOnRistorante(Eater eater, Ristorante risto, String activityType) {
         List<EaterRelation> friends = eaterRelationService.getAllFriendUsers(eater);
         List<Eater> users = new ArrayList<Eater>(friends.size());
         for (EaterRelation eaterRelation : friends) {
@@ -220,7 +220,7 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         }
         return find(users, risto, 0, 0, activityType);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -233,7 +233,7 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         }
         return find(users, risto, 0, 0, contributions);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -275,14 +275,14 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         Disjunction disjunction = Restrictions.disjunction();
         for (String type : activityType) {
             disjunction.add(Restrictions.eq(ActivityRistorante.TYPE, type));
-        }        
+        }
         senderFilter.add(disjunction);
         senderFilter.add(critByRisto);
         criteria.add(senderFilter);
         criteria.setProjection(Projections.rowCount());
         return (Integer) criteria.uniqueResult();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -292,7 +292,7 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         ActivityRistorante activityRistorante = getByID(object.getId());
         super.remove(activityRistorante);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -303,5 +303,53 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         for (ActivityRistorante activityRistorante : activities) {
             super.remove(activityRistorante);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Ristorante> findContributedByEater(Eater eater, int maxResults) {
+        Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
+        Criterion critByEater = Restrictions.eq(ActivityRistorante.USER, eater);
+        Criterion critExcludeTried = Restrictions.ne(ActivityRistorante.TYPE, ActivityRistorante.TYPE_TRIED);
+        Criterion critExcludeVoted = Restrictions.ne(ActivityRistorante.TYPE, ActivityRistorante.TYPE_VOTED);
+        Criterion critExcludeAddedAsFavourite = Restrictions.ne(ActivityRistorante.TYPE,
+                ActivityRistorante.TYPE_ADDED_AS_FAVOURITE);
+        criteria.setProjection(Projections.distinct(Projections.property(ActivityRistorante.RISTORANTE)));
+        criteria.add(critByEater);
+        criteria.add(critExcludeAddedAsFavourite);
+        criteria.add(critExcludeTried);
+        criteria.add(critExcludeVoted);
+        if (maxResults > 0) {
+            criteria.setMaxResults(maxResults);
+        }
+        return criteria.list();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Ristorante> findFavoriteRisto(Eater eater, int maxResults) {
+        Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
+        Criterion critByEater = Restrictions.eq(ActivityRistorante.USER, eater);
+        Criterion critExcludeAddedAsFavourite = Restrictions.ne(ActivityRistorante.TYPE,
+                ActivityRistorante.TYPE_ADDED_AS_FAVOURITE);
+        criteria.setProjection(Projections.distinct(Projections.property(ActivityRistorante.RISTORANTE)));
+        criteria.add(critByEater);
+        criteria.add(critExcludeAddedAsFavourite);
+        if (maxResults > 0) {
+            criteria.setMaxResults(maxResults);
+        }
+        return criteria.list();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addRistoAsFavourite(Eater eater, Ristorante ristorante) {
+        save(new ActivityRistorante(eater, ristorante, ActivityRistorante.TYPE_REMOVED_AS_FAVOURITE));
     }
 }

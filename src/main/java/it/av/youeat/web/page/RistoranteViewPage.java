@@ -127,11 +127,14 @@ public class RistoranteViewPage extends BasePage {
 
         formRisto.add(new SmartLinkLabel(Ristorante.WWW));
         formRisto.add(new ListView<Tag>(Ristorante.TAGS) {
-            private static final long serialVersionUID = 1L;
 
             @Override
             protected void populateItem(ListItem<Tag> item) {
-                item.add(new Label("tagItem", item.getModelObject().getTag()));
+                StringBuffer tag = new StringBuffer(item.getModelObject().getTag());
+                if(item.getIndex() < ristorante.getTags().size() - 1){
+                    tag.append(",");
+                }
+                item.add(new Label("tagItem", tag.toString()));
             }
         });
         descriptionLinksContainer = new WebMarkupContainer("descriptionLinksContainer");
@@ -315,8 +318,7 @@ public class RistoranteViewPage extends BasePage {
             public void onClick(AjaxRequestTarget target) {
                 if (getLoggedInUser() != null) {
                     if (activityService.isFavouriteRisto(getLoggedInUser(), ristorante)) {
-                        activityService.save(new ActivityRistorante(getLoggedInUser(), ristorante,
-                                ActivityRistorante.TYPE_REMOVED_AS_FAVOURITE));
+                        activityService.addRistoAsFavourite(getLoggedInUser(), ristorante);
                         info(getString("action.removedAsFavourite", new Model<Ristorante>(ristorante)));
                         asfavouriteLabel.setDefaultModelObject(getString("button.addAsFavourite"));
                     } else {

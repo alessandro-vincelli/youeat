@@ -25,6 +25,7 @@ import it.av.youeat.service.EaterService;
 import it.av.youeat.web.commons.ActivityPaging;
 import it.av.youeat.web.components.ActivitiesListView;
 import it.av.youeat.web.components.ImagesAvatar;
+import it.av.youeat.web.components.RistosListView;
 import it.av.youeat.web.components.SendMessageButton;
 import it.av.youeat.web.modal.SendMessageModalWindow;
 
@@ -86,8 +87,8 @@ public class EaterViewPage extends BasePage {
         add(ImagesAvatar.getAvatar("avatar", eater, this.getPage(), true));
         // User activities
         try {
-            activities = activityRistoranteService.findByEater(eater, activityPagingUser.getFirstResult(),
-                    activityPagingUser.getMaxResults());
+            activities = activityRistoranteService.findByEater(eater, activityPagingUser.getFirstResult(), activityPagingUser
+                    .getMaxResults());
         } catch (YoueatException e) {
             activities = new ArrayList<ActivityRistorante>();
             error(new StringResourceModel("error.errorGettingListActivities", this, null).getString());
@@ -96,9 +97,9 @@ public class EaterViewPage extends BasePage {
         activitiesListContainer = new WebMarkupContainer("activitiesListContainer");
         activitiesListContainer.setOutputMarkupId(true);
         add(activitiesListContainer);
-        activitiesList = new ActivitiesListView("activitiesList", activities, false);          
+        activitiesList = new ActivitiesListView("activitiesList", activities, false);
         add(activitiesList);
-           
+
         activitiesList.setOutputMarkupId(true);
         activitiesListContainer.add(activitiesList);
         AjaxFallbackLink<String> moreActivitiesLink = new AjaxFallbackLink<String>("moreActivities") {
@@ -106,8 +107,8 @@ public class EaterViewPage extends BasePage {
             public void onClick(AjaxRequestTarget target) {
                 activityPagingUser.addNewPage();
                 try {
-                    activities.addAll(activityRistoranteService.findByEater(eater, activityPagingUser
-                            .getFirstResult(), activityPagingUser.getMaxResults()));
+                    activities.addAll(activityRistoranteService.findByEater(eater, activityPagingUser.getFirstResult(),
+                            activityPagingUser.getMaxResults()));
                     if (target != null) {
                         target.addComponent(activitiesListContainer);
                     }
@@ -126,16 +127,13 @@ public class EaterViewPage extends BasePage {
         startFollow = new StartFollowEaterButton("startFollow", getLoggedInUser(), eater, relation);
         add(startFollow);
 
-        PropertyListView<EaterRelation> friendsList = new PropertyListView<EaterRelation>("friendsList",
-                new RelationsModel()) {
+        PropertyListView<EaterRelation> friendsList = new PropertyListView<EaterRelation>("friendsList", new RelationsModel()) {
 
             @Override
             protected void populateItem(final ListItem<EaterRelation> item) {
 
-                BookmarkablePageLink linkToUser = new BookmarkablePageLink(
-                        "linkToUser",
-                        EaterViewPage.class,
-                        new PageParameters(YoueatHttpParams.YOUEAT_ID + "=" + item.getModelObject().getToUser().getId()));
+                BookmarkablePageLink linkToUser = new BookmarkablePageLink("linkToUser", EaterViewPage.class, new PageParameters(
+                        YoueatHttpParams.YOUEAT_ID + "=" + item.getModelObject().getToUser().getId()));
                 item.add(linkToUser);
                 linkToUser.add(new Label("eater.name", item.getModelObject().getToUser().toString()));
                 item.add(ImagesAvatar.getAvatar("avatar", item.getModelObject().getToUser(), this.getPage(), true));
@@ -143,6 +141,10 @@ public class EaterViewPage extends BasePage {
             }
         };
         add(friendsList);
+
+        add(new RistosListView("favoriteRistosList", activityRistoranteService.findFavoriteRisto(eater, 0)));
+        
+        add(new RistosListView("contributionsList", activityRistoranteService.findContributedByEater(eater, 8)));
 
     }
 
@@ -233,4 +235,5 @@ public class EaterViewPage extends BasePage {
             return eaterRelations;
         }
     }
+
 }

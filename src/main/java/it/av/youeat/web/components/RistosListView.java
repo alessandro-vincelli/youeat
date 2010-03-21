@@ -23,6 +23,9 @@ public class RistosListView extends PropertyListView<Ristorante> {
      */
     public RistosListView(String id, List<? extends Ristorante> list) {
         super(id, list);
+        if(list.isEmpty()){
+            setVisible(false);
+        }
     }
 
     @Override

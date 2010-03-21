@@ -334,11 +334,11 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
     public List<Ristorante> findFavoriteRisto(Eater eater, int maxResults) {
         Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
         Criterion critByEater = Restrictions.eq(ActivityRistorante.USER, eater);
-        Criterion critExcludeAddedAsFavourite = Restrictions.ne(ActivityRistorante.TYPE,
+        Criterion critIsFavourite = Restrictions.eq(ActivityRistorante.TYPE,
                 ActivityRistorante.TYPE_ADDED_AS_FAVOURITE);
         criteria.setProjection(Projections.distinct(Projections.property(ActivityRistorante.RISTORANTE)));
         criteria.add(critByEater);
-        criteria.add(critExcludeAddedAsFavourite);
+        criteria.add(critIsFavourite);
         if (maxResults > 0) {
             criteria.setMaxResults(maxResults);
         }

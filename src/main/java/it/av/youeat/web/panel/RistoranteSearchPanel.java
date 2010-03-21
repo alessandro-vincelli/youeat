@@ -47,7 +47,6 @@ import org.apache.wicket.util.time.Duration;
  * 
  */
 public class RistoranteSearchPanel extends Panel {
-    private static final long serialVersionUID = 1L;
     private SearchBean searchBean = new SearchBean();
 
     /**
@@ -75,7 +74,6 @@ public class RistoranteSearchPanel extends Panel {
         AjaxFormValidatingBehavior.addToAllFormComponents(form, "onkeyup", Duration.ONE_SECOND);
 
         form.add(new AjaxButton("ajax-button", form) {
-            private static final long serialVersionUID = 1L;
 
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form form) {
@@ -101,7 +99,6 @@ public class RistoranteSearchPanel extends Panel {
      * 
      */
     public static class SearchBean implements IClusterable {
-        private static final long serialVersionUID = 1L;
         private String searchData;
 
         /**
@@ -120,7 +117,7 @@ public class RistoranteSearchPanel extends Panel {
     }
 
     private static class SearchBox extends AutoCompleteTextField<String> {
-        private static final long serialVersionUID = 1L;
+
         @SpringBean
         private RistoranteService ristoranteService;
 

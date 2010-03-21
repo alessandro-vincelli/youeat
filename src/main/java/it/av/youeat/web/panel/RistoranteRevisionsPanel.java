@@ -25,9 +25,7 @@ import org.springframework.beans.BeanUtils;
  * 
  */
 public class RistoranteRevisionsPanel extends Panel {
-    private static final long serialVersionUID = 1L;
     private PropertyListView<RistoranteRevision> productsVersionsList;
-    
     final FeedbackPanel feedbackPanel;
 
     /**

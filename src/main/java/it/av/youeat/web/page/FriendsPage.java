@@ -99,10 +99,8 @@ public class FriendsPage extends BasePage {
                 }
                 boolean isPendingFriendRequest = item.getModelObject().getStatus().equals(EaterRelation.STATUS_PENDING)
                         && item.getModelObject().getToUser().equals(getLoggedInUser());
-                BookmarkablePageLink linkToUser = new BookmarkablePageLink(
-                        "linkToUser",
-                        EaterViewPage.class,
-                        new PageParameters(YoueatHttpParams.YOUEAT_ID + "=" + item.getModelObject().getToUser().getId()));
+                BookmarkablePageLink linkToUser = new BookmarkablePageLink("linkToUser", EaterViewPage.class, new PageParameters(
+                        YoueatHttpParams.YOUEAT_ID + "=" + item.getModelObject().getToUser().getId()));
                 item.add(linkToUser);
                 final Eater eaterToshow;
                 if (getLoggedInUser().equals(item.getModelObject().getToUser())) {
@@ -117,35 +115,31 @@ public class FriendsPage extends BasePage {
                 item.add(new Label(EaterRelation.TYPE));
                 item.add(new Label(EaterRelation.STATUS));
                 // item.add(new Label(EaterRelation.TO_USER + ".userRelation"));
-                item
-                        .add(new AjaxFallbackLink<EaterRelation>("remove", new Model<EaterRelation>(item
-                                .getModelObject())) {
-
-                            @Override
-                            public void onClick(AjaxRequestTarget target) {
-                                try {
-                                    ((FriendsPage) getPage()).eaterRelationService.remove(getModelObject());
-                                    noYetFriends.setVisible(friendsList.getModelObject().size() == 0);
-                                    info(getString("info.userRelationRemoved"));
-                                } catch (YoueatException e) {
-                                    error(new StringResourceModel("genericErrorMessage", this, null).getString());
-                                }
-                                if (target != null) {
-                                    target.addComponent(getFeedbackPanel());
-                                    target.addComponent((noYetFriends));
-                                    target.addComponent((friendsListContainer));
-                                    target.addComponent(((FriendsPage) target.getPage()).getFeedbackPanel());
-                                }
-                            }
-                        }.setVisible(!isPendingFriendRequest));
-                item.add(new AjaxFallbackLink<EaterRelation>("acceptFriend", new Model<EaterRelation>(item
-                        .getModelObject())) {
+                item.add(new AjaxFallbackLink<EaterRelation>("remove", new Model<EaterRelation>(item.getModelObject())) {
 
                     @Override
                     public void onClick(AjaxRequestTarget target) {
                         try {
-                            ((FriendsPage) getPage()).eaterRelationService
-                                    .performFriendRequestConfirm(getModelObject());
+                            ((FriendsPage) getPage()).eaterRelationService.remove(getModelObject());
+                            noYetFriends.setVisible(friendsList.getModelObject().size() == 0);
+                            info(getString("info.userRelationRemoved"));
+                        } catch (YoueatException e) {
+                            error(new StringResourceModel("genericErrorMessage", this, null).getString());
+                        }
+                        if (target != null) {
+                            target.addComponent(getFeedbackPanel());
+                            target.addComponent((noYetFriends));
+                            target.addComponent((friendsListContainer));
+                            target.addComponent(((FriendsPage) target.getPage()).getFeedbackPanel());
+                        }
+                    }
+                }.setVisible(!isPendingFriendRequest));
+                item.add(new AjaxFallbackLink<EaterRelation>("acceptFriend", new Model<EaterRelation>(item.getModelObject())) {
+
+                    @Override
+                    public void onClick(AjaxRequestTarget target) {
+                        try {
+                            ((FriendsPage) getPage()).eaterRelationService.performFriendRequestConfirm(getModelObject());
                             noYetFriends.setVisible(friendsList.getModelObject().size() == 0);
                             // info(new StringResourceModel("info.userRelationRemoved", this, null).getString());
                         } catch (YoueatException e) {
@@ -193,8 +187,8 @@ public class FriendsPage extends BasePage {
 
         // Activities
         try {
-            activities = activityService.findByEaterFriendAndEater(getLoggedInUser(), activityPagingUser
-                    .getFirstResult(), activityPagingUser.getMaxResults());
+            activities = activityService.findByEaterFriendAndEater(getLoggedInUser(), activityPagingUser.getFirstResult(),
+                    activityPagingUser.getMaxResults());
         } catch (YoueatException e) {
             activities = new ArrayList<ActivityEaterRelation>();
             error(new StringResourceModel("error.errorGettingListActivities", this, null).getString());

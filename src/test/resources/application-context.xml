@@ -144,6 +144,8 @@
 	</bean>
 	
 	<bean id="periodUtil" class="it.av.youeat.util.PeriodUtil"/>
+	
+	<bean id="templateUtil" class="it.av.youeat.util.TemplateUtil"/>
 		
 	<bean id="socialServiceFacebook" class="it.av.youeat.service.impl.SocialServiceFacebook">
 		<property name="apiKey" value=""/>
@@ -160,7 +162,7 @@
     	<property name="baseURL" value="http://www.youeat.org"></property>
     </bean>
 	
-    <bean id="generatorRistoranteURL" class="it.av.youeat.web.util.GeneratorRistoranteURL">
+    <bean id="youetGeneratorURL" class="it.av.youeat.web.url.YouetGeneratorURL">
     	<property name="baseURL" value="http://www.youeat.org"></property>
     </bean>
 	

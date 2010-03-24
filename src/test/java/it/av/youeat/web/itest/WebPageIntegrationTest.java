@@ -72,7 +72,6 @@ public class WebPageIntegrationTest {
         });
         DefaultSelenium selenium = WebPageTestContext.getSelenium();
         selenium.open("/");
-        System.out.println(selenium.getBodyText());
         assertTrue(StringUtils.contains(selenium.getBodyText(), "RistoAlessandro"));
         selenium.click("link=Info");
         selenium.waitForPageToLoad("3000");

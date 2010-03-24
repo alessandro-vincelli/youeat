@@ -33,13 +33,14 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  */
 @Repository
-@Transactional
+@Transactional(readOnly = true)
 public class CommentServiceHibernate extends ApplicationServiceHibernate<Comment> implements CommentService {
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void removeByEater(Eater eater) {
         remove(getByEater(eater));
     }
@@ -48,7 +49,6 @@ public class CommentServiceHibernate extends ApplicationServiceHibernate<Comment
      * {@inheritDoc}
      */
     @Override
-    @Transactional(readOnly = true)
     public Collection<Comment> getByEater(Eater eater) {
         Criterion critByEater = Restrictions.eq(Comment.AUTHOR_FIELD, eater);
         return findByCriteria(critByEater);
@@ -58,6 +58,7 @@ public class CommentServiceHibernate extends ApplicationServiceHibernate<Comment
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void remove(Collection<Comment> comments) {
         for (Comment comment : comments) {
             remove(comment);

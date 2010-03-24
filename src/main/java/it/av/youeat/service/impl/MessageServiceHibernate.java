@@ -24,17 +24,24 @@ import java.util.Collection;
 
 import javax.persistence.Query;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 /**
  * Implements operations on {@link Message}
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
+@Repository
+@Transactional(readOnly = true)
 public class MessageServiceHibernate extends ApplicationServiceHibernate<Message> implements MessageService {
 
     /**
      * {@inheritDoc}
      */
+    @Override
+    @Transactional
     public Message markMessageAsRead(Message msg) {
         if (msg.getReadTime() == null) {
             msg.setReadTime(DateUtil.getTimestamp());
@@ -47,6 +54,7 @@ public class MessageServiceHibernate extends ApplicationServiceHibernate<Message
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public long countUnreadMessages(Eater eater) {
         Query query = getJpaTemplate()
                 .getEntityManager()
@@ -110,10 +118,10 @@ public class MessageServiceHibernate extends ApplicationServiceHibernate<Message
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void remove(Collection<Message> messages) {
         for (Message message : messages) {
             remove(message);
         }
     }
-
 }

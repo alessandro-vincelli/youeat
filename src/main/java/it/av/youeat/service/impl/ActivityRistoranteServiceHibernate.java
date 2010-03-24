@@ -213,7 +213,7 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
      */
     @Override
     public List<ActivityRistorante> findByFriendWithActivitiesOnRistorante(Eater eater, Ristorante risto, String activityType) {
-        List<EaterRelation> friends = eaterRelationService.getAllFriendUsers(eater);
+        List<EaterRelation> friends = eaterRelationService.getFriends(eater);
         List<Eater> users = new ArrayList<Eater>(friends.size());
         for (EaterRelation eaterRelation : friends) {
             users.add(eaterRelation.getToUser());
@@ -226,7 +226,7 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
      */
     @Override
     public List<ActivityRistorante> findByFriendContributionsOnRistorante(Eater eater, Ristorante risto) {
-        List<EaterRelation> friends = eaterRelationService.getAllFriendUsers(eater);
+        List<EaterRelation> friends = eaterRelationService.getFriends(eater);
         List<Eater> users = new ArrayList<Eater>(friends.size());
         for (EaterRelation eaterRelation : friends) {
             users.add(eaterRelation.getToUser());

@@ -20,7 +20,6 @@ import it.av.youeat.ocm.model.SocialType;
 
 import java.util.Collection;
 
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -29,8 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Repository
-@Transactional(readOnly = true)
 public interface EaterService {
 
     /**
@@ -39,7 +36,6 @@ public interface EaterService {
      * @param eater
      * @return just updated user
      */
-    @Transactional
     Eater update(Eater eater);
 
     /**
@@ -48,7 +44,6 @@ public interface EaterService {
      * @param eater
      * @return just added user
      */
-    @Transactional
     Eater add(Eater eater);
 
     /**
@@ -57,7 +52,6 @@ public interface EaterService {
      * @param eater
      * @return just inserted user
      */
-    @Transactional
     Eater addRegolarUser(Eater eater);
 
     /**
@@ -66,7 +60,6 @@ public interface EaterService {
      * @param object
      * @return just inserted user
      */
-    @Transactional
     Eater addAdminUser(Eater object);
 
     /**
@@ -75,7 +68,6 @@ public interface EaterService {
      * @param eater
      * @return just added user
      */
-    @Transactional
     Eater addFacebookUser(Eater eater);
 
     /**
@@ -154,7 +146,6 @@ public interface EaterService {
     /**
      * create/update lucene index on eaters
      */
-    @Transactional
     void indexData();
 
     /**
@@ -197,6 +188,5 @@ public interface EaterService {
      * 
      * @return number of users
      */
-    @Transactional(readOnly = true)
     int count();
 }

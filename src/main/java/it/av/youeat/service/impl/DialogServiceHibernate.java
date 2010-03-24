@@ -24,8 +24,13 @@ import it.av.youeat.service.DialogService;
 import it.av.youeat.service.MessageService;
 import it.av.youeat.service.SocialService;
 import it.av.youeat.service.system.MailService;
+import it.av.youeat.util.TemplateUtil;
+import it.av.youeat.web.Locales;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Conjunction;
@@ -34,7 +39,11 @@ import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implements the operation on {@link Dialog}
@@ -42,6 +51,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
+@Repository
+@Transactional(readOnly = true)
 public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> implements DialogService {
     @Autowired
     private MessageService messageService;
@@ -49,11 +60,14 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
     private MailService mailService;
     @Autowired
     private SocialService socialService;
+    @Autowired
+    private MessageSource messageSource;
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void delete(Dialog dialog, Eater eater) {
         if (dialog.getReceiver().equals(eater)) {
             dialog.setDeletedFromReceiver(true);
@@ -117,7 +131,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         or.add(senderFilter);
         Order orderBYDate = Order.desc(Dialog.CREATION_TIME_FIELD);
         List<Dialog> results = findByCriteria(orderBYDate, or);
-        if(excludeSingleMessage){
+        if (excludeSingleMessage) {
             for (int i = 0; i < results.size(); i++) {
                 if (results.get(i).getSender().equals(eater) && results.get(i).getMessages().size() == 1) {
                     results.remove(i);
@@ -131,6 +145,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Dialog readDiscussion(String dialogId, Eater eater) {
         Dialog dialog = getByID(dialogId);
         for (Message msg : dialog.getMessages()) {
@@ -145,6 +160,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Dialog reply(Message message, Dialog dialog, Eater recipient) {
         message.setSentTime(DateUtil.getTimestamp());
         message.setDialog(dialog);
@@ -158,6 +174,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Dialog startNewDialog(Eater sender, Eater recipient, Message message) {
         message.setSentTime(DateUtil.getTimestamp());
         message.setSender(sender);
@@ -184,6 +201,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void removeByEater(Eater eater) {
         List<Dialog> dialogs = getDialogs(eater, false);
         for (Dialog dialog : dialogs) {
@@ -195,8 +213,64 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void remove(Dialog dialog) {
         messageService.remove(dialog.getMessages());
         super.remove(dialog);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public void sendFriendSuggestions(Eater sender, Eater recipient, Set<Eater> friendsToSuggest) {
+        Assert.assertNotNull(friendsToSuggest);
+        if (!friendsToSuggest.isEmpty()) {
+            Message message = createMessageForFriendSuggestion(sender, friendsToSuggest, recipient);
+            startNewDialog(sender, recipient, message);
+        }
+    }
+
+    /**
+     * Created an i18n message containing a list of a new friend to suggest
+     * 
+     * @param sender the sender of the suggestion
+     * @param friendsToSuggest the friend to suggest
+     * @param recipient the recipient of the suggestion
+     * @return a message containing the friends to suggest
+     */
+    Message createMessageForFriendSuggestion(Eater sender, Set<Eater> friendsToSuggest, Eater recipient) {
+        Locale locale = Locales.getSupportedLocale(recipient.getLanguage().getLanguage());
+        if (friendsToSuggest.size() == 1) {
+            Eater eaterToSuggest = friendsToSuggest.iterator().next();
+            // params [1=sender]
+            Object[] params = { sender.getFirstname() };
+            String title = messageSource.getMessage("suggestNewFriend.title", params, locale);
+
+            StringBuffer textBody = new StringBuffer();
+            // params [1=sender], [2=newFriend]
+            Object[] paramsBody = { TemplateUtil.templateEater(sender), TemplateUtil.templateEater(eaterToSuggest) };
+            textBody.append(messageSource.getMessage("suggestNewFriend.body", paramsBody, locale));
+            return new Message(title, textBody.toString());
+        } else {
+            // params [1=sender]
+            Object[] params = { sender.getFirstname() };
+            String title = messageSource.getMessage("suggestNewFriend.titleMultipleUsers", params, locale);
+            StringBuffer friendsList = new StringBuffer();
+            for (Iterator<Eater> iterator = friendsToSuggest.iterator(); iterator.hasNext();) {
+                Eater eaterToSuggest = (Eater) iterator.next();
+                friendsList.append(TemplateUtil.templateEater(eaterToSuggest));
+                if (iterator.hasNext()) {
+                    friendsList.append(", ");
+                }
+            }
+            StringBuffer textBody = new StringBuffer();
+            // params [1=sender], [2=newFriendListCommaSepared]
+            Object[] params2 = { TemplateUtil.templateEater(sender), friendsList.toString() };
+            textBody.append(messageSource.getMessage("suggestNewFriend.bodyMultipleUsers", params2, locale));
+            return new Message(title, textBody.toString());
+        }
+    }
+
 }

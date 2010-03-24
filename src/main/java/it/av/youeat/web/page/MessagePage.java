@@ -19,6 +19,7 @@ import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Dialog;
 import it.av.youeat.ocm.model.Message;
 import it.av.youeat.service.DialogService;
+import it.av.youeat.util.TemplateUtil;
 import it.av.youeat.web.components.ImagesAvatar;
 
 import java.util.Arrays;
@@ -43,7 +44,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.StringValidator;
 
 /**
- * Check friends list, Confirm and remove friends, send a message to a friend
+ * Show all the messages of a dialog
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
@@ -51,9 +52,10 @@ import org.apache.wicket.validation.validator.StringValidator;
 @AuthorizeInstantiation( { "USER", "ADMIN" })
 public class MessagePage extends BasePage {
 
-    private static final long serialVersionUID = 1L;
     @SpringBean
     private DialogService dialogService;
+    @SpringBean
+    private TemplateUtil templateUtil;
     private PropertyListView<Message> messageList;
     private Dialog dialog;
 
@@ -77,7 +79,6 @@ public class MessagePage extends BasePage {
         messageListContainer.setOutputMarkupId(true);
         add(messageListContainer);
         messageList = new PropertyListView<Message>("messagesList", new MessagesModel()) {
-            private static final long serialVersionUID = 1L;
 
             @Override
             protected void populateItem(final ListItem<Message> item) {
@@ -85,7 +86,8 @@ public class MessagePage extends BasePage {
                         YoueatHttpParams.YOUEAT_ID + "=" + item.getModelObject().getSender().getId())).add(new Label(
                         Message.SENDER_FIELD)));
                 item.add(new Label(Message.SENTTIME_FIELD));
-                item.add(new Label(Message.BODY_FIELD));
+                String body = templateUtil.resolveTemplateEater(item.getModelObject(), true, null);
+                item.add(new Label(Message.BODY_FIELD, body).setEscapeModelStrings(false));
                 item.add(new Label(Message.TITLE_FIELD));
                 item.add(ImagesAvatar.getAvatar("avatar", item.getModelObject().getSender(), this.getPage(), true));
             }

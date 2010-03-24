@@ -23,6 +23,8 @@ import java.util.Locale;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implements the operation on {@link Language}
@@ -30,6 +32,8 @@ import org.hibernate.criterion.Restrictions;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
+@Transactional(readOnly = true)
+@Repository
 public class LanguageServiceHibernate extends ApplicationServiceHibernate<Language> implements LanguageService {
 
     @Override

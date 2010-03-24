@@ -48,11 +48,15 @@ import org.hibernate.search.jpa.FullTextEntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
+@Repository
+@Transactional(readOnly = true)
 public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> implements EaterService {
 
     @Autowired
@@ -76,6 +80,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Eater addRegolarUser(Eater eater) {
         eater.setUserProfile(eaterProfileService.getRegolarUserProfile());
         try {
@@ -84,13 +89,14 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
             throw new UserAlreadyExistsException(e);
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void remove(Eater eater) {
-        
+
         Eater eaterToRemove = getByID(eater.getId());
         activityRelationService.removeByEater(eater);
         activityRistoranteService.removeByEater(eater);
@@ -104,6 +110,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Eater addAdminUser(Eater eater) {
         eater.setUserProfile(eaterProfileService.getAdminUserProfile());
         try {
@@ -117,6 +124,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Eater add(Eater eater) {
         if (eater == null || StringUtils.isBlank(eater.getEmail())) {
             throw new YoueatException("Eater is null or email is empty");
@@ -134,6 +142,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Eater update(Eater object) {
         try {
             super.save(object);
@@ -194,11 +203,10 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
             searchPattern.append(") ");
         }
 
-        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
-                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
+                .getEntityManager());
 
-        QueryParser queryParser = new QueryParser("", fullTextEntityManager.getSearchFactory().getAnalyzer(
-                "ristoranteanalyzer"));
+        QueryParser queryParser = new QueryParser("", fullTextEntityManager.getSearchFactory().getAnalyzer("ristoranteanalyzer"));
 
         org.apache.lucene.search.Query query;
         try {
@@ -239,9 +247,10 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void indexData() {
-        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
-                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
+                .getEntityManager());
         Collection<Eater> ristos = getAll();
         int position = 0;
         for (Eater risto : ristos) {
@@ -302,6 +311,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Eater addFacebookUser(Eater eater) {
         if (StringUtils.isBlank(eater.getSocialUID())) {
             throw new YoueatException("Impossible add a facebook user without a socialUid");

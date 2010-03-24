@@ -19,8 +19,6 @@ import it.av.youeat.ocm.model.Language;
 
 import java.util.Locale;
 
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * Services on {@Link Language}
  * 
@@ -34,6 +32,5 @@ public interface LanguageService extends ApplicationService<Language> {
      * @param locale the requested locale
      * @return a supported langauge
      */
-    @Transactional(readOnly = true)
     Language getSupportedLanguage(Locale locale);
 }

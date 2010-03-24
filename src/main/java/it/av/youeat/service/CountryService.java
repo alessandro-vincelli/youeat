@@ -32,5 +32,4 @@ public interface CountryService extends ApplicationService<Country> {
      * @return country
      */
     Country getByIso2(String iso2);
-
 }

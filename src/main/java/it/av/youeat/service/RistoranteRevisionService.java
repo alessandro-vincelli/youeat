@@ -17,16 +17,12 @@ package it.av.youeat.service;
 
 import it.av.youeat.ocm.model.RistoranteRevision;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * Services on Ristoranti
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Repository
 public interface RistoranteRevisionService {
 
     /**
@@ -35,7 +31,5 @@ public interface RistoranteRevisionService {
      * @param revision
      * @return RistoranteRevision
      */
-    @Transactional
     RistoranteRevision insert(RistoranteRevision revision);
-
 }

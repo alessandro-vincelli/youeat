@@ -2,7 +2,7 @@ package it.av.youeat.web.xml;
 
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.service.RistoranteService;
-import it.av.youeat.web.util.GeneratorRistoranteURL;
+import it.av.youeat.web.url.YouetGeneratorURL;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -25,7 +25,7 @@ public class GoogleSitemapGenerator {
     @Autowired
     private RistoranteService ristoranteService;
     @Autowired
-    private GeneratorRistoranteURL ristoranteURL;
+    private YouetGeneratorURL ristoranteURL;
 
     /**
      * 
@@ -43,7 +43,7 @@ public class GoogleSitemapGenerator {
         Collection<Ristorante> ristoranteList = ristoranteService.getAll();
         for (Iterator<Ristorante> ristoranteIterator = ristoranteList.iterator(); ristoranteIterator.hasNext();) {
             Ristorante ristorante = ristoranteIterator.next();
-            sb.append(generateUrl(ristoranteURL.getUrl(ristorante), ristorante.getModificationTime(), "weekly", "0.2"));
+            sb.append(generateUrl(ristoranteURL.getRistoranteUrl(ristorante), ristorante.getModificationTime(), "weekly", "0.2"));
             sb.append("\n");
         }
         sb.append(URLSET_END);

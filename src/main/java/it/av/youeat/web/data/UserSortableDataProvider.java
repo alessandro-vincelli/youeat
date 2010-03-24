@@ -35,7 +35,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
 public class UserSortableDataProvider extends SortableDataProvider<Eater> {
-    private static final long serialVersionUID = 1L;
     @SpringBean
     private EaterService usersService;
     private transient Collection<Eater> results;

@@ -20,9 +20,7 @@ import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 
 import java.util.List;
-
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.Set;
 
 /**
  * Offer operation to create a dialog between two users
@@ -30,8 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Repository
-@Transactional
 public interface DialogService {
 
     /**
@@ -60,7 +56,6 @@ public interface DialogService {
      * @param eater
      * @return dialogs for the given user
      */
-    @Transactional(readOnly = true)
     List<Dialog> getCreatedDialogs(Eater eater);
 
     /**
@@ -69,18 +64,15 @@ public interface DialogService {
      * @param eater
      * @return dialogs for the given user
      */
-    @Transactional(readOnly = true)
     int countCreatedDialogs(Eater eater);
 
     /**
-     * Returns dialogs where the user is involved. Not flagged as
-     * removed
+     * Returns dialogs where the user is involved. Not flagged as removed
      * 
      * @param eater
      * @param excludeSingleMessage true to exclude dialogs with only 1 message
      * @return dialogs for the given user
      */
-    @Transactional(readOnly = true)
     List<Dialog> getDialogs(Eater eater, boolean excludeSingleMessage);
 
     /**
@@ -106,4 +98,13 @@ public interface DialogService {
      * @param eater
      */
     void removeByEater(Eater eater);
+
+    /**
+     * send messages to a list of friends to suggest a new friend
+     * 
+     * @param sender the sender of the suggestion
+     * @param recipient the receiver of the suggestions
+     * @param friendsToSuggest the list of friends to suggest
+     */
+    void sendFriendSuggestions(Eater sender, Eater recipient, Set<Eater> friendsToSuggest);
 }

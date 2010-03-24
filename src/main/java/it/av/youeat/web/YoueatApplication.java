@@ -45,6 +45,7 @@ import it.av.youeat.web.page.manager.RistoranteManagerPage;
 import it.av.youeat.web.page.xml.FeedPage;
 import it.av.youeat.web.page.xml.SitemapPage;
 import it.av.youeat.web.security.SecuritySession;
+import it.av.youeat.web.url.YouEatPagePaths;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -113,12 +114,12 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new MixedParamHybridUrlCodingStrategy("/editRistorante", RistoranteEditDataPage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
         mount(new MixedParamHybridUrlCodingStrategy("/editAddressRistorante", RistoranteEditAddressPage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
         mount(new MixedParamHybridUrlCodingStrategy("/editPicturesRistorante", RistoranteEditPicturePage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
-        mount(new MixedParamUrlCodingStrategy("/viewRistorante", RistoranteViewPage.class, new String[]{YoueatHttpParams.RISTORANTE_NAME_AND_CITY}));
+        mount(new MixedParamUrlCodingStrategy(YouEatPagePaths.VIEW_RISTORANTE, RistoranteViewPage.class, new String[]{YoueatHttpParams.RISTORANTE_NAME_AND_CITY}));
         mount(new HybridUrlCodingStrategy("/searchFriends", SearchFriendPage.class));
         mount(new HybridUrlCodingStrategy("/friends", FriendsPage.class)); 
         mount(new IndexedParamUrlCodingStrategy("/signUp", SignUpPage.class));
         mount(new IndexedParamUrlCodingStrategy("/userHomePage", UserHomePage.class));
-        mount(new MixedParamHybridUrlCodingStrategy("/viewUser", EaterViewPage.class, new String[]{YoueatHttpParams.YOUEAT_ID}));
+        mount(new MixedParamHybridUrlCodingStrategy(YouEatPagePaths.VIEW_EATER, EaterViewPage.class, new String[]{YoueatHttpParams.YOUEAT_ID}));
         mount(new MixedParamHybridUrlCodingStrategy("/account", EaterAccountPage.class, new String[]{YoueatHttpParams.YOUEAT_ID}));
         mount(new HybridUrlCodingStrategy("/passwordRecover", PasswordRecoverPage.class));
         mount(new HybridUrlCodingStrategy("/messages", MessageListPage.class));

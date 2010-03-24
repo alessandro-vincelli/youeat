@@ -21,23 +21,17 @@ import it.av.youeat.ocm.model.Eater;
 import java.util.Collection;
 import java.util.Date;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * Operations on {@Link Activity}
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Transactional(readOnly = true)
-@Repository
 public interface ActivityService{
 
     /**
      * {@inheritDoc}
      */
-    @Transactional
     Activity save(Activity object);
 
     /**
@@ -59,7 +53,5 @@ public interface ActivityService{
     /**
      * {@inheritDoc}
      */
-    @Transactional
     void remove(Activity object);
-
 }

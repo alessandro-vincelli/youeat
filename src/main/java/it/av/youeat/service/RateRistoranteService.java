@@ -17,16 +17,12 @@ package it.av.youeat.service;
 
 import it.av.youeat.ocm.model.RateOnRistorante;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * Services on RateOnRistorante
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Repository
 public interface RateRistoranteService {
 
     /**
@@ -35,7 +31,5 @@ public interface RateRistoranteService {
      * @param rate
      * @return RateOnRistorante
      */
-    @Transactional
     RateOnRistorante insert(RateOnRistorante rate);
-
 }

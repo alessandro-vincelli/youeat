@@ -69,9 +69,8 @@ public class FriendsPage extends BasePage {
     /**
      * Constructor that is invoked when page is invoked without a session.
      * 
-     * @throws YoueatException
      */
-    public FriendsPage() throws YoueatException {
+    public FriendsPage(){
         super();
         add(getFeedbackPanel());
         final Label noYetFriends = new Label("noYetFriends", getString("noYetFriends")) {

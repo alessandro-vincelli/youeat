@@ -20,17 +20,12 @@ import it.av.youeat.ocm.model.Message;
 
 import java.util.Collection;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * Operations on {@Link Message}
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Repository
-@Transactional(readOnly = true)
 public interface MessageService {
 
     /**
@@ -39,7 +34,6 @@ public interface MessageService {
      * @param msg the message to mark
      * @return just mrked message
      */
-    @Transactional
     Message markMessageAsRead(Message msg);
 
     /**

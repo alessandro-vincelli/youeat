@@ -24,6 +24,8 @@ import java.util.Date;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * UserImpl Services class, Use this class to manage the {@link UserImpl}
@@ -31,13 +33,15 @@ import org.hibernate.criterion.Restrictions;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
+@Transactional(readOnly = true)
+@Repository
 public class ActivityServiceHibernate extends ApplicationServiceHibernate<Activity> implements ActivityService {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Collection<Activity> findByDate(Date date){
+    public Collection<Activity> findByDate(Date date) {
         Criterion crit = Restrictions.eq(Activity.DATE, date);
         return findByCriteria(crit);
     }
@@ -46,7 +50,7 @@ public class ActivityServiceHibernate extends ApplicationServiceHibernate<Activi
      * {@inheritDoc}
      */
     @Override
-    public Collection<Activity> findByUser(Eater user){
+    public Collection<Activity> findByUser(Eater user) {
         Criterion crit = Restrictions.eq(Activity.USER, user);
         return findByCriteria(crit);
     }

@@ -20,16 +20,11 @@ import it.av.youeat.ocm.model.data.Country;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * Services on {@Link City}
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@Repository
-@Transactional(readOnly = true)
 public interface CityService extends ApplicationService<City> {
 
     /**
@@ -72,7 +67,5 @@ public interface CityService extends ApplicationService<City> {
     /**
      * Renews the lucene index on the cities 
      */
-    @Transactional
     void indexData();
-
 }

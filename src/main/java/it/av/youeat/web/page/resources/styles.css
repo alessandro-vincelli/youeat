@@ -343,7 +343,6 @@ div .friendsList {
     padding-bottom: 10px;
     margin-bottom: 10px;
     padding-left: 60px;
-    /*background-image: url("images/avatar.gif");*/
     background-repeat: no-repeat;
     font-size: medium;
 }
@@ -395,6 +394,40 @@ div .friendsButton button{
     font-size: xx-small;
 }
 
+div .smallFriendsList {
+    text-align: left;
+    display: block;
+    height: 50px;
+    border-bottom: 1px solid #EEEEEE;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    padding-left: 60px;
+    background-repeat: no-repeat;
+    font-size: medium;
+}
+
+div .smallFriendName {
+    width: 150px;
+    float: left;
+}
+
+div .smallFriendCenterColumn {
+    width: auto;
+    float: left;
+}
+
+div .smallFriendsButton {
+    float: right;
+    font-size: xx-small;
+}
+
+div .smallFriendsButton button{
+    float: right;
+    margin-left: 5px;
+    font-size: xx-small;
+}
+
 div .dialogButton {
     float: right;
     font-size: xx-small;
@@ -437,14 +470,26 @@ div .messageBody {
     float: left;
     width: 320px;
     color: #808080;
-    font-size: x-small;
+    font-size: small;
 }
 
 div .messageBody a {
-    float: left;
-    width: 320px;
     text-decoration: none;
     color: #808080;
+}
+
+div .messageBodyLink a {
+    text-decoration: none;
+    color: #2276BB;
+}
+
+div .innerLink a {
+    text-decoration: none;
+    color: #2276BB;
+}
+
+div .messageBodyLink a:hover {
+    text-decoration: underline;
 }
 
 div .messageCenterColumn {
@@ -459,7 +504,8 @@ div .messageTitle {
 }
 
 div .messageInfos {
-    float: left;
+	padding-top: 5px;
+    float: right;
     width: 320px;
     font-size: xx-small;
 }
@@ -1454,7 +1500,15 @@ button.positive, .buttons a.positive{
     text-decoration: underline;
 }
 
-
 .tagSmallBold {
     font-size: small;
+}
+
+.suggestFriendButton{
+	text-align: center;
+	padding: 3px 3px 3px 3px;
+}
+
+.suggestFriendPanelTitle{
+	text-align: center;
 }

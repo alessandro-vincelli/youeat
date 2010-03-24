@@ -14,10 +14,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.code.facebookapi.FacebookException;
 import com.google.code.facebookapi.FacebookJaxbRestClient;
 
+@Repository
+@Transactional(readOnly = true)
 public class SocialServiceFacebook implements SocialService {
 
     private static Logger log = LoggerFactory.getLogger(FacebookAuthenticationProvider.class);
@@ -69,6 +73,7 @@ public class SocialServiceFacebook implements SocialService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void publishRistoActivity(ActivityRistorante activityRistorante) {
         try {
             Long uid = null;

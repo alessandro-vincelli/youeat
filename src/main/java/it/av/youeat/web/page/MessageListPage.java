@@ -21,7 +21,9 @@ import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 import it.av.youeat.service.DialogService;
 import it.av.youeat.service.MessageService;
+import it.av.youeat.util.TemplateUtil;
 import it.av.youeat.web.components.ImagesAvatar;
+import it.av.youeat.web.util.EaterUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +58,8 @@ public class MessageListPage extends BasePage {
     private DialogService dialogService;
     @SpringBean
     private MessageService messageService;
+    @SpringBean
+    private TemplateUtil templateUtil;
     private PropertyListView<Message> messageList;
 
     /**
@@ -92,18 +96,18 @@ public class MessageListPage extends BasePage {
                 Eater sender = item.getModelObject().getSender();
                 Eater recipient = item.getModelObject().getDialog().checkCounterpart(sender);
                 item.add(ImagesAvatar.getAvatar("avatar", sender, this.getPage(), true));
-                item.add(new BookmarkablePageLink("linkToUser", EaterViewPage.class, new PageParameters(YoueatHttpParams.YOUEAT_ID + "=" + sender.getId())).add(new Label(Message.SENDER_FIELD)));
-                BookmarkablePageLink recipientLink = new BookmarkablePageLink("linkToRecipientUser", EaterViewPage.class, new PageParameters(YoueatHttpParams.YOUEAT_ID + "=" + recipient.getId()));
+                item.add(new BookmarkablePageLink("linkToUser", EaterViewPage.class, EaterUtil.createParamsForEater(sender)).add(new Label(Message.SENDER_FIELD)));
+                BookmarkablePageLink recipientLink = new BookmarkablePageLink("linkToRecipientUser", EaterViewPage.class, EaterUtil.createParamsForEater(recipient));
                 recipientLink.add(new Label("recipient", recipient.toString()));
                 //visible only on Sent page
                 recipientLink.setVisible(!inBox);
                 item.add(recipientLink);
                 item.add(new Label(Message.SENTTIME_FIELD));
                 item.add(new OpenMessage("openMessageTitle", new Model<Message>(item.getModelObject()), item).add(new Label(Message.TITLE_FIELD)));
+                String messageBodyShort = StringUtils.abbreviate(templateUtil.resolveTemplateEater(item.getModelObject(), false, null), 150);
                 item.add(new OpenMessage("openMessage", new Model<Message>(item.getModelObject()), item).add(new Label(
-                        Message.BODY_FIELD, StringUtils.abbreviate(item.getModelObject().getBody(), 150))));
+                        Message.BODY_FIELD, messageBodyShort)));
                 item.add(new AjaxFallbackLink<Message>("remove", new Model<Message>(item.getModelObject())) {
-                    private static final long serialVersionUID = 1L;
 
                     @Override
                     public void onClick(AjaxRequestTarget target) {

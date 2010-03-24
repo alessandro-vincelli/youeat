@@ -20,8 +20,6 @@ import it.av.youeat.ocm.model.Tag;
 import java.util.List;
 
 import org.hibernate.criterion.Criterion;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Services on Tag
@@ -29,8 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-@Repository
-@Transactional(readOnly = true)
 public interface TagService {
 
     /**
@@ -39,7 +35,6 @@ public interface TagService {
      * @param tag
      * @return just created Tag or already present tag
      */
-    @Transactional
     Tag insert(String tag);
 
     /**
@@ -86,7 +81,5 @@ public interface TagService {
      * 
      * @param tag
      */
-    @Transactional
     void remove(Tag tag);
-
 }

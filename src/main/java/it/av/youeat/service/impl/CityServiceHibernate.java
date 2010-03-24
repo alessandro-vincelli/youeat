@@ -31,6 +31,8 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implements the operation on {@link City}
@@ -38,6 +40,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
+@Transactional(readOnly = true)
+@Repository
 public class CityServiceHibernate extends ApplicationServiceHibernate<City> implements CityService {
 
     @Autowired
@@ -136,16 +140,17 @@ public class CityServiceHibernate extends ApplicationServiceHibernate<City> impl
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void indexData() {
-        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
-                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
+                .getEntityManager());
         Collection<City> cities = getAll();
         int position = 0;
         for (City city : cities) {
             fullTextEntityManager.index(city);
             position = position + 1;
         }
-        //System.out.println("city indexed");
+        // System.out.println("city indexed");
         // TODO to much data improve the indexing method
         Collection<Country> countries = countryService.getAll();
         position = 0;
@@ -153,7 +158,7 @@ public class CityServiceHibernate extends ApplicationServiceHibernate<City> impl
             fullTextEntityManager.index(country);
             position = position + 1;
         }
-        //System.out.println("country indexed");
+        // System.out.println("country indexed");
     }
 
 }

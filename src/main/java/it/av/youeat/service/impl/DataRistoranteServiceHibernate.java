@@ -37,14 +37,17 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.jpa.FullTextEntityManager;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implements the operation on {@link DataRistorante}
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<DataRistorante> implements
-        DataRistoranteService {
+@Transactional(readOnly = true)
+@Repository
+public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<DataRistorante> implements DataRistoranteService {
 
     /**
      * @param entityManager
@@ -59,6 +62,7 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public DataRistorante update(DataRistorante risto) {
         super.save(risto);
         getJpaTemplate().flush();
@@ -69,6 +73,7 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public DataRistorante insert(DataRistorante risto) {
         super.save(risto);
         return risto;
@@ -121,8 +126,8 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
      */
     @Override
     public List<DataRistorante> freeTextSearch(String pattern, int maxResult) {
-        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
-                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
+                .getEntityManager());
         String[] fields = new String[] { "name" };
         // TODO using dataristoranteanalyzer doesn't work
         // MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, fullTextEntityManager.getSearchFactory()
@@ -134,8 +139,7 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
         } catch (ParseException e) {
             throw new YoueatException(e);
         }
-        javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(query,
-                DataRistorante.class);
+        javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(query, DataRistorante.class);
         if (maxResult > 0) {
             persistenceQuery.setMaxResults(maxResult);
         }
@@ -144,8 +148,8 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
 
     @Override
     public List<DataRistorante> freeTextSearch(String pattern, String city, String country, int maxResult) {
-        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
-                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
+                .getEntityManager());
         StringBuffer searchPattern = new StringBuffer();
         // use the search pattern on the name, city and country are mandatory match
         if (StringUtils.isNotBlank(pattern)) {
@@ -173,8 +177,7 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
         } catch (Exception e) {
             throw new YoueatException(e);
         }
-        javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(query,
-                DataRistorante.class);
+        javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(query, DataRistorante.class);
         if (maxResult > 0) {
             persistenceQuery.setMaxResults(maxResult);
         }
@@ -185,16 +188,17 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void indexData() {
-        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
-                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
+                .getEntityManager());
         fullTextEntityManager.getSearchFactory().getAnalyzer("dataristoranteanalyzer");
         Collection<DataRistorante> ristos = getAll();
         int position = 0;
         for (DataRistorante risto : ristos) {
             fullTextEntityManager.index(risto);
             position = position + 1;
-            //System.out.println(position);
+            // System.out.println(position);
         }
     }
 }

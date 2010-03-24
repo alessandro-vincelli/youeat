@@ -20,7 +20,21 @@
     </div>
     </div>
     <div id="extra">
-    <span class="titleSmallBold"><wicket:message key="eaterViewPage.friendsTitle" /></span>
+    <wicket:enclosure child="commonFriendsList">
+    <span class="titleSmallBold"><wicket:message key="eaterViewPage.commonFriendsTitle" />
+    <wicket:container wicket:id="numberCommonFriend"></wicket:container>
+    </span>
+    <ul class="friendSmallList">
+        <li wicket:id="commonFriendsList">
+            <!-- <img wicket:id="type" class="iconActivities"></img>-->
+            <div class="friendAvatar"><img src="#" wicket:id="avatar"></img> </div>
+            <a wicket:id="linkToUser"><span wicket:id="eater.name"></span></a>
+        </li>
+    </ul>
+    </wicket:enclosure>
+    <wicket:enclosure child="friendsList">
+    <span class="titleSmallBold"><wicket:message key="eaterViewPage.friendsTitle" />
+    <wicket:container wicket:id="numberOfFriends"></wicket:container></span>
     <ul class="friendSmallList">
         <li wicket:id="friendsList">
             <!-- <img wicket:id="type" class="iconActivities"></img>-->
@@ -28,12 +42,16 @@
             <a wicket:id="linkToUser"><span wicket:id="eater.name"></span></a>
         </li>
     </ul>
+    </wicket:enclosure>
     </div>
     <div id="navigation">
         <div class="buttonNavigation buttons">
-        <p><button wicket:id="sendMessage"><span><wicket:message key="button.sendMessageToAFriend" /></span></button></p>
-        <p><button wicket:id="sendFriendRequest"><wicket:message key="datatableactionpanel.addFriend"/></button></p>
-        <p><button wicket:id="startFollow"><wicket:message key="datatableactionpanel.followUser"/></button></p>
+        <ul>
+        <li><a wicket:id="sendMessage"><span><wicket:message key="button.sendMessageToAFriend" /></span></a></li>
+        <li><a wicket:id="suggestToFriends"><wicket:message key="button.suggestNewFriends"/></a></li>
+        <li><a wicket:id="sendFriendRequest"><wicket:message key="datatableactionpanel.addFriend"/></a></li>
+        <li><a wicket:id="startFollow"><wicket:message key="datatableactionpanel.followUser"/></a></li>
+        </ul>
         </div>
         
         <wicket:enclosure child="favoriteRistosList">
@@ -53,23 +71,6 @@
         	</li>
         </ul>
         </wicket:enclosure>
-        
-        <!--
-          
-        <wicket:enclosure child="numberOfContributions">
-        <span class="titleActivitiesOnRisto">
-        <wicket:container wicket:id="numberOfContributions"></wicket:container>
-        </span>
-        <wicket:enclosure child="friendContributionsList">
-        <span class="titleActivitiesOnRisto2"><wicket:message key="ofFriends" /></span>
-        <ul class="activitiesList">
-            <li wicket:id="friendContributionsList">
-                <a wicket:id="view-eater"><span wicket:id="eater.firstname"></span> <span wicket:id="eater.lastname"></span></a>
-                <span wicket:id="date.time" class="dateActivities"></span>
-            </li>
-        </ul>
-        </wicket:enclosure>
-        </wicket:enclosure>
-        
-    --></div>
+    <div wicket:id="suggestToFriendModalWindow"></div>    
+	</div>
 </wicket:extend>

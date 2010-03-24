@@ -7,6 +7,7 @@
     <div class="messageCenterColumn">
     <div class="friendAvatar"><img src="#" wicket:id="avatar"></img> </div>
     <div class="messageTitle"><strong><a href="#" wicket:id="openMessageTitle"><span wicket:id="title"></span></a></strong></div>
+    <div class="messageBody"><a href="#" wicket:id="openMessage"><span wicket:id="body"></span></a></div>
     <div class="messageInfos">
         <a href="#" wicket:id="linkToUser"><span wicket:id="sender"></span></a>
         <wicket:enclosure child="linkToRecipientUser"><wicket:message key="sentTo" />
@@ -14,7 +15,6 @@
         </wicket:enclosure>
         <span wicket:id="sentTime"></span>
     </div>
-    <div class="messageBody"><a href="#" wicket:id="openMessage"><span wicket:id="body"></span></a></div>
     </div>
     <div class="dialogButton buttons">
     <a wicket:id="open"><span><wicket:message key="button.openMessage" /></span></a>
@@ -27,7 +27,9 @@
     </div>
     <div id="navigation">
         <div class="buttonNavigation buttons">
-        <p><a wicket:id="goSearchFriendPage"><wicket:message key="basepage.goSearchFriendPage" /></a></p>
+        <ul>
+        <li><a wicket:id="goSearchFriendPage"><wicket:message key="basepage.goSearchFriendPage" /></a></li>
+        </ul>
         </div>
     </div>
     <div id="extra" class="leftButtonMessage buttons messageFolder">

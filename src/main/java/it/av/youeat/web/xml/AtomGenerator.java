@@ -2,7 +2,7 @@ package it.av.youeat.web.xml;
 
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.service.RistoranteService;
-import it.av.youeat.web.util.GeneratorRistoranteURL;
+import it.av.youeat.web.url.YouetGeneratorURL;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,7 +24,7 @@ public class AtomGenerator {
     @Autowired
     private RistoranteService ristoranteService;
     @Autowired
-    private GeneratorRistoranteURL generatorRistoranteURL;
+    private YouetGeneratorURL generatorRistoranteURL;
 
     // <title>Example Feed</title>
     // <subtitle>A subtitle.</subtitle>
@@ -80,7 +80,7 @@ public class AtomGenerator {
             entry.setTitle(ristorante.getName() + " " + ristorante.getCity().getName());
             List<Link> urls = new ArrayList<Link>(1);
             Link link = new Link();
-            link.setHref(generatorRistoranteURL.getUrl(ristorante));
+            link.setHref(generatorRistoranteURL.getRistoranteUrl(ristorante));
             link.setTitle(ristorante.getName());
             urls.add(link);
             entry.setAlternateLinks(urls);

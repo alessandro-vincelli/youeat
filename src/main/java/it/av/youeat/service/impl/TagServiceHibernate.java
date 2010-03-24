@@ -29,17 +29,22 @@ import org.apache.lucene.util.Version;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.jpa.FullTextEntityManager;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
+@Transactional(readOnly = true)
+@Repository
 public class TagServiceHibernate extends ApplicationServiceHibernate<Tag> implements TagService {
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Tag insert(String tag) {
         Tag result = getByTagValue(tag);
         if (result != null) {
@@ -77,8 +82,8 @@ public class TagServiceHibernate extends ApplicationServiceHibernate<Tag> implem
      */
     @Override
     public List<Tag> freeTextSearch(String pattern) {
-        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
-                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
+                .getEntityManager());
         String[] fields = new String[] { "tag" };
         MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, new StandardAnalyzer(Version.LUCENE_CURRENT));
         org.apache.lucene.search.Query query;

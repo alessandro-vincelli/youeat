@@ -5,17 +5,12 @@ import it.av.youeat.ocm.model.Eater;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * Operation to manage activities on user relations
  * 
  * @author Alessandro Vincelli
  * 
  */
-@Transactional(readOnly = true)
-@Repository
 public interface ActivityRelationService {
 
     /**
@@ -80,7 +75,6 @@ public interface ActivityRelationService {
      * @param activityRistorante the activity to save
      * @return the just saved activity
      */
-    @Transactional
     ActivityEaterRelation save(ActivityEaterRelation activityRistorante);
 
     /**
@@ -88,7 +82,5 @@ public interface ActivityRelationService {
      * 
      * @param eater
      */
-    @Transactional
     void removeByEater(Eater eater);
-
 }

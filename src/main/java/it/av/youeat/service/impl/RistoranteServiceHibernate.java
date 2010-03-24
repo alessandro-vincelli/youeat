@@ -52,6 +52,8 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import wicket.contrib.gmap.api.GLatLng;
 
@@ -59,6 +61,8 @@ import wicket.contrib.gmap.api.GLatLng;
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
+@Repository
+@Transactional(readOnly = true)
 public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Ristorante> implements RistoranteService {
 
     @Autowired
@@ -75,14 +79,15 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Ristorante update(Ristorante risto, Eater user) {
         risto.setModificationTime(DateUtil.getTimestamp());
         risto.setRevisionNumber(risto.getRevisionNumber() + 1);
         save(risto);
         risto.addRevision(ristoranteRevisionService.insert(new RistoranteRevision(risto)));
-        activityRistoranteService.save(activityRistoranteService.save(new ActivityRistorante(DateUtil.getTimestamp(), user, risto,
-                ActivityRistorante.TYPE_MODIFICATION)));
-        
+        activityRistoranteService.save(activityRistoranteService.save(new ActivityRistorante(DateUtil.getTimestamp(), user,
+                risto, ActivityRistorante.TYPE_MODIFICATION)));
+
         return save(risto);
     }
 
@@ -90,6 +95,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Ristorante updateAddress(Ristorante risto, Eater user) {
         Ristorante ristoToSave = risto;
         GLatLng gLatLng = getGLatLng(ristoToSave);
@@ -102,6 +108,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Ristorante insert(Ristorante risto, Eater user) {
         Ristorante ristoToSave = risto;
         ristoToSave.setCreationTime(DateUtil.getTimestamp());
@@ -145,6 +152,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Ristorante addRate(Ristorante risto, Eater user, int rate) {
         if (user != null && risto != null && !(hasUsersAlreadyRated(risto, user))) {
             if (rate >= 0 && rate <= 5) {
@@ -182,22 +190,17 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void remove(Ristorante risto) {
         Ristorante ristoToRemove = getByID(risto.getId());
         super.remove(ristoToRemove);
     }
 
     /**
-     * @param activityRistoranteService
-     */
-    public void setActivityRistoranteService(ActivityRistoranteService activityRistoranteService) {
-        this.activityRistoranteService = activityRistoranteService;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Ristorante updateNoRevision(Ristorante ristorante) {
         return save(ristorante);
     }
@@ -207,11 +210,11 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      */
     @Override
     public List<Ristorante> freeTextSearch(String pattern, ArrayList<Eater> eaters) {
-        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
-                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
+                .getEntityManager());
         String[] fields = new String[] { "name", "city.name", "tags.tag" };
-        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, fullTextEntityManager.getSearchFactory()
-                .getAnalyzer("ristoranteanalyzer"));
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, fullTextEntityManager.getSearchFactory().getAnalyzer(
+                "ristoranteanalyzer"));
         org.apache.lucene.search.Query query;
         try {
             String patternClean = LuceneUtil.escapeSpecialChars(pattern);
@@ -230,17 +233,17 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         }
         return persistenceQuery.getResultList();
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public List<Ristorante> freeTextSearchOnName(String pattern) {
-        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
-                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
-        String[] fields = new String[] { "name"};
-        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, fullTextEntityManager.getSearchFactory()
-                .getAnalyzer("ristoranteanalyzer"));
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
+                .getEntityManager());
+        String[] fields = new String[] { "name" };
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, fullTextEntityManager.getSearchFactory().getAnalyzer(
+                "ristoranteanalyzer"));
         org.apache.lucene.search.Query query;
         try {
             String patternClean = LuceneUtil.escapeSpecialChars(pattern);
@@ -284,8 +287,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      */
     @Override
     public List<Ristorante> getRandom(int numberOfResult) {
-        Query query = getJpaTemplate().getEntityManager().createQuery(
-                "select risto from Ristorante as risto order by random()");
+        Query query = getJpaTemplate().getEntityManager().createQuery("select risto from Ristorante as risto order by random()");
         query.setMaxResults(numberOfResult);
         return query.getResultList();
     }
@@ -350,8 +352,8 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      */
     @Override
     public void indexData() {
-        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
-                .getFullTextEntityManager(getJpaTemplate().getEntityManager());
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
+                .getEntityManager());
         fullTextEntityManager.getSearchFactory().getAnalyzer("ristoranteanalyzer");
         Collection<Ristorante> ristos = getAll();
         int position = 0;

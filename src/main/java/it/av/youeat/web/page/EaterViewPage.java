@@ -28,6 +28,8 @@ import it.av.youeat.web.components.ImagesAvatar;
 import it.av.youeat.web.components.RistosListView;
 import it.av.youeat.web.components.SendMessageButton;
 import it.av.youeat.web.modal.SendMessageModalWindow;
+import it.av.youeat.web.modal.SuggestNewFriendModalWindow;
+import it.av.youeat.web.panel.SuggestNewFriendsPanel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -118,7 +120,7 @@ public class EaterViewPage extends BasePage {
             }
         };
         activitiesListContainer.add(moreActivitiesLink);
-        final ModalWindow sendMessageMW = SendMessageModalWindow.getNewModalWindow("sendMessagePanel");
+        ModalWindow sendMessageMW = SendMessageModalWindow.getNewModalWindow("sendMessagePanel");
         add(sendMessageMW);
         EaterRelation relation = eaterRelationService.getRelation(getLoggedInUser(), eater);
         add(new SendMessageButton("sendMessage", getLoggedInUser(), eater, relation, sendMessageMW));
@@ -127,6 +129,8 @@ public class EaterViewPage extends BasePage {
         startFollow = new StartFollowEaterButton("startFollow", getLoggedInUser(), eater, relation);
         add(startFollow);
 
+        int numberOfFriends = eaterRelationService.countFriends(eater);
+        add(new Label("numberOfFriends", new Model<Integer>(numberOfFriends)).setVisible(numberOfFriends > 0));
         PropertyListView<EaterRelation> friendsList = new PropertyListView<EaterRelation>("friendsList", new RelationsModel()) {
 
             @Override
@@ -137,14 +141,35 @@ public class EaterViewPage extends BasePage {
                 item.add(linkToUser);
                 linkToUser.add(new Label("eater.name", item.getModelObject().getToUser().toString()));
                 item.add(ImagesAvatar.getAvatar("avatar", item.getModelObject().getToUser(), this.getPage(), true));
-                // item.add(new Label(EaterRelation.TYPE));
             }
         };
+        friendsList.setVisible(numberOfFriends > 0);
         add(friendsList);
 
+        int numberCommonFriends = eaterRelationService.countCommonFriends(getLoggedInUser(), eater);
+        add(new Label("numberCommonFriend", new Model<Integer>(numberCommonFriends)).setVisible(numberCommonFriends > 0));
+        PropertyListView<Eater> commonFriendsList = new PropertyListView<Eater>("commonFriendsList", new CommonFriends(
+                getLoggedInUser(), eater)) {
+            @Override
+            protected void populateItem(final ListItem<Eater> item) {
+
+                BookmarkablePageLink linkToUser = new BookmarkablePageLink("linkToUser", EaterViewPage.class, new PageParameters(
+                        YoueatHttpParams.YOUEAT_ID + "=" + item.getModelObject().getId()));
+                item.add(linkToUser);
+                linkToUser.add(new Label("eater.name", item.getModelObject().toString()));
+                item.add(ImagesAvatar.getAvatar("avatar", item.getModelObject(), this.getPage(), true));
+            }
+        };
+        commonFriendsList.setVisible(numberCommonFriends > 0);
+        add(commonFriendsList);
+
         add(new RistosListView("favoriteRistosList", activityRistoranteService.findFavoriteRisto(eater, 0)));
-        
+
         add(new RistosListView("contributionsList", activityRistoranteService.findContributedByEater(eater, 8)));
+        final SuggestNewFriendModalWindow toFriendsModalWindow = new SuggestNewFriendModalWindow("suggestToFriendModalWindow");
+        add(toFriendsModalWindow);
+
+        add(new SuggestNewFriendButton("suggestToFriends", eater, toFriendsModalWindow));
 
     }
 
@@ -219,6 +244,24 @@ public class EaterViewPage extends BasePage {
         }
     }
 
+    private final class SuggestNewFriendButton extends AjaxFallbackLink<Eater> {
+        private final Eater friendToSuggest;
+        private final SuggestNewFriendModalWindow modalWindow;
+
+        public SuggestNewFriendButton(String id, Eater friendToSuggest, SuggestNewFriendModalWindow modalWindow) {
+            super(id);
+            this.friendToSuggest = friendToSuggest;
+            this.modalWindow = modalWindow;
+        }
+
+        @Override
+        public void onClick(AjaxRequestTarget target) {
+            modalWindow.setContent(new SuggestNewFriendsPanel(modalWindow.getContentId(), getLoggedInUser(), friendToSuggest,
+                    modalWindow));
+            modalWindow.show(target);
+        }
+    }
+
     private class RelationsModel extends LoadableDetachableModel<List<EaterRelation>> {
         public RelationsModel() {
             super();
@@ -230,9 +273,27 @@ public class EaterViewPage extends BasePage {
 
         @Override
         protected List<EaterRelation> load() {
-            List<EaterRelation> eaterRelations = eaterRelationService.getAllActiveRelations(eater);
+            List<EaterRelation> eaterRelations = eaterRelationService.getFriends(eater);
             Collections.sort(eaterRelations);
             return eaterRelations;
+        }
+    }
+
+    private class CommonFriends extends LoadableDetachableModel<List<Eater>> {
+        private Eater eaterA;
+        private Eater eaterB;
+
+        public CommonFriends(Eater eaterA, Eater eaterB) {
+            super();
+            this.eaterA = eaterA;
+            this.eaterB = eaterB;
+        }
+
+        @Override
+        protected List<Eater> load() {
+            List<Eater> eaters = eaterRelationService.getCommonFriends(eaterA, eaterB);
+            Collections.sort(eaters);
+            return eaters;
         }
     }
 

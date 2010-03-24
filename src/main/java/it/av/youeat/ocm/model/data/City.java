@@ -33,6 +33,15 @@ public class City extends BasicEntity implements Comparable<City>{
     private String longitude;
 
     
+    public City() {
+        super();
+    }
+
+    public City(String name) {
+        super();
+        this.name = name;
+    }
+
     public Country getCountry() {
         return country;
     }

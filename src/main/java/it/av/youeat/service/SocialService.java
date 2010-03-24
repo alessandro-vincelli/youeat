@@ -19,16 +19,11 @@ import it.av.youeat.ocm.model.ActivityRistorante;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * Operations and services on social networks
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@Repository
-@Transactional
 public interface SocialService {
 
     /**

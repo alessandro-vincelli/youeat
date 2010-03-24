@@ -1,0 +1,16 @@
+<wicket:panel>
+	<div class="suggestFriendPanelTitle"><h2 wicket:id="title">the title of the page</h2></div>
+	<form wicket:id="form">
+	<div class="buttons suggestFriendButton"><input wicket:id="submit" type="submit" value="" wicket:message="value:suggestNewFriendPanel.sendSuggestionButton"></input></div>
+    <div wicket:id="friendsList" class="smallFriendsList">
+    <div class="smallFriendCenterColumn">
+        <div class="friendAvatar"><img src="#" wicket:id="avatar"></img> </div>
+        <div class="smallFriendName"><strong><span wicket:id="firstname"></span> <span wicket:id="lastname"></span></strong></div>
+    </div>
+    <div class="smallFriendsButton buttons">
+    	<div class="smallFriendName"><input type="checkbox" wicket:id="select"></input></div>
+    </div>
+    </div>
+    <div class="buttons suggestFriendButton"><input wicket:id="submitBottom" type="submit" value="" wicket:message="value:suggestNewFriendPanel.sendSuggestionButton"></input></div>
+    </form>
+</wicket:panel>

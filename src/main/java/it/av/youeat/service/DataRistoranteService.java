@@ -22,16 +22,11 @@ import it.av.youeat.ocm.model.data.Country;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * Services on {@link DataRistorante}
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@Repository
-@Transactional(readOnly = true)
 public interface DataRistoranteService {
 
     /**
@@ -40,7 +35,6 @@ public interface DataRistoranteService {
      * @param risto the Risto to be modified
      * @return DataRistorante
      */
-    @Transactional
     DataRistorante update(DataRistorante risto);
 
     /**
@@ -49,7 +43,6 @@ public interface DataRistoranteService {
      * @param risto the Risto to be inserted
      * @return DataRistorante
      */
-    @Transactional
     DataRistorante insert(DataRistorante risto);
 
     /**
@@ -84,7 +77,6 @@ public interface DataRistoranteService {
      * 
      * @param risto
      */
-    @Transactional
     void remove(DataRistorante risto);
 
     /**
@@ -114,7 +106,6 @@ public interface DataRistoranteService {
     /**
      * create/update lucene index on data_ristorante
      */
-    @Transactional
     void indexData();
 
     /**
@@ -136,5 +127,4 @@ public interface DataRistoranteService {
      * @return found risto
      */
     List<DataRistorante> freeTextSearch(String pattern, String city, String country, int maxResult);
-
 }

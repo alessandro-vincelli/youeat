@@ -22,13 +22,16 @@ import java.util.List;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-public class EaterProfileServiceHibernate extends ApplicationServiceHibernate<EaterProfile> implements
-        EaterProfileService {
+@Repository
+@Transactional(readOnly = true)
+public class EaterProfileServiceHibernate extends ApplicationServiceHibernate<EaterProfile> implements EaterProfileService {
 
     /**
      * {@inheritDoc}
@@ -37,7 +40,7 @@ public class EaterProfileServiceHibernate extends ApplicationServiceHibernate<Ea
     public EaterProfile getRegolarUserProfile() {
         return getByName(EaterProfile.USER);
     }
-    
+
     /**
      * {@inheritDoc}
      */

@@ -107,11 +107,13 @@ public class RistoranteRevision extends BasicEntity{
         super();
         try {
             BeanUtils.copyProperties(risto, this);
+            this.setId(null);
             List<RistoranteDescriptionI18n> copiedDescriptionI18ns = new ArrayList<RistoranteDescriptionI18n>(risto
                     .getDescriptions().size());
             for (RistoranteDescriptionI18n descriptionI18n : risto.getDescriptions()) {
                 RistoranteDescriptionI18n descriptionI18nNew = new RistoranteDescriptionI18n();
                 BeanUtils.copyProperties(descriptionI18n, descriptionI18nNew);
+                descriptionI18nNew.setId(null);
                 copiedDescriptionI18ns.add(descriptionI18nNew);
             }
             this.setDescriptions(copiedDescriptionI18ns);

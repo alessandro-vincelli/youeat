@@ -19,16 +19,11 @@ import it.av.youeat.ocm.model.EaterProfile;
 
 import java.util.Collection;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * Services on the Eater Profile
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@Repository
-@Transactional(readOnly = true)
 public interface EaterProfileService {
     /**
      * Save a EaterProfile
@@ -36,7 +31,6 @@ public interface EaterProfileService {
      * @param object
      * @return just saved profile
      */
-    @Transactional
     EaterProfile save(EaterProfile object);
 
     /**
@@ -51,7 +45,6 @@ public interface EaterProfileService {
      * 
      * @param profile
      */
-    @Transactional
     void remove(EaterProfile profile);
 
     /**
@@ -75,5 +68,4 @@ public interface EaterProfileService {
      * @return the user with the given name
      */
     EaterProfile getByName(String id);
-
 }

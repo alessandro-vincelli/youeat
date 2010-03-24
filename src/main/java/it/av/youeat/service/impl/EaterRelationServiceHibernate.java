@@ -27,16 +27,24 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.Query;
+
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
+@Transactional(readOnly = true)
+@Repository
 public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<EaterRelation> implements EaterRelationService {
 
     @Autowired
@@ -46,6 +54,7 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public EaterRelation addFollowUser(Eater fromUser, Eater toUser) {
         EaterRelation relation = EaterRelation.createFollowRelation(fromUser, toUser);
         relation = save(relation);
@@ -59,6 +68,7 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public EaterRelation addFriendRequest(Eater fromUser, Eater toUser) {
         EaterRelation relation = EaterRelation.createFriendRelation(fromUser, toUser);
         // it's necessary check if we are trying to recreate a relation previously removed
@@ -77,6 +87,7 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public EaterRelation performFriendRequestConfirm(EaterRelation relation) {
         if (relation != null && relation.getStatus().equals(EaterRelation.STATUS_PENDING)
                 && relation.getType().equals(EaterRelation.TYPE_FRIEND)) {
@@ -102,6 +113,7 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public EaterRelation performFriendRequestIgnore(EaterRelation relation) {
         if (relation != null && relation.getStatus().equals(EaterRelation.STATUS_PENDING)
                 && relation.getType().equals(EaterRelation.TYPE_FRIEND)) {
@@ -127,7 +139,7 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
      * {@inheritDoc}
      */
     @Override
-    public List<EaterRelation> getAllFriendUsers(Eater ofUser) {
+    public List<EaterRelation> getFriends(Eater ofUser) {
         Criterion critUser = Restrictions.eq(EaterRelation.FROM_USER, ofUser);
         Criterion critType = Restrictions.eq(EaterRelation.TYPE, EaterRelation.TYPE_FRIEND);
         Criterion critStatus = Restrictions.eq(EaterRelation.STATUS, EaterRelation.STATUS_ACTIVE);
@@ -186,6 +198,7 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void remove(EaterRelation relation) {
         EaterRelation eaterRelation = getByID(relation.getId());
         super.remove(eaterRelation);
@@ -221,10 +234,71 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void removeByEater(Eater eater) {
         Collection<EaterRelation> relations = getRelations(eater);
         for (EaterRelation relation : relations) {
             remove(relation);
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Eater> getCommonFriends(Eater eaterA, Eater eaterB) {
+        String hql = "select toUser from EaterRelation as rel where rel.type = 'friend' and rel.status = 'active' and rel.fromUser = :userA and rel.toUser"
+                + " in "
+                + " (select relB.toUser from EaterRelation as relB where relB.type = 'friend' and relB.status = 'active' and relB.fromUser = :userB) ";
+        Query criteria = getJpaTemplate().getEntityManager().createQuery(hql);
+        criteria.setParameter("userA", eaterA);
+        criteria.setParameter("userB", eaterB);
+        return criteria.getResultList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int countCommonFriends(Eater eaterA, Eater eaterB) {
+        String hql = "select count(rel.toUser) from EaterRelation as rel where type = 'friend' and status = 'active' and rel.fromUser = :userA and rel.toUser"
+                + " in "
+                + " (select relB.toUser from EaterRelation as relB where relB.type = 'friend' and relB.status = 'active' and relB.fromUser = :userB) ";
+        Query criteria = getJpaTemplate().getEntityManager().createQuery(hql);
+        criteria.setParameter("userA", eaterA);
+        criteria.setParameter("userB", eaterB);
+        return ((Long) criteria.getResultList().get(0)).intValue();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int countFriends(Eater eater) {
+        Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
+        Criterion critUser = Restrictions.eq(EaterRelation.FROM_USER, eater);
+        Criterion critType = Restrictions.eq(EaterRelation.TYPE, EaterRelation.TYPE_FRIEND);
+        Criterion critStatus = Restrictions.eq(EaterRelation.STATUS, EaterRelation.STATUS_ACTIVE);
+        criteria.add(critUser);
+        criteria.add(critType);
+        criteria.add(critStatus);
+        criteria.setProjection(Projections.rowCount());
+        return (Integer) criteria.list().get(0);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Eater> getNonCommonFriends(Eater eaterA, Eater eaterB) {
+        String hql = "select toUser from EaterRelation as rel where rel.type = 'friend' and rel.status = 'active' and rel.fromUser = :userA and rel.toUser != :userBToExclude and rel.toUser"
+                + " not in "
+                + " (select relB.toUser from EaterRelation as relB where relB.type = 'friend' and relB.status = 'active' and relB.fromUser = :userB) ";
+        Query criteria = getJpaTemplate().getEntityManager().createQuery(hql);
+        criteria.setParameter("userA", eaterA);
+        criteria.setParameter("userBToExclude", eaterB);
+        criteria.setParameter("userB", eaterB);
+        return criteria.getResultList();
+    }
+
 }

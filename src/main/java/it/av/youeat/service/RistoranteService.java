@@ -24,16 +24,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * Services on Ristoranti
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
-@Repository
-@Transactional(readOnly = true)
 public interface RistoranteService {
     /**
      * Update a ristorante
@@ -42,7 +37,6 @@ public interface RistoranteService {
      * @param user the user that is performing the modification
      * @return ristorante
      */
-    @Transactional
     Ristorante update(Ristorante risto, Eater user);
 
     /**
@@ -52,7 +46,6 @@ public interface RistoranteService {
      * @param user the user that is performing the modification
      * @return ristorante
      */
-    @Transactional
     Ristorante updateAddress(Ristorante risto, Eater user);
 
     /**
@@ -62,7 +55,6 @@ public interface RistoranteService {
      * @param user the user that is performing the modification
      * @return Ristorante
      */
-    @Transactional(readOnly = false)
     Ristorante insert(Ristorante risto, Eater user);
 
     /**
@@ -105,7 +97,6 @@ public interface RistoranteService {
      * 
      * @param risto
      */
-    @Transactional
     void remove(Ristorante risto);
 
     /**
@@ -124,7 +115,6 @@ public interface RistoranteService {
      * @param rate
      * @return just rated risto
      */
-    @Transactional
     Ristorante addRate(Ristorante risto, Eater user, int rate);
 
     /**
@@ -142,7 +132,6 @@ public interface RistoranteService {
      * @param ristorante
      * @return just saved ristorante
      */
-    @Transactional
     Ristorante updateNoRevision(Ristorante ristorante);
 
     /**
@@ -219,6 +208,5 @@ public interface RistoranteService {
     /**
      * create/update lucene index on ristoranti
      */
-    @Transactional
     void indexData();
 }

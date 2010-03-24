@@ -16,7 +16,11 @@ import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(readOnly = true)
+@Repository
 public class ActivityRelationServiceHibernate extends ApplicationServiceHibernate<ActivityEaterRelation> implements
         ActivityRelationService {
 
@@ -106,6 +110,7 @@ public class ActivityRelationServiceHibernate extends ApplicationServiceHibernat
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void removeByEater(Eater eater) {
         Collection<ActivityEaterRelation> activities = findByEater(eater);
         for (ActivityEaterRelation activityEaterRelation : activities) {

@@ -18,14 +18,15 @@ public class BasicEntity implements Serializable {
     @GenericGenerator(name = "generator", strategy = "uuid", parameters = {})
     @GeneratedValue(generator = "generator")
     @Column(updatable = false, length = 36)
-    //@DocumentId
+    // @DocumentId
     private String id;
 
-    /**
-     * @return the id
-     */
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public BasicEntity() {

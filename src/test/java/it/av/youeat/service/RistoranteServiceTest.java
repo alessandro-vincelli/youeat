@@ -101,6 +101,11 @@ public class RistoranteServiceTest extends YoueatTest {
 
         assertNotNull(a.getRevisions());
         assertEquals(a.getRevisions().size(), 1);
+        
+        Collection<Ristorante> all = ristoranteService.getAll();
+        assertNotNull(all);
+        assertTrue(all.size() > 0);
+
 
         // a = ristoranteService.getByPath(a.getPath());
         a = ristoranteService.getByID(a.getId());
@@ -123,11 +128,12 @@ public class RistoranteServiceTest extends YoueatTest {
         } catch (Exception e) {
             // expected
         }
-
-        a = ristoranteService.update(a, user);
+        a = ristoranteService.getByID(a.getId());
         assertTrue("Rates losts after update ", a.getRates().get(0).getRate() == 1);
+        
+        a = ristoranteService.update(a, user);
 
-        Collection<Ristorante> all = ristoranteService.getAll();
+        all = ristoranteService.getAll();
         assertNotNull(all);
         assertTrue(all.size() > 0);
 

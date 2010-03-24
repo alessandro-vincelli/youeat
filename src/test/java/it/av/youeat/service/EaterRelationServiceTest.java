@@ -15,6 +15,7 @@
  */
 package it.av.youeat.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import it.av.youeat.YoueatException;
@@ -76,7 +77,7 @@ public class EaterRelationServiceTest extends YoueatTest {
         b.setLanguage(getLanguage());
         b = userService.addRegolarUser(b);
         assertNotNull("B is null", b);
-        
+
         admin = new Eater();
         admin.setFirstname("admin");
         admin.setLastname("admin");
@@ -135,14 +136,14 @@ public class EaterRelationServiceTest extends YoueatTest {
         friends = userRelationService.getAllRelations(a);
         assertNotNull(friends);
         assertTrue(friends.size() == 1);
-        
+
         friendRel = userRelationService.getRelation(a, b);
         assertNotNull("user relation non present", friendRel);
         assertTrue("user friend status not correct", !friendRel.isActiveFriendRelation());
         assertTrue("user friend status not correct", !friendRel.isFollowingRelation());
 
         userRelationService.performFriendRequestIgnore(relation);
-        friends = userRelationService.getAllFriendUsers(a);
+        friends = userRelationService.getFriends(a);
         assertNotNull(friends);
         assertTrue(friends.size() == 0);
         friends = userRelationService.getAllRelations(a);
@@ -157,33 +158,33 @@ public class EaterRelationServiceTest extends YoueatTest {
         assertNotNull("user relation non present", friendRel);
         assertTrue("user friend status not correct", !friendRel.isActiveFriendRelation());
         assertTrue("user friend status not correct", !friendRel.isFollowingRelation());
-        
+
         userRelationService.remove(relation);
 
         relation = userRelationService.addFriendRequest(a, b);
         assertNotNull(relation);
-        List<EaterRelation> friendRelPending  = userRelationService.getAllPendingFriendRequetToUsers(b);
+        List<EaterRelation> friendRelPending = userRelationService.getAllPendingFriendRequetToUsers(b);
         assertTrue(friendRelPending.size() == 1);
 
         userRelationService.performFriendRequestConfirm(relation);
-        friends = userRelationService.getAllFriendUsers(a);
+        friends = userRelationService.getFriends(a);
         assertNotNull(friends);
         assertTrue(friends.size() == 1);
-        
-        friendRelPending  = userRelationService.getAllPendingFriendRequetToUsers(b);
+
+        friendRelPending = userRelationService.getAllPendingFriendRequetToUsers(b);
         assertTrue(friendRelPending.size() == 0);
-        
+
         try {
             userRelationService.performFriendRequestConfirm(relation);
         } catch (Exception e) {
             // expected
         }
-       
+
         friendRel = userRelationService.getRelation(a, b);
         assertNotNull("user relation non present", friendRel);
         assertTrue("user friend status not correct", friendRel.isActiveFriendRelation());
         assertTrue("user friend status not correct", !friendRel.isFollowingRelation());
-       
+
         activities = activityRelationService.findByEater(a);
         assertTrue(activities.size() == 2);
         assertTrue(activities.get(0).getEaterActivityType().equals(ActivityEaterRelation.TYPE_ARE_FRIENDS));
@@ -197,7 +198,7 @@ public class EaterRelationServiceTest extends YoueatTest {
         assertTrue(activities.get(0).getEaterActivityType().equals(ActivityEaterRelation.TYPE_ARE_FRIENDS));
 
         userRelationService.remove(relation);
-        friends = userRelationService.getAllFriendUsers(a);
+        friends = userRelationService.getFriends(a);
         assertNotNull(friends);
         assertTrue(friends.size() == 0);
 
@@ -209,4 +210,140 @@ public class EaterRelationServiceTest extends YoueatTest {
         assertNotNull(relatedUser);
         assertTrue(relatedUser.size() == 0);
     }
+
+    @Test
+    public void getCommonFriendsTest() {
+
+        Eater c = new Eater();
+        c.setFirstname("Filippo");
+        c.setLastname("Vincelli");
+        c.setPassword("secret");
+        c.setEmail("m.userRelationService@test3.com");
+        c.setCountry(getNocountry());
+        c.setLanguage(getLanguage());
+        c = userService.addRegolarUser(c);
+        assertNotNull("C is null", c);
+
+        List<Eater> result = userRelationService.getCommonFriends(b, c);
+        assertTrue(result.isEmpty());
+        int number = userRelationService.countCommonFriends(b, c);
+        assertEquals(0, number);
+
+        EaterRelation relA2B = userRelationService.addFriendRequest(a, b);
+        number = userRelationService.countCommonFriends(a, b);
+        assertEquals(0, number);
+
+        userRelationService.performFriendRequestConfirm(relA2B);
+
+        result = userRelationService.getCommonFriends(b, c);
+        assertTrue(result.size() == 0);
+        number = userRelationService.countCommonFriends(b, c);
+        assertEquals(0, number);
+
+        EaterRelation relA2C = userRelationService.addFriendRequest(a, c);
+        userRelationService.performFriendRequestConfirm(relA2C);
+
+        result = userRelationService.getCommonFriends(b, c);
+        assertTrue(result.size() == 1);
+        number = userRelationService.countCommonFriends(b, c);
+        assertEquals(1, number);
+
+    }
+
+    @Test
+    public void countFriends() {
+
+        Eater c = new Eater();
+        c.setFirstname("Filippo");
+        c.setLastname("Vincelli");
+        c.setPassword("secret");
+        c.setEmail("m.userRelationService@test3.com");
+        c.setCountry(getNocountry());
+        c.setLanguage(getLanguage());
+        c = userService.addRegolarUser(c);
+        assertNotNull("C is null", c);
+
+        int number = userRelationService.countFriends(b);
+        assertEquals(0, number);
+
+        EaterRelation relA2B = userRelationService.addFriendRequest(a, b);
+        number = userRelationService.countFriends(b);
+        assertEquals(0, number);
+        number = userRelationService.countFriends(a);
+        assertEquals(0, number);
+
+        userRelationService.performFriendRequestConfirm(relA2B);
+
+        number = userRelationService.countFriends(b);
+        assertEquals(1, number);
+        number = userRelationService.countFriends(b);
+        assertEquals(1, number);
+
+        EaterRelation relA2C = userRelationService.addFriendRequest(a, c);
+        number = userRelationService.countFriends(a);
+        assertEquals(1, number);
+        number = userRelationService.countFriends(c);
+        assertEquals(0, number);
+
+        userRelationService.performFriendRequestConfirm(relA2C);
+        number = userRelationService.countFriends(a);
+        assertEquals(2, number);
+        number = userRelationService.countFriends(c);
+        assertEquals(1, number);
+        number = userRelationService.countFriends(b);
+        assertEquals(1, number);
+
+    }
+
+    @Test
+    public void getNonCommonFriendsTest() {
+
+        Eater c = new Eater();
+        c.setFirstname("Filippo");
+        c.setLastname("Vincelli");
+        c.setPassword("secret");
+        c.setEmail("m.userRelationService@test3.com");
+        c.setCountry(getNocountry());
+        c.setLanguage(getLanguage());
+        c = userService.addRegolarUser(c);
+        assertNotNull("C is null", c);
+
+        List<Eater> result = userRelationService.getNonCommonFriends(b, c);
+        assertTrue(result.isEmpty());
+        // friend request A-B
+        EaterRelation relA2B = userRelationService.addFriendRequest(a, b);
+
+        result = userRelationService.getNonCommonFriends(b, c);
+        assertTrue(result.isEmpty());
+        result = userRelationService.getNonCommonFriends(b, a);
+        assertTrue(result.isEmpty());
+        // friend confirm A-B
+        userRelationService.performFriendRequestConfirm(relA2B);
+
+        result = userRelationService.getNonCommonFriends(b, c);
+        assertEquals(1, result.size());
+        result = userRelationService.getNonCommonFriends(c, b);
+        assertEquals(0, result.size());
+
+        result = userRelationService.getNonCommonFriends(a, c);
+        assertEquals(1, result.size());
+        result = userRelationService.getNonCommonFriends(c, a);
+        assertEquals(0, result.size());
+
+        EaterRelation relA2C = userRelationService.addFriendRequest(a, c);
+        userRelationService.performFriendRequestConfirm(relA2C);
+
+        result = userRelationService.getNonCommonFriends(a, c);
+        assertEquals(1, result.size());
+        assertEquals(b, result.get(0));
+        result = userRelationService.getNonCommonFriends(c, a);
+        assertEquals(0, result.size());
+        result = userRelationService.getNonCommonFriends(b, a);
+        assertEquals(0, result.size());
+        result = userRelationService.getNonCommonFriends(a, b);
+        assertEquals(1, result.size());
+        assertEquals(c, result.get(0));
+
+    }
+
 }

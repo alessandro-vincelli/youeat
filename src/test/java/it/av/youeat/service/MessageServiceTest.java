@@ -21,8 +21,11 @@ import it.av.youeat.ocm.model.Dialog;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -88,15 +91,15 @@ public class MessageServiceTest extends YoueatTest {
         assertTrue("Created dialog without receiver", dialog.getSender() != null);
         assertTrue("Created dialog without messages", dialog.getMessages() != null);
         assertTrue("Created dialog without messages", dialog.getMessages().size() == 1);
-        
+
         assertTrue("Wrong number created diallogs", dialogService.countCreatedDialogs(userB) == 1);
         assertTrue("Wrong number created diallogs", dialogService.countCreatedDialogs(userC) == 0);
-        
+
         assertTrue("Wrong number incoming messages", messageService.countIncomingMessages(userC) == 1);
         assertTrue("Wrong number incoming messages", messageService.countIncomingMessages(userB) == 0);
         assertTrue("Wrong number sent messages", messageService.countSentMessages(userC) == 0);
         assertTrue("Wrong number sent messages", messageService.countSentMessages(userB) == 1);
-        
+
         Message msg2 = new Message();
         msg2.setSender(userC);
         msg2.setBody("body2");
@@ -125,10 +128,10 @@ public class MessageServiceTest extends YoueatTest {
         assertTrue(unreadMsgs == 2);
 
     }
-    
+
     @Test
-    public void testRemovedMessage(){
-    	//Verify that after a dialog is tagged as removed it is also removed from the list
+    public void testRemovedMessage() {
+        // Verify that after a dialog is tagged as removed it is also removed from the list
         Message msg = new Message();
         msg.setSender(userB);
         msg.setBody("body");
@@ -137,39 +140,65 @@ public class MessageServiceTest extends YoueatTest {
         Dialog dialog = dialogService.startNewDialog(userB, userC, msg);
 
         List<Dialog> dialogs = dialogService.getDialogs(userC, true);
-        assertTrue("dialogs list empty", dialogs.size() == 1);        
-        
+        assertTrue("dialogs list empty", dialogs.size() == 1);
+
         dialogs = dialogService.getCreatedDialogs(userB);
         assertTrue("dialogs list empty", dialogs.size() == 1);
-       
+
         long unreadMsgs = messageService.countUnreadMessages(userC);
         assertTrue(unreadMsgs == 1);
-        
-        //Dialog deleted by receiver
+
+        // Dialog deleted by receiver
         dialogService.delete(dialog, userC);
-        
+
         dialogs = dialogService.getDialogs(userC, true);
-        assertTrue("dialog not removed", dialogs.size() == 0);    
-        
+        assertTrue("dialog not removed", dialogs.size() == 0);
+
         dialogs = dialogService.getCreatedDialogs(userB);
         assertTrue("dialog removed from sender inbox", dialogs.size() == 1);
-        
+
         unreadMsgs = messageService.countUnreadMessages(userC);
         assertTrue(unreadMsgs == 0);
 
         unreadMsgs = messageService.countMessages(userC);
         assertTrue(unreadMsgs == 0);
-        
-        //Dialog deleted by sender
+
+        // Dialog deleted by sender
         dialogService.delete(dialog, userB);
-        
+
         dialogs = dialogService.getCreatedDialogs(userB);
         assertTrue("dialog not removed", dialogs.size() == 0);
-        
+
         unreadMsgs = messageService.countMessages(userB);
         assertTrue(unreadMsgs == 0);
-
-        
     }
 
+    @Test
+    public void testSuggestNewFriend() {
+        // suggesting one new friend
+        Set<Eater> newFriends = new HashSet<Eater>(1);
+        newFriends.add(userB);
+        dialogService.sendFriendSuggestions(userC, userB, newFriends);
+        List<Dialog> dialogs = dialogService.getDialogs(userB, true);
+        assertTrue(!dialogs.isEmpty());
+        Dialog dialog = dialogs.get(0);
+        assertTrue("Created null dialog", dialog != null);
+        assertTrue(dialog.getSender().equals(userC));
+        assertTrue(dialog.getMessages().first().getSender().equals(userC));
+        assertTrue(StringUtils.contains(dialog.getMessages().first().getBody(), userB.getId()));
+        assertTrue(StringUtils.contains(dialog.getMessages().first().getTitle(), userC.getFirstname()));
+
+        // suggesting multiple new friends
+        newFriends.add(userC);
+        dialogService.sendFriendSuggestions(userB, userC, newFriends);
+        dialogs = dialogService.getDialogs(userC, true);
+        assertTrue(!dialogs.isEmpty());
+        dialog = dialogs.get(0);
+        assertTrue("Created null dialog", dialog != null);
+        assertTrue(dialog.getSender().equals(userB));
+        assertTrue(dialog.getMessages().first().getSender().equals(userB));
+        assertTrue(StringUtils.contains(dialog.getMessages().first().getBody(), userB.getId()));
+        assertTrue(StringUtils.contains(dialog.getMessages().first().getBody(), userC.getId()));
+
+    }
 }

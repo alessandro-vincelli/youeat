@@ -22,7 +22,7 @@
     <div id="extra">
     <wicket:enclosure child="commonFriendsList">
     <span class="titleSmallBold"><wicket:message key="eaterViewPage.commonFriendsTitle" />
-    <wicket:container wicket:id="numberCommonFriend"></wicket:container>
+    (<wicket:container wicket:id="numberCommonFriend"></wicket:container>)
     </span>
     <ul class="friendSmallList">
         <li wicket:id="commonFriendsList">
@@ -34,7 +34,7 @@
     </wicket:enclosure>
     <wicket:enclosure child="friendsList">
     <span class="titleSmallBold"><wicket:message key="eaterViewPage.friendsTitle" />
-    <wicket:container wicket:id="numberOfFriends"></wicket:container></span>
+     (<wicket:container wicket:id="numberOfFriends"></wicket:container>)</span>
     <ul class="friendSmallList">
         <li wicket:id="friendsList">
             <!-- <img wicket:id="type" class="iconActivities"></img>-->

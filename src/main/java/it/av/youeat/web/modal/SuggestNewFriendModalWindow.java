@@ -16,8 +16,7 @@ public final class SuggestNewFriendModalWindow extends ModalWindow {
      */
     public SuggestNewFriendModalWindow(String id) {
         super(id);
-        setHeightUnit("%");
-        setInitialHeight(70);
+        setInitialHeight(400);
         setCssClassName(ModalWindow.CSS_CLASS_GRAY);
         setCookieName("youeat-SuggestNewFriendModalWindow");
     }

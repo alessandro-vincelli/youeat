@@ -68,7 +68,6 @@ public class PasswordRecoverPage extends BasePage {
         add(new SubmitButton("buttonRecoverPassword", pwdRecoverForm));
 
         goSignInAfterRecover = new Link<String>("goSignInAfterRecover") {
-            private static final long serialVersionUID = 1L;
 
             @Override
             public void onClick() {
@@ -81,7 +80,6 @@ public class PasswordRecoverPage extends BasePage {
     }
 
     private class SubmitButton extends AjaxButton {
-        private static final long serialVersionUID = 1L;
 
         public SubmitButton(String id, Form<PasswordRecoverBean> form) {
             super(id, form);

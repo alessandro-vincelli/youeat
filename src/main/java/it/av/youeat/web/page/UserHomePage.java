@@ -134,6 +134,7 @@ public class UserHomePage extends BasePage {
             }
         };
         activitiesListContainer.add(moreActivitiesLink);
+        activitiesListContainer.setVisible(activities.size() > 0);
         // Random list view
         RistosListView lastRistosList = new RistosListView("ristosList", ristoranteService.getRandom(10));          
         add(lastRistosList);

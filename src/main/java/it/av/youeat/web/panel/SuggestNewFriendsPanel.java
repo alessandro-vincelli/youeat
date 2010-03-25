@@ -7,12 +7,14 @@ import it.av.youeat.web.components.ImagesAvatar;
 import it.av.youeat.web.modal.SuggestNewFriendModalWindow;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
 import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -51,10 +53,11 @@ public class SuggestNewFriendsPanel extends Panel {
         add(new Label("title", getString("suggestNewFriendPanel.title", new Model<Eater>(recipient))));
         Form form = new Form("form");
         add(form);
-        form.add(new SubmitButton("submit", form, modalWindow, sender, recipient));
-        form.add(new SubmitButton("submitBottom", form, modalWindow, sender, recipient));
-        PropertyListView<Eater> friendsListView = new PropertyListView<Eater>("friendsList", eaterRelationService
-                .getNonCommonFriends(sender, recipient)) {
+        List<Eater> listOfNonCommonFriends = eaterRelationService.getNonCommonFriends(sender, recipient);
+        form.add(new SubmitButton("submit", form, modalWindow, sender, recipient).setVisible(listOfNonCommonFriends.size() > 0));
+        form.add(new SubmitButton("submitBottom", form, modalWindow, sender, recipient)
+                .setVisible(listOfNonCommonFriends.size() > 0));
+        PropertyListView<Eater> friendsListView = new PropertyListView<Eater>("friendsList", listOfNonCommonFriends) {
             @Override
             protected void populateItem(final ListItem<Eater> item) {
                 item.add(ImagesAvatar.getAvatar("avatar", item.getModelObject(), this.getPage(), true));
@@ -73,8 +76,9 @@ public class SuggestNewFriendsPanel extends Panel {
             }
         };
         form.add(friendsListView.setOutputMarkupId(true));
+        form.add(new WebMarkupContainer("noFriendsToSuggest").setVisible(listOfNonCommonFriends.size() == 0));
     }
-    
+
     private final class SubmitButton extends AjaxButton {
         private final SuggestNewFriendModalWindow modalWindow;
         private final Eater sender;

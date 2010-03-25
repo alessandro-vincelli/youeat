@@ -8,6 +8,7 @@
     </div>
     </div>
     <div id="extra">
+    <wicket:enclosure child="activitiesListContainer">
     <span class="titleSmallBold"><wicket:message key="homePage.lastActivities" /></span>
     <span wicket:id="activitiesListContainer">
     <ul class="activitiesList">
@@ -21,6 +22,7 @@
     </ul>
     <div class="moreActivitiesArea"><a href="#" wicket:id="moreActivitiesLink">more</a></div>
     </span>
+    </wicket:enclosure>
     </div>
     <div id="navigation">
     <span class="titleSmallBold"><wicket:message key="homePage.randomRisto" /></span>

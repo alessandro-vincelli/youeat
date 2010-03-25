@@ -5,6 +5,7 @@ package it.av.youeat.service.system;
 
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
+import it.av.youeat.util.TemplateUtil;
 import it.av.youeat.web.Locales;
 
 import java.util.Date;
@@ -27,6 +28,8 @@ public class MailServiceImpl implements MailService {
     private SimpleMailMessage notificationTemplateMessage;
     @Autowired
     private MessageSource messageSource;
+    @Autowired
+    private TemplateUtil templateUtil;
     
     /**
      * {@inheritDoc}
@@ -66,7 +69,8 @@ public class MailServiceImpl implements MailService {
             textBody.append(message.getTitle());
             textBody.append("\n\n");
         }
-        textBody.append(message.getBody());
+        String body = templateUtil.resolveTemplateEater(message, true, null);
+        textBody.append(body);
         textBody.append("\n\n");
         textBody.append("http://www.youeat.org");
         textBody.append("\n");

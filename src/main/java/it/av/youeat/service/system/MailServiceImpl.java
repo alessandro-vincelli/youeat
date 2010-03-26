@@ -126,6 +126,9 @@ public class MailServiceImpl implements MailService {
             textBody.append(messageSource.getMessage("mail.suggestNewFriend.body", paramsBody, locale));
             textBody.append("\n");
             textBody.append(generatorURL.getEaterUrl(eaterToSuggest));
+            textBody.append("\n\n");
+            textBody.append("http://www.youeat.org");
+            textBody.append("\n");
             return textBody.toString();
         } else {
             // params [1=sender]
@@ -144,6 +147,9 @@ public class MailServiceImpl implements MailService {
             // params [1=sender], [2=newFriendListCommaSepared]
             Object[] params2 = { sender.toString(), friendsList.toString() };
             textBody.append(messageSource.getMessage("mail.suggestNewFriend.bodyMultipleUsers", params2, locale));
+            textBody.append("\n\n");
+            textBody.append("http://www.youeat.org");
+            textBody.append("\n");
             return textBody.toString();
         }
     }

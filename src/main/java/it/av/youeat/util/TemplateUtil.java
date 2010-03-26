@@ -26,6 +26,12 @@ public class TemplateUtil {
     private EaterService eaterService;
     private YouetGeneratorURL youetGeneratorURL;
     
+    /**
+     * default constructor
+     */
+    public TemplateUtil() {
+    }
+    
     @Autowired
     public TemplateUtil(EaterService eaterService, YouetGeneratorURL youetGeneratorURL) {
         Assert.notNull(eaterService);

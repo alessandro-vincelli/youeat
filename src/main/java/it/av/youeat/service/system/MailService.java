@@ -3,10 +3,10 @@
  */
 package it.av.youeat.service.system;
 
-import java.util.Set;
-
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
+
+import java.util.Set;
 
 /**
  * Creates and sends email from Youeat

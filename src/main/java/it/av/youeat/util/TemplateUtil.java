@@ -7,6 +7,7 @@ import it.av.youeat.web.url.YouetGeneratorURL;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 
 /**
  * 
@@ -21,10 +22,17 @@ public class TemplateUtil {
     public static final String OPEN_EATER_DOUBLE_CURLYBRACKETS = "{{user ";
     public static final String CLOSE_DOUBLE_CURLYBRACKETS = "}}";
     public static final String USER = "user";
+    
+    private EaterService eaterService;
+    private YouetGeneratorURL youetGeneratorURL;
+    
     @Autowired
-    EaterService eaterService;
-    @Autowired
-    YouetGeneratorURL youetGeneratorURL;
+    public TemplateUtil(EaterService eaterService, YouetGeneratorURL youetGeneratorURL) {
+        Assert.notNull(eaterService);
+        Assert.notNull(youetGeneratorURL);
+        this.eaterService = eaterService;
+        this.youetGeneratorURL = youetGeneratorURL;
+    }
 
     /**
      * Generate a template for an eater using the eater id, like: {{user ID}}
@@ -79,7 +87,7 @@ public class TemplateUtil {
      * @param className class name for a custom CSS style (optional) 
      * @return eater name, with link if requested
      */
-    String extractNameAndUrls(Eater eater, boolean generateLink, String className) {
+    public String extractNameAndUrls(Eater eater, boolean generateLink, String className) {
         StringBuffer buffer = new StringBuffer();
         if (generateLink) {
             String url = youetGeneratorURL.getEaterUrl(eater);

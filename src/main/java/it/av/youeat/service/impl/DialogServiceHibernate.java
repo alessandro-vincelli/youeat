@@ -176,6 +176,20 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
     @Override
     @Transactional
     public Dialog startNewDialog(Eater sender, Eater recipient, Message message) {
+        return startNewDialog(sender, recipient, message, true);
+    }
+
+    /**
+     * Create a new dialog containing the new message.
+     * 
+     * @param sender the creator of the dialog
+     * @param recipient the receiver of the first message of the dialog
+     * @param message to send
+     * @param sendNotifcation true to send email notification to the recipient
+     * @return the created dialog
+     */
+    @Transactional
+    Dialog startNewDialog(Eater sender, Eater recipient, Message message, boolean sendNotifcation) {
         message.setSentTime(DateUtil.getTimestamp());
         message.setSender(sender);
         Dialog dialog = new Dialog();
@@ -185,7 +199,9 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         dialog.getMessages().add(message);
         message.setDialog(dialog);
         dialog = save(dialog);
-        sendNotification(recipient, message);
+        if (sendNotifcation) {
+            sendNotification(recipient, message);
+        }
         return dialog;
     }
 
@@ -228,7 +244,9 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         Assert.assertNotNull(friendsToSuggest);
         if (!friendsToSuggest.isEmpty()) {
             Message message = createMessageForFriendSuggestion(sender, friendsToSuggest, recipient);
-            startNewDialog(sender, recipient, message);
+            startNewDialog(sender, recipient, message, false);
+            //send a custom mail notification
+            sendFriendSuggestionNotification(sender, friendsToSuggest, recipient);
         }
     }
 
@@ -270,6 +288,23 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
             Object[] params2 = { TemplateUtil.templateEater(sender), friendsList.toString() };
             textBody.append(messageSource.getMessage("suggestNewFriend.bodyMultipleUsers", params2, locale));
             return new Message(title, textBody.toString());
+        }
+    }
+    
+
+    /**
+     * Send a notification about the friend suggestion
+     *  
+     * @param sender the sender of the suggestion
+     * @param friendsToSuggest list of friend to suggest
+     * @param recipient the recipient of the suggestions and the recipient of the email notification
+     */
+    void sendFriendSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient) {
+        if (recipient.isSocialNetworkEater()) {
+            // TODO
+            //socialService.sendMessageReceivedNotification(recipient, message);
+        } else {
+            mailService.sendFriendSuggestionNotification(sender, friendsToSuggest, recipient);
         }
     }
 

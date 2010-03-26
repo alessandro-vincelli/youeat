@@ -7,9 +7,12 @@ import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 import it.av.youeat.util.TemplateUtil;
 import it.av.youeat.web.Locales;
+import it.av.youeat.web.url.YouetGeneratorURL;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +33,9 @@ public class MailServiceImpl implements MailService {
     private MessageSource messageSource;
     @Autowired
     private TemplateUtil templateUtil;
-    
+    @Autowired
+    private YouetGeneratorURL generatorURL;
+
     /**
      * {@inheritDoc}
      */
@@ -99,6 +104,61 @@ public class MailServiceImpl implements MailService {
         textBody.append("http://www.youeat.org");
         textBody.append("\n");
         return textBody.toString();
+    }
+
+    @Override
+    public void sendFriendSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient) {
+        SimpleMailMessage m = new SimpleMailMessage(notificationTemplateMessage);
+        m.setTo(recipient.getEmail());
+        m.setSubject(prepareTitleFortSuggestionNotification(sender, friendsToSuggest, recipient));
+        m.setText(prepareMailTextSuggestionNotification(sender, friendsToSuggest, recipient));
+        m.setSentDate(new Date(System.currentTimeMillis()));
+        javaMailSender.send(m);
+    }
+
+    private String prepareMailTextSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient) {
+        Locale locale = Locales.getSupportedLocale(recipient.getLanguage().getLanguage());
+        if (friendsToSuggest.size() == 1) {
+            Eater eaterToSuggest = friendsToSuggest.iterator().next();
+            StringBuffer textBody = new StringBuffer();
+            // params [1=sender], [2=newFriend]
+            Object[] paramsBody = { sender, eaterToSuggest };
+            textBody.append(messageSource.getMessage("mail.suggestNewFriend.body", paramsBody, locale));
+            textBody.append("\n");
+            textBody.append(generatorURL.getEaterUrl(eaterToSuggest));
+            return textBody.toString();
+        } else {
+            // params [1=sender]
+            StringBuffer friendsList = new StringBuffer();
+            for (Iterator<Eater> iterator = friendsToSuggest.iterator(); iterator.hasNext();) {
+                Eater eaterToSuggest = (Eater) iterator.next();
+                friendsList.append(eaterToSuggest);
+                friendsList.append("\n");
+                friendsList.append(eaterToSuggest);
+                if (iterator.hasNext()) {
+                    friendsList.append("\n");
+                    friendsList.append("\n");
+                }
+            }
+            StringBuffer textBody = new StringBuffer();
+            // params [1=sender], [2=newFriendListCommaSepared]
+            Object[] params2 = { templateUtil.extractNameAndUrls(sender, true, null), friendsList.toString() };
+            textBody.append(messageSource.getMessage("mail.suggestNewFriend.bodyMultipleUsers", params2, locale));
+            return textBody.toString();
+        }
+    }
+
+    private String prepareTitleFortSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient) {
+        Locale locale = Locales.getSupportedLocale(recipient.getLanguage().getLanguage());
+        if (friendsToSuggest.size() == 1) {
+            // params [1=sender]
+            Object[] params = { sender.getFirstname() };
+            return messageSource.getMessage("mail.suggestNewFriend.title", params, locale);
+        } else {
+            // params [1=sender]
+            Object[] params = { sender.getFirstname() };
+            return messageSource.getMessage("mail.suggestNewFriend.titleMultipleUsers", params, locale);
+        }
     }
 
 }

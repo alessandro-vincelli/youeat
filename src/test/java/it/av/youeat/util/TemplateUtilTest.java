@@ -9,17 +9,25 @@ import it.av.youeat.ocm.model.Message;
 import it.av.youeat.service.EaterService;
 import it.av.youeat.web.url.YouetGeneratorURL;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class TemplateUtilTest {
 
+    private YouetGeneratorURL mockGeneratorURL;
+    private EaterService eaterService; 
+    
+    @Before
+    public void setUp(){
+        mockGeneratorURL = mock(YouetGeneratorURL.class);
+        eaterService = mock(EaterService.class);
+    }
+    
     @Test
     public void resolveTemplateEaterTest() {
-        EaterService eaterService = mock(EaterService.class);
         Eater eater = new Eater("pwd", "Dante", "Cruciani", "email");
         eater.setId("1234");
-        TemplateUtil util = new TemplateUtil();
-        util.eaterService = eaterService;
+        TemplateUtil util = new TemplateUtil(eaterService, mockGeneratorURL);
         when(eaterService.getByID("1234")).thenReturn(eater);
 
         String template = TemplateUtil.templateEater(eater);
@@ -41,14 +49,12 @@ public class TemplateUtilTest {
         // test without link
         Eater eater = new Eater("pwd", "Dante", "Cruciani", "email");
         eater.setId("1234");
-        TemplateUtil util = new TemplateUtil();
+        TemplateUtil util = new TemplateUtil(eaterService, mockGeneratorURL);
         String result = util.extractNameAndUrls(eater, false, null);
         assertEquals("Dante Cruciani", result);
 
         // test with link
-        util = new TemplateUtil();
-        YouetGeneratorURL mockGeneratorURL = mock(YouetGeneratorURL.class);
-        util.youetGeneratorURL = mockGeneratorURL;
+        util = new TemplateUtil(eaterService, mockGeneratorURL);
         when(mockGeneratorURL.getEaterUrl(eater)).thenReturn("http://www.youeat.org/viewUser/id...");
         result = util.extractNameAndUrls(eater, true, null);
         assertEquals("<a href=\"http://www.youeat.org/viewUser/id...\">Dante Cruciani</a>", result);
@@ -58,7 +64,6 @@ public class TemplateUtilTest {
 
     @Test
     public void resolveTemplateEaterTest_extractingURLS() {
-        EaterService eaterService = mock(EaterService.class);
         Eater eater = new Eater("pwd", "Dante", "Cruciani", "email");
         eater.setId("1234");
         Eater eater2 = new Eater("pwd", "Marcello", "Mastroianni", "email2");
@@ -66,8 +71,7 @@ public class TemplateUtilTest {
         Eater eater3 = new Eater("pwd", "Paolo", "Rossi", "email3");
         eater3.setId("1236");
 
-        TemplateUtil util = new TemplateUtil();
-        util.eaterService = eaterService;
+        TemplateUtil util = new TemplateUtil(eaterService, mockGeneratorURL);
         when(eaterService.getByID("1234")).thenReturn(eater);
         when(eaterService.getByID("1235")).thenReturn(eater2);
         when(eaterService.getByID("1236")).thenReturn(eater3);
@@ -82,8 +86,7 @@ public class TemplateUtilTest {
 
         // test extractin urls
         // youetGeneratorURL
-        YouetGeneratorURL mockGeneratorURL = mock(YouetGeneratorURL.class);
-        util.youetGeneratorURL = mockGeneratorURL;
+        
         when(mockGeneratorURL.getEaterUrl(any(Eater.class))).thenReturn("http://link/");
         result = util.resolveTemplateEater(msg, true, null);
         assertEquals(

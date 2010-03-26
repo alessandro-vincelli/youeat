@@ -75,7 +75,7 @@ public class WebPageIntegrationTest {
         assertTrue(StringUtils.contains(selenium.getBodyText(), "RistoAlessandro"));
         selenium.click("link=Info");
         selenium.waitForPageToLoad("3000");
-        assertTrue(StringUtils.contains(selenium.getBodyText(), "YouEat vuole essere: "));
+        assertTrue(StringUtils.contains(selenium.getBodyText(), "Free and Open Source"));
 
     }
 }

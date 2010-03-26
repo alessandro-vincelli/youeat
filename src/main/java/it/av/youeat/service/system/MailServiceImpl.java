@@ -134,7 +134,7 @@ public class MailServiceImpl implements MailService {
                 Eater eaterToSuggest = (Eater) iterator.next();
                 friendsList.append(eaterToSuggest);
                 friendsList.append("\n");
-                friendsList.append(eaterToSuggest);
+                friendsList.append(generatorURL.getEaterUrl(eaterToSuggest));
                 if (iterator.hasNext()) {
                     friendsList.append("\n");
                     friendsList.append("\n");
@@ -142,7 +142,7 @@ public class MailServiceImpl implements MailService {
             }
             StringBuffer textBody = new StringBuffer();
             // params [1=sender], [2=newFriendListCommaSepared]
-            Object[] params2 = { templateUtil.extractNameAndUrls(sender, true, null), friendsList.toString() };
+            Object[] params2 = { sender.toString(), friendsList.toString() };
             textBody.append(messageSource.getMessage("mail.suggestNewFriend.bodyMultipleUsers", params2, locale));
             return textBody.toString();
         }

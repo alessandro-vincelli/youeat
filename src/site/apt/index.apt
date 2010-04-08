@@ -1,5 +1,0 @@
-Overview
-
-  <<YouEat>> is wiki and social network platform to share food and drink experiences. \
-  The Idea behind YouEat is create an open community that share informations and enjoy together the "meal time".\
-  <<YouEat>> uses <<Apache Wicket>>, <<Spring>>,<<Hibernate>> and <<Apache Lucene>> and is 100% open source.

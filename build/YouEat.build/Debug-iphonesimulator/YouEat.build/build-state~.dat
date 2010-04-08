@@ -1,0 +1,255 @@
+TYouEat
+v7
+r0
+t292448226.970511
+cCheck dependencies
+cProcessInfoPlistFile /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/Info.plist YouEat-Info.plist
+cCompileXIB /Users/alessandro/Documents/iphone-apps/YouEat/MainWindow.xib
+cCompileXIB /Users/alessandro/Documents/iphone-apps/YouEat/RootViewController.xib
+cProcessPCH /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch.gch YouEat_Prefix.pch normal i386 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/main.o /Users/alessandro/Documents/iphone-apps/YouEat/main.m normal i386 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/YouEatAppDelegate.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.m normal i386 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/RootViewController.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m normal i386 objective-c com.apple.compilers.gcc.4_2
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk
+c000000004B6D9DEE00000000000000EE
+t1265475054
+s238
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics
+c000000004B2B4CC3000000000026EE30
+t1261128899
+s2551344
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/Foundation.framework/Foundation
+c000000004B2B4DC8000000000027E880
+t1261129160
+s2615424
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h
+c000000004B2B4DAE0000000000001355
+t1261129134
+s4949
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.h
+c000000004B2B61620000000000000788
+t1261134178
+s1928
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/UIKit.framework/UIKit
+c000000004B2B62B500000000016721E0
+t1261134517
+s23536096
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/usr/include/Availability.h
+c000000004B2B4EE200000000000019F9
+t1261129442
+s6649
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.h
+c000000004BBE2F3200000000000000F7
+t1270755122
+s247
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m
+c000000004BBE304E0000000000001831
+t1270755406
+s6193
+i"RootViewController.h"
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.h
+c000000004BBE2EED00000000000001BF
+t1270755053
+s447
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.m
+c000000004BBE2EED000000000000033A
+t1270755053
+s826
+i"YouEatAppDelegate.h"
+i"RootViewController.h"
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/MainWindow.xib
+c000000004BBE2EED0000000000002C5D
+t1270755053
+s11357
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/RootViewController.xib
+c000000004BBE2EED0000000000004320
+t1270755053
+s17184
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/YouEat_Prefix.pch
+c000000004BBE2EED000000000000013E
+t1270755053
+s318
+i<Availability.h>
+i<Foundation/Foundation.h>
+i<UIKit/UIKit.h>
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app
+t2
+s0
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app.dSYM
+t2
+s0
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/Info.plist
+t1270755419
+s560
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/MainWindow.nib
+t1270755424
+s2011
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/PkgInfo
+t1270755419
+s8
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/RootViewController.nib
+t1270755424
+s1388
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/YouEat
+t2
+s0
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/RootViewController.o
+t2
+s0
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/YouEat.LinkFileList
+c000000004BBE305B000000000000019B
+t1270755419
+s411
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/YouEatAppDelegate.o
+t1270755426
+s39844
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/main.o
+t1270755426
+s5972
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/main.m
+c000000004BBE2EED0000000000000170
+t1270755053
+s368
+i<UIKit/UIKit.h>
+
+N/var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch.gch
+t1270755426
+s13034960
+
+NYouEat-Info.plist
+c000000004BBE2EED000000000000038D
+t1270755053
+s909
+
+CCheck dependencies
+r0
+lSLF07#2@18"Check dependencies292448219#292448219#0(0"0(0#1#0"7947009927035180032#0"0#
+
+CCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/RootViewController.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m normal i386 objective-c com.apple.compilers.gcc.4_2
+s292448226.845005
+e292448226.970431
+r0
+xCompileC
+xbuild/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/RootViewController.o
+x/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m: In function '-[RootViewController viewDidLoad]':
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:19: error: 'responseData' undeclared (first use in this function)
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:19: error: (Each undeclared identifier is reported only once
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:19: error: for each function it appears in.)
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m: In function '-[RootViewController tableView:cellForRowAtIndexPath:]':
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:95: warning: 'setText:' is deprecated (declared at /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UITableViewCell.h:200)
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m: In function '-[RootViewController connection:didReceiveResponse:]':
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:154: error: 'responseData' undeclared (first use in this function)
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m: In function '-[RootViewController connection:didReceiveData:]':
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:158: error: 'responseData' undeclared (first use in this function)
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m: In function '-[RootViewController connectionDidFinishLoading:]':
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:168: error: 'responseData' undeclared (first use in this function)
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:172: error: 'SBJSON' undeclared (first use in this function)
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:172: error: 'json' undeclared (first use in this function)
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:194: warning: unused variable 'value'
+o/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:180: warning: unused variable 'text'
+lSLF07#2@83"Compile /Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m292448226#292448226#0(2315"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m: In function '-[RootViewController viewDidLoad]':/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:19: error: 'responseData' undeclared (first use in this function)/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:19: error: (Each undeclared identifier is reported only once/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:19: error: for each function it appears in.)/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m: In function '-[RootViewController tableView:cellForRowAtIndexPath:]':/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:95: warning: 'setText:' is deprecated (declared at /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UITableViewCell.h:200)/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m: In function '-[RootViewController connection:didReceiveResponse:]':/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:154: error: 'responseData' undeclared (first use in this function)/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m: In function '-[RootViewController connection:didReceiveData:]':/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:158: error: 'responseData' undeclared (first use in this function)/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m: In function '-[RootViewController connectionDidFinishLoading:]':/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:168: error: 'responseData' undeclared (first use in this function)/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:172: error: 'SBJSON' undeclared (first use in this function)/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:172: error: 'json' undeclared (first use in this function)/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:194: warning: unused variable 'value'/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m:180: warning: unused variable 'text'9(4@54"'responseData' undeclared (first use in this function)292448226#126#142#0(6@75"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m292448206#19#0#19#0#43"'*' undeclared (first use in this function)0(22@196"'setText:' is deprecated (declared at /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UITableViewCell.h:200)292448226#673#286#0(6@75"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m292448206#95#0#95#0#33"'*' is deprecated (declared at *)0(4@54"'responseData' undeclared (first use in this function)292448226#1104#143#0(6@75"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m292448206#154#0#154#0#43"'*' undeclared (first use in this function)0(4@54"'responseData' undeclared (first use in this function)292448226#1388#143#0(6@75"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m292448206#158#0#158#0#43"'*' undeclared (first use in this function)0(4@54"'responseData' undeclared (first use in this function)292448226#1673#143#0(6@75"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m292448206#168#0#168#0#43"'*' undeclared (first use in this function)0(4@48"'SBJSON' undeclared (first use in this function)292448226#1816#137#0(6@75"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m292448206#172#0#172#0#43"'*' undeclared (first use in this function)0(4@46"'json' undeclared (first use in this function)292448226#1953#135#0(6@75"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m292448206#172#0#172#0#43"'*' undeclared (first use in this function)0(22@23"Unused variable 'value'292448226#2088#114#0(6@75"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m292448206#194#0#194#0#19"unused variable '*'0(22@22"Unused variable 'text'292448226#2202#113#0(6@75"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m292448206#180#0#180#0#19"unused variable '*'0(0#0#75"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m4300885448#1963"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk -fvisibility=hidden -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-generated-files.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-own-target-headers.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-all-target-headers.hmap -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-project-headers.hmap -F/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -I/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/include -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources/i386 -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources -include /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch -c /Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m -o /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/RootViewController.o1#
+
+CCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/YouEatAppDelegate.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.m normal i386 objective-c com.apple.compilers.gcc.4_2
+s292448226.772375
+e292448226.867954
+r1
+xCompileC
+xbuild/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/YouEatAppDelegate.o
+x/Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.m
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@82"Compile /Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.m292448226#292448226#0(0"0(0#0#74"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.m4300885448#1961"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk -fvisibility=hidden -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-generated-files.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-own-target-headers.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-all-target-headers.hmap -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-project-headers.hmap -F/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -I/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/include -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources/i386 -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources -include /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch -c /Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.m -o /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/YouEatAppDelegate.o0#
+
+CCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/main.o /Users/alessandro/Documents/iphone-apps/YouEat/main.m normal i386 objective-c com.apple.compilers.gcc.4_2
+s292448226.680776
+e292448226.844910
+r1
+xCompileC
+xbuild/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/main.o
+x/Users/alessandro/Documents/iphone-apps/YouEat/main.m
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@61"Compile /Users/alessandro/Documents/iphone-apps/YouEat/main.m292448226#292448226#0(0"0(0#0#53"/Users/alessandro/Documents/iphone-apps/YouEat/main.m4300885448#1927"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk -fvisibility=hidden -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-generated-files.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-own-target-headers.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-all-target-headers.hmap -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-project-headers.hmap -F/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -I/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/include -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources/i386 -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources -include /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch -c /Users/alessandro/Documents/iphone-apps/YouEat/main.m -o /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/main.o0#
+
+CCompileXIB /Users/alessandro/Documents/iphone-apps/YouEat/MainWindow.xib
+s292448219.561600
+e292448224.277071
+r1
+xCompileXIB
+x/Users/alessandro/Documents/iphone-apps/YouEat/MainWindow.xib
+lSLF07#2@25"CompileXIB MainWindow.xib292448219#292448224#0(0"0(0#0#61"/Users/alessandro/Documents/iphone-apps/YouEat/MainWindow.xib4300885448#505"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv IBC_MINIMUM_COMPATIBILITY_VERSION 3.1.3    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/MainWindow.nib /Users/alessandro/Documents/iphone-apps/YouEat/MainWindow.xib0#
+
+CCompileXIB /Users/alessandro/Documents/iphone-apps/YouEat/RootViewController.xib
+s292448219.615845
+e292448224.271733
+r1
+xCompileXIB
+x/Users/alessandro/Documents/iphone-apps/YouEat/RootViewController.xib
+lSLF07#2@33"CompileXIB RootViewController.xib292448219#292448224#0(0"0(0#0#69"/Users/alessandro/Documents/iphone-apps/YouEat/RootViewController.xib4300885448#521"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv IBC_MINIMUM_COMPATIBILITY_VERSION 3.1.3    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/RootViewController.nib /Users/alessandro/Documents/iphone-apps/YouEat/RootViewController.xib0#
+
+CGenerateDSYMFile /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app.dSYM /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/YouEat
+r0
+
+CLd /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/YouEat normal i386
+r0
+
+CProcessInfoPlistFile /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/Info.plist YouEat-Info.plist
+s292448219.475758
+e292448219.561280
+r1
+xProcessInfoPlistFile
+x/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/Info.plist
+xYouEat-Info.plist
+lSLF07#2@25"Process YouEat-Info.plist292448219#292448219#0(0"0(0#0#64"/Users/alessandro/Documents/iphone-apps/YouEat/YouEat-Info.plist30399748463984736#500"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    builtin-infoPlistUtility YouEat-Info.plist -genpkginfo /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -o /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/Info.plist0#
+
+CProcessPCH /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch.gch YouEat_Prefix.pch normal i386 objective-c com.apple.compilers.gcc.4_2
+s292448224.277230
+e292448226.680585
+r1
+xProcessPCH
+x/var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch.gch
+xYouEat_Prefix.pch
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@28"Precompile YouEat_Prefix.pch292448224#292448226#0(0"0(0#0#64"/Users/alessandro/Documents/iphone-apps/YouEat/YouEat_Prefix.pch4300885448#1812"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c-header -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk -fvisibility=hidden -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-generated-files.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-own-target-headers.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-all-target-headers.hmap -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-project-headers.hmap -F/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -I/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/include -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources/i386 -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources -c /Users/alessandro/Documents/iphone-apps/YouEat/YouEat_Prefix.pch -o /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch.gch0#
+
+CTouch /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app
+r0
+

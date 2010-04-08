@@ -1,0 +1,455 @@
+TYouEat
+v7
+r0
+t292458764.413991
+cCheck dependencies
+cProcessInfoPlistFile /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/Info.plist YouEat-Info.plist
+cCompileXIB /Users/alessandro/Documents/iphone-apps/YouEat/MainWindow.xib
+cCompileXIB /Users/alessandro/Documents/iphone-apps/YouEat/RootViewController.xib
+cProcessPCH /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch.gch YouEat_Prefix.pch normal i386 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/main.o /Users/alessandro/Documents/iphone-apps/YouEat/main.m normal i386 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/YouEatAppDelegate.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.m normal i386 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/RootViewController.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m normal i386 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/NSObject+SBJSON.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSObject+SBJSON.m normal i386 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/NSString+SBJSON.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSString+SBJSON.m normal i386 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJSON.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJSON.m normal i386 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJsonBase.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonBase.m normal i386 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJsonParser.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonParser.m normal i386 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJsonWriter.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonWriter.m normal i386 objective-c com.apple.compilers.gcc.4_2
+cLd /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/YouEat normal i386
+cGenerateDSYMFile /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app.dSYM /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/YouEat
+cTouch /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk
+c000000004B6D9DEE00000000000000EE
+t1265475054
+s238
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics
+c000000004B2B4CC3000000000026EE30
+t1261128899
+s2551344
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/Foundation.framework/Foundation
+c000000004B2B4DC8000000000027E880
+t1261129160
+s2615424
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h
+c000000004B2B4DAE0000000000001355
+t1261129134
+s4949
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.h
+c000000004B2B61620000000000000788
+t1261134178
+s1928
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/System/Library/Frameworks/UIKit.framework/UIKit
+c000000004B2B62B500000000016721E0
+t1261134517
+s23536096
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk/usr/include/Availability.h
+c000000004B2B4EE200000000000019F9
+t1261129442
+s6649
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/JSON.h
+c000000004B93BE5E00000000000008F9
+t1267973726
+s2297
+i"SBJSON.h"
+i"NSObject+SBJSON.h"
+i"NSString+SBJSON.h"
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSObject+SBJSON.h
+c000000004B93BE5E0000000000000A01
+t1267973726
+s2561
+i<Foundation/Foundation.h>
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSObject+SBJSON.m
+c000000004B93BE5E000000000000089E
+t1267973726
+s2206
+i"NSObject+SBJSON.h"
+i"SBJsonWriter.h"
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSString+SBJSON.h
+c000000004B93BE5E0000000000000916
+t1267973726
+s2326
+i<Foundation/Foundation.h>
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSString+SBJSON.m
+c000000004B93BE5E000000000000087D
+t1267973726
+s2173
+i"NSString+SBJSON.h"
+i"SBJsonParser.h"
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJSON.h
+c000000004B93BE5E0000000000000AED
+t1267973726
+s2797
+i<Foundation/Foundation.h>
+i"SBJsonParser.h"
+i"SBJsonWriter.h"
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJSON.m
+c000000004B93BE5E0000000000001ABC
+t1267973726
+s6844
+i"SBJSON.h"
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonBase.h
+c000000004B93BE5E0000000000000B82
+t1267973726
+s2946
+i<Foundation/Foundation.h>
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonBase.m
+c000000004B93BE5E0000000000000AC1
+t1267973726
+s2753
+i"SBJsonBase.h"
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonParser.h
+c000000004B93BE5E0000000000000C0B
+t1267973726
+s3083
+i<Foundation/Foundation.h>
+i"SBJsonBase.h"
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonParser.m
+c000000004B93C6A300000000000036D0
+t1267975843
+s14032
+i"SBJsonParser.h"
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonWriter.h
+c000000004B93BE5E0000000000001140
+t1267973726
+s4416
+i<Foundation/Foundation.h>
+i"SBJsonBase.h"
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonWriter.m
+c000000004B93BE5E0000000000001F26
+t1267973726
+s7974
+i"SBJsonWriter.h"
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.h
+c000000004BBE307F0000000000000115
+t1270755455
+s277
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m
+c000000004BBE59840000000000001B71
+t1270765956
+s7025
+i"RootViewController.h"
+i"JSON/JSON.h"
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.h
+c000000004BBE2EED00000000000001BF
+t1270755053
+s447
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.m
+c000000004BBE2EED000000000000033A
+t1270755053
+s826
+i"YouEatAppDelegate.h"
+i"RootViewController.h"
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/MainWindow.xib
+c000000004BBE2EED0000000000002C5D
+t1270755053
+s11357
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/RootViewController.xib
+c000000004BBE2EED0000000000004320
+t1270755053
+s17184
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/YouEat_Prefix.pch
+c000000004BBE2EED000000000000013E
+t1270755053
+s318
+i<Availability.h>
+i<Foundation/Foundation.h>
+i<UIKit/UIKit.h>
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app
+t1270765964
+s238
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app.dSYM
+t1270765964
+s102
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/Info.plist
+t1270755419
+s560
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/MainWindow.nib
+t1270755424
+s2011
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/PkgInfo
+t1270755419
+s8
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/RootViewController.nib
+t1270755424
+s1388
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/YouEat
+t1270765964
+s52680
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/NSObject+SBJSON.o
+t1270755509
+s7776
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/NSString+SBJSON.o
+t1270755509
+s7796
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/RootViewController.o
+t1270765964
+s41944
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJSON.o
+t1270755509
+s16796
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJsonBase.o
+t1270755509
+s12140
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJsonParser.o
+t1270755510
+s29864
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJsonWriter.o
+t1270755510
+s22592
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/YouEat.LinkFileList
+c000000004BBE30B500000000000004C9
+t1270755509
+s1225
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/YouEatAppDelegate.o
+t1270755457
+s39844
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/main.o
+t1270755426
+s5972
+
+N/Users/alessandro/Documents/iphone-apps/YouEat/main.m
+c000000004BBE2EED0000000000000170
+t1270755053
+s368
+i<UIKit/UIKit.h>
+
+N/var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch.gch
+t1270755426
+s13034960
+
+NYouEat-Info.plist
+c000000004BBE2EED000000000000038D
+t1270755053
+s909
+
+CCheck dependencies
+r0
+lSLF07#2@18"Check dependencies292458764#292458764#0(0"0(0#1#0"4300885448#0"0#
+
+CCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/NSObject+SBJSON.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSObject+SBJSON.m normal i386 objective-c com.apple.compilers.gcc.4_2
+s292448309.665377
+e292448309.816760
+r1
+xCompileC
+xbuild/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/NSObject+SBJSON.o
+x/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSObject+SBJSON.m
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@85"Compile /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSObject+SBJSON.m292448309#292448309#0(0"0(0#0#77"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSObject+SBJSON.m4300885448#1962"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk -fvisibility=hidden -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-generated-files.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-own-target-headers.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-all-target-headers.hmap -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-project-headers.hmap -F/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -I/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/include -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources/i386 -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources -include /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch -c /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSObject+SBJSON.m -o /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/NSObject+SBJSON.o0#
+
+CCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/NSString+SBJSON.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSString+SBJSON.m normal i386 objective-c com.apple.compilers.gcc.4_2
+s292448309.815506
+e292448309.872681
+r1
+xCompileC
+xbuild/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/NSString+SBJSON.o
+x/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSString+SBJSON.m
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@85"Compile /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSString+SBJSON.m292448309#292448309#0(0"0(0#0#77"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSString+SBJSON.m4300885448#1962"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk -fvisibility=hidden -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-generated-files.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-own-target-headers.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-all-target-headers.hmap -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-project-headers.hmap -F/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -I/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/include -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources/i386 -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources -include /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch -c /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/NSString+SBJSON.m -o /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/NSString+SBJSON.o0#
+
+CCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/RootViewController.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m normal i386 objective-c com.apple.compilers.gcc.4_2
+s292458764.233730
+e292458764.364080
+r1
+xCompileC
+xbuild/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/RootViewController.o
+x/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@83"Compile /Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m292458764#292458764#0(0"0(0#0#75"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m4300885448#1963"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk -fvisibility=hidden -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-generated-files.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-own-target-headers.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-all-target-headers.hmap -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-project-headers.hmap -F/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -I/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/include -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources/i386 -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources -include /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch -c /Users/alessandro/Documents/iphone-apps/YouEat/Classes/RootViewController.m -o /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/RootViewController.o0#
+
+CCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJSON.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJSON.m normal i386 objective-c com.apple.compilers.gcc.4_2
+s292448309.816839
+e292448309.901911
+r1
+xCompileC
+xbuild/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJSON.o
+x/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJSON.m
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@76"Compile /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJSON.m292448309#292448309#0(0"0(0#0#68"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJSON.m4300885448#1944"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk -fvisibility=hidden -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-generated-files.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-own-target-headers.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-all-target-headers.hmap -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-project-headers.hmap -F/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -I/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/include -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources/i386 -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources -include /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch -c /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJSON.m -o /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJSON.o0#
+
+CCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJsonBase.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonBase.m normal i386 objective-c com.apple.compilers.gcc.4_2
+s292448309.872779
+e292448309.959363
+r1
+xCompileC
+xbuild/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJsonBase.o
+x/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonBase.m
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@80"Compile /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonBase.m292448309#292448309#0(0"0(0#0#72"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonBase.m4300885448#1952"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk -fvisibility=hidden -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-generated-files.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-own-target-headers.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-all-target-headers.hmap -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-project-headers.hmap -F/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -I/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/include -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources/i386 -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources -include /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch -c /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonBase.m -o /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJsonBase.o0#
+
+CCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJsonParser.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonParser.m normal i386 objective-c com.apple.compilers.gcc.4_2
+s292448309.902011
+e292448310.058777
+r1
+xCompileC
+xbuild/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJsonParser.o
+x/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonParser.m
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@82"Compile /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonParser.m292448309#292448310#0(0"0(0#0#74"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonParser.m4300885448#1956"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk -fvisibility=hidden -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-generated-files.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-own-target-headers.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-all-target-headers.hmap -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-project-headers.hmap -F/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -I/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/include -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources/i386 -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources -include /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch -c /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonParser.m -o /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJsonParser.o0#
+
+CCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJsonWriter.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonWriter.m normal i386 objective-c com.apple.compilers.gcc.4_2
+s292448309.959451
+e292448310.066390
+r1
+xCompileC
+xbuild/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJsonWriter.o
+x/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonWriter.m
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@82"Compile /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonWriter.m292448309#292448310#0(0"0(0#0#74"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonWriter.m4300885448#1956"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk -fvisibility=hidden -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-generated-files.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-own-target-headers.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-all-target-headers.hmap -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-project-headers.hmap -F/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -I/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/include -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources/i386 -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources -include /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch -c /Users/alessandro/Documents/iphone-apps/YouEat/Classes/JSON/SBJsonWriter.m -o /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/SBJsonWriter.o0#
+
+CCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/YouEatAppDelegate.o /Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.m normal i386 objective-c com.apple.compilers.gcc.4_2
+s292448257.784001
+e292448258.031523
+r1
+xCompileC
+xbuild/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/YouEatAppDelegate.o
+x/Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.m
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@82"Compile /Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.m292448257#292448258#0(0"0(0#0#74"/Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.m4300885448#1961"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk -fvisibility=hidden -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-generated-files.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-own-target-headers.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-all-target-headers.hmap -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-project-headers.hmap -F/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -I/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/include -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources/i386 -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources -include /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch -c /Users/alessandro/Documents/iphone-apps/YouEat/Classes/YouEatAppDelegate.m -o /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/YouEatAppDelegate.o0#
+
+CCompileC build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/main.o /Users/alessandro/Documents/iphone-apps/YouEat/main.m normal i386 objective-c com.apple.compilers.gcc.4_2
+s292448226.680776
+e292448226.844910
+r1
+xCompileC
+xbuild/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/main.o
+x/Users/alessandro/Documents/iphone-apps/YouEat/main.m
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@61"Compile /Users/alessandro/Documents/iphone-apps/YouEat/main.m292448226#292448226#0(0"0(0#0#53"/Users/alessandro/Documents/iphone-apps/YouEat/main.m4300885448#1927"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk -fvisibility=hidden -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-generated-files.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-own-target-headers.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-all-target-headers.hmap -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-project-headers.hmap -F/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -I/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/include -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources/i386 -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources -include /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch -c /Users/alessandro/Documents/iphone-apps/YouEat/main.m -o /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/main.o0#
+
+CCompileXIB /Users/alessandro/Documents/iphone-apps/YouEat/MainWindow.xib
+s292448219.561600
+e292448224.277071
+r1
+xCompileXIB
+x/Users/alessandro/Documents/iphone-apps/YouEat/MainWindow.xib
+lSLF07#2@25"CompileXIB MainWindow.xib292448219#292448224#0(0"0(0#0#61"/Users/alessandro/Documents/iphone-apps/YouEat/MainWindow.xib4300885448#505"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv IBC_MINIMUM_COMPATIBILITY_VERSION 3.1.3    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/MainWindow.nib /Users/alessandro/Documents/iphone-apps/YouEat/MainWindow.xib0#
+
+CCompileXIB /Users/alessandro/Documents/iphone-apps/YouEat/RootViewController.xib
+s292448219.615845
+e292448224.271733
+r1
+xCompileXIB
+x/Users/alessandro/Documents/iphone-apps/YouEat/RootViewController.xib
+lSLF07#2@33"CompileXIB RootViewController.xib292448219#292448224#0(0"0(0#0#69"/Users/alessandro/Documents/iphone-apps/YouEat/RootViewController.xib4300885448#521"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv IBC_MINIMUM_COMPATIBILITY_VERSION 3.1.3    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/RootViewController.nib /Users/alessandro/Documents/iphone-apps/YouEat/RootViewController.xib0#
+
+CGenerateDSYMFile /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app.dSYM /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/YouEat
+s292458764.389789
+e292458764.411059
+r1
+xGenerateDSYMFile
+x/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app.dSYM
+x/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/YouEat
+lSLF07#2@106"GenerateDSYMFile build/Debug-iphonesimulator/YouEat.app.dSYM build/Debug-iphonesimulator/YouEat.app/YouEat292458764#292458764#0(0"0(0#0#92"/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/YouEat4300885448#404"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/dsymutil /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/YouEat -o /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app.dSYM0#
+
+CLd /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/YouEat normal i386
+s292458764.364170
+e292458764.389704
+r1
+xLd
+x/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/YouEat
+xnormal
+xi386
+lSLF07#2@97"Link /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/YouEat292458764#292458764#0(0"0(0#0#0"4300885448#899"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv MACOSX_DEPLOYMENT_TARGET 10.5    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -arch i386 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk -L/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -F/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -filelist /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/Objects-normal/i386/YouEat.LinkFileList -mmacosx-version-min=10.5 -framework Foundation -framework UIKit -framework CoreGraphics -o /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/YouEat0#
+
+CProcessInfoPlistFile /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/Info.plist YouEat-Info.plist
+s292448219.475758
+e292448219.561280
+r1
+xProcessInfoPlistFile
+x/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/Info.plist
+xYouEat-Info.plist
+lSLF07#2@25"Process YouEat-Info.plist292448219#292448219#0(0"0(0#0#64"/Users/alessandro/Documents/iphone-apps/YouEat/YouEat-Info.plist30399748463984736#500"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    builtin-infoPlistUtility YouEat-Info.plist -genpkginfo /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -o /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app/Info.plist0#
+
+CProcessPCH /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch.gch YouEat_Prefix.pch normal i386 objective-c com.apple.compilers.gcc.4_2
+s292448224.277230
+e292448226.680585
+r1
+xProcessPCH
+x/var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch.gch
+xYouEat_Prefix.pch
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@28"Precompile YouEat_Prefix.pch292448224#292448226#0(0"0(0#0#64"/Users/alessandro/Documents/iphone-apps/YouEat/YouEat_Prefix.pch4300885448#1812"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c-header -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.3.sdk -fvisibility=hidden -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-generated-files.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-own-target-headers.hmap -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-all-target-headers.hmap -iquote /Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/YouEat-project-headers.hmap -F/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator -I/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/include -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources/i386 -I/Users/alessandro/Documents/iphone-apps/YouEat/build/YouEat.build/Debug-iphonesimulator/YouEat.build/DerivedSources -c /Users/alessandro/Documents/iphone-apps/YouEat/YouEat_Prefix.pch -o /var/folders/8F/8F36titSGzifClpQgshpQU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/YouEat_Prefix-haacehhphcljzpgphrqnwwbuigtw/YouEat_Prefix.pch.gch0#
+
+CTouch /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app
+s292458764.411143
+e292458764.413945
+r1
+xTouch
+x/Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app
+lSLF07#2@91"Touch /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app292458764#292458764#0(0"0(0#0#0"4300885448#293"    cd /Users/alessandro/Documents/iphone-apps/YouEat    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /usr/bin/touch -c /Users/alessandro/Documents/iphone-apps/YouEat/build/Debug-iphonesimulator/YouEat.app0#
+

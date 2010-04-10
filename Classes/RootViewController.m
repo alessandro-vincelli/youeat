@@ -19,7 +19,7 @@
 	listOfItems = [[NSMutableArray alloc] init];
 	
 	responseData = [[NSMutableData data] retain];
-	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:8080/hotels/12"]];
+	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:8080/rest/ristoranti/"]];
 	//	[[NSURLConnection alloc] initWithRequest:request delegate:self];
 		
 	// Perform request and get JSON back as a NSData object

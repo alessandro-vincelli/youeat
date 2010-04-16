@@ -91,7 +91,8 @@
 	<bean id="rateRistoranteService" class="it.av.youeat.service.impl.RateRistoranteServiceHibernate"/>
 	
 	<bean id="ristoranteService" class="it.av.youeat.service.impl.RistoranteServiceHibernate" />
-	
+    
+    <bean id="ristorantePositionService" class="it.av.youeat.service.impl.RistorantePositionServiceHibernate"/>	
 	
 	<!--<bean id="jcrRistoranteService" class="it.av.youeat.service.impl.JcrRistoranteServiceJackrabbit">
 		<property name="jcrMappingtemplate" ref="jcrMappingTemplateGeneric" />

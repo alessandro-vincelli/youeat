@@ -35,7 +35,10 @@ import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.solr.analysis.ISOLatin1AccentFilterFactory;
 import org.apache.solr.analysis.LowerCaseFilterFactory;
 import org.apache.solr.analysis.StandardTokenizerFactory;
@@ -71,6 +74,7 @@ import org.hibernate.search.annotations.TokenizerDef;
                 @Parameter(name = "ignoreCase", value = "true") }) })
 @FilterDef(name="friends", parameters=@ParamDef( name="friendlist", type="it.av.youeat.ocm.model.Eater" ), defaultCondition=(" activities.eater in :friendlist"))
 //@Filters( { @Filter(name = "friends", condition = "activities.eater in :friendlist") })
+@XmlRootElement
 public class Ristorante extends BasicEntity {
 
     public static final String PATH = "path";
@@ -115,6 +119,7 @@ public class Ristorante extends BasicEntity {
 
     @Column(length = 10000)
     @Deprecated
+    @XmlTransient
     private String description;
 
     private String www;
@@ -129,7 +134,6 @@ public class Ristorante extends BasicEntity {
     private String phoneNumber;
 
     private String mobilePhoneNumber;
-
     private String faxNumber;
     @org.hibernate.annotations.Index(name = "risto_revisionNumber_index")
     private int revisionNumber;
@@ -180,7 +184,7 @@ public class Ristorante extends BasicEntity {
     public final void setName(String name) {
         this.name = name;
     }
-
+    
     public final String getAddress() {
         return address;
     }
@@ -221,6 +225,7 @@ public class Ristorante extends BasicEntity {
         this.city = city;
     }
 
+    @XmlTransient
     public final String getType() {
         return type;
     }
@@ -229,6 +234,7 @@ public class Ristorante extends BasicEntity {
         this.type = type;
     }
 
+    @XmlTransient
     public final String getDescription() {
         return description;
     }
@@ -237,6 +243,7 @@ public class Ristorante extends BasicEntity {
         this.description = description;
     }
 
+    @XmlTransient
     public List<RateOnRistorante> getRates() {
         return rates;
     }
@@ -302,6 +309,7 @@ public class Ristorante extends BasicEntity {
     /**
      * @return the revisions
      */
+    @XmlTransient
     public List<RistoranteRevision> getRevisions() {
         return revisions;
     }
@@ -351,6 +359,7 @@ public class Ristorante extends BasicEntity {
     /**
      * @return the faxNumber
      */
+    @XmlTransient
     public String getFaxNumber() {
         return faxNumber;
     }
@@ -365,6 +374,7 @@ public class Ristorante extends BasicEntity {
     /**
      * @return the types of the restaurant
      */
+    @XmlTransient
     public RistoranteTypes getTypes() {
         return types;
     }
@@ -432,6 +442,7 @@ public class Ristorante extends BasicEntity {
     /**
      * @return the pictures
      */
+    @XmlTransient
     public List<RistorantePicture> getPictures() {
         return pictures;
     }
@@ -439,6 +450,7 @@ public class Ristorante extends BasicEntity {
     /**
      * @return the pictures
      */
+    @XmlTransient
     @Filter(condition = "active=true", name = "active")
     public List<RistorantePicture> getActivePictures() {
         return pictures;
@@ -559,4 +571,8 @@ public class Ristorante extends BasicEntity {
         return i18n;
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 }

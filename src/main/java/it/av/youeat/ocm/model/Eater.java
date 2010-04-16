@@ -58,6 +58,7 @@ import org.hibernate.search.annotations.TokenizerDef;
 @AnalyzerDef(name = "eateranalyzer", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class), filters = {
         @TokenFilterDef(factory = ISOLatin1AccentFilterFactory.class),
         @TokenFilterDef(factory = LowerCaseFilterFactory.class) })
+@org.hibernate.annotations.Table(appliesTo = "eater", indexes = { @org.hibernate.annotations.Index(name = "idx_eater_id", columnNames = { "id" }) })
 public class Eater extends BasicEntity implements Comparable<Eater> {
 
     public static final String ID = "id";

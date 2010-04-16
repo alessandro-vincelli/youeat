@@ -17,13 +17,16 @@ package it.av.youeat.ocm.model;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAttribute;
 
 import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.Index;
 
 /**
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
@@ -33,6 +36,7 @@ import org.hibernate.annotations.ForeignKey;
 @Table(
 // uniqueConstraints = {@UniqueConstraint(columnNames={"from_user_id", "to_user_id"})}
 )
+@org.hibernate.annotations.Table(appliesTo = "eater_relation", indexes = { @Index(name = "idx_eater_relation_id", columnNames = { "id" }) })
 public class EaterRelation extends BasicEntity implements Comparable<EaterRelation> {
 
     public final static String STATUS_ACTIVE = "active";
@@ -48,15 +52,20 @@ public class EaterRelation extends BasicEntity implements Comparable<EaterRelati
     public final static String TYPE = "type";
     public final static String FROM_USER = "fromUser";
     public final static String TO_USER = "toUser";
-    private Timestamp startDate;
-    private Timestamp endDate;
+    private Date startDate;
+    @XmlAttribute
+    private Date endDate;
+    @Index(name = "idx_eater_relation_status")
     private String status;
+    @Index(name = "idx_eater_relation_type")
     private String type;
     @ManyToOne
+    @Index(name = "idx_eater_relation_from_user")
     @ForeignKey(name = "eaterrelation_to_fromeater_fk")
     private Eater fromUser;
     @OneToOne
     @ForeignKey(name = "eaterrelation_to_toeater_fk")
+    @Index(name = "idx_eater_relation_to_user")
     private Eater toUser;
 
     public static EaterRelation createFollowRelation(Eater fromUser, Eater toUser) {
@@ -82,15 +91,15 @@ public class EaterRelation extends BasicEntity implements Comparable<EaterRelati
     public EaterRelation() {
     }
 
-    public Timestamp getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Timestamp startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public Timestamp getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
@@ -146,9 +155,9 @@ public class EaterRelation extends BasicEntity implements Comparable<EaterRelati
     public boolean isActiveFriendRelation() {
         return getStatus().equals(EaterRelation.STATUS_ACTIVE) && getType().equals(EaterRelation.TYPE_FRIEND);
     }
-    
+
     /**
-     * check for pending friend active 
+     * check for pending friend active
      * 
      * @return true for pending friend relation
      */

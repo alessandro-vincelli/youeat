@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:security="http://www.springframework.org/schema/security"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
@@ -15,164 +14,176 @@
                            http://www.springframework.org/schema/security
                            http://www.springframework.org/schema/security/spring-security-2.0.xsd">
 
-	<context:annotation-config />
-	<context:spring-configured />
-	<tx:jta-transaction-manager />
-	<tx:annotation-driven transaction-manager="transactionManager" />
-	
-	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder">
-    	<constructor-arg value="MD5"/>
-	</bean>
-	
-	<bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
-		<property name="locations">
-			<list>
-				<value>${springPropertiesLocation}</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="notificationTemplateMessage" class="org.springframework.mail.SimpleMailMessage">
-		<property name="from" value="a.vincelli@gmail.com"/>
-	</bean>
-	
-	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basename" value="classpath:it/av/youeat/web/YoueatApplication"/>
-		<property name="fallbackToSystemLocale" value="true" />
-		<property name="cacheSeconds" value="-1"/>
-	</bean>
+    <context:annotation-config />
+    <context:spring-configured />
+    <tx:jta-transaction-manager />
+    <tx:annotation-driven transaction-manager="transactionManager" />
 
-	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" >
-		<property name="host" value="127.0.0.1"/>
-	</bean>
-	
-	<bean id="mailService" class="it.av.youeat.service.system.MailServiceImpl" />
-	
-	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="persistenceUnitName" value="mainPersistance" />
-		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>		 
-	</bean>
-	
-	<!-- <bean id="entityManagerFactoryStaticData" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="persistenceUnitName" value="staticDataPersistance" />
-		<property name="persistenceXmlLocation" value="classpath:META-INF/persistenceStaticData.xml"></property>
-	</bean> -->
 
-	<!--
-		PostProcessors to perform resource injection according to the JPA specification
-		(@PersistenceContext, @PersistenceUnit).
-	-->
-	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+    <bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder">
+        <constructor-arg value="MD5" />
+    </bean>
 
-	<!-- turn on @Required annotation checks -->
-	<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+    <bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
+        <property name="locations">
+            <list>
+                <value>${springPropertiesLocation}</value>
+            </list>
+        </property>
+    </bean>
 
-	<!--
-		PostProcessors to perform exception translation on @Repository classes (from native
-		exceptions such as JPA PersistenceExceptions to Spring's DataAccessException hierarchy).
-	-->
-	<!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-		<property name="nestedTransactionAllowed" value="false"></property>
-	</bean>
-	
- 	<bean id="wicketApplication" class="it.av.youeat.web.YoueatApplication">
-		<property name="configurationType" value="development" />
-		<property name="applicationURL" value="http://www.youeat.org"/>
-	</bean>
+    <bean id="notificationTemplateMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="a.vincelli@gmail.com" />
+    </bean>
 
-	<bean id="eaterService" class="it.av.youeat.service.impl.EaterServiceHibernate"  />
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:it/av/youeat/web/YoueatApplication" />
+        <property name="fallbackToSystemLocale" value="true" />
+        <property name="cacheSeconds" value="-1" />
+    </bean>
 
-	<bean id="commentService" class="it.av.youeat.service.impl.CommentServiceHibernate"  />
+    <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="127.0.0.1" />
+    </bean>
 
-	<bean id="eaterProfileService" class="it.av.youeat.service.impl.EaterProfileServiceHibernate"  />
+    <bean id="mailService" class="it.av.youeat.service.system.MailServiceImpl" />
 
-	<bean id="activityService" class="it.av.youeat.service.impl.ActivityServiceHibernate"  />
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="mainPersistance" />
+        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
+    </bean>
 
-	<bean id="activityRistoranteService" class="it.av.youeat.service.impl.ActivityRistoranteServiceHibernate" />
+    <!--
+        <bean id="entityManagerFactoryStaticData"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"> <property name="persistenceUnitName"
+        value="staticDataPersistance" /> <property name="persistenceXmlLocation"
+        value="classpath:META-INF/persistenceStaticData.xml"></property> </bean>
+    -->
 
-	<bean id="tagService" class="it.av.youeat.service.impl.TagServiceHibernate"  />
+    <!--
+        PostProcessors to perform resource injection according to the JPA specification (@PersistenceContext,
+        @PersistenceUnit).
+    -->
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
-	<bean id="ristoranteRevisionService" class="it.av.youeat.service.impl.RistoranteRevisionServiceHibernate"/>
-	
-	<bean id="rateRistoranteService" class="it.av.youeat.service.impl.RateRistoranteServiceHibernate"/>
-	
-	<bean id="ristoranteService" class="it.av.youeat.service.impl.RistoranteServiceHibernate" />
-	
-	
-	<!--<bean id="jcrRistoranteService" class="it.av.youeat.service.impl.JcrRistoranteServiceJackrabbit">
-		<property name="jcrMappingtemplate" ref="jcrMappingTemplateGeneric" />
-		<property name="basePath" value="/ristoranti" />
-	</bean>-->
-	
-	<bean id="eaterRelationService" class="it.av.youeat.service.impl.EaterRelationServiceHibernate"  />
-	
-	<bean id="activityRelationService" class="it.av.youeat.service.impl.ActivityRelationServiceHibernate"  />
-	
-	<bean id="dataRistoranteService" class="it.av.youeat.service.impl.DataRistoranteServiceHibernate" />
-	
-	<bean id="countryRegionService" class="it.av.youeat.service.impl.CountryRegionServiceHibernate" />
-	
-	<bean id="countryService" class="it.av.youeat.service.impl.CountryServiceHibernate" />
-	
-	<bean id="cityService" class="it.av.youeat.service.impl.CityServiceHibernate" />
-	
-	<bean id="languageService" class="it.av.youeat.service.impl.LanguageServiceHibernate" />
-	
-	<bean id="messageService" class="it.av.youeat.service.impl.MessageServiceHibernate" />
-	
-	<bean id="dialogService" class="it.av.youeat.service.impl.DialogServiceHibernate" />
-	
-	<bean id="ristorantePictureHibernate" class="it.av.youeat.service.impl.RistorantePictureHibernate" />
+    <!-- turn on @Required annotation checks -->
+    <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
 
-	<bean id="userDetailsService" class="it.av.youeat.web.security.UserDetailsServiceImpl" scope="prototype">
-		<property name="service" ref="eaterService" />
-	</bean>
+    <!--
+        PostProcessors to perform exception translation on @Repository classes (from native exceptions such as JPA
+        PersistenceExceptions to Spring's DataAccessException hierarchy).
+    -->
+    <!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+        <property name="nestedTransactionAllowed" value="false"></property>
+    </bean>
 
-	<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
-		<property name="userDetailsService" ref="userDetailsService" />
-		<property name="passwordEncoder" ref="passwordEncoder" />
-		<property name="saltSource">
-			<bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
-				<property name="userPropertyToUse" value="passwordSalt"></property>
-			</bean>
-		</property>
-	</bean>
-	
-	<bean id="facebookAuthenticationProvider" class="it.av.youeat.web.security.FacebookAuthenticationProvider"/>
+    <bean id="wicketApplication" class="it.av.youeat.web.YoueatApplication">
+        <property name="configurationType" value="development" />
+        <property name="applicationURL" value="http://www.youeat.org" />
+    </bean>
 
-	<bean id="authenticationProvider" class="it.av.youeat.web.security.AuthenticationProvider">
-		<constructor-arg ref="daoAuthenticationProvider" />
-		<constructor-arg ref="facebookAuthenticationProvider" />
-	</bean>
-	
-	<bean id="serverGeocoder" class="it.av.youeat.util.ServerGeocoder">
-		<constructor-arg value="ABQIAAAAEpqZyWLxrLSc1icxiiTLyBRjFP5Ion2TodTauLHyn40LiCPQaRSoBSldN1pDUDTAPEK5AlXpouSLuA"></constructor-arg>
-	</bean>
-	
-	<bean id="periodUtil" class="it.av.youeat.util.PeriodUtil"/>
-	
-	<bean id="templateUtil" class="it.av.youeat.util.TemplateUtil"/>
-		
-	<bean id="socialServiceFacebook" class="it.av.youeat.service.impl.SocialServiceFacebook">
-		<property name="apiKey" value=""/>
-		<property name="secret" value=""/>
-		<property name="applicationID" value=""/>
-	</bean>
-	
-	<bean id="faceBookAuthHandler" class="it.av.youeat.web.security.FaceBookAuthHandler">
-		<property name="apiKey" value=""/>
-		<property name="secret" value=""/>
-	</bean>
+    <bean id="eaterService" class="it.av.youeat.service.impl.EaterServiceHibernate" />
+
+    <bean id="commentService" class="it.av.youeat.service.impl.CommentServiceHibernate" />
+
+    <bean id="eaterProfileService" class="it.av.youeat.service.impl.EaterProfileServiceHibernate" />
+
+    <bean id="activityService" class="it.av.youeat.service.impl.ActivityServiceHibernate" />
+
+    <bean id="activityRistoranteService" class="it.av.youeat.service.impl.ActivityRistoranteServiceHibernate" />
+
+    <bean id="tagService" class="it.av.youeat.service.impl.TagServiceHibernate" />
+
+    <bean id="ristoranteRevisionService" class="it.av.youeat.service.impl.RistoranteRevisionServiceHibernate" />
+
+    <bean id="rateRistoranteService" class="it.av.youeat.service.impl.RateRistoranteServiceHibernate" />
+
+    <bean id="ristoranteService" class="it.av.youeat.service.impl.RistoranteServiceHibernate" />
+
+    <bean id="ristorantePositionService" class="it.av.youeat.service.impl.RistorantePositionServiceHibernate"/>
+    
+    <!--
+        <bean id="jcrRistoranteService" class="it.av.youeat.service.impl.JcrRistoranteServiceJackrabbit"> <property
+        name="jcrMappingtemplate" ref="jcrMappingTemplateGeneric" /> <property name="basePath" value="/ristoranti" />
+        </bean>
+    -->
+
+    <bean id="eaterRelationService" class="it.av.youeat.service.impl.EaterRelationServiceHibernate" />
+
+    <bean id="activityRelationService" class="it.av.youeat.service.impl.ActivityRelationServiceHibernate" />
+
+    <bean id="dataRistoranteService" class="it.av.youeat.service.impl.DataRistoranteServiceHibernate" />
+
+    <bean id="countryRegionService" class="it.av.youeat.service.impl.CountryRegionServiceHibernate" />
+
+    <bean id="countryService" class="it.av.youeat.service.impl.CountryServiceHibernate" />
+
+    <bean id="cityService" class="it.av.youeat.service.impl.CityServiceHibernate" />
+
+    <bean id="languageService" class="it.av.youeat.service.impl.LanguageServiceHibernate" />
+
+    <bean id="messageService" class="it.av.youeat.service.impl.MessageServiceHibernate" />
+
+    <bean id="dialogService" class="it.av.youeat.service.impl.DialogServiceHibernate" />
+
+    <bean id="ristorantePictureHibernate" class="it.av.youeat.service.impl.RistorantePictureHibernate" />
+
+    <bean id="userDetailsService" class="it.av.youeat.web.security.UserDetailsServiceImpl" scope="prototype">
+        <property name="service" ref="eaterService" />
+    </bean>
+
+    <bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+        <property name="userDetailsService" ref="userDetailsService" />
+        <property name="passwordEncoder" ref="passwordEncoder" />
+        <property name="saltSource">
+            <bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+                <property name="userPropertyToUse" value="passwordSalt"></property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="facebookAuthenticationProvider" class="it.av.youeat.web.security.FacebookAuthenticationProvider" />
+
+    <bean id="authenticationProvider" class="it.av.youeat.web.security.AuthenticationProvider">
+        <constructor-arg ref="daoAuthenticationProvider" />
+        <constructor-arg ref="facebookAuthenticationProvider" />
+    </bean>
+
+    <bean id="serverGeocoder" class="it.av.youeat.util.ServerGeocoder">
+        <constructor-arg value="ABQIAAAAEpqZyWLxrLSc1icxiiTLyBRjFP5Ion2TodTauLHyn40LiCPQaRSoBSldN1pDUDTAPEK5AlXpouSLuA"></constructor-arg>
+    </bean>
+
+    <bean id="periodUtil" class="it.av.youeat.util.PeriodUtil" />
+
+    <bean id="templateUtil" class="it.av.youeat.util.TemplateUtil" />
+
+    <bean id="socialServiceFacebook" class="it.av.youeat.service.impl.SocialServiceFacebook">
+        <property name="apiKey" value="" />
+        <property name="secret" value="" />
+        <property name="applicationID" value="" />
+    </bean>
+
+    <bean id="faceBookAuthHandler" class="it.av.youeat.web.security.FaceBookAuthHandler">
+        <property name="apiKey" value="" />
+        <property name="secret" value="" />
+    </bean>
 
     <bean id="googleSitemapGenerator" class="it.av.youeat.web.xml.GoogleSitemapGenerator">
-    	<property name="baseURL" value="http://www.youeat.org"></property>
+        <property name="baseURL" value="http://www.youeat.org"></property>
     </bean>
-    
+
     <bean id="youeatRistoranteURL" class="it.av.youeat.web.url.YouetGeneratorURL">
-    	<property name="baseURL" value="http://www.youeat.org"></property>
+        <property name="baseURL" value="http://www.youeat.org"></property>
     </bean>
-	
-	<bean id="atomGenerator" class="it.av.youeat.web.xml.AtomGenerator"/>
+
+    <bean id="atomGenerator" class="it.av.youeat.web.xml.AtomGenerator" />
+
+    <bean id="jaxbObjectMapper" class="it.av.youeat.web.rest.JaxbObjectMapper" />
+    
+    <bean id="mappingJacksonJsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+        <property name="objectMapper" ref="jaxbObjectMapper"/>
+    </bean>
+
 </beans>

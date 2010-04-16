@@ -34,6 +34,7 @@
 		<class>it.av.youeat.ocm.model.data.City</class>
 		<class>it.av.youeat.ocm.model.data.Country</class>
 		<class>it.av.youeat.ocm.model.data.CountryRegion</class>
+        <class>it.av.youeat.ocm.model.geo.RistorantePosition</class>
 			
 		<properties>
 			<!-- Scan for annotated classes  -->

@@ -23,9 +23,12 @@ import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.RistoranteRevision;
 import it.av.youeat.ocm.model.data.City;
 import it.av.youeat.ocm.model.data.Country;
+import it.av.youeat.ocm.model.geo.Location;
+import it.av.youeat.ocm.model.geo.RistorantePosition;
 import it.av.youeat.ocm.util.DateUtil;
 import it.av.youeat.service.ActivityRistoranteService;
 import it.av.youeat.service.RateRistoranteService;
+import it.av.youeat.service.RistorantePositionService;
 import it.av.youeat.service.RistoranteRevisionService;
 import it.av.youeat.service.RistoranteService;
 import it.av.youeat.util.LuceneUtil;
@@ -73,6 +76,9 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     private RateRistoranteService rateRistoranteService;
     @Autowired
     private ServerGeocoder geocoder;
+    @Autowired
+    private RistorantePositionService ristorantePositionService;
+    
     private static Log log = LogFactory.getLog(RistoranteServiceHibernate.class);
 
     /**
@@ -101,6 +107,11 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         GLatLng gLatLng = getGLatLng(ristoToSave);
         ristoToSave.setLatitude(gLatLng.getLat());
         ristoToSave.setLongitude(gLatLng.getLng());
+        if(!(gLatLng.getLat() == 0 || gLatLng.getLat() == 0)){
+            RistorantePosition position = ristorantePositionService.getByRistorante(risto);
+            position.setWhere(new Location(gLatLng.getLat(), gLatLng.getLng()));
+            ristorantePositionService.save(position);
+        }
         return update(ristoToSave, user);
     }
 
@@ -121,6 +132,9 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         ristoToSave.addRevision(ristoranteRevisionService.insert(new RistoranteRevision(ristoToSave)));
         activityRistoranteService.save(activityRistoranteService.save(new ActivityRistorante(DateUtil.getTimestamp(), user,
                 ristoToSave, ActivityRistorante.TYPE_ADDED)));
+        if(!(gLatLng.getLat() == 0 || gLatLng.getLat() == 0)){
+            ristorantePositionService.save(new RistorantePosition(ristoToSave, new Location(gLatLng.getLat(), gLatLng.getLng())));    
+        }
         return save(ristoToSave);
     }
 

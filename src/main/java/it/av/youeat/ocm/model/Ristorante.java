@@ -478,6 +478,8 @@ public class Ristorante extends BasicEntity {
     /**
      * @return the comments
      */
+    //TODO before to remove the comments, consider lazy load exception on Eater during jackson serialization  
+    @XmlTransient
     public List<Comment> getComments() {
         return comments;
     }

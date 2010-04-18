@@ -27,6 +27,7 @@ import it.av.youeat.ocm.model.RistoranteDescriptionI18n;
 import it.av.youeat.ocm.model.RistorantePicture;
 import it.av.youeat.ocm.model.data.City;
 import it.av.youeat.ocm.model.data.Country;
+import it.av.youeat.ocm.model.geo.Location;
 import it.av.youeat.web.xml.GoogleSitemapGenerator;
 
 import java.io.File;
@@ -53,6 +54,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class RistoranteServiceTest extends YoueatTest {
     @Autowired
     private RistoranteService ristoranteService;
+    @Autowired
+    private RistorantePositionService ristorantePositionService;
     @Autowired
     private EaterService eaterService;
     @Autowired
@@ -161,8 +164,17 @@ public class RistoranteServiceTest extends YoueatTest {
         List<Country> countries = ristoranteService.getCountryWithRisto();
         assertTrue(countries.size() > 0);
         
+        a.setLatitude(1);
+        a.setLongitude(2);
+        
+        ristoranteService.updateLatitudeLongitude(a);
+        
+        Location loc = ristorantePositionService.getByRistorante(a).getWhere();
+        
+        assertTrue(1 == loc.latitude.value);
+        assertTrue(2 == loc.longitude.value);
+        
         ristoranteService.remove(a);
-
     }
 
      @Test

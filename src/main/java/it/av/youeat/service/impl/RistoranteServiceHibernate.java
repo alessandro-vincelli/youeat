@@ -57,6 +57,7 @@ import org.hibernate.search.jpa.FullTextQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import wicket.contrib.gmap.api.GLatLng;
 
@@ -78,7 +79,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     private ServerGeocoder geocoder;
     @Autowired
     private RistorantePositionService ristorantePositionService;
-    
+
     private static Log log = LogFactory.getLog(RistoranteServiceHibernate.class);
 
     /**
@@ -87,6 +88,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     @Override
     @Transactional
     public Ristorante update(Ristorante risto, Eater user) {
+        Assert.notNull(user);
         risto.setModificationTime(DateUtil.getTimestamp());
         risto.setRevisionNumber(risto.getRevisionNumber() + 1);
         save(risto);
@@ -107,12 +109,32 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         GLatLng gLatLng = getGLatLng(ristoToSave);
         ristoToSave.setLatitude(gLatLng.getLat());
         ristoToSave.setLongitude(gLatLng.getLng());
-        if(!(gLatLng.getLat() == 0 || gLatLng.getLat() == 0)){
-            RistorantePosition position = ristorantePositionService.getByRistorante(risto);
+        if (!(gLatLng.getLat() == 0 || gLatLng.getLat() == 0)) {
+            RistorantePosition position = ristorantePositionService.getByRistorante(ristoToSave);
             position.setWhere(new Location(gLatLng.getLat(), gLatLng.getLng()));
             ristorantePositionService.save(position);
         }
         return update(ristoToSave, user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public Ristorante updateLatitudeLongitude(Ristorante risto) {
+        Ristorante ristoToSave = risto;
+        if (!(ristoToSave.getLatitude() == 0 || ristoToSave.getLongitude() == 0)) {
+            RistorantePosition position = ristorantePositionService.getByRistorante(ristoToSave);
+            if(position == null){
+                position = new RistorantePosition(ristoToSave, new Location(ristoToSave.getLatitude(), ristoToSave.getLongitude()));
+            }
+            else{
+                position.setWhere(new Location(ristoToSave.getLatitude(), ristoToSave.getLongitude()));    
+            }
+            ristorantePositionService.save(position);
+        }
+        return updateNoRevision(ristoToSave);
     }
 
     /**
@@ -132,8 +154,8 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         ristoToSave.addRevision(ristoranteRevisionService.insert(new RistoranteRevision(ristoToSave)));
         activityRistoranteService.save(activityRistoranteService.save(new ActivityRistorante(DateUtil.getTimestamp(), user,
                 ristoToSave, ActivityRistorante.TYPE_ADDED)));
-        if(!(gLatLng.getLat() == 0 || gLatLng.getLat() == 0)){
-            ristorantePositionService.save(new RistorantePosition(ristoToSave, new Location(gLatLng.getLat(), gLatLng.getLng())));    
+        if (!(gLatLng.getLat() == 0 || gLatLng.getLat() == 0)) {
+            ristorantePositionService.save(new RistorantePosition(ristoToSave, new Location(gLatLng.getLat(), gLatLng.getLng())));
         }
         return save(ristoToSave);
     }

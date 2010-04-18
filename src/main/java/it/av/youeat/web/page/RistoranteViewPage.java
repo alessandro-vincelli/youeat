@@ -72,6 +72,8 @@ import org.springframework.util.Assert;
 import wicket.contrib.gmap.GMap2;
 import wicket.contrib.gmap.GMapHeaderContributor;
 import wicket.contrib.gmap.api.GControl;
+import wicket.contrib.gmap.api.GEvent;
+import wicket.contrib.gmap.api.GEventHandler;
 import wicket.contrib.gmap.api.GLatLng;
 import wicket.contrib.gmap.api.GMapType;
 import wicket.contrib.gmap.api.GMarker;
@@ -437,7 +439,27 @@ public class RistoranteViewPage extends BasePage {
         bottomMap.setZoom(20);
         if (ristorante.getLatitude() != 0 && ristorante.getLongitude() != 0) {
             GLatLng gLatLng = new GLatLng(ristorante.getLatitude(), ristorante.getLongitude());
-            bottomMap.addOverlay(new GMarker(gLatLng, new GMarkerOptions(ristorante.getName())));
+            GMarkerOptions markerOptions = new GMarkerOptions(ristorante.getName());
+            markerOptions = markerOptions.draggable(true);
+            GMarker marker = new GMarker(gLatLng, markerOptions){
+                @Override
+                protected void updateOnAjaxCall(AjaxRequestTarget target, GEvent overlayEvent) {
+                    super.updateOnAjaxCall(target, overlayEvent);
+                    if(getLoggedInUser() != null){
+                        ristorante.setLatitude(this.getLatLng().getLat());
+                        ristorante.setLongitude(this.getLatLng().getLng());
+                        ristoranteService.updateLatitudeLongitude(ristorante);    
+                    }
+                }
+            };
+            marker.addListener(GEvent.dragend, new GEventHandler() {
+                
+                @Override
+                public void onEvent(AjaxRequestTarget target) {
+                    //attach the ajax code to handle the event 
+                }
+            });
+            bottomMap.addOverlay(marker);
             bottomMap.setCenter(gLatLng);
         } else {
             bottomMap.setVisible(false);

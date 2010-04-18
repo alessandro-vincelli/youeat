@@ -47,13 +47,22 @@ public interface RistoranteService {
      * @return ristorante
      */
     Ristorante updateAddress(Ristorante risto, Eater user);
+    
+    /**
+     * Save the risto and update the location.
+     * The update doesn't create any activity or revisions.
+     * 
+     * @param risto
+     * @return ristorante 
+     */
+    Ristorante updateLatitudeLongitude(Ristorante risto);
 
     /**
      * Insert a new ristorante
      * 
      * @param risto the Risto to be inserted
      * @param user the user that is performing the modification
-     * @return Ristorante
+     * @return ristorante
      */
     Ristorante insert(Ristorante risto, Eater user);
 
@@ -209,4 +218,5 @@ public interface RistoranteService {
      * create/update lucene index on ristoranti
      */
     void indexData();
+
 }

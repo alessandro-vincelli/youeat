@@ -448,7 +448,7 @@ public class RistoranteViewPage extends BasePage {
                     if(getLoggedInUser() != null){
                         ristorante.setLatitude(this.getLatLng().getLat());
                         ristorante.setLongitude(this.getLatLng().getLng());
-                        ristoranteService.updateLatitudeLongitude(ristorante);    
+                        ristorante = ristoranteService.updateLatitudeLongitude(ristorante);    
                     }
                 }
             };

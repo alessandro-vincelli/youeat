@@ -168,5 +168,12 @@
     </bean>
 	
 	<bean id="atomGenerator" class="it.av.youeat.web.xml.AtomGenerator"/>
+    
+    <bean id="jaxbObjectMapper" class="it.av.youeat.web.rest.JaxbObjectMapper" />
+    
+    <bean id="mappingJacksonJsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+        <property name="objectMapper" ref="jaxbObjectMapper"/>
+    </bean>
+    
 	
 </beans>

@@ -27,7 +27,7 @@ import org.apache.wicket.proxy.LazyInitProxyFactory;
 
 /**
  * An {@link IFieldValueFactory} that provides mocked objects to fields
- * annotated by {@link #annotClass} .
+ * annotated by {@link #annotClass} or by {@link Mock}.
  * 
  * @author Andy Chu
  * 
@@ -70,8 +70,13 @@ public class MockedBeanFieldValueFactory implements IFieldValueFactory,
 	public boolean supportsField(Field field) {
 		// Could the map become null in a cluster environment? Better be safe
 		// than sorry.
-		return mockedBeans != null && field.isAnnotationPresent(annotClass)
+		return mockedBeans != null && isAnnotated(field)
 				&& mockedBeans.containsKey(field.getName());
+	}
+
+	private boolean isAnnotated(Field field) {
+		return field.isAnnotationPresent(Mock.class)
+				|| field.isAnnotationPresent(annotClass);
 	}
 
 	public void clearMockedBeans() {

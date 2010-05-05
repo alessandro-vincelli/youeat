@@ -53,11 +53,6 @@ public class WebPageTestContext {
 	private DefaultSelenium selenium;
 	private WebAppJettyLauncher jettyLauncher;
 
-	/**
-	 * execute before the test 
-	 * 
-	 * @throws Exception
-	 */
 	public static void beforePageTests() throws Exception {
 		beforePageTests(new Configuration());
 	}
@@ -89,6 +84,13 @@ public class WebPageTestContext {
 		selenium.start();
 		// So that the test cases can access the app and the injector
 		waitForApplication();
+		// Need to use the wicketpath attribute instead of wicket:id if it
+		// is refreshed by AJAX (see WICKET-2832)
+		enableOutputWicketPath();
+	}
+
+	private void enableOutputWicketPath() {
+		getApplication().getDebugSettings().setOutputComponentPath(true);
 	}
 
 	private void waitForApplication() {
@@ -105,12 +107,6 @@ public class WebPageTestContext {
 			}
 		}
 	}
-
-    /**
-     * execute after the test 
-     * 
-     * @throws Exception
-     */
 
 	public static void afterPageTests() throws Exception {
 		instance.stop();

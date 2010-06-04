@@ -22,6 +22,7 @@ import it.av.youeat.ocm.model.EaterRelation;
 import it.av.youeat.ocm.util.DateUtil;
 import it.av.youeat.service.ActivityRelationService;
 import it.av.youeat.service.EaterRelationService;
+import it.av.youeat.service.system.MailService;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -49,6 +50,8 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
 
     @Autowired
     private ActivityRelationService activityRelationService;
+    @Autowired
+    private MailService mailService;
 
     /**
      * {@inheritDoc}
@@ -80,7 +83,13 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
                 relation.setStatus(er.getStatus());
             }
         }
-        return save(relation);
+        relation = save(relation);
+        //sends an email to notify the request only if non social network user
+        //TODO send message also to the social network user
+        if(!toUser.isSocialNetworkEater()){
+            mailService.sendFriendRequestNotification(fromUser, toUser);
+        }
+        return relation;
     }
 
     /**

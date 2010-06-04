@@ -106,6 +106,9 @@ public class MailServiceImpl implements MailService {
         return textBody.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void sendFriendSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient) {
         SimpleMailMessage m = new SimpleMailMessage(notificationTemplateMessage);
@@ -167,4 +170,33 @@ public class MailServiceImpl implements MailService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void sendFriendRequestNotification(Eater sender, Eater recipient) {
+        SimpleMailMessage m = new SimpleMailMessage(notificationTemplateMessage);
+        m.setTo(recipient.getEmail());
+        m.setSubject(prepareMessageTitleForFriendRequestNotification(sender, recipient));
+        m.setText(prepareMessageBodyForFriendRequestNotification(sender, recipient));
+        m.setSentDate(new Date(System.currentTimeMillis()));
+        javaMailSender.send(m);
+    }
+    
+    private String prepareMessageBodyForFriendRequestNotification(Eater sender, Eater recipient) {
+        Locale locale = Locales.getSupportedLocale(recipient.getLanguage().getLanguage());
+        StringBuffer message = new StringBuffer();
+        Object[] params = { recipient.getFirstname(), sender };
+        message.append(messageSource.getMessage("mail.friendRequest.body", params, locale));
+        message.append(messageSource.getMessage("mail.end.body", null, locale));
+        return message.toString();
+    }
+    
+    private String prepareMessageTitleForFriendRequestNotification(Eater sender, Eater recipient) {
+        Locale locale = Locales.getSupportedLocale(recipient.getLanguage().getLanguage());
+        StringBuffer message = new StringBuffer();
+        Object[] params = { sender };
+        message.append(messageSource.getMessage("mail.friendRequest.title", params, locale));
+        return message.toString();
+    }
 }

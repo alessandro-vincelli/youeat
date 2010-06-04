@@ -33,7 +33,6 @@ public interface MailService {
     void sendPassword(Eater eater, String newPassword);
 
     /**
-     * 
      * Send an email to notify the friend suggestion
      *  
      * @param sender the sender of the suggestion
@@ -41,4 +40,12 @@ public interface MailService {
      * @param recipient the recipient of the suggestions and the recipient of the email notification
      */
     void sendFriendSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient);
+    
+    /**
+     * Send an email to notify the friend request
+     *  
+     * @param sender the sender of the friend request
+     * @param recipient the recipient of the friend request
+     */
+    void sendFriendRequestNotification(Eater sender, Eater recipient);
 }

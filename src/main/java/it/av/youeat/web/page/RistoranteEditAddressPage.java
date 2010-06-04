@@ -107,7 +107,7 @@ public class RistoranteEditAddressPage extends BasePage {
         });
         city.add(new CityValidator());
         form.add(city);
-        form.add(new RequiredTextField<String>(Ristorante.PROVINCE));
+        form.add(new TextField<String>(Ristorante.PROVINCE));
         form.add(new RequiredTextField<String>(Ristorante.POSTALCODE));
         DropDownChoice<Country> country = new DropDownChoice<Country>(Ristorante.COUNTRY, countryService.getAll(),
                 new CountryChoiceRenderer());

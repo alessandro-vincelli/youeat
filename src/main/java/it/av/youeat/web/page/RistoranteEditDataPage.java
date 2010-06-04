@@ -53,6 +53,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.springframework.util.Assert;
 
 /**
@@ -97,7 +98,8 @@ public class RistoranteEditDataPage extends BasePage {
         form.setOutputMarkupId(true);
         form.add(new RequiredTextField<String>(Ristorante.NAME));
 
-        form.add(new TextField<String>(Ristorante.WWW).setOutputMarkupId(true));
+        form.add(new TextField<String>(Ristorante.WWW));
+        form.add(new TextField<String>(Ristorante.EMAIL).add(EmailAddressValidator.getInstance()));
         form.add(new TagBox(new Model<String>(""), "tagBox", ristorante));
 
         // form.add(new CheckBox("types.ristorante"));

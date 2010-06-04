@@ -128,6 +128,7 @@ public class RistoranteViewPage extends BasePage {
         formRisto.add(new Label(Ristorante.NAME));
 
         formRisto.add(new SmartLinkLabel(Ristorante.WWW));
+        formRisto.add(new SmartLinkLabel(Ristorante.EMAIL));
         formRisto.add(new ListView<Tag>(Ristorante.TAGS) {
 
             @Override

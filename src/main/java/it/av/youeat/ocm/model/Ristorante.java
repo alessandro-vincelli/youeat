@@ -87,6 +87,7 @@ public class Ristorante extends BasicEntity {
     public static final String TYPE = "type";
     public static final String DESCRIPTION = "description";
     public static final String WWW = "www";
+    public static final String EMAIL = "email";
     public static final String RATES = "rates";
     public static final String TAGS = "tags";
     public static final String PHONE_NUMBER = "phoneNumber";
@@ -123,6 +124,8 @@ public class Ristorante extends BasicEntity {
     private String description;
 
     private String www;
+    
+    private String email;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationTime;
@@ -354,6 +357,14 @@ public class Ristorante extends BasicEntity {
      */
     public void setWww(String www) {
         this.www = www;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**

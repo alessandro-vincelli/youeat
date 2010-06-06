@@ -164,6 +164,8 @@
         <property name="secret" value="" />
         <property name="applicationID" value="" />
     </bean>
+    
+    <bean id="prepareMessage" class="it.av.youeat.service.support.PrepareMessage"/>
 
     <bean id="faceBookAuthHandler" class="it.av.youeat.web.security.FaceBookAuthHandler">
         <property name="apiKey" value="" />

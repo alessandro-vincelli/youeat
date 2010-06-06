@@ -301,8 +301,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      */
     void sendFriendSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient) {
         if (recipient.isSocialNetworkEater()) {
-            // TODO
-            //socialService.sendMessageReceivedNotification(recipient, message);
+            socialService.sendFriendSuggestionNotification(sender, friendsToSuggest, recipient);
         } else {
             mailService.sendFriendSuggestionNotification(sender, friendsToSuggest, recipient);
         }

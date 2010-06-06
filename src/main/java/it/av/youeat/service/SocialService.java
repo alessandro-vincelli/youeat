@@ -15,6 +15,8 @@
  */
 package it.av.youeat.service;
 
+import java.util.Set;
+
 import it.av.youeat.ocm.model.ActivityRistorante;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
@@ -27,7 +29,7 @@ import it.av.youeat.ocm.model.Message;
 public interface SocialService {
 
     /**
-     * <b>TODO</b> Sends a notification to the notify the receiver of a new {@link Message}
+     * Sends a message to notify the receiver of a new {@link Message}
      * 
      * @param sender
      * @param recipient
@@ -36,9 +38,26 @@ public interface SocialService {
     void sendMessageReceivedNotification(Eater recipient, Message message);
 
     /**
-     * Publish an activity on the facebook wall of YouEat
+     * Publishes an activity on the facebook wall of YouEat
      * 
      * @param activityRistorante the activity to be published
      */
     void publishRistoActivity(ActivityRistorante activityRistorante);
+    
+    /**
+     * Sends a message to notify the friend suggestion
+     *  
+     * @param sender the sender of the suggestion
+     * @param friendsToSuggest list of friend to suggest
+     * @param recipient the recipient of the suggestions and the recipient of the email notification
+     */
+    void sendFriendSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient);
+
+    /**
+     * Sends a message to notify the friend request
+     *  
+     * @param sender the sender of the friend request
+     * @param recipient the recipient of the friend request
+     */
+    void sendFriendRequestNotification(Eater fromUser, Eater toUser);
 }

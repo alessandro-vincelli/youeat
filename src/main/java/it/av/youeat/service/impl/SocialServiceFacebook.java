@@ -4,12 +4,14 @@ import it.av.youeat.ocm.model.ActivityRistorante;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
 import it.av.youeat.service.SocialService;
+import it.av.youeat.service.support.PrepareMessage;
 import it.av.youeat.web.Locales;
 import it.av.youeat.web.security.FacebookAuthenticationProvider;
 
+import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.code.facebookapi.FacebookException;
 import com.google.code.facebookapi.FacebookJaxbRestClient;
 
+/**
+ * FaceBook social networks services
+ * 
+ * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
+ *
+ */
 @Repository
 @Transactional(readOnly = true)
 public class SocialServiceFacebook implements SocialService {
@@ -27,6 +35,8 @@ public class SocialServiceFacebook implements SocialService {
     private static Logger log = LoggerFactory.getLogger(FacebookAuthenticationProvider.class);
     @Autowired
     private MessageSource messageSource;
+    @Autowired
+    private PrepareMessage prepareMessage;
     private String apiKey;
     private String secret;
     private String applicationID;
@@ -36,37 +46,11 @@ public class SocialServiceFacebook implements SocialService {
      */
     @Override
     public void sendMessageReceivedNotification(Eater recipient, Message message) {
-//        if (StringUtils.isBlank(sender.getSocialSessionKey())) {
-//            throw new YoueatException("Social Session key not present");
-//        }
-//
-//        FacebookJaxbRestClient client = new FacebookJaxbRestClient(apiKey, secret);
-//        Locale locale = Locales.getSupportedLocale(recipient.getLanguage().getLanguage());
-//        String messageBody = prepareMailTextNotifyNewMessage(recipient, message, locale);
-//        Object[] params = { message.getSender().getFirstname() + " " + message.getSender().getLastname() };
-//        String subject = messageSource.getMessage("notification.newmessage.mailSubject", params, locale);
-//        client.setCacheSession(sender.getSocialSessionKey(), null, Long.valueOf("1000000"));
-//        // client.notifications_sendFbmlEmailToCurrentUser(subject, messageBody);
-//        ArrayList<Long> recipients = new ArrayList<Long>(1);
-//        // recipients.add(Long.valueOf(recipient.getSocialUID()));
-//        // //Collection<String> results = client.notifications_sendTextEmail(recipients, subject, messageBody);
-    }
-
-    private String prepareMailTextNotifyNewMessage(Eater eater, Message message, Locale locale) {
-        StringBuffer textBody = new StringBuffer();
-        textBody.append("\n\n");
-        String[] params = { message.getSender().getFirstname() };
-        textBody.append(messageSource.getMessage("notification.newmessage.startMailBody", params, locale));
-        textBody.append("\n\n");
-        if (StringUtils.isNotBlank(message.getTitle())) {
-            textBody.append(message.getTitle());
-            textBody.append("\n\n");
-        }
-        textBody.append(message.getBody());
-        textBody.append("\n\n");
-        textBody.append("http://www.youeat.org");
-        textBody.append("\n");
-        return textBody.toString();
+        Locale locale = Locales.getSupportedLocale(recipient.getLanguage().getLanguage());
+        String messageBody = prepareMessage.mailTextNotifyNewMessage(recipient, message, locale);
+        Object[] params = { message.getSender().getFirstname() + " " + message.getSender().getLastname() };
+        String subject = messageSource.getMessage("notification.newmessage.mailSubject", params, locale);
+        sendTextEmail(recipient, subject, messageBody);
     }
 
     /**
@@ -81,10 +65,49 @@ public class SocialServiceFacebook implements SocialService {
             if (activityRistorante.getEater().isSocialNetworkEater()) {
                 uid = Long.valueOf(activityRistorante.getEater().getSocialUID());
             }
-            client.stream_publish(prepareActivityMessage(activityRistorante), null, null, Long.valueOf(applicationID),
-                    uid);
+            client.stream_publish(prepareActivityMessage(activityRistorante), null, null, Long.valueOf(applicationID), uid);
         } catch (FacebookException e) {
             log.error("Error sending notification througth facebook", e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public void sendFriendSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient) {
+        String subject = prepareMessage.titleForSuggestionNotification(sender, friendsToSuggest, recipient);
+        String body = prepareMessage.mailTextSuggestionNotification(sender, friendsToSuggest, recipient);
+        sendTextEmail(recipient, subject, body);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public void sendFriendRequestNotification(Eater fromUser, Eater toUser) {
+        String subject = prepareMessage.messageTitleForFriendRequestNotification(fromUser, toUser);
+        String body = prepareMessage.messageBodyForFriendRequestNotification(fromUser, toUser);
+        sendTextEmail(toUser, subject, body);
+    }
+
+    /**
+     * @param recipient
+     * @param subject
+     * @param body
+     */
+    private void sendTextEmail(Eater recipient, String subject, String body) {
+        try {
+            FacebookJaxbRestClient client = new FacebookJaxbRestClient(apiKey, secret);
+            ArrayList<Long> recipients = new ArrayList<Long>(1);
+            if (recipient.isSocialNetworkEater()) {
+                recipients.add(Long.valueOf(recipient.getSocialUID()));
+                client.notifications_sendTextEmail(recipients, subject, body);
+            }
+        } catch (FacebookException e) {
+            log.error("Error sending notification by facebook", e);
         }
     }
 
@@ -102,7 +125,7 @@ public class SocialServiceFacebook implements SocialService {
         textBody.append("\n");
         return textBody.toString();
     }
-    
+
     public void setApiKey(String apiKey) {
         this.apiKey = apiKey;
     }
@@ -114,4 +137,5 @@ public class SocialServiceFacebook implements SocialService {
     public void setApplicationID(String applicationID) {
         this.applicationID = applicationID;
     }
+
 }

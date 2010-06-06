@@ -31,4 +31,5 @@
         add constraint FKEB90560FAA76A44B 
         foreign key (ristorante) 
         references ristorante;
-
+	
+    ALTER TABLE ristorante ADD COLUMN email character varying(255);

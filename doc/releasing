@@ -1,0 +1,3 @@
+How to release
+
+mvn release:clean release:prepare -Dusername=USERNAME -Dpassword=PWD

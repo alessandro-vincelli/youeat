@@ -1,8 +1,11 @@
-How to release
+#How to release
 
 mvn release:clean release:prepare -Dusername=USERNAME -Dpassword=PWD
 
-
-Update the zero data:
+#Update the zero data:
 
 pg_dump -U postgres -Fc eat >  eat-zero-data.dump
+
+#Update the maven site:
+
+mvn site site-deploy

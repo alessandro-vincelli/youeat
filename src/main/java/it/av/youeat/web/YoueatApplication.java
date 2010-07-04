@@ -16,6 +16,7 @@
 package it.av.youeat.web;
 
 import it.av.youeat.web.page.AboutPage;
+import it.av.youeat.web.page.ActivitiesManagerPage;
 import it.av.youeat.web.page.EaterAccountPage;
 import it.av.youeat.web.page.EaterViewPage;
 import it.av.youeat.web.page.ErrorPage;
@@ -131,6 +132,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new IndexedParamUrlCodingStrategy("/sitemap.xml", SitemapPage.class));
         mount(new IndexedParamUrlCodingStrategy("/feed", FeedPage.class));
         mount(new IndexedParamUrlCodingStrategy("/ristoManager", RistoranteManagerPage.class));
+        mount(new IndexedParamUrlCodingStrategy("/activitiesManager", ActivitiesManagerPage.class));
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
     }

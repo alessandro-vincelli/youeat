@@ -44,7 +44,6 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
- * 
  * Contains some commons elements.
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
@@ -142,7 +141,7 @@ public class BasePage extends WebPage {
             }
         }.add(pendingFriendRequests));
 
-        BookmarkablePageLink goMessagesPage = new BookmarkablePageLink<String>("goMessagesPage", MessageListPage.class) {
+        BookmarkablePageLink<String> goMessagesPage = new BookmarkablePageLink<String>("goMessagesPage", MessageListPage.class) {
             @Override
             protected void onBeforeRender() {
                 super.onBeforeRender();
@@ -304,6 +303,15 @@ public class BasePage extends WebPage {
                 super.onBeforeRender();
                 setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
                         .isInstantiationAuthorized(RistoranteManagerPage.class)));
+            }
+        });
+        
+        add(new BookmarkablePageLink<String>("activitiesManager", ActivitiesManagerPage.class) {
+            @Override
+            protected void onBeforeRender() {
+                super.onBeforeRender();
+                setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
+                        .isInstantiationAuthorized(ActivitiesManagerPage.class)));
             }
         });
 

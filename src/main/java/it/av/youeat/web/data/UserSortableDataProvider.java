@@ -15,13 +15,9 @@
  */
 package it.av.youeat.web.data;
 
-import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.service.EaterService;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
@@ -37,18 +33,15 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 public class UserSortableDataProvider extends SortableDataProvider<Eater> {
     @SpringBean
     private EaterService usersService;
-    private transient Collection<Eater> results;
-    private boolean attached;
+    private String searchData = ""; 
 
     /**
      * Construct
      */
     public UserSortableDataProvider() {
         super();
-        results = new ArrayList<Eater>();
-        // setSort(LightVac.SortedFieldNames.dateTime.value(), true);
+        setSort(Eater.ID, true);
         InjectorHolder.getInjector().inject(this);
-        attached = true;
     }
 
     /**
@@ -56,7 +49,7 @@ public class UserSortableDataProvider extends SortableDataProvider<Eater> {
      */
     @Override
     public final Iterator<Eater> iterator(int first, int count) {
-        return Collections.synchronizedList(new ArrayList<Eater>(results)).subList(first, first + count).iterator();
+        return usersService.find(searchData,first, count, getSort().getProperty(), getSort().isAscending()).iterator();
     }
 
     /**
@@ -64,12 +57,7 @@ public class UserSortableDataProvider extends SortableDataProvider<Eater> {
      */
     @Override
     public final int size() {
-        if(results != null){
-            return results.size();    
-        }
-        else{
-            return 0;
-        }
+        return usersService.count(searchData);
     }
 
     /**
@@ -83,27 +71,17 @@ public class UserSortableDataProvider extends SortableDataProvider<Eater> {
         return new UserDetachableModel(user);
     }
 
-    /**
-     * Performs the search
-     * 
-     * @param searchData the string to use for the search
-     * @throws YoueatException
-     */
-    public final void fetchResults(String searchData) throws YoueatException {
-        if (StringUtils.isNotBlank(searchData)) {
-            results = usersService.find(searchData);
-        } else {
-            results = usersService.getAll();
-        }
-    }
-
     @Override
     public void detach() {
         super.detach();
-        if (attached) {
-            attached = false;
-            results = new ArrayList<Eater>(0);
-        }
+    }
+
+    public String getSearchData() {
+        return searchData;
+    }
+
+    public void setSearchData(String searchData) {
+        this.searchData = searchData;
     }
 
 }

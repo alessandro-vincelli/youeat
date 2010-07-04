@@ -41,6 +41,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.queryParser.QueryParser;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
@@ -338,6 +339,36 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
     public int count() {
         Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
         criteria.setProjection(Projections.rowCount());
+        return (Integer) criteria.uniqueResult();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Eater> find(String pattern, int firstResult, int maxResults, String sortField, boolean isAscending) {
+        Criterion critByName = null;
+        if(StringUtils.isNotBlank(pattern)){
+            critByName = Restrictions.ilike(Eater.LASTNAME, pattern);
+        }
+        Order order = null;
+        if(isAscending){
+            order = Order.asc(sortField);
+        }
+        else{
+            order = Order.desc(sortField);
+        }
+        return findByCriteria(order, firstResult, maxResults, critByName);
+    }
+
+    @Override
+    public int count(String pattern) {
+        Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
+        Criterion critByName = Restrictions.ilike(Eater.LASTNAME, pattern);
+        criteria.setProjection(Projections.rowCount());
+        if(StringUtils.isNotBlank(pattern)){
+            criteria.add(critByName);
+        }
         return (Integer) criteria.uniqueResult();
     }
 }

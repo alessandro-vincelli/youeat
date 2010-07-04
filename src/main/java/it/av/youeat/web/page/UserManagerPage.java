@@ -111,13 +111,15 @@ public class UserManagerPage extends BasePage {
             }
         });
         columns.add(new PropertyColumn<Eater>(new Model<String>(new StringResourceModel("firstname", this, null)
-                .getString()), "firstname"));
+                .getString()), "firstname", "firstname"));
         columns.add(new PropertyColumn<Eater>(new Model<String>(new StringResourceModel("lastname", this, null)
-                .getString()), "lastname"));
+                .getString()), "lastname", "lastname"));
         columns.add(new PropertyColumn<Eater>(new Model<String>(new StringResourceModel("email", this, null)
-                .getString()), "email"));
+                .getString()), "email", "email"));
         columns.add(new PropertyColumn<Eater>(new Model<String>(new StringResourceModel("userProfile", this, null)
                 .getString()), "userProfile.name"));
+        columns.add(new PropertyColumn<Eater>(new Model<String>(new StringResourceModel(Eater.CREATIONTIME, this, null)
+        .getString()), Eater.CREATIONTIME, Eater.CREATIONTIME));
         dataProvider = new UserSortableDataProvider();
         usersDataTable = new AjaxFallbackDefaultDataTable<Eater>("usersDataTable", columns, dataProvider, 10);
         add(usersDataTable);
@@ -203,7 +205,7 @@ public class UserManagerPage extends BasePage {
      * @throws YoueatException
      */
     public final void refreshDataTable() throws YoueatException {
-        dataProvider.fetchResults(searchPanel.getForm().getModelObject().getSearchData());
+        dataProvider.setSearchData(searchPanel.getForm().getModelObject().getSearchData());
     }
 
     public final Form<Eater> getForm() {

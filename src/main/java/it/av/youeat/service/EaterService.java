@@ -19,6 +19,7 @@ import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.SocialType;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -88,9 +89,21 @@ public interface EaterService {
      * Search users
      * 
      * @param pattern
-     * @return the found users
+     * @return found users
      */
     Collection<Eater> find(String pattern);
+    
+    /**
+     * Search user
+     * 
+     * @param pattern
+     * @param first first result
+     * @param maxResults max number of result, 0 to disable 
+     * @param sortField property name on which sort, NULL to disable
+     * @param isAscending is ascending sort
+     * @return found users
+     */
+    List<Eater> find(String pattern, int first, int maxResults, String sortField, boolean isAscending);
 
     /**
      * Return users without relations with the given user and the given pattern the search is performed on the firstname and
@@ -189,4 +202,13 @@ public interface EaterService {
      * @return number of users
      */
     int count();
+    
+    /**
+     * count users in the DB that match the given pattern.
+     * Useful togheter with the find() 
+     * 
+     * @param pattern pattern to filter on
+     * @return number of users
+     */
+    int count(String pattern);
 }

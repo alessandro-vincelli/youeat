@@ -27,6 +27,7 @@ import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.SocialType;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -150,6 +151,45 @@ public class EaterServiceTest extends YoueatTest {
         // assertNotNull("Friend C is null", c.getUserRelation().get(0).getFromUser());
         // assertNotNull("Friend A null", c.getUserRelation().get(0).getToUser());
         // assertEquals(a.getEmail(), c.getUserRelation().get(0).getToUser().getEmail());
+        
+        List<Eater> sortedResults = userService.find("vincelli", 0, 1, Eater.FIRSTNAME, true);
+        assertEquals(1, sortedResults.size());
+        assertEquals(b, sortedResults.get(0));
+        
+        sortedResults = userService.find("vincelli", 0, 2, Eater.FIRSTNAME, true);
+        assertEquals(2, sortedResults.size());
+        assertEquals(b, sortedResults.get(0));
+        assertEquals(c, sortedResults.get(1));
+        
+        sortedResults = userService.find("vincelli", 0, 2, Eater.FIRSTNAME, false);
+        assertEquals(2, sortedResults.size());
+        assertEquals(c, sortedResults.get(0));
+        assertEquals(b, sortedResults.get(1));
+        
+        sortedResults = userService.find("vincelli", 0, 2, Eater.CREATIONTIME, false);
+        assertEquals(2, sortedResults.size());
+        assertEquals(c, sortedResults.get(0));
+        assertEquals(b, sortedResults.get(1));
+        
+        sortedResults = userService.find("vincelli", 0, 2, Eater.CREATIONTIME, true);
+        assertEquals(2, sortedResults.size());
+        assertEquals(b, sortedResults.get(0));
+        assertEquals(c, sortedResults.get(1));
+        
+        sortedResults = userService.find(null, 0, 2, Eater.CREATIONTIME, true);
+        assertEquals(2, sortedResults.size());
+        
+        sortedResults = userService.find("", 0, 2, Eater.CREATIONTIME, true);
+        assertEquals(2, sortedResults.size());
+        
+        int countEater = userService.count();
+        assertEquals(2, countEater);
+        
+        countEater = userService.count("vincelli");
+        assertEquals(2, countEater);
+        
+        countEater = userService.count(null);
+        assertEquals(2, countEater);
 
         userService.remove(c);
         userService.remove(b);

@@ -139,7 +139,9 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
             criteria.addOrder(order);
         }
         for (Criterion c : criterion) {
-            criteria.add(c);
+            if(c != null){
+                criteria.add(c);
+            }
         }
         if (firstResult > 0) {
             criteria.setFirstResult(firstResult);

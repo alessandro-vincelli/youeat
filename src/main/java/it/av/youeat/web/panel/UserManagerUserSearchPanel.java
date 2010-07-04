@@ -68,7 +68,7 @@ public class UserManagerUserSearchPanel extends Panel {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form form) {
                 try {
-                    dataProvider.fetchResults(((SearchBean) getForm().getModelObject()).getSearchData());
+                    dataProvider.setSearchData(((SearchBean) getForm().getModelObject()).getSearchData());
                 } catch (YoueatException e) {
                     feedbackPanel.error(e.getMessage());
                 }

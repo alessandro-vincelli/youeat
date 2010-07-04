@@ -72,6 +72,7 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
     public static final String AVATAR = "avatar";
     public static final String SOCIALTYPE = "socialType";
     public static final String SOCIALUID = "socialUID";
+    public static final String CREATIONTIME = "creationTime";
     
     @Column(nullable = false)
     private String password;

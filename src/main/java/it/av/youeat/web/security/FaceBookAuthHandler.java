@@ -10,11 +10,15 @@ import org.json.JSONObject;
 import com.google.code.facebookapi.FacebookException;
 import com.google.code.facebookapi.FacebookJaxbRestClient;
 
+/**
+ * 
+ * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
+ *
+ */
 public class FaceBookAuthHandler {
 
     private String apiKey;
     private String secret;
-
     
     public FacebookJaxbRestClient getAuthenticatedClient(HttpServletRequest request) throws FailedLoginException, FacebookException, JSONException {
         String cacheSessionKey = "";

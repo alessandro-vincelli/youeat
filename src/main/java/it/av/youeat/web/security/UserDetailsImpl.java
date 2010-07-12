@@ -25,20 +25,28 @@ import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
+ * Provides user information 
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
 public class UserDetailsImpl implements UserDetails {
 
     private String passwordSalt;
-
     private Eater user;
 
+    /**
+     * Constructor
+     * 
+     * @param user
+     */
     public UserDetailsImpl(Eater user) {
         this.user = user;
         this.passwordSalt = user.getPasswordSalt();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
         GrantedAuthority ga = new GrantedAuthorityImpl(user.getUserProfile().getName());
@@ -47,40 +55,64 @@ public class UserDetailsImpl implements UserDetails {
         return gaL;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getPassword() {
         return user.getPassword();
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getUsername() {
         return user.getEmail();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isEnabled() {
         return true;
     }
 
+    /**
+     * @return the logged user
+     */
     public final Eater getUser() {
         return user;
     }
 
+    /**
+     * @return th password salt
+     */
     public String getPasswordSalt() {
         return passwordSalt;
     }

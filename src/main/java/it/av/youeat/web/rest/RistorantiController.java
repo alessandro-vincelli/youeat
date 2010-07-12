@@ -1,13 +1,16 @@
 package it.av.youeat.web.rest;
 
+import it.av.youeat.ocm.model.EaterProfile;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.geo.Location;
 import it.av.youeat.service.RistorantePositionService;
 import it.av.youeat.service.RistoranteService;
+import it.av.youeat.web.security.SecurityContextHelper;
 
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
@@ -41,7 +44,6 @@ public class RistorantiController {
         this.ristoranteService = ristoranteService;
         this.jsonView = jsonView;
         this.positionService = positionService;
-        
     }
 
     /**
@@ -108,4 +110,20 @@ public class RistorantiController {
         modelAndView.addObject(positionService.around(new Location(latitude, longitude), distanceInMeters, maxResults));
         return modelAndView;
     }
+    
+    /**
+     * Returns user favorite restaurants sorted by the distance between the risto and the given coordinates
+     * 
+     * @param model
+     * @return a list of ristoranti
+     */
+    @RequestMapping(value = "/security/favorite/{latitude}/{longitude}/{user}")
+    @Secured(EaterProfile.USER)
+    public ModelAndView getSecurity(@PathVariable Double latitude, @PathVariable Double longitude, @PathVariable String user, Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setView(jsonView);
+        modelAndView.addObject(positionService.favourites(SecurityContextHelper.getAuthenticatedUser(), new Location(latitude, longitude), 50));
+        return modelAndView;
+    }
+
 }

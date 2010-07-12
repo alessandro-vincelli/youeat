@@ -20,7 +20,6 @@ import it.av.youeat.service.EaterService;
 
 import java.util.Iterator;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.model.IModel;

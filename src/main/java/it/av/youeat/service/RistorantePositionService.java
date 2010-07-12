@@ -1,5 +1,6 @@
 package it.av.youeat.service;
 
+import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.geo.Location;
 import it.av.youeat.ocm.model.geo.RistorantePosition;
@@ -16,8 +17,8 @@ import java.util.List;
 public interface RistorantePositionService {
 
     /**
-     * Search restaurants around a position.<br>
-     * Returns a list of RistorantePositionAndDistance object containing info about found found ristos and relative distance.  
+     * Search restaurants around a position.
+     * <p>Returns a list of RistorantePositionAndDistance object containing info about found found ristos and relative distance.  
      * 
      * @param location the location
      * @param meters the max distance in meter
@@ -25,6 +26,16 @@ public interface RistorantePositionService {
      * @return a list of RistorantePositionAndDistance
      */
     List<RistorantePositionAndDistance> around(Location location, long meters, int maxResults);
+    
+    /**
+     * Favorites restaurants of a user, plus the distance between the risto and the position.
+     * 
+     * @param eater the user 
+     * @param location the location to calculate the distance
+     * @param maxResults max number of result to return
+     * @return a list of RistorantePositionAndDistance
+     */
+    List<RistorantePositionAndDistance> favourites(Eater eater,Location location, int maxResults);
 
     /**
      * Saves the given position

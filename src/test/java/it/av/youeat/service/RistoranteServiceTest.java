@@ -171,8 +171,8 @@ public class RistoranteServiceTest extends YoueatTest {
         
         Location loc = ristorantePositionService.getByRistorante(a).getWhere();
         
-        assertTrue(1 == loc.latitude.value);
-        assertTrue(2 == loc.longitude.value);
+        assertTrue(1 == loc.getLatitude().value);
+        assertTrue(2 == loc.getLongitude().value);
         
         ristoranteService.remove(a);
     }

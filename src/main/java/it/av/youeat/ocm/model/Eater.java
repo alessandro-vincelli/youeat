@@ -32,6 +32,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.solr.analysis.ISOLatin1AccentFilterFactory;
 import org.apache.solr.analysis.LowerCaseFilterFactory;
@@ -186,7 +187,8 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
     public void setUserProfile(EaterProfile userProfile) {
         this.userProfile = userProfile;
     }
-
+    
+    @XmlTransient
     public List<EaterRelation> getUserRelation() {
         return userRelation;
     }
@@ -211,6 +213,7 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
         this.language = language;
     }
 
+    @XmlTransient
     public byte[] getAvatar() {
         return avatar;
     }

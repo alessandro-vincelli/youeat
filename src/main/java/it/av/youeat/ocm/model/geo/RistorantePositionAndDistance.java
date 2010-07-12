@@ -1,6 +1,5 @@
 package it.av.youeat.ocm.model.geo;
 
-import static it.av.youeat.util.GeoUtil.toMeter;
 import static org.springframework.util.Assert.notNull;
 import it.av.youeat.ocm.model.Ristorante;
 
@@ -16,35 +15,39 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class RistorantePositionAndDistance {
 
     private RistorantePosition ristorantePosition;
-    private Double distance;
+    private Location location;
 
     /**
      * 
      * @param ristorantePosition (not null)
      * @param location (not null)
      */
-    public RistorantePositionAndDistance(RistorantePosition ristorantePosition, Double distance) {
+    public RistorantePositionAndDistance(RistorantePosition ristorantePosition, Location location) {
         super();
         notNull(ristorantePosition);
-        notNull(distance);
+        notNull(location);
         this.ristorantePosition = ristorantePosition;
-        this.distance = distance;
+        this.location = location;
     }
 
+    /** 
+     * @return the location of the ristorante
+     */
     public RistorantePosition getRistorantePosition() {
         return ristorantePosition;
     }
 
-    public Double getDistance() {
-        return distance;
-    }
-
+    /**
+     * @return the distance between the restaurant ad the location
+     */
     public Long getDistanceInMeters() {
-        return toMeter(distance);
+        return ristorantePosition.getWhere().distanceFrom(location);
     }
 
+    /** 
+     * @return the ristorante
+     */
     public Ristorante getRistorante() {
         return ristorantePosition.getRistorante();
     }
-
 }

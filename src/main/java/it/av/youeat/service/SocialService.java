@@ -15,11 +15,11 @@
  */
 package it.av.youeat.service;
 
-import java.util.Set;
-
 import it.av.youeat.ocm.model.ActivityRistorante;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Message;
+
+import java.util.Set;
 
 /**
  * Operations and services on social networks

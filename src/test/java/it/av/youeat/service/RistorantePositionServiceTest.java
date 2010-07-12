@@ -9,7 +9,6 @@ import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.geo.Location;
 import it.av.youeat.ocm.model.geo.RistorantePosition;
 import it.av.youeat.ocm.model.geo.RistorantePositionAndDistance;
-import it.av.youeat.util.GeoUtil;
 
 import java.util.List;
 
@@ -36,6 +35,8 @@ public class RistorantePositionServiceTest extends YoueatTest {
     private RistorantePositionService ristorantePositionService;
     @Autowired
     private RistoranteService ristoranteService;
+    @Autowired
+    private ActivityRistoranteService activityRistoranteService;
     private Eater user;
     private Ristorante mammalina;
     private Ristorante ciacco;
@@ -92,12 +93,12 @@ public class RistorantePositionServiceTest extends YoueatTest {
         assertNotNull(position.getId());
         assertNotNull(position.getRistorante());
         assertEquals(mammalina, position.getRistorante());
-        assertEquals(where.latitude, position.getWhere().latitude);
-        assertEquals(where.longitude, position.getWhere().longitude);
+        assertEquals(where.getLatitude(), position.getWhere().getLatitude());
+        assertEquals(where.getLongitude(), position.getWhere().getLongitude());
 
         position = ristorantePositionService.getByRistorante(mammalina);
         assertNotNull(position);
-
+        
         ristorantePositionService.remove(position);
         position = ristorantePositionService.getByRistorante(mammalina);
         assertNull(position);
@@ -124,7 +125,7 @@ public class RistorantePositionServiceTest extends YoueatTest {
 
         List<RistorantePositionAndDistance> results = ristorantePositionService.around(whereMammalina, 600, 10);
         assertNotNull(results);
-        assertTrue(results.size() == 2);
+        assertEquals(2, results.size());
         assertEquals(mammalina, results.get(0).getRistorante());
         assertEquals(ciacco, results.get(1).getRistorante());
 
@@ -146,8 +147,26 @@ public class RistorantePositionServiceTest extends YoueatTest {
         RistorantePosition positionCiaccoFromDB = results.get(1).getRistorantePosition();
         Long distanceCalculated = (long)positionCiaccoFromDB.getWhere().distanceFrom(whereMammalina).doubleValue();
 
-        assertEquals(distanceCalculated, GeoUtil.toMeter(results.get(1).getDistance()));
         assertEquals(distanceCalculated, results.get(1).getDistanceInMeters());
+        
+        //position on favorites ristos
+        activityRistoranteService.addRistoAsFavourite(user, ciacco);
+        List<RistorantePositionAndDistance> favoritesRisto = ristorantePositionService.favourites(user, whereMammalina, 2);
+        assertEquals(1, favoritesRisto.size());
+        distanceCalculated = (long)positionCiaccoFromDB.getWhere().distanceFrom(whereMammalina).doubleValue();
+        assertEquals(distanceCalculated, results.get(1).getDistanceInMeters());
+        
+        activityRistoranteService.addRistoAsFavourite(user, mola);
+        favoritesRisto = ristorantePositionService.favourites(user, whereMammalina, 1);
+        assertEquals(1, favoritesRisto.size());
+        assertEquals(ciacco, results.get(1).getRistorante());
+        
+        favoritesRisto = ristorantePositionService.favourites(user, whereMammalina, 2);
+        assertEquals(2, favoritesRisto.size());
+        assertEquals(ciacco, results.get(1).getRistorante());
+        assertEquals(mola, results.get(2).getRistorante());
+        
+
     }
 
  }

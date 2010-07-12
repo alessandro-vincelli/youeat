@@ -1,6 +1,7 @@
 package it.av.youeat.web.rest;
 
 import it.av.youeat.ocm.model.EaterProfile;
+import it.av.youeat.service.ActivityRistoranteService;
 import it.av.youeat.web.security.SecurityContextHelper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,38 +14,43 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
 /**
- * SignUp and logged user, works together with spring security filters  
+ * Provides some REST services for restaurants activities. Creates JSON objects.
  * 
  * @author Alessandro Vincelli
  */
 @Controller
-public class SignInController {
+public class ActivitiesController {
 
+    private ActivityRistoranteService activityRistoranteService;
     private MappingJacksonJsonView jsonView;
 
     /**
      * Constructor
      * 
+     * @param activityRistoranteService (not null)
      * @param jsonView (not null)
      */
     @Autowired
-    public SignInController(MappingJacksonJsonView jsonView) {
+    public ActivitiesController(ActivityRistoranteService activityRistoranteService, MappingJacksonJsonView jsonView) {
+        Assert.notNull(activityRistoranteService);
         Assert.notNull(jsonView);
+        this.activityRistoranteService = activityRistoranteService;
         this.jsonView = jsonView;
     }
 
     /**
-     * Return the authenticated user
+     * Returns the activities of the logged user
      * 
      * @param model
-     * @return the authenticated user
+     * @return a list of activities
      */
-    @RequestMapping(value = "/security/signUp")
+    @RequestMapping(value = "/security/friendActivitiesByLoggedUser")
     @Secured(EaterProfile.USER)
-    public ModelAndView signUp(Model model) {
+    public ModelAndView getFriendActivitiesByLoggedUser(Model model) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setView(jsonView);
-        modelAndView.addObject(SecurityContextHelper.getAuthenticatedUser());
+        modelAndView.addObject(activityRistoranteService.findByUserFriendAndUser(SecurityContextHelper.getAuthenticatedUser(), 0, 20));
         return modelAndView;
     }
+
 }

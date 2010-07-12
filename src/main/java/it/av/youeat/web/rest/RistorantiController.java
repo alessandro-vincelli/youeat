@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
 /**
- * Provides some REST services for restaurants. The returned data are JSON objects.
+ * Provides some REST services for restaurants. Creates JSON objects.
  * 
  * @author Alessandro Vincelli
  */
@@ -35,11 +35,13 @@ public class RistorantiController {
      * Constructor
      * 
      * @param ristoranteService (not null)
+     * @param positionService (not null)
      * @param jsonView (not null)
      */
     @Autowired
-    public RistorantiController(RistoranteService ristoranteService, MappingJacksonJsonView jsonView, RistorantePositionService positionService) {
+    public RistorantiController(RistoranteService ristoranteService, RistorantePositionService positionService, MappingJacksonJsonView jsonView) {
         Assert.notNull(ristoranteService);
+        Assert.notNull(positionService);
         Assert.notNull(jsonView);
         this.ristoranteService = ristoranteService;
         this.jsonView = jsonView;

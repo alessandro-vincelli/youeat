@@ -163,8 +163,8 @@ public class RistorantePositionServiceTest extends YoueatTest {
         
         favoritesRisto = ristorantePositionService.favourites(user, whereMammalina, 2);
         assertEquals(2, favoritesRisto.size());
-        assertEquals(ciacco, results.get(1).getRistorante());
-        assertEquals(mola, results.get(2).getRistorante());
+        assertEquals(ciacco, favoritesRisto.get(0).getRistorante());
+        assertEquals(mola, favoritesRisto.get(1).getRistorante());
         
 
     }

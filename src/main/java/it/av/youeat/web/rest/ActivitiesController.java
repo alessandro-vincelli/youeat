@@ -1,10 +1,16 @@
 package it.av.youeat.web.rest;
 
+import it.av.youeat.ocm.model.ActivityRistorante;
 import it.av.youeat.ocm.model.EaterProfile;
 import it.av.youeat.service.ActivityRistoranteService;
+import it.av.youeat.util.PeriodUtil;
 import it.av.youeat.web.security.SecurityContextHelper;
 
+import java.util.List;
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +28,8 @@ import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 public class ActivitiesController {
 
     private ActivityRistoranteService activityRistoranteService;
+    private PeriodUtil periodUtil;
+    private MessageSource messageSource;
     private MappingJacksonJsonView jsonView;
 
     /**
@@ -31,10 +39,13 @@ public class ActivitiesController {
      * @param jsonView (not null)
      */
     @Autowired
-    public ActivitiesController(ActivityRistoranteService activityRistoranteService, MappingJacksonJsonView jsonView) {
+    public ActivitiesController(ActivityRistoranteService activityRistoranteService, PeriodUtil periodUtil,
+            MessageSource messageSource, MappingJacksonJsonView jsonView) {
         Assert.notNull(activityRistoranteService);
         Assert.notNull(jsonView);
         this.activityRistoranteService = activityRistoranteService;
+        this.periodUtil = periodUtil;
+        this.messageSource = messageSource;
         this.jsonView = jsonView;
     }
 
@@ -49,8 +60,27 @@ public class ActivitiesController {
     public ModelAndView getFriendActivitiesByLoggedUser(Model model) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setView(jsonView);
-        modelAndView.addObject(activityRistoranteService.findByUserFriendAndUser(SecurityContextHelper.getAuthenticatedUser(), 0, 20));
+        List<ActivityRistorante> activityRistorantes = activityRistoranteService.findByUserFriendAndUser(SecurityContextHelper
+                .getAuthenticatedUser(), 0, 20);
+        Locale locale = new Locale(SecurityContextHelper.getAuthenticatedUser().getLanguage().getLanguage());
+        setElapsedTimeAndDesc(activityRistorantes, locale);
+        modelAndView.addObject(activityRistorantes);
         return modelAndView;
+    }
+
+    /**
+     * Set the elapsed time and the description of the activity
+     * 
+     * @param activityRistorantes
+     * @param locale
+     * @return list of activities
+     */
+    List<ActivityRistorante> setElapsedTimeAndDesc(List<ActivityRistorante> activityRistorantes, Locale locale) {
+        for (ActivityRistorante activityRistorante : activityRistorantes) {
+            activityRistorante.setElapsedTime(periodUtil.getPeriod(activityRistorante.getDate().getTime(), locale));
+            activityRistorante.setActivityDesc(messageSource.getMessage(activityRistorante.getType(), null, locale));
+        }
+        return activityRistorantes;
     }
 
 }

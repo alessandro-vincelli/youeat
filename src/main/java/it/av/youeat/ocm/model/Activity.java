@@ -25,6 +25,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.ForeignKey;
@@ -43,6 +44,17 @@ public class Activity extends BasicEntity {
 
     public static final String DATE = "date";
     public static final String USER = "eater";
+    /**
+     * Non persistent, used only on the presentation layer
+     */
+    @Transient
+    private String elapsedTime;
+    /**
+     * Non persistent, used only on the presentation layer
+     */
+    @Transient
+    private String activityDesc;
+    
     @Column(nullable=false)
     private Timestamp date;
     @ManyToOne(optional=false)
@@ -73,5 +85,42 @@ public class Activity extends BasicEntity {
 
     public void setEater(Eater user) {
         this.eater = user;
+    }
+
+    /**
+     * Non persistent, used only on the presentation layer
+     * 
+     * @return the elapsedTime
+     */
+    public String getElapsedTime() {
+        return elapsedTime;
+    }
+
+    /**
+     * Non persistent, used only on the presentation layer
+     * 
+     * @param elapsedTime the elapsedTime to set
+     */
+    public void setElapsedTime(String elapsedTime) {
+        this.elapsedTime = elapsedTime;
+    }
+
+    /**
+     * Non persistent, used only on the presentation layer
+     * 
+     * @return the activityDesc
+     */
+    public String getActivityDesc() {
+        return activityDesc;
+    }
+
+    /**
+     * Non persistent, used only on the presentation layer
+     * 
+     * @param activityDesc the activityDesc to set
+     */
+    public void setActivityDesc(String activityDesc) {
+        this.activityDesc = activityDesc;
     }    
+    
 }

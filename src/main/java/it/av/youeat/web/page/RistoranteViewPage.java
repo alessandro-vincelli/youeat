@@ -307,8 +307,7 @@ public class RistoranteViewPage extends BasePage {
         add(new AjaxLink<String>("tried") {
             public void onClick(AjaxRequestTarget target) {
                 if (getLoggedInUser() != null) {
-                    activityService.save(new ActivityRistorante(getLoggedInUser(), ristorante,
-                            ActivityRistorante.TYPE_TRIED));
+                    activityService.addTriedRisto(getLoggedInUser(), ristorante);
                     info(getString("info.IateHere", new Model<Ristorante>(ristorante)));
                 } else {
                     info(getString("action.notlogged"));
@@ -321,7 +320,7 @@ public class RistoranteViewPage extends BasePage {
             public void onClick(AjaxRequestTarget target) {
                 if (getLoggedInUser() != null) {
                     if (activityService.isFavouriteRisto(getLoggedInUser(), ristorante)) {
-                        activityService.addRistoAsFavourite(getLoggedInUser(), ristorante);
+                        activityService.addRistoAsFavorite(getLoggedInUser(), ristorante);
                         info(getString("action.removedAsFavourite", new Model<Ristorante>(ristorante)));
                         asfavouriteLabel.setDefaultModelObject(getString("button.addAsFavourite"));
                     } else {

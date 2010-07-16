@@ -356,8 +356,22 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
      */
     @Override
     @Transactional
-    public void addRistoAsFavourite(Eater eater, Ristorante ristorante) {
+    public void addRistoAsFavorite(Eater eater, Ristorante ristorante) {
         save(new ActivityRistorante(eater, ristorante, ActivityRistorante.TYPE_ADDED_AS_FAVOURITE));
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public void addOrRemoveRistoAsFavorite(Eater eater, Ristorante ristorante){
+        if (isFavouriteRisto(eater, ristorante)) {
+            removeRistoAsFavourite(eater, ristorante);
+        }
+        else{
+            addRistoAsFavorite(eater, ristorante);
+        }
     }
     
     /**
@@ -367,5 +381,14 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
     @Transactional
     public void removeRistoAsFavourite(Eater eater, Ristorante ristorante) {
         save(new ActivityRistorante(eater, ristorante, ActivityRistorante.TYPE_REMOVED_AS_FAVOURITE));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Transactional
+    @Override
+    public void addTriedRisto(Eater eater, Ristorante ristorante) {
+        save(new ActivityRistorante(eater, ristorante, ActivityRistorante.TYPE_TRIED));        
     }
 }

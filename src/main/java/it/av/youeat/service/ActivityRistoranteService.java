@@ -207,12 +207,29 @@ public interface ActivityRistoranteService {
     List<Ristorante> findFavoriteRisto(Eater eater, int maxResults);
     
     /**
-     * Add the given risto as favorite for the given user   
+     * Add the given risto as favorite for the given user
      *  
      * @param eater
      * @param ristorante
      */
-    void addRistoAsFavourite(Eater eater, Ristorante ristorante);
+    void addRistoAsFavorite(Eater eater, Ristorante ristorante);
+    
+    /**
+     * Add the given risto as favorite or remove it as favorite 
+     * if it's already favorite by the given user
+     *  
+     * @param eater
+     * @param ristorante
+     */
+    void addOrRemoveRistoAsFavorite(Eater eater, Ristorante ristorante);
+    
+    /**
+     * The given user tried the given risto   
+     *  
+     * @param eater
+     * @param ristorante
+     */
+    void addTriedRisto(Eater eater, Ristorante ristorante);
 
     /**
      * Remove the given risto as favorite for the given user

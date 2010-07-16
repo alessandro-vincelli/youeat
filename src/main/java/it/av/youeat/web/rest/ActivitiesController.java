@@ -61,7 +61,25 @@ public class ActivitiesController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setView(jsonView);
         List<ActivityRistorante> activityRistorantes = activityRistoranteService.findByUserFriendAndUser(SecurityContextHelper
-                .getAuthenticatedUser(), 0, 20);
+                .getAuthenticatedUser(), 0, 30);
+        Locale locale = new Locale(SecurityContextHelper.getAuthenticatedUser().getLanguage().getLanguage());
+        setElapsedTimeAndDesc(activityRistorantes, locale);
+        modelAndView.addObject(activityRistorantes);
+        return modelAndView;
+    }
+
+    /**
+     * Returns the last activities on restaurants
+     * 
+     * @param model
+     * @return a list of activities
+     */
+    @RequestMapping(value = "/security/lastActivitiesOnRestaurants")
+    @Secured(EaterProfile.USER)
+    public ModelAndView getLastActivitiesOnRestaurants(Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setView(jsonView);
+        List<ActivityRistorante> activityRistorantes = activityRistoranteService.getLasts(30);
         Locale locale = new Locale(SecurityContextHelper.getAuthenticatedUser().getLanguage().getLanguage());
         setElapsedTimeAndDesc(activityRistorantes, locale);
         modelAndView.addObject(activityRistorantes);
@@ -82,5 +100,4 @@ public class ActivitiesController {
         }
         return activityRistorantes;
     }
-
 }

@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
 /**
- * SignUp and logged user, works together with spring security filters  
+ * SignUp and logged user, works together with spring security filters
  * 
  * @author Alessandro Vincelli
  */

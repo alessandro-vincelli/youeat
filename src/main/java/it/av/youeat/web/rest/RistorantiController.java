@@ -39,7 +39,8 @@ public class RistorantiController {
      * @param jsonView (not null)
      */
     @Autowired
-    public RistorantiController(RistoranteService ristoranteService, RistorantePositionService positionService, MappingJacksonJsonView jsonView) {
+    public RistorantiController(RistoranteService ristoranteService, RistorantePositionService positionService,
+            MappingJacksonJsonView jsonView) {
         Assert.notNull(ristoranteService);
         Assert.notNull(positionService);
         Assert.notNull(jsonView);
@@ -97,7 +98,7 @@ public class RistorantiController {
         }
         return modelAndView;
     }
-    
+
     /**
      * Returns the last 10 restaurants as JSON objects
      * 
@@ -105,14 +106,15 @@ public class RistorantiController {
      * @return a list of ristoranti
      */
     @RequestMapping(value = "/findCloseRistoranti/{latitude}/{longitude}/{distanceInMeters}/{maxResults}")
-    public ModelAndView getCloseRestaurants(@PathVariable Double latitude, @PathVariable Double longitude, @PathVariable Long distanceInMeters, @PathVariable int maxResults, Model model) {
-        //http://localhost:8080/rest/findCloseRistoranti/42.5582722/12.6386542/900/10
+    public ModelAndView getCloseRestaurants(@PathVariable Double latitude, @PathVariable Double longitude,
+            @PathVariable Long distanceInMeters, @PathVariable int maxResults, Model model) {
+        // http://localhost:8080/rest/findCloseRistoranti/42.5582722/12.6386542/900/10
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setView(jsonView);
         modelAndView.addObject(positionService.around(new Location(latitude, longitude), distanceInMeters, maxResults));
         return modelAndView;
     }
-    
+
     /**
      * Returns user favorite restaurants sorted by the distance between the risto and the given coordinates
      * 
@@ -121,10 +123,12 @@ public class RistorantiController {
      */
     @RequestMapping(value = "/security/favorite/{latitude}/{longitude}/{user}")
     @Secured(EaterProfile.USER)
-    public ModelAndView getSecurity(@PathVariable Double latitude, @PathVariable Double longitude, @PathVariable String user, Model model) {
+    public ModelAndView getFavorite(@PathVariable Double latitude, @PathVariable Double longitude, @PathVariable String user,
+            Model model) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setView(jsonView);
-        modelAndView.addObject(positionService.favourites(SecurityContextHelper.getAuthenticatedUser(), new Location(latitude, longitude), 50));
+        modelAndView.addObject(positionService.favourites(SecurityContextHelper.getAuthenticatedUser(), new Location(latitude,
+                longitude), 50));
         return modelAndView;
     }
 

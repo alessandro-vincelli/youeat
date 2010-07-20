@@ -150,13 +150,13 @@ public class RistorantePositionServiceTest extends YoueatTest {
         assertEquals(distanceCalculated, results.get(1).getDistanceInMeters());
         
         //position on favorites ristos
-        activityRistoranteService.addRistoAsFavourite(user, ciacco);
+        activityRistoranteService.addRistoAsFavorite(user, ciacco);
         List<RistorantePositionAndDistance> favoritesRisto = ristorantePositionService.favourites(user, whereMammalina, 2);
         assertEquals(1, favoritesRisto.size());
         distanceCalculated = (long)positionCiaccoFromDB.getWhere().distanceFrom(whereMammalina).doubleValue();
         assertEquals(distanceCalculated, results.get(1).getDistanceInMeters());
         
-        activityRistoranteService.addRistoAsFavourite(user, mola);
+        activityRistoranteService.addRistoAsFavorite(user, mola);
         favoritesRisto = ristorantePositionService.favourites(user, whereMammalina, 1);
         assertEquals(1, favoritesRisto.size());
         assertEquals(ciacco, results.get(1).getRistorante());

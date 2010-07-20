@@ -2,6 +2,7 @@ package it.av.youeat.service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import it.av.youeat.ocm.model.ActivityRistorante;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.EaterRelation;
@@ -154,13 +155,17 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
         List<Ristorante> contributenRisto = activityRistoranteService.findContributedByEater(user, 0);
         assertTrue(contributenRisto.get(0).equals(risto));
         
-        activityRistoranteService.addRistoAsFavourite(user, risto);
+        activityRistoranteService.addRistoAsFavorite(user, risto);
         List<Ristorante> favouritesRisto = activityRistoranteService.findFavoriteRisto(user, 1);
         assertTrue(favouritesRisto.get(0).equals(risto));
         
         activityRistoranteService.removeRistoAsFavourite(user, risto);
         favouritesRisto = activityRistoranteService.findFavoriteRisto(user, 1);
         assertTrue(favouritesRisto.isEmpty());
+        
+        activityRistoranteService.addTriedRisto(user, risto);
+        List<ActivityRistorante> triedRistos = activityRistoranteService.findByEaterRistoType(user, risto, ActivityRistorante.TYPE_TRIED);
+        assertEquals(1, triedRistos.size());
     }
     
     

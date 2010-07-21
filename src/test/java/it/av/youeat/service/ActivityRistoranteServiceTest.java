@@ -1,8 +1,8 @@
 package it.av.youeat.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 import it.av.youeat.ocm.model.ActivityRistorante;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.EaterRelation;
@@ -120,7 +120,9 @@ public class ActivityRistoranteServiceTest extends YoueatTest{
 
         // Using the service
         List<ActivityRistorante> activities = activityRistoranteService.findByRistorante(risto);
-        assertNotNull("Activity is null", activities);
+        assertTrue(activities.size() > 0);
+        
+        activities = activityRistoranteService.findByRistoranteId(risto.getId());
         assertTrue(activities.size() > 0);
 
         activities = activityRistoranteService.findByEater(user);

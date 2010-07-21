@@ -13,6 +13,7 @@ import java.util.List;
  * 
  */
 public interface ActivityRistoranteService {
+    
     /**
      * Find activities on the given restaurant
      * 
@@ -20,6 +21,14 @@ public interface ActivityRistoranteService {
      * @return activities on the given restaurant
      */
     List<ActivityRistorante> findByRistorante(Ristorante risto);
+    
+    /**
+     * Find by the given risto id
+     * 
+     * @param risto id
+     * @return activities on the given restaurant id
+     */
+    List<ActivityRistorante> findByRistoranteId(String ristoId);
 
     /**
      * Find activities on ristoranti for the given user

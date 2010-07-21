@@ -49,7 +49,18 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
     @Override
     public List<ActivityRistorante> findByRistorante(Ristorante risto) {
         Criterion crit = Restrictions.eq(ActivityRistorante.RISTORANTE, risto);
-        return findByCriteria(crit);
+        Order orderByDate = Order.desc(Activity.DATE);
+        return findByCriteria(orderByDate, crit);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ActivityRistorante> findByRistoranteId(String ristoId) {
+        Criterion crit = Restrictions.eq(ActivityRistorante.RISTORANTE + ".id", ristoId);
+        Order orderByDate = Order.desc(Activity.DATE);
+        return findByCriteria(orderByDate, crit);
     }
 
     /**
@@ -391,4 +402,5 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
     public void addTriedRisto(Eater eater, Ristorante ristorante) {
         save(new ActivityRistorante(eater, ristorante, ActivityRistorante.TYPE_TRIED));        
     }
+
 }

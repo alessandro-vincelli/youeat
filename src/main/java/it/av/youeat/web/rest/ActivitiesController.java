@@ -15,6 +15,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
@@ -80,6 +81,25 @@ public class ActivitiesController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setView(jsonView);
         List<ActivityRistorante> activityRistorantes = activityRistoranteService.getLasts(30);
+        Locale locale = new Locale(SecurityContextHelper.getAuthenticatedUser().getLanguage().getLanguage());
+        setElapsedTimeAndDesc(activityRistorantes, locale);
+        modelAndView.addObject(activityRistorantes);
+        return modelAndView;
+    }
+    
+    /**
+     * Returns the last activities on the given restaurant
+     * 
+     * @param model
+     * @param ristoId the id of the risto
+     * @return a list of activities
+     */
+    @RequestMapping(value = "/security/lastActivitiesOnRestaurant/{ristoId}")
+    @Secured(EaterProfile.USER)
+    public ModelAndView getLastActivitiesOnRestaurant(@PathVariable String ristoId, Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setView(jsonView);
+        List<ActivityRistorante> activityRistorantes = activityRistoranteService.findByRistoranteId(ristoId);
         Locale locale = new Locale(SecurityContextHelper.getAuthenticatedUser().getLanguage().getLanguage());
         setElapsedTimeAndDesc(activityRistorantes, locale);
         modelAndView.addObject(activityRistorantes);

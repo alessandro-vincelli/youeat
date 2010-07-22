@@ -116,7 +116,7 @@ public class RistorantiController {
     }
 
     /**
-     * Returns user favorite restaurants sorted by the distance between the risto and the given coordinates
+     * Returns user's favorite restaurants sorted by the distance between the risto and the given coordinates
      * 
      * @param model
      * @return a list of ristoranti
@@ -131,5 +131,4 @@ public class RistorantiController {
                 longitude), 50));
         return modelAndView;
     }
-
 }

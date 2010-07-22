@@ -84,6 +84,14 @@ public interface EaterRelationService {
      * @return list of all friends relations
      */
     List<EaterRelation> getFriends(Eater ofUser);
+    
+    /**
+     * Return all active friend relations of the given user
+     * 
+     * @param ofUser
+     * @return list of all friends as Eater object
+     */
+    List<Eater> getFriendsAsEaters(Eater ofUser);
 
     /**
      * Return all the the pending friends relations received by the given user

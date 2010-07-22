@@ -216,6 +216,16 @@ public interface ActivityRistoranteService {
     List<Ristorante> findFavoriteRisto(Eater eater, int maxResults);
     
     /**
+     * Return the list of users that has the given restaurant as favorite 
+     * 
+     * @param risto favorites on this risto
+     * @param eater friend of this user
+     * @param maxResults max number of eaters to return
+     * @return a list of users 
+     */
+    List<Eater> findEatersHasFavoritesRistoFriendsOf(Ristorante risto, Eater eater, int maxResults);
+    
+    /**
      * Add the given risto as favorite for the given user
      *  
      * @param eater

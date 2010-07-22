@@ -2,7 +2,9 @@ package it.av.youeat.web.rest;
 
 import it.av.youeat.ocm.model.ActivityRistorante;
 import it.av.youeat.ocm.model.EaterProfile;
+import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.service.ActivityRistoranteService;
+import it.av.youeat.service.RistoranteService;
 import it.av.youeat.util.PeriodUtil;
 import it.av.youeat.web.security.SecurityContextHelper;
 
@@ -29,6 +31,7 @@ import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 public class ActivitiesController {
 
     private ActivityRistoranteService activityRistoranteService;
+    private RistoranteService ristoranteService;
     private PeriodUtil periodUtil;
     private MessageSource messageSource;
     private MappingJacksonJsonView jsonView;
@@ -37,17 +40,24 @@ public class ActivitiesController {
      * Constructor
      * 
      * @param activityRistoranteService (not null)
+     * @param periodUtil (not null)
+     * @param messageSource (not null)
      * @param jsonView (not null)
+     * @param ristoranteService (not null)
      */
     @Autowired
     public ActivitiesController(ActivityRistoranteService activityRistoranteService, PeriodUtil periodUtil,
-            MessageSource messageSource, MappingJacksonJsonView jsonView) {
+            MessageSource messageSource, MappingJacksonJsonView jsonView, RistoranteService ristoranteService) {
         Assert.notNull(activityRistoranteService);
+        Assert.notNull(periodUtil);
+        Assert.notNull(messageSource);
         Assert.notNull(jsonView);
+        Assert.notNull(ristoranteService);
         this.activityRistoranteService = activityRistoranteService;
         this.periodUtil = periodUtil;
         this.messageSource = messageSource;
         this.jsonView = jsonView;
+        this.ristoranteService = ristoranteService;
     }
 
     /**
@@ -120,4 +130,21 @@ public class ActivitiesController {
         }
         return activityRistorantes;
     }
+    
+    /**
+     * Returns the list of users that are friends of the logged user and have the given risto as favorite
+     * 
+     * @param model
+     * @return a list of ristoranti
+     */
+    @RequestMapping(value = "/security/friendFavorite/{ristoId}")
+    @Secured(EaterProfile.USER)
+    public ModelAndView getFriendThatAsRistoAsFavorites(@PathVariable String ristoId, Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setView(jsonView);
+        Ristorante risto = ristoranteService.getByID(ristoId);
+        modelAndView.addObject(activityRistoranteService.findEatersHasFavoritesRistoFriendsOf(risto, SecurityContextHelper.getAuthenticatedUser(), 50));
+        return modelAndView;
+    }
+
 }

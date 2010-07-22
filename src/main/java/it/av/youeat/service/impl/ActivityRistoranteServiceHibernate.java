@@ -52,7 +52,7 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
         Order orderByDate = Order.desc(Activity.DATE);
         return findByCriteria(orderByDate, crit);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -366,25 +366,51 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
      * {@inheritDoc}
      */
     @Override
-    @Transactional
-    public void addRistoAsFavorite(Eater eater, Ristorante ristorante) {
-        save(new ActivityRistorante(eater, ristorante, ActivityRistorante.TYPE_ADDED_AS_FAVOURITE));
+    public List<Eater> findEatersHasFavoritesRistoFriendsOf(Ristorante risto, Eater eater, int maxResults) {
+        List<Eater> friends = eaterRelationService.getFriendsAsEaters(eater);
+        Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
+        Criterion critByRisto = Restrictions.eq(ActivityRistorante.RISTORANTE, risto);
+        Criterion critByFriends = Restrictions.in(ActivityRistorante.USER, friends);
+        Criterion critIsFavourite = Restrictions.eq(ActivityRistorante.TYPE, ActivityRistorante.TYPE_ADDED_AS_FAVOURITE);
+        criteria.setProjection(Projections.distinct(Projections.property(ActivityRistorante.USER)));
+        criteria.add(critByRisto);
+        criteria.add(critIsFavourite);
+        criteria.add(critByFriends);
+        if (maxResults > 0) {
+            criteria.setMaxResults(maxResults);
+        }
+        List<Eater> fullList = criteria.list();
+        List<Eater> results = new ArrayList<Eater>(fullList.size());
+        for (Eater friend : fullList) {
+            if (isFavouriteRisto(friend, risto)) {
+                results.add(friend);
+            }
+        }
+        return results;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     @Transactional
-    public void addOrRemoveRistoAsFavorite(Eater eater, Ristorante ristorante){
+    public void addRistoAsFavorite(Eater eater, Ristorante ristorante) {
+        save(new ActivityRistorante(eater, ristorante, ActivityRistorante.TYPE_ADDED_AS_FAVOURITE));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public void addOrRemoveRistoAsFavorite(Eater eater, Ristorante ristorante) {
         if (isFavouriteRisto(eater, ristorante)) {
             removeRistoAsFavourite(eater, ristorante);
-        }
-        else{
+        } else {
             addRistoAsFavorite(eater, ristorante);
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -400,7 +426,7 @@ public class ActivityRistoranteServiceHibernate extends ApplicationServiceHibern
     @Transactional
     @Override
     public void addTriedRisto(Eater eater, Ristorante ristorante) {
-        save(new ActivityRistorante(eater, ristorante, ActivityRistorante.TYPE_TRIED));        
+        save(new ActivityRistorante(eater, ristorante, ActivityRistorante.TYPE_TRIED));
     }
 
 }

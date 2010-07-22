@@ -25,6 +25,7 @@ import it.av.youeat.service.EaterRelationService;
 import it.av.youeat.service.SocialService;
 import it.av.youeat.service.system.MailService;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -158,6 +159,22 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
         Criterion critType = Restrictions.eq(EaterRelation.TYPE, EaterRelation.TYPE_FRIEND);
         Criterion critStatus = Restrictions.eq(EaterRelation.STATUS, EaterRelation.STATUS_ACTIVE);
         return findByCriteria(critUser, critType, critStatus);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Eater> getFriendsAsEaters(Eater ofUser) {
+        Criterion critUser = Restrictions.eq(EaterRelation.FROM_USER, ofUser);
+        Criterion critType = Restrictions.eq(EaterRelation.TYPE, EaterRelation.TYPE_FRIEND);
+        Criterion critStatus = Restrictions.eq(EaterRelation.STATUS, EaterRelation.STATUS_ACTIVE);
+        List<EaterRelation> friendReleations = findByCriteria(critUser, critType, critStatus);
+        List<Eater> friends = new ArrayList<Eater>(friendReleations.size());
+        for (EaterRelation eaterRelation : friendReleations) {
+            friends.add(eaterRelation.getToUser());
+        }
+        return friends;
     }
 
     /**

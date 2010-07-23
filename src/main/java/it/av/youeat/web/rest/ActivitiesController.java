@@ -132,18 +132,34 @@ public class ActivitiesController {
     }
     
     /**
-     * Returns the list of users that are friends of the logged user and have the given risto as favorite
+     * Returns the list of users that are friends of the logged user and have the given restaurants as favorite
      * 
      * @param model
-     * @return a list of ristoranti
+     * @return a list of users
      */
     @RequestMapping(value = "/security/friendFavorite/{ristoId}")
     @Secured(EaterProfile.USER)
-    public ModelAndView getFriendThatAsRistoAsFavorites(@PathVariable String ristoId, Model model) {
+    public ModelAndView getFriendRistoAsFavorites(@PathVariable String ristoId, Model model) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setView(jsonView);
         Ristorante risto = ristoranteService.getByID(ristoId);
         modelAndView.addObject(activityRistoranteService.findEatersHasFavoritesRistoFriendsOf(risto, SecurityContextHelper.getAuthenticatedUser(), 50));
+        return modelAndView;
+    }
+    
+    /**
+     * Returns the list of users that are friends of the logged user and have tried the given restaurants
+     * 
+     * @param model
+     * @return a list of users
+     */
+    @RequestMapping(value = "/security/friendTried/{ristoId}")
+    @Secured(EaterProfile.USER)
+    public ModelAndView getFriendTriedRisto(@PathVariable String ristoId, Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setView(jsonView);
+        Ristorante risto = ristoranteService.getByID(ristoId);
+        modelAndView.addObject(activityRistoranteService.findByFriendThatEatOnRistorante(SecurityContextHelper.getAuthenticatedUser(), risto));
         return modelAndView;
     }
 

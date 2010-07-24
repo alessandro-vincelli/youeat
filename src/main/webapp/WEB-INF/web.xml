@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd">
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd">
 	<display-name>youeat.org</display-name>
 	<description>Wiki and social network to share food experiences</description>
 
@@ -42,13 +42,28 @@
 	<listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener> -->
-	
+    
     <filter>
         <filter-name>DisableUrlSessionFilter</filter-name>
         <filter-class>it.av.youeat.web.filter.DisableUrlSessionFilter</filter-class>
     </filter>
-	
-	<filter>
+
+    <filter>
+        <filter-name>filterChainProxy</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>filterChainProxy</filter-name>
+        <url-pattern>/rest/security/*</url-pattern>
+    </filter-mapping>
+    
+    <!--<filter-mapping>
+        <filter-name>filterChainProxy</filter-name>
+        <url-pattern>/rest/security/*/*/*/*</url-pattern>
+    </filter-mapping>
+    
+	--><filter>
 		<filter-name>Wicket</filter-name>
 		<filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
 		<init-param>

@@ -592,7 +592,7 @@
 						</component>
 					</components>
 					<componentProperties>
-						<persistenceunit>mainPersistance</persistenceunit>
+						<persistenceunit>youeatPersistence</persistenceunit>
 						<outputfilename>youeat-schema.ddl</outputfilename>
 						<drop>false</drop>
 						<create>true</create>

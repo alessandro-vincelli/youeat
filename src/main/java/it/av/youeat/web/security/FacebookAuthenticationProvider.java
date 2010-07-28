@@ -81,7 +81,7 @@ public class FacebookAuthenticationProvider extends AbstractAuthenticationManage
             authenticationToReturn.setAuthenticated(true);
             return authenticationToReturn;
         } catch (Exception e) {
-            log.info("impossible perform the authentication on facebook", e);
+            log.info("Facebook session not available");
         }
         return authentication;
 

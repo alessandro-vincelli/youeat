@@ -44,7 +44,7 @@ public class ImportCountry {
     }
 
     public void runImportCountry() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("test-application-context.xml");
         CountryService countryService = (CountryService) context.getBean("countryService");
         try {
             BufferedReader in = new BufferedReader(new FileReader(

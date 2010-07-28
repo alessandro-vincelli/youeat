@@ -44,13 +44,26 @@ public class DefaultConfigurableInjector extends ConfigurableInjector {
 			Field[] fields = clazz.getDeclaredFields();
 			for (int i = 0; i < fields.length; i++) {
 				final Field field = fields[i];
-				if (factory.supportsField(field)) {
+				if (hasValueFor(field)) {
 					matched.add(field);
 				}
 			}
 			clazz = clazz.getSuperclass();
 		}
 		return matched.toArray(new Field[matched.size()]);
+	}
+
+	private boolean hasValueFor(Field field) {
+		if (factory.supportsField(field)) {
+			if (factory instanceof LookAheadFieldValueFactory) {
+				LookAheadFieldValueFactory lookAhead = (LookAheadFieldValueFactory) factory;
+				return lookAhead.hasValueForField(field.getName());
+			} else {
+				return true;
+			}
+		} else {
+			return false;
+		}
 	}
 
 	private void clearField(Object object, Field field) {

@@ -17,7 +17,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class IndexDB {
 
     public void performIndex() throws YoueatException {
-        ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("test-application-context.xml");
         EntityManagerFactory entityManagerFactory = (EntityManagerFactory) context.getBean("entityManagerFactory");
         EntityManager em = entityManagerFactory.createEntityManager();
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(em);

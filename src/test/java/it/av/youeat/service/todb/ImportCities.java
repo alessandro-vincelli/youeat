@@ -19,7 +19,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class ImportCities {
 
     private void runImportCountryRegion() throws YoueatException, IOException {
-        ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("test-application-context.xml");
         CityService cityService = (CityService) context.getBean("cityService");
         CountryService countryService = (CountryService) context.getBean("countryService");
         List<Country> countries = countryService.getAll();

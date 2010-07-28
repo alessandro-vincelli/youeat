@@ -8,11 +8,19 @@ import org.mortbay.jetty.nio.SelectChannelConnector;
 import org.mortbay.jetty.servlet.FilterHolder;
 import org.mortbay.jetty.webapp.WebAppContext;
 
+/**
+ * This class allows you to launch Jetty to run the specified webapp.
+ * 
+ * @see WebAppJettyConfiguration
+ * 
+ * @author Kent Tong
+ * 
+ */
 public class WebAppJettyLauncher {
 	private WebAppContext context;
 	private Server server;
 
-	public void startAppInJetty(Configuration cfg) {
+	public void startAppInJetty(WebAppJettyConfiguration cfg) {
 		server = new Server();
 		Connector connector = new SelectChannelConnector();
 		connector.setPort(cfg.getJettyServerPort());

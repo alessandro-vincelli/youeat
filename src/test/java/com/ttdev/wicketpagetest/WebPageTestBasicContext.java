@@ -16,27 +16,26 @@
 
 package com.ttdev.wicketpagetest;
 
-import javax.servlet.ServletContext;
-
-import org.apache.wicket.Application;
 import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.protocol.http.WicketFilter;
-import org.mortbay.jetty.servlet.FilterHolder;
 
 import com.thoughtworks.selenium.DefaultSelenium;
 
 /**
- * To unit test your Wicket pages, you should include this class into your
- * TestNG test suite. Then it will launch Jetty, your webapp and a Selenium
- * client before running any tests in that suite and shut them down afterwards.
+ * To unit test your Wicket pages, before running the tests, you should call
+ * {@link #beforePageTests()}. Then it will launch Jetty, your webapp and a
+ * Selenium client before running any tests in that suite. To shut them down
+ * afterwards, run {@link #afterPageTests()}.
+ * 
+ * If you're using TestNG, use the {@link WebPageTestContext} subclass.
+ * 
  * In your test cases, you can obtain the global Selenium client by
  * {@link #getSelenium()}.
  * <p>
  * Currently, you need to start the Selenium server yourself, probably in a
  * command prompt.
  * <p>
- * If you'd like to customize the behaviors of {@link WebPageTestContext}, you
- * can create a {@link Configuration} object and then pass it to
+ * If you'd like to customize the behaviors of {@link WebPageTestBasicContext},
+ * you can create a {@link Configuration} object and then pass it to
  * {@link #beforePageTests(Configuration)}. To do that, just create a wrapper
  * class with a {@link BeforeSuite} method and a {@link AfterSuite} method.
  * These methods should call {@link #beforePageTests(Configuration)} and
@@ -47,64 +46,69 @@ import com.thoughtworks.selenium.DefaultSelenium;
  * @author Kent Tong
  * 
  */
-public class WebPageTestContext {
-	private static WebPageTestContext instance;
+public class WebPageTestBasicContext {
+	private static WebPageTestBasicContext instance;
 
 	private DefaultSelenium selenium;
-	private WebAppJettyLauncher jettyLauncher;
+	private WicketAppJettyLauncher jettyLauncher;
+	private SeleniumServerProcessLauncher seleniumServerlauncher;
+	private Configuration cfg;
 
 	public static void beforePageTests() throws Exception {
 		beforePageTests(new Configuration());
 	}
 
 	public static void beforePageTests(Configuration cfg) throws Exception {
-		instance = new WebPageTestContext();
+		instance = new WebPageTestBasicContext();
 		instance.start(cfg);
 	}
 
 	private void start(Configuration cfg) {
-		startWebAppInJetty(cfg);
-		startSeleniumClient(cfg);
+		this.cfg = cfg;
+		startWebAppInJetty();
+		if (!connectToSeleniumServer()) {
+			startSeleniumServer();
+		}
 	}
 
-	private void startWebAppInJetty(Configuration cfg) {
-		jettyLauncher = new WebAppJettyLauncher();
+	private void startSeleniumServer() {
+		seleniumServerlauncher = new SeleniumServerProcessLauncher();
+		seleniumServerlauncher.start(cfg);
+		waitForSeleniumServer(3000L);
+	}
+
+	private void startWebAppInJetty() {
+		jettyLauncher = new WicketAppJettyLauncher();
 		jettyLauncher.startAppInJetty(cfg);
 	}
 
-	private void startSeleniumClient(Configuration cfg) {
+	private void waitForSeleniumServer(long timeout) {
+		long startTime = System.currentTimeMillis();
+		for (;;) {
+			if (connectToSeleniumServer()) {
+				return;
+			}
+			if (System.currentTimeMillis() - startTime > timeout) {
+				throw new RuntimeException(
+						"Did you start the Selenium server or specify its path in <home>/wpt.properties?");
+			}
+		}
+	}
+
+	private boolean connectToSeleniumServer() {
 		String url = String.format("http://localhost:%d/%s", cfg
 				.getJettyServerPort(), cfg.getWicketFilterPrefix());
 		if (!url.endsWith("/")) {
 			url += "/";
 		}
-		selenium = new DefaultSelenium("localhost",
-				cfg.getSeleniumServerPort(), cfg.getSeleniumBrowserLaunchCmd(),
-				url);
-		selenium.start();
-		// So that the test cases can access the app and the injector
-		waitForApplication();
-		// Need to use the wicketpath attribute instead of wicket:id if it
-		// is refreshed by AJAX (see WICKET-2832)
-		enableOutputWicketPath();
-	}
-
-	private void enableOutputWicketPath() {
-		getApplication().getDebugSettings().setOutputComponentPath(true);
-	}
-
-	private void waitForApplication() {
-		for (;;) {
-			WebApplication app = getApplication();
-			if (app != null) {
-				Application.set(app);
-				break;
-			}
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
+		try {
+			selenium = new DefaultSelenium("localhost", cfg
+					.getSeleniumServerPort(),
+					cfg.getSeleniumBrowserLaunchCmd(), url);
+			selenium.start();
+			return true;
+		} catch (RuntimeException e) {
+			return false;
 		}
 	}
 
@@ -113,7 +117,7 @@ public class WebPageTestContext {
 	}
 
 	private void stop() {
-		stopSeleniumClient();
+		stopSelenium();
 		stopJetty();
 	}
 
@@ -123,25 +127,18 @@ public class WebPageTestContext {
 		}
 	}
 
-	private void stopSeleniumClient() {
+	private void stopSelenium() {
+		if (seleniumServerlauncher != null && cfg.isKillSeleniumAtEnd()) {
+			selenium.shutDownSeleniumServer();
+			seleniumServerlauncher.stop();
+		}
 		if (selenium != null) {
 			selenium.stop();
 		}
 	}
 
 	public WebApplication getApplication() {
-		ServletContext servletContext = jettyLauncher.getServletContext();
-		return (WebApplication) servletContext.getAttribute("wicket:"
-				+ getWicketFilterName());
-	}
-
-	private String getWicketFilterName() {
-		for (FilterHolder h : jettyLauncher.getFilters()) {
-			if (h.getHeldClass().equals(WicketFilter.class)) {
-				return h.getName();
-			}
-		}
-		throw new RuntimeException("WicketFilter not found");
+		return jettyLauncher.getApplication();
 	}
 
 	public static DefaultSelenium getSelenium() {

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.extensions.breadcrumb.panel.IBreadCrumbPanelFactory;
 
 import com.thoughtworks.selenium.Selenium;
 
@@ -20,11 +21,9 @@ import com.thoughtworks.selenium.Selenium;
  * wicket=//myform[2]//name it will first locate the 3rd element (breadth-first
  * search) with wicket:id="myform" and then the first element in it with
  * wicket:id="name". If it must be an immediate child, use / instead of //.
- * However, due to Wicket-1174, an element will lose its wicket:id after it is
- * refreshed by AJAX. See Wicket-2832 for a suggested solution.
  * 
  * @author Kent Tong
- * 
+ * @author Andy Chu
  */
 public class WicketSelenium {
 	private static final String AJAX_TIMEOUT = "3000";
@@ -109,7 +108,7 @@ public class WicketSelenium {
 	 * @param pageClass
 	 *            the class of the page
 	 * @param constructorArgs
-	 *            the constructor agruments
+	 *            the constructor arguments
 	 */
 	public void openNonBookmarkablePage(Class<? extends Page> pageClass,
 			Object... constructorArgs) {
@@ -118,4 +117,24 @@ public class WicketSelenium {
 		openBookmarkablePage(LauncherPage.class);
 	}
 
+	/**
+	 * Open a page containing ONLY the Component created by the specified
+	 * ComponentFactory.
+	 * 
+	 * @param factory
+	 *            the ComponentFactory creating the testing component
+	 */
+	public void openComponent(ComponentFactory factory) {
+		openNonBookmarkablePage(ComponentTestPage.class, factory);
+	}
+
+	/**
+	 * Open a BreadCrumbPanel created by the IBreadCrumbPanelFactory in a page
+	 * 
+	 * @param factory
+	 *            the IBreadCrumbPanelFactory creating the testing panel
+	 */
+	public void openBreadCrumbPanel(IBreadCrumbPanelFactory factory) {
+		openNonBookmarkablePage(BreadCrumbPanelTestPage.class, factory);
+	}
 }

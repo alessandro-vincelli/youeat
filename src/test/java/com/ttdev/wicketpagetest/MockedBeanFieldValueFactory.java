@@ -30,10 +30,11 @@ import org.apache.wicket.proxy.LazyInitProxyFactory;
  * annotated by {@link #annotClass} or by {@link Mock}.
  * 
  * @author Andy Chu
+ * @author Kent Tong
  * 
  */
 public class MockedBeanFieldValueFactory implements IFieldValueFactory,
-		IClusterable {
+		LookAheadFieldValueFactory, IClusterable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -56,6 +57,9 @@ public class MockedBeanFieldValueFactory implements IFieldValueFactory,
 
 	public Object getFieldValue(Field field, Object fieldOwner) {
 		final String fieldName = field.getName();
+		if (!hasValueForField(fieldName)) {
+			return null;
+		}
 		return LazyInitProxyFactory.createProxy(field.getType(),
 				new IProxyTargetLocator() {
 
@@ -67,11 +71,17 @@ public class MockedBeanFieldValueFactory implements IFieldValueFactory,
 				});
 	}
 
-	public boolean supportsField(Field field) {
+	private boolean isFieldMocked(String fieldName) {
 		// Could the map become null in a cluster environment? Better be safe
 		// than sorry.
-		return mockedBeans != null && isAnnotated(field)
-				&& mockedBeans.containsKey(field.getName());
+		return mockedBeans != null && mockedBeans.containsKey(fieldName);
+	}
+
+	public boolean supportsField(Field field) {
+		// In order for the cache in the Injector object to be independent of
+		// the mocks, this method returns true as long as the field is
+		// annotated.
+		return isAnnotated(field);
 	}
 
 	private boolean isAnnotated(Field field) {
@@ -81,5 +91,9 @@ public class MockedBeanFieldValueFactory implements IFieldValueFactory,
 
 	public void clearMockedBeans() {
 		mockedBeans.clear();
+	}
+
+	public boolean hasValueForField(String fieldName) {
+		return isFieldMocked(fieldName);
 	}
 }

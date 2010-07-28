@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sun.syndication.io.FeedException;
 
-@ContextConfiguration(locations = "classpath:application-context.xml")
+@ContextConfiguration(locations = "classpath:test-application-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional

@@ -1,6 +1,5 @@
 package com.ttdev.wicketpagetest;
 
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +11,10 @@ import org.apache.wicket.injection.IFieldValueFactory;
  * {@link IFieldValueFactory}s. The first one that is applicable is used.
  * 
  * @author Kent Tong
- *  
+ * 
  */
-public class FieldValueFactoryChain implements IFieldValueFactory {
+public class FieldValueFactoryChain implements IFieldValueFactory,
+		LookAheadFieldValueFactory {
 	private List<IFieldValueFactory> factories;
 
 	public FieldValueFactoryChain() {
@@ -32,7 +32,10 @@ public class FieldValueFactoryChain implements IFieldValueFactory {
 	public Object getFieldValue(Field field, Object fieldOwner) {
 		for (IFieldValueFactory factory : factories) {
 			if (factory.supportsField(field)) {
-				return factory.getFieldValue(field, fieldOwner);
+				Object value = factory.getFieldValue(field, fieldOwner);
+				if (value != null) {
+					return value;
+				}
 			}
 		}
 		return null;
@@ -42,6 +45,18 @@ public class FieldValueFactoryChain implements IFieldValueFactory {
 		for (IFieldValueFactory factory : factories) {
 			if (factory.supportsField(field)) {
 				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean hasValueForField(String fieldName) {
+		for (IFieldValueFactory factory : factories) {
+			if (factory instanceof LookAheadFieldValueFactory) {
+				LookAheadFieldValueFactory overrider = (LookAheadFieldValueFactory) factory;
+				if (overrider.hasValueForField(fieldName)) {
+					return true;
+				}
 			}
 		}
 		return false;

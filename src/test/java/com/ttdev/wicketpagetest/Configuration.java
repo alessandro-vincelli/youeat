@@ -25,11 +25,11 @@ package com.ttdev.wicketpagetest;
  * @author Kent Tong
  * 
  */
-public class Configuration {
+public class Configuration extends WebAppJettyConfiguration {
 	/**
-	 * The path to the root of your html files (default: src/main/webapp).
+	 * The URL prefix that maps to the Wicket filter (default: app).
 	 */
-	private String docBase = "src/main/webapp";
+	private String wicketFilterPrefix = "app";
 	/**
 	 * The Selenium command to launch the browser (default: *firefox).
 	 */
@@ -39,39 +39,16 @@ public class Configuration {
 	 */
 	private int seleniumServerPort = 4444;
 	/**
-	 * The port of the Jetty server (default: 8888).
+	 * If we launched the Selenium server process, should we kill it at the end?
 	 */
-	private int jettyServerPort = 8888;
-	/**
-	 * The URL prefix that maps to the Wicket filter (default: app).
-	 */
-	private String wicketFilterPrefix = "app";
-	/**
-	 * You can provide an overriding web.xml file by putting a web-test.xml file
-	 * into the classpath and then specifying "web-test.xml" here. This is
-	 * useful, e.g., to override contextConfigLocation so that Spring loads the
-	 * additional beans for unit testing web pages.
-	 */
-	private String overrideWebXml = null;
-
-	public void setOverrideWebXml(String overrideWebXml) {
-		this.overrideWebXml = overrideWebXml;
+	private boolean killSeleniumAtEnd = false;
+ 
+	public boolean isKillSeleniumAtEnd() {
+		return killSeleniumAtEnd;
 	}
 
-	public String getWicketFilterPrefix() {
-		return wicketFilterPrefix;
-	}
-
-	public void setWicketFilterPrefix(String wicketFilterPrefix) {
-		this.wicketFilterPrefix = wicketFilterPrefix;
-	}
-
-	public String getDocBase() {
-		return docBase;
-	}
-
-	public void setDocBase(String docBase) {
-		this.docBase = docBase;
+	public void setKillSeleniumAtEnd(boolean killSeleniumAtEnd) {
+		this.killSeleniumAtEnd = killSeleniumAtEnd;
 	}
 
 	public String getSeleniumBrowserLaunchCmd() {
@@ -89,16 +66,12 @@ public class Configuration {
 	public void setSeleniumServerPort(int seleniumServerPort) {
 		this.seleniumServerPort = seleniumServerPort;
 	}
-
-	public int getJettyServerPort() {
-		return jettyServerPort;
+	public String getWicketFilterPrefix() {
+		return wicketFilterPrefix;
 	}
 
-	public void setJettyServerPort(int jettyServerPort) {
-		this.jettyServerPort = jettyServerPort;
+	public void setWicketFilterPrefix(String wicketFilterPrefix) {
+		this.wicketFilterPrefix = wicketFilterPrefix;
 	}
 
-	public String getOverrideWebXml() {
-		return overrideWebXml;
-	}
 }

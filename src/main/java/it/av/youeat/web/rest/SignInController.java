@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
@@ -39,9 +40,18 @@ public class SignInController {
      * @param model
      * @return the authenticated user
      */
-    @RequestMapping(value = "/security/signUp")
+    @RequestMapping(value = {"/security/signUp"}, method = {RequestMethod.GET, RequestMethod.POST})
     @Secured(EaterProfile.USER)
     public ModelAndView signUp(Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setView(jsonView);
+        modelAndView.addObject(SecurityContextHelper.getAuthenticatedUser());
+        return modelAndView;
+    }
+    
+    @RequestMapping(value = {"/security/signUpFB"}, method = {RequestMethod.GET, RequestMethod.POST})
+    @Secured(EaterProfile.USER)
+    public ModelAndView signUpFB(Model model) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setView(jsonView);
         modelAndView.addObject(SecurityContextHelper.getAuthenticatedUser());

@@ -35,11 +35,16 @@
     <bean id="usernamePasswordAuthenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
         <property name="authenticationManager" ref="authenticationManager"/>
     </bean>
+    
+    <bean id="faceBookForMobileAuthenticationFilter" class="it.av.youeat.web.security.FaceBookForMobileAuthenticationFilter">
+        <property name="authenticationManager" ref="facebookAuthenticationProvider"/>
+    </bean>
 
     <bean id="filterChainProxy" class="org.springframework.security.web.FilterChainProxy">
         <security:filter-chain-map path-type="ant">
             <security:filter-chain pattern="/rest/security/**" filters="
             securityContextPersistenceFilter,
+            faceBookForMobileAuthenticationFilter,
             basicAuthenticationFilter,
             usernamePasswordAuthenticationFilter,
             exceptionTranslationFilter,
@@ -63,6 +68,7 @@
     <bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
         <property name="authenticationEntryPoint" ref="authenticationEntryPoint" />
     </bean>
+
     <bean id="basicAuthenticationFilter" class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
         <property name="authenticationManager" ref="authenticationManager" />
         <property name="authenticationEntryPoint" ref="authenticationEntryPoint" />

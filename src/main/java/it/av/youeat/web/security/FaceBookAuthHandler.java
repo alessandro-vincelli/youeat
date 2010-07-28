@@ -13,25 +13,33 @@ import com.google.code.facebookapi.FacebookJaxbRestClient;
 /**
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
- *
+ * 
  */
 public class FaceBookAuthHandler {
 
     private String apiKey;
     private String secret;
-    
-    public FacebookJaxbRestClient getAuthenticatedClient(HttpServletRequest request) throws FailedLoginException, FacebookException, JSONException {
+
+    public FacebookJaxbRestClient getAuthenticatedClient(HttpServletRequest request) throws FailedLoginException,
+            FacebookException, JSONException {
         String cacheSessionKey = "";
         long cacheUserId = 0;
         long cacheSessionExpires = 0;
         String authToken = request.getParameter("auth_token");
         String sessionJson = request.getParameter("session");
-        // try to get session onfio from json request from FB
+        // Try to GET the session key from a JSON session response.
         if (StringUtils.isNotBlank(sessionJson)) {
             JSONObject json = new JSONObject(sessionJson);
             cacheSessionKey = json.getString("session_key");
             cacheUserId = json.getLong("uid");
             cacheSessionExpires = json.getLong("expires");
+        }
+        // Try to GET the session key from a the request. Used by YouEat mobile device integration
+        else {
+            cacheSessionKey = request.getParameter("session_key");
+            cacheUserId = Long.parseLong(request.getParameter("uid"));
+            // cacheSessionExpires =
+            String parameter = request.getParameter("expiration_date");
         }
         FacebookJaxbRestClient fbClient = new FacebookJaxbRestClient(apiKey, secret);
         if (StringUtils.isNotBlank(cacheSessionKey) && cacheUserId != 0) {

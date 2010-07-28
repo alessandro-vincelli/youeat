@@ -74,6 +74,7 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
     public static final String SOCIALTYPE = "socialType";
     public static final String SOCIALUID = "socialUID";
     public static final String CREATIONTIME = "creationTime";
+    public static final String SEX = "sex";
     
     @Column(nullable = false)
     private String password;
@@ -97,6 +98,7 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
     private SocialType socialType;
     @Transient
     private String socialSessionKey;
+    private Sex sex;
     
     /**
      * used in sign up confirmation
@@ -298,5 +300,13 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
      */
     public boolean isSocialNetworkEater(){
         return socialType != null && socialUID != null;
+    }
+
+    public Sex getSex() {
+        return sex;
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
     }
 }

@@ -17,13 +17,17 @@ package it.av.youeat.web.page;
 
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Language;
+import it.av.youeat.ocm.model.Sex;
 import it.av.youeat.service.EaterService;
+
+import java.util.Arrays;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.PasswordTextField;
@@ -69,8 +73,10 @@ public class EaterAccountPage extends BaseEaterAccountPage {
         getAccountForm().add(pwd2);
         EqualPasswordInputValidator passwordInputValidator = new EqualPasswordInputValidator(pwd1, pwd2);
         getAccountForm().add(passwordInputValidator);
+        DropDownChoice<Sex> sexField = new DropDownChoice<Sex>("sex", Arrays.asList(Sex.values()));
+        sexField.setRequired(true);
+        getAccountForm().add(sexField);
         getAccountForm().add(new SubmitButton("saveAccount", getAccountForm()));
-
     }
 
     private class SubmitButton extends AjaxFallbackButton {

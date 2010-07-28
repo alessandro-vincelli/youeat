@@ -19,6 +19,7 @@ import it.av.youeat.UserAlreadyExistsException;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Language;
+import it.av.youeat.ocm.model.Sex;
 import it.av.youeat.ocm.model.data.Country;
 import it.av.youeat.service.CountryService;
 import it.av.youeat.service.EaterService;
@@ -27,6 +28,7 @@ import it.av.youeat.web.components.KittenCaptchaValidator;
 import it.av.youeat.web.page.SignIn;
 
 import java.awt.Dimension;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -99,7 +101,7 @@ public class SignUpPanel extends Panel {
         Eater user = new Eater();
         user.setCountry(userCountry);
         user.setLanguage(languageService.getSupportedLanguage(getLocale()));
-
+        
         signUpForm = new Form<Eater>("signUpForm", new CompoundPropertyModel<Eater>(user));
 
         signUpForm.setOutputMarkupId(true);
@@ -124,7 +126,9 @@ public class SignUpPanel extends Panel {
         submitButton.setOutputMarkupId(true);
         add(submitButton);
         signUpForm.setDefaultButton(submitButton);
-
+        DropDownChoice<Sex> sexField = new DropDownChoice<Sex>("sex", Arrays.asList(Sex.values()));
+        sexField.setRequired(true);
+        signUpForm.add(sexField);
         goSignInAfterSignUp = new Link<String>("goSignInAfterSignUp") {
             private static final long serialVersionUID = 1L;
 

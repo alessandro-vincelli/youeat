@@ -113,7 +113,7 @@
     <bean id="mailService" class="it.av.youeat.service.system.MailServiceImpl" />
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="mainPersistance" />
+        <property name="persistenceUnitName" value="youeatPersistence" />
         <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
     </bean>
 

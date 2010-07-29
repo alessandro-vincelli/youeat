@@ -59,7 +59,7 @@
 				value="jdbc:postgresql://localhost/youeat_ci" />
 				<property name="hibernate.connection.username" value="eat" />
 				<property name="hibernate.connection.password" value="eat" />
-				<property name="hibernate.hbm2ddl.auto" value="create" />
+				<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 				
 			<!-- Connecting to HSQL  -->
 			<!--<property name="hibernate.dialect"

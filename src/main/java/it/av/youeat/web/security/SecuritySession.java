@@ -89,7 +89,7 @@ public class SecuritySession extends AuthenticatedWebSession {
                 this.roles[count] = grantedAuthority.getAuthority();
                 count = count + 1;
             }
-            loggedInUser = ((Eater) auth.getPrincipal());
+            loggedInUser = ((UserDetailsImpl) auth.getPrincipal()).getUser();
             signIn(true);
             return true;
         } catch (BadCredentialsException e) {

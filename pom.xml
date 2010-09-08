@@ -96,10 +96,10 @@
 		</profile>
 	</profiles>
 	<repositories>
-		<repository>
+		<!-- <repository>
 			<id>wicket-snaps</id>
 			<url>http://wicketstuff.org/maven/repository</url>
-		</repository>
+		</repository> -->
 		<repository>
   			<id>maven2-repository.dev.java.net</id>
   			<name>Java.net Repository for Maven</name>

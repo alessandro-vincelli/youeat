@@ -8,9 +8,10 @@ import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListItem;
 
 public final class ActivityCommons {
-    
-    private ActivityCommons(){};
-    
+
+    private ActivityCommons() {
+    };
+
     public static final Image createActivityIcon(Class pageClass, final ListItem<ActivityRistorante> item) {
         // default activity icon is plus
         ResourceReference img = new ResourceReference(pageClass, "resources/images/plus_64.png");
@@ -18,6 +19,8 @@ public final class ActivityCommons {
             img = new ResourceReference(pageClass, "resources/images/pencil_64.png");
         } else if (item.getModelObject().getType().equals(ActivityRistorante.TYPE_VOTED)) {
             img = new ResourceReference(pageClass, "resources/images/voted.gif");
+        } else if (item.getModelObject().getType().equals(ActivityRistorante.TYPE_NEW_COMMENT)) {
+            img = new ResourceReference(pageClass, "resources/images/comment.png");
         } else if (item.getModelObject().getType().equals(ActivityRistorante.TYPE_TRIED)) {
             img = new ResourceReference(pageClass, "resources/images/tick_64.png");
         } else if (item.getModelObject().getType().equals(ActivityRistorante.TYPE_ADDED_AS_FAVOURITE)) {
@@ -35,7 +38,5 @@ public final class ActivityCommons {
             }
         };
     }
-
-    
 
 }

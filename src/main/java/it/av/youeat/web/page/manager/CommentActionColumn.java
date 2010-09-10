@@ -1,7 +1,7 @@
 package it.av.youeat.web.page.manager;
 
-import it.av.youeat.ocm.model.Ristorante;
-import it.av.youeat.service.RistoranteService;
+import it.av.youeat.ocm.model.Comment;
+import it.av.youeat.service.CommentService;
 
 import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.markup.html.link.Link;
@@ -10,27 +10,27 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
- * Provides some actions to manage the current restaurant
+ * Provides some actions to manage the current comment
  * 
  * @author Alessandro Vincelli
  * 
  */
-public class RistoActionColumn extends Panel {
+public class CommentActionColumn extends Panel {
     @SpringBean
-    private RistoranteService ristoranteService;
+    private CommentService commentService;
 
     /**
      * @param id component id
-     * @param model model for ristorante
+     * @param model model for comment
      */
-    public RistoActionColumn(String id, final IModel<Ristorante> model) {
+    public CommentActionColumn(String id, final IModel<Comment> model) {
         super(id, model);
         InjectorHolder.getInjector().inject(this);
-        Link<Ristorante> link = new Link<Ristorante>("remove", model) {
+        Link<Comment> link = new Link<Comment>("remove", model) {
 
             @Override
             public void onClick() {
-                ristoranteService.remove(model.getObject());
+                commentService.disable(model.getObject());
                 setResponsePage(getApplication().getHomePage());
                 setRedirect(true);
             }

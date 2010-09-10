@@ -227,16 +227,6 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      */
     @Override
     @Transactional
-    public void remove(Ristorante risto) {
-        Ristorante ristoToRemove = getByID(risto.getId());
-        super.remove(ristoToRemove);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Transactional
     public Ristorante updateNoRevision(Ristorante ristorante) {
         return save(ristorante);
     }
@@ -397,5 +387,5 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
             fullTextEntityManager.index(risto);
             position = position + 1;
         }
-    }
+    }    
 }

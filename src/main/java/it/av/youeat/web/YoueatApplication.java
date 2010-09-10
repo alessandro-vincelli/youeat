@@ -42,6 +42,7 @@ import it.av.youeat.web.page.UserManagerPage;
 import it.av.youeat.web.page.UserProfilePage;
 import it.av.youeat.web.page.XdReceiver;
 import it.av.youeat.web.page.YoueatHttpParams;
+import it.av.youeat.web.page.manager.CommentsManagerPage;
 import it.av.youeat.web.page.manager.RistoranteManagerPage;
 import it.av.youeat.web.page.xml.FeedPage;
 import it.av.youeat.web.page.xml.SitemapPage;
@@ -133,6 +134,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         mount(new IndexedParamUrlCodingStrategy("/feed", FeedPage.class));
         mount(new IndexedParamUrlCodingStrategy("/ristoManager", RistoranteManagerPage.class));
         mount(new IndexedParamUrlCodingStrategy("/activitiesManager", ActivitiesManagerPage.class));
+        mount(new IndexedParamUrlCodingStrategy("/commentsManager", CommentsManagerPage.class));
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
     }

@@ -489,11 +489,27 @@ public class Ristorante extends BasicEntity {
     /**
      * @return the comments
      */
-    //TODO before to remove the comments, consider lazy load exception on Eater during jackson serialization  
+    //TODO before to remove the comments, consider lazy load exception on Eater during jackson serialization
+    // also consider the "wrong" one to many relation from the restaurant, there is always a constraint violation constraint on the table ristorante_comments 
     @XmlTransient
     public List<Comment> getComments() {
         return comments;
     }
+    
+    /**
+     * @return only enabled comments
+     */
+    @XmlTransient
+    public List<Comment> getEnabledComments() {
+        List<Comment> enabled = new ArrayList<Comment>();
+        for (Comment comment : comments) {
+            if(comment.isEnabled()){
+                enabled.add(comment);
+            }
+        }
+        return enabled;
+    }
+
 
     /**
      * @param comments

@@ -574,7 +574,7 @@ public class RistoranteViewPage extends BasePage {
         @Override
         protected List<Comment> load() {
             ristorante = ristoranteService.getByID(ristorante.getId());
-            return ristorante.getComments();
+            return ristorante.getEnabledComments();
         }
     }
 

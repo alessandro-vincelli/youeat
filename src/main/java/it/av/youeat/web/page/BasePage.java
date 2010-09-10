@@ -20,6 +20,7 @@ import it.av.youeat.service.EaterRelationService;
 import it.av.youeat.service.MessageService;
 import it.av.youeat.web.Locales;
 import it.av.youeat.web.commons.CookieUtil;
+import it.av.youeat.web.page.manager.CommentsManagerPage;
 import it.av.youeat.web.page.manager.RistoranteManagerPage;
 import it.av.youeat.web.page.xml.FeedPage;
 import it.av.youeat.web.security.SecuritySession;
@@ -312,6 +313,15 @@ public class BasePage extends WebPage {
                 super.onBeforeRender();
                 setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
                         .isInstantiationAuthorized(ActivitiesManagerPage.class)));
+            }
+        });
+        
+        add(new BookmarkablePageLink<String>("commentsManager", CommentsManagerPage.class) {
+            @Override
+            protected void onBeforeRender() {
+                super.onBeforeRender();
+                setVisible((getApplication().getSecuritySettings().getAuthorizationStrategy()
+                        .isInstantiationAuthorized(CommentsManagerPage.class)));
             }
         });
 

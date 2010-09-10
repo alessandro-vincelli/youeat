@@ -44,8 +44,7 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
     private boolean attached;
 
     /**
-     * 
-     * @param ristoranteService
+     * Constructor
      */
     public RistoranteSortableDataProvider() {
         super();

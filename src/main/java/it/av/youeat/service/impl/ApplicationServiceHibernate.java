@@ -18,6 +18,7 @@ package it.av.youeat.service.impl;
 import it.av.youeat.YoueatConcurrentModificationException;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.BasicEntity;
+import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.service.ApplicationService;
 
 import java.lang.reflect.ParameterizedType;
@@ -102,7 +103,8 @@ public class ApplicationServiceHibernate<T extends BasicEntity> extends JpaDaoSu
     @Transactional
     public void remove(T object) {
         try {
-            getJpaTemplate().getEntityManager().remove(object);
+            T objectToRemove = getByID(object.getId());
+            getJpaTemplate().getEntityManager().remove(objectToRemove);
         } catch (DataAccessException e) {
             throw new YoueatException(e);
         }

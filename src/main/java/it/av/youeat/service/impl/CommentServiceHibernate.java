@@ -20,8 +20,12 @@ import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.service.CommentService;
 
 import java.util.Collection;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,6 +67,47 @@ public class CommentServiceHibernate extends ApplicationServiceHibernate<Comment
         for (Comment comment : comments) {
             remove(comment);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Comment> find(String pattern, int first, int maxResults, String sortField, boolean isAscending) {
+        Criterion critByTitle = null;
+        Criterion critByBody = null;
+        //Criterion critByLastname = null;
+        //Criterion critByFirstname = null;
+        if (StringUtils.isNotBlank(pattern)) {
+            //critByFirstname = Restrictions.ilike(Comment.AUTHOR_FIELD + ".firstname", pattern);
+            //critByLastname = Restrictions.ilike(Comment.AUTHOR_FIELD + ".lastname", pattern);
+            critByTitle = Restrictions.ilike(Comment.TITLE_FIELD, pattern);
+            critByBody = Restrictions.ilike(Comment.BODY_FIELD, pattern);
+        }
+
+        Disjunction critInOr = Restrictions.disjunction();
+        //critInOr.add(critByFirstname);
+        //critInOr.add(critByLastname);
+        critInOr.add(critByBody);
+        critInOr.add(critByTitle);
+
+        Order order = null;
+        if (isAscending) {
+            order = Order.asc(sortField);
+        } else {
+            order = Order.desc(sortField);
+        }
+        return findByCriteria(order, first, maxResults, critInOr);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Comment disable(Comment comment) {
+        comment = getByID(comment.getId());
+        comment.setEnabled(false);
+        return save(comment);
     }
 
 }

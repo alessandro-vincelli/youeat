@@ -19,6 +19,7 @@ import it.av.youeat.ocm.model.Comment;
 import it.av.youeat.ocm.model.Eater;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Operations on Comments
@@ -70,4 +71,33 @@ public interface CommentService {
      * @return user's comments
      */
     Collection<Comment> getByEater(Eater eater);
+    
+    /**
+     * Get a comment by an Id
+     * 
+     * @param id
+     * @return a comment
+     */
+    Comment getByID(String id);
+    
+    /**
+     * find a comment by user's name and content 
+     * 
+     * @param pattern by title and content
+     * @param first first result
+     * @param maxResults max number of result, 0 to disable 
+     * @param sortField property name on which sort, NULL to disable
+     * @param isAscending is ascending sort
+     * @return found comment
+     */
+    List<Comment> find(String pattern, int first, int maxResults, String sortField, boolean isAscending);
+    
+    /**
+     * Disable a comment
+     * 
+     * @param comment comment to disable
+     * @return disable comment
+     */
+    Comment disable(Comment comment);
+
 }

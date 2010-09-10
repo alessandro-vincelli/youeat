@@ -138,4 +138,33 @@ public class CommentServiceTest extends YoueatTest {
         assertTrue(comments.size() == 0);
 
     }
+    
+    
+    @Test
+    public void testComments_find() {
+
+        Comment comment = new Comment();
+        comment.setTitle("ArticleTest");
+        comment.setAuthor(user);
+        comment.setCreationTime(DateUtil.getTimestamp());
+        commentService.save(comment);
+        
+        Collection<Comment> comments = commentService.find("%test%", 0, 10, Comment.CREATIONTIME_FIELD, true);
+        assertEquals(1, comments.size());
+
+    }
+    
+    @Test
+    public void testComments_disable() {
+
+        Comment comment = new Comment();
+        comment.setTitle("ArticleTest");
+        comment.setAuthor(user);
+        comment.setCreationTime(DateUtil.getTimestamp());
+        commentService.save(comment);
+        
+        comment = commentService.disable(comment);
+        assertEquals(false, comment.isEnabled());
+
+    }
 }

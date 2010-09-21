@@ -31,11 +31,11 @@
                 <tr>
 	        	<th><label for="tagBox"><wicket:message key="addNewTag"/></label></th>
 	        	<td >
-                <span style="display: inline; width: 100%">
+                <span class="allignedBox320">
                 <input type="text" wicket:id="tagBox"></input>
-	        	<span class="buttons">
-                <button wicket:id="addTag"><wicket:message key="button.addTag"/></button>
                 </span>
+	        	<span class="buttons allignedBox120">
+                <button class="submitButton" wicket:id="addTag"><wicket:message key="button.addTag"/></button>
                 </span>
                 </td>
 	        	</tr>
@@ -56,7 +56,7 @@
                 <th></th>
                 <td class="descriptionLinks buttons">
                     <ul wicket:id="descriptionLinksContainer">
-                    <li wicket:id="descriptionLinks"><button class="descriptionLink" href="#" wicket:id="descriptionLink"><span wicket:id="linkName"></span></button></li>
+                    <li wicket:id="descriptionLinks"><button class="descriptionLink submitButton" href="#" wicket:id="descriptionLink"><span wicket:id="linkName"></span></button></li>
                     </ul>
                 </td>
                 </tr>
@@ -71,7 +71,7 @@
                 </td>
                 </tr>
 	        	<tr>
-	        	<td colspan="2" class="submitarea buttons"><input type="submit" wicket:id="submitRestaurant" class="submitButton"/> <button class="submit" wicket:id="buttonClearForm"><wicket:message key="button.clean"/></button></td>
+	        	<td colspan="2" class="submitarea buttons"><input type="submit" wicket:id="submitRestaurant" class="submitButton"/> <button class="submitButton" wicket:id="buttonClearForm"><wicket:message key="button.clean"/></button></td>
 	        	</tr>
 	        </table>
         	</fieldset>

@@ -642,6 +642,16 @@ input.submitButton {
     font-size: x-small;
 }
 
+button.submitButton {
+    border: 1px solid #AAAAAA;
+    padding: 4px 4px;
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-topright: 5px;
+    font-size: x-small;
+}
+
 a.submitButton {
     border: 1px solid #AAAAAA;
     padding: 4px 4px;
@@ -1511,4 +1521,13 @@ button.positive, .buttons a.positive{
 
 .suggestFriendPanelTitle{
 	text-align: center;
+}
+
+.allignedBox120{
+	float: left; 
+	width: 120px;
+}
+.allignedBox320{
+	float: left; 
+	width: 320px;
 }

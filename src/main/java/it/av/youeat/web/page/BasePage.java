@@ -228,23 +228,23 @@ public class BasePage extends WebPage {
         };
         add(goEnglish);
 
-        Link<String> goDutch = new Link<String>("goDutch") {
-            @Override
-            public void onClick() {
-                getWebRequestCycle().getWebResponse().addCookie(
-                        new Cookie(CookieUtil.LANGUAGE, Locales.DUTCH.getLanguage()));
-                getSession().setLocale(Locales.DUTCH);
-            }
-
-            @Override
-            protected void onComponentTag(ComponentTag tag) {
-                super.onComponentTag(tag);
-                if (getSession().getLocale().getLanguage().equals(Locales.DUTCH.getLanguage())) {
-                    tag.getAttributes().put("class", "selected");
-                }
-            }
-        };
-        add(goDutch);
+//        Link<String> goDutch = new Link<String>("goDutch") {
+//            @Override
+//            public void onClick() {
+//                getWebRequestCycle().getWebResponse().addCookie(
+//                        new Cookie(CookieUtil.LANGUAGE, Locales.DUTCH.getLanguage()));
+//                getSession().setLocale(Locales.DUTCH);
+//            }
+//
+//            @Override
+//            protected void onComponentTag(ComponentTag tag) {
+//                super.onComponentTag(tag);
+//                if (getSession().getLocale().getLanguage().equals(Locales.DUTCH.getLanguage())) {
+//                    tag.getAttributes().put("class", "selected");
+//                }
+//            }
+//        };
+//        add(goDutch);
 
         BookmarkablePageLink goSignOut = new BookmarkablePageLink("goSignOut", SignOut.class);
 
@@ -287,6 +287,9 @@ public class BasePage extends WebPage {
 
         BookmarkablePageLink goInfo = new BookmarkablePageLink("goInfo", AboutPage.class);
         add(goInfo);
+        
+        BookmarkablePageLink goInfoTop = new BookmarkablePageLink("goInfoTop", AboutPage.class);
+        add(goInfoTop);
 
         BookmarkablePageLink goIndex = new BookmarkablePageLink("goIndex", IndexRistoPage.class);
         add(goIndex);

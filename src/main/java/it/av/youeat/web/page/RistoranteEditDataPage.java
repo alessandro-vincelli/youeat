@@ -135,7 +135,7 @@ public class RistoranteEditDataPage extends BasePage {
                     protected void onComponentTag(ComponentTag tag) {
                         super.onComponentTag(tag);
                         if (actualDescriptionLanguage.getCountry().equals(item.getModelObject().getCountry())) {
-                            tag.getAttributes().put("class", "descriptionLink descriptionLinkActive");
+                            tag.getAttributes().put("class", "descriptionLink descriptionLinkActive submitButton");
                         }
                     }
 

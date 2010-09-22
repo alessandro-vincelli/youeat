@@ -100,7 +100,8 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         super.init(); 
         getMarkupSettings().setCompressWhitespace(true);
         getMarkupSettings().setStripWicketTags(true);
-        getMarkupSettings().setStripComments(inDeployment());
+        // TODO following line disabled to prevent strip of the adSense code, add differently the adsense and an restore the line below
+        //getMarkupSettings().setStripComments(inDeployment());
 
         // THIS LINE IS IMPORTANT - IT INSTALLS THE COMPONENT INJECTOR THAT WILL
         // INJECT NEWLY CREATED COMPONENTS WITH THEIR SPRING DEPENDENCIES

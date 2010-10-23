@@ -61,7 +61,7 @@ public interface TagService {
     List<Tag> freeTextSearch(String pattern);
 
     /**
-     * Find tags by the given criterions
+     * Find tags by the given criterion
      * 
      * @param criterions
      * @return List<Tag>
@@ -69,7 +69,7 @@ public interface TagService {
     List<Tag> findByCriteria(Criterion... criterions);
 
     /**
-     * Retarn tag with the given tag value, exact match search
+     * Return tag with the given tag value, exact match search
      * 
      * @param tagValue
      * @return Tag

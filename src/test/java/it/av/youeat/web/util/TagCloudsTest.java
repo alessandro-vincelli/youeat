@@ -77,7 +77,7 @@ public class TagCloudsTest extends YoueatTest {
         tagCloud.setTagService(tagServiceHibernate);
         
         String tagCloudHTML = tagCloud.getTagClound();
-        String expected = "<span style=\"font-size: 11.5pt;\">tag2</span> ";
+        String expected = "<span style=\"font-size: 9.25pt;\">tag2</span> ";
         expected =  expected +  "<span style=\"font-size: 22.0pt;\">tag8</span> ";
         assertEquals(expected, tagCloudHTML);
         

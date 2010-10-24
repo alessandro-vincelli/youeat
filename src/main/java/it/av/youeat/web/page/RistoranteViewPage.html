@@ -4,7 +4,7 @@
     <span wicket:id="revisionsPanel"></span>
     <form wicket:id="ristoranteForm" class="cmxform">
     <fieldset>
-    <table class="risto-view" cellspacing="0">
+    <table class="risto-view">
         <tbody>
             <tr>
                 <td><h1 wicket:id="name"></h1></td>
@@ -24,19 +24,17 @@
                 <td><span type="text" wicket:id="email"></span></td>
             </tr>
             <tr>
-                <td class="descriptionLinks buttons">
-                <ul wicket:id="descriptionLinksContainer">
-                <li wicket:id="descriptionLinks"><button class="descriptionLink" href="#" wicket:id="descriptionLink"><span wicket:id="linkName"></span></button></li>
+                <td>
+                <div class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+                <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" wicket:id="descriptionLinksContainer">
+                <li wicket:id="descriptionLinks" class="ui-state-default ui-corner-top"><a href="#" wicket:id="descriptionLink"><wicket:container wicket:id="linkName"/></a></li>
                 </ul>
-                </td>
-            </tr>
-	        <tr>
-                <td class="descriptionTextArea">
-                <span wicket:id="descriptionsContainer">
+                <div wicket:id="descriptionsContainer" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
                 <span wicket:id="descriptions">
                     <span wicket:id="description"></span>
                 </span>
-                </span>
+                </div>
+                </div>
                 </td>
             </tr>
             <tr class="x-smalltext">
@@ -55,10 +53,10 @@
        </ul>
     </fieldset>
     </form>
-    <div class="edit buttons">
-    <button wicket:id="editDataRistorante"><wicket:message key="button.editRistorante" /></button>
-    <button wicket:id="editPictures"><wicket:message key="button.editRistorantePictures" /></button>
-    <button wicket:id="newComment"><wicket:message key="button.newComment" /></button>
+    <div>
+    <a class="ui-button ui-state-default ui-corner-all ui-button-text-only" wicket:id="editDataRistorante"><span class="ui-button-text"><wicket:message key="button.editRistorante" /></span></a>
+    <a class="ui-button ui-state-default ui-corner-all ui-button-text-only" wicket:id="editPictures"><span class="ui-button-text"><wicket:message key="button.editRistorantePictures" /></span></a>
+    <a class="ui-button ui-state-default ui-corner-all ui-button-text-only" wicket:id="newComment"><span class="ui-button-text"><wicket:message key="button.newComment" /></span></a>
     </div>
     <div id="commentArea">
         <form wicket:id="formComment">
@@ -81,19 +79,19 @@
         <table class="form-comment buttons">
         <tr>
             <th><span wicket:id="newCommentTitleLabel"></span></th>
-            <td><input type="text" wicket:id="title"></input></td>
+            <td><input type="text" wicket:id="title" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"></input></td>
         </tr>
         <tr>
-            <td colspan="2"><textarea wicket:id="body" autocomplete="off" accesskey="u" name="description" rows="4" cols="70"></textarea></td>
+            <td colspan="2"><textarea wicket:id="body" autocomplete="off" accesskey="u" name="description" rows="4" cols="64" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"></textarea></td>
         </tr>
         </table>
         
         <p class="submitarea buttons"> 
-        <button wicket:id="submitNewComment"><wicket:message key="button.postNewComment" /></button>
+        <a class="ui-button ui-state-default ui-corner-all ui-button-text-only" wicket:id="submitNewComment"><span class="ui-button-text"><wicket:message key="button.postNewComment" /></span></a>
         </p>
         </fieldset>
        </form>
-       <div class="buttons inlinestyle"><button wicket:id="newCommentBottom"><wicket:message key="button.newComment" /></button></div>
+       <div class="buttons inlinestyle"><a wicket:id="newCommentBottom" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.newComment" /></span></a></div>
     </div>
     <div wicket:id="map" class="gmap">ristorante position on the map</div>
     </div>
@@ -138,16 +136,16 @@
         </tr>
     </table>
     </form>
-    <p class="edit buttons">
-    <button wicket:id="editAddressRistorante"><wicket:message key="button.editRistorante" /></button>
+    <p class="edit buttons buttons-centered-area">
+    <a wicket:id="editAddressRistorante" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.editData" /></span></a>
     </p>
     </div>
     <div id="navigation">
         <div>
         <ul class="buttonNavigation buttons">
-        <li><button wicket:id="tried"><wicket:message key="button.IateHere" /></button></li>
-        <li><button wicket:id="asfavourite"><span wicket:id="asfavouriteLabel"></span></button></li>
-        <li><button wicket:id="showsAllRevisions"><wicket:message key="button.showsAllRevisions" /></button></li>
+        <li><a wicket:id="tried" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.IateHere" /></span></a></li>
+        <li><a wicket:id="asfavourite" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span wicket:id="asfavouriteLabel" class="ui-button-text"></span></a></li>
+        <li><a wicket:id="showsAllRevisions" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.showsAllRevisions" /></span></a></li>
         </ul>
         <wicket:enclosure child="friendEaterListTitle">
         <span class="titleActivitiesOnRisto">

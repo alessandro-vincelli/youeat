@@ -8,7 +8,7 @@
         	 <table class="form-risto">
     			<tr>
 	        	<th><label for="name"><wicket:message key="name"/></label></th>
-	        	<td><input type="text" wicket:id="name"></input></td>
+	        	<td><input type="text" wicket:id="name" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"></input></td>
 	        	</tr>
                 <!-- Risto Type Disabled, probably replaced by the tags
                 <tr>
@@ -22,20 +22,20 @@
                 -->
 	        	<tr>
 	        	<th><label for="www"><wicket:message key="www"/></label></th>
-	        	<td><input type="text" wicket:id="www"></input></td>
+	        	<td><input type="text" wicket:id="www" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"></input></td>
 	        	</tr>
 	        	<tr>
 	        	<th><label for="email"><wicket:message key="email"/></label></th>
-	        	<td><input type="text" wicket:id="email"></input></td>
+	        	<td><input type="text" wicket:id="email" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"></input></td>
 	        	</tr> 
                 <tr>
 	        	<th><label for="tagBox"><wicket:message key="addNewTag"/></label></th>
 	        	<td >
                 <span class="allignedBox320">
-                <input type="text" wicket:id="tagBox"></input>
+                <input type="text" wicket:id="tagBox" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"></input>
                 </span>
 	        	<span class="buttons allignedBox120">
-                <button class="submitButton" wicket:id="addTag"><wicket:message key="button.addTag"/></button>
+                <a wicket:id="addTag" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.addTag"/></span></a>
                 </span>
                 </td>
 	        	</tr>
@@ -52,39 +52,43 @@
 				</table>
                 </td>
 				</tr>
+				<tr>
+				<td colspan="2" class="boldText">
+					<label for="description"><wicket:message key="description"/></label>
+				</td>
+				</tr>
                 <tr>
-                <th></th>
-                <td class="descriptionLinks buttons">
-                    <ul wicket:id="descriptionLinksContainer">
-                    <li wicket:id="descriptionLinks"><button class="descriptionLink submitButton" href="#" wicket:id="descriptionLink"><span wicket:id="linkName"></span></button></li>
+                <td class="descriptionLinks" colspan=2">
+                    <div class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+                    <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" wicket:id="descriptionLinksContainer">
+                    <li wicket:id="descriptionLinks" class="ui-state-default ui-corner-top"><a class="descriptionLink submitButton" href="#" wicket:id="descriptionLink"><wicket:container wicket:id="linkName"></wicket:container></a></li>
                     </ul>
+
+                    <div wicket:id="descriptionsContainer" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+                	<span wicket:id="descriptions">
+                    <textarea wicket:id="description" autocomplete="off" accesskey="u" name="description" rows="15" cols="60" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"></textarea>
+                	</span>
+                	</div>
+                    </div>
                 </td>
                 </tr>
 	        	<tr>
-                <th><label for="description"><wicket:message key="description"/></label></th>
-                <td>
-                <span wicket:id="descriptionsContainer">
-                <span wicket:id="descriptions">
-                    <textarea wicket:id="description" autocomplete="off" accesskey="u" name="description" rows="15" cols="60"></textarea>
-                </span>
-                </span>
-                </td>
-                </tr>
-	        	<tr>
-	        	<td colspan="2" class="submitarea buttons"><input type="submit" wicket:id="submitRestaurant" class="submitButton"/> <button class="submitButton" wicket:id="buttonClearForm"><wicket:message key="button.clean"/></button></td>
+	        	<td colspan="2" class="submitarea buttons">
+	        	<a wicket:id="submitRestaurant" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.update"/></span></a> 
+	        	<a wicket:id="buttonClearForm" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.clean"/></span></a></td>
 	        	</tr>
 	        </table>
         	</fieldset>
         </form>
         <p class="submitarea buttons">
-            <a href="#" class="submitButton" wicket:id="buttonOpenAddedRisto" title="" wicket:message="title:button.backToRistoRight"><wicket:message key="button.backToRistoRight"/></a>
+            <a href="#" wicket:id="buttonOpenAddedRisto" title="" wicket:message="title:button.backToRistoRight" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.backToRistoRight"/></span></a>
         </p>
        </div>
        </div>
     <div id="navigation">
-    <div class="buttonNavigation buttons">
-    <p><input type="submit" wicket:id="submitRestaurantRight" class="submitButton"></input></p>
-    <p><a href="#" class="submitButton" wicket:id="buttonOpenAddedRistoRight" title="" wicket:message="title:button.backToRistoRight"><wicket:message key="button.backToRistoRight"/></a></p>
+    <div class="buttons-centered-area">
+    <p><a wicket:id="submitRestaurantRight" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.update"/></span></a></p>
+    <p><a href="#" wicket:id="buttonOpenAddedRistoRight" title="" wicket:message="title:button.backToRistoRight" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.backToRistoRight"/></span></a></p>
     </div>
     </div>
 </wicket:extend>

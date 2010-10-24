@@ -27,6 +27,7 @@ import it.av.youeat.web.components.RistosListView;
 import it.av.youeat.web.data.RistoranteSortableDataProvider;
 import it.av.youeat.web.panel.FacebookLoginPanel;
 import it.av.youeat.web.panel.RistoranteSearchPanel;
+import it.av.youeat.web.util.TagCloud;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulato
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
@@ -58,6 +60,8 @@ public class HomePage extends BasePage {
     private RistoranteService ristoranteService;
     @SpringBean
     private EaterService eaterService;
+    @SpringBean
+    private TagCloud tagCloud;
 
     /**
      * Constructor that is invoked when page is invoked without a session.
@@ -105,8 +109,10 @@ public class HomePage extends BasePage {
         ActivitiesListView lastActivitiesList = new ActivitiesListView("activitiesList", activityRistoranteService.getLasts(6), false);          
         add(lastActivitiesList);
         
-        RistosListView lastRistosList = new RistosListView("ristosList", ristoranteService.getRandom(6));
-        add(lastRistosList);
+        //RistosListView lastRistosList = new RistosListView("ristosList", ristoranteService.getRandom(6));
+        //add(lastRistosList);
+        
+        add(new Label("tagCloud", tagCloud.getTagClound()).setEscapeModelStrings(false));
         
         FacebookLoginPanel myPanel = new FacebookLoginPanel("facebookSignInPanel");
         // make sure you add the panel first

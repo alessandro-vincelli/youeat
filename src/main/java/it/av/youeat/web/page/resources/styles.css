@@ -1,15 +1,29 @@
 html,body {
     margin: 0;
     padding: 0;
-    font: 0.75em 'Lucida Grande', sans-serif;
+    font: 'Lucida Grande', sans-serif;
+    font-family: "lucida grande",lucida,tahoma,helvetica,arial,sans-serif !important;
     color: #333;
-    font-size: 0.75em;
-    font-size-adjust: none;
+    /*font-size-adjust: none;*/
     font-style: normal;
     font-variant: normal;
     font-weight: normal;
     line-height: normal;
+    font-size: 14px;
+    background: url("images/sfumatura.png") repeat-x scroll top center; 
+
 }
+
+input[type="text"],fieldset input[type="password"],fieldset textarea,fieldset select,fieldset checkbox
+    {
+    padding: 4px 2px;
+    display: block;
+}
+
+input {
+    padding: 4px 2px;
+}
+
 
 a:hover {
     text-decoration: underline;
@@ -24,15 +38,17 @@ div#header {
     display: block;
     float: left;
     width: 100%;
-    height: 90px;
+    height: 110px;
+    background-color: transparent;
 }
+
 
 div#container {
     width: 1024px;
     margin: 0 auto;
-    border-left: 1px;
+    /*border-left: 1px;
     border-right: 1px solid #C8C8DE;
-    border-left: 1px solid #C8C8DE;
+    border-left: 1px solid #C8C8DE;*/
 }
 
 div#content {
@@ -47,8 +63,8 @@ div#content fieldset {
 
 div#content {
     border: none;
-    border-left: 1px solid #C8C8DE;
-    border-right: 1px solid #C8C8DE;
+    border-left: 1px solid #E9E8E8;
+    border-right: 1px solid #E9E8E8;
     height: 100%;
 }
 
@@ -101,13 +117,12 @@ div#footer p {
 
 #menu li {
     display: inline;
-    font-size: 1em;
-    padding: 0.5em 0.15em 0.5em 0.5em;
+    padding: 0.08em 0.08em 0.08em 0.08em;
     white-space: nowrap;
 }
 
 #menu li a {
-    font-size: 1.50em;
+
     padding: 0.2em 0.15em;
     border-bottom: 1px solid #E9E9E9;
     color: #000000;
@@ -167,7 +182,7 @@ div#footer p {
     width: 95%;
     list-style-image: none;
     list-style-type: none;
-    font-size: x-small;
+    font-size: 0.95em;
     text-align: left;
     padding-bottom: 2px;
     padding-left: 6px;
@@ -251,49 +266,6 @@ div#footer p {
     display: none;
 }
 
-input[type="text"],fieldset input[type="password"],fieldset textarea,fieldset select,fieldset checkbox
-    {
-    border: 1px solid #AAAAAA;
-    padding: 4px 2px;
-    display: block;
-}
-
-input {
-    border: 1px solid #AAAAAA;
-    padding: 4px 2px;
-}
-
-
-.searchRistoInput {
-    border-color: #B4B4B4 #CCCCCC #CCCCCC #B4B4B4;
-    border-style: solid solid solid solid;
-    border-width: 1px 1 1px 1px;
-    font-size: 1.3em;
-    margin: 0.25em 0 0.25em 12px;
-    outline-color: -moz-use-text-color;
-    outline-style: none;
-    outline-width: medium;
-    padding: 0.4em;
-    width: 250px !important;
-    -moz-border-radius-bottomleft: 5px;
-    -moz-border-radius-topleft: 5px;
-    -moz-border-radius-bottomright: 5px;
-    -moz-border-radius-topright: 5px;
-}
-
-.searchRistoButton {
-    -moz-border-radius-bottomright: 3px;
-    -moz-border-radius-topright: 3px;
-    -moz-border-radius-topleft: 3px;
-    -moz-border-radius-bottomleft: 3px;
-    background-color: #EEEEEE;
-    background-position: center top;
-    border-style: solid;
-    border-width: 1px;
-    cursor: pointer;
-    line-height: 1.2;
-}
-
 .form-risto {
     float: left;
 }
@@ -329,10 +301,6 @@ input {
     border: 1px solid #AAAAAA !important;
 }
 */
-fieldset input[type="file"] {
-    border: 1px solid #AAAAAA;
-    padding: 4px 2px;
-}
 
 div .friendsList {
     text-align: left;
@@ -607,7 +575,7 @@ input.deleteButton {
     text-align: center;
     display: block;
     width: 100%;
-    font-size: x-small;
+    font-size: 0.8em
     font-weight: bold;
 }
 
@@ -618,7 +586,7 @@ input.deleteButton {
     text-align: center;
     display: block;
     width: 100%;
-    font-size: x-small;
+    font-size: 0.8em
     font-style: italic;
 }
 
@@ -629,38 +597,12 @@ input.deleteButton {
     text-align: center;
     display: block;
     width: 100%;
-    font-size: small;
+    font-size: 0.9em;
+    background: url("images/underline.png") bottom repeat-x;
+    font-style: oblique;
+    
 }
 
-input.submitButton {
-    border: 1px solid #AAAAAA;
-    padding: 4px 4px;
-    -moz-border-radius-bottomleft: 5px;
-    -moz-border-radius-topleft: 5px;
-    -moz-border-radius-bottomright: 5px;
-    -moz-border-radius-topright: 5px;
-    font-size: x-small;
-}
-
-button.submitButton {
-    border: 1px solid #AAAAAA;
-    padding: 4px 4px;
-    -moz-border-radius-bottomleft: 5px;
-    -moz-border-radius-topleft: 5px;
-    -moz-border-radius-bottomright: 5px;
-    -moz-border-radius-topright: 5px;
-    font-size: x-small;
-}
-
-a.submitButton {
-    border: 1px solid #AAAAAA;
-    padding: 4px 4px;
-    -moz-border-radius-bottomleft: 5px;
-    -moz-border-radius-topleft: 5px;
-    -moz-border-radius-bottomright: 5px;
-    -moz-border-radius-topright: 5px;
-    font-size: x-small;
-}
 
 .descriptionLinks {
     text-align: left;
@@ -685,7 +627,6 @@ a.submitButton {
 }
 
 .descriptionTextArea{
-    font-size: medium;
     padding: 0.7em 0.7em 0.7em 0.7em;
 }
 .form-signup {
@@ -703,7 +644,6 @@ a.submitButton {
     width: 100%;
     float: left;
     display: block;
-    font-size: medium;
     padding-top: 5px;
 }
 
@@ -831,7 +771,6 @@ input.unpublishPictureButton {
     list-style-image: none;
     list-style-position: inside;
     list-style-type: none;
-    font-size: medium;
     text-align: left;
     padding-bottom: 2px;
     padding-left: 130px;
@@ -886,7 +825,7 @@ input.unpublishPictureButton {
 
 #menu-languages li {
     display: inline-block;
-    font-size: 1em;
+    font-size: 0.7em;
     padding: 0.5em 0.15em;
 }
 
@@ -913,19 +852,42 @@ input.unpublishPictureButton {
     color: gray;
 }
 
-.feedbackPanel {
+.feedBackPanelBox {
+    display: block;
+    float: left;
+    width: 100%;
     text-align: center;
 }
 
-.feedbackPanel {
-    text-align: center;
-    font-size: medium;
+.feedBackPanelArea {
+    margin-left: 220px;
+    margin-right: 220px;
+}
+
+.feedBackPanelArea ul{
+    padding: 0px 0px 0px 0px;
     list-style-image: none;
     list-style-position: outside;
     list-style-type: none;
 }
+.feedBackPanelArea li{
+    padding: 0px 0px 0px 0px;
+}
+
+.feedbackPanel {
+    text-align: center;
+}
+
+.feedbackPanel {
+	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; 
+    /*text-align: center;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;*/
+}
 
 .feedbackPanelINFO {
+	border: 1px solid #fed22f; background: #ffe45c url(images/ui-bg_highlight-soft_75_ffe45c_1x100.png) 50% top repeat-x; color: #363636; 
     text-shadow: 1px gray;
     font-style: italic;
 }
@@ -933,6 +895,8 @@ input.unpublishPictureButton {
 feedbackPanelERROR {
     color: red;
 }
+
+
 
 .commentsList {
     list-style-image: none;
@@ -972,7 +936,7 @@ feedbackPanelERROR {
 }
 
 #commentHeader {
-    font-size: small;
+    font-size: 0.9em
 }
 
 #commentHeader .commentTitle {
@@ -981,11 +945,11 @@ feedbackPanelERROR {
 
 #commentHeader .commentTime {
     text-align: right;
-    font-size: smaller;
+    font-size: 0.9em
 }
 
 #commentBody {
-    font-size: small;
+    font-size: 0.9em
 }
 
 .form-comment {
@@ -1046,15 +1010,15 @@ feedbackPanelERROR {
 }
 
 .x-smalltext {
-    font-size: x-small;
+    font-size: 0.8em
 }
 
 .smalltext {
-    font-size: small;
+    font-size: 0.9em
 }
 
 .mediumtext {
-    font-size: medium;
+    
 }
 
 .simpleSmallLink{
@@ -1064,96 +1028,10 @@ feedbackPanelERROR {
 
 .risto-view{
     text-align: left;
-}
-
-.buttons button , .buttons input, .buttons a{
-    /*display: block;*/
-    margin:0px 0px 0px 0px;
-    background-color:#f5f5f5;
-    border:1px solid #dedede;
-    border-top:1px solid #eee;
-    border-left:1px solid #eee;
-    white-space: nowrap;
-    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
-    line-height:130%;
-    font: xx-small;
-    text-decoration:none;
-    font-weight:bold;
-    color:#565656;
-    cursor:pointer;
-    padding:5px 10px 6px 7px; /* Links */
-    float: none;
-    font-size: x-small;
-}
-
-.buttons button[type]{
-    padding:5px 10px 5px 7px; /* Firefox */
-    line-height:17px; /* Safari */
-}
-*:first-child+html button[type]{
-    padding:4px 10px 3px 7px; /* IE7 */
-}
-.buttons button img, .buttons a img{
-    margin:0 3px -3px 0 !important;
-    padding:0;
-    border:none;
-    width:16px;
-    height:16px;
+    width: 100%;
 }
 
 
-
-/* STANDARD */
-
-button:hover, .buttons input:hover, .buttons a:hover{
-    background-color:#dff4ff;
-    border:1px solid #c2e1ef;
-    color:#336699;
-}
-.buttons a:active{
-    background-color:#6299c5;
-    border:1px solid #6299c5;
-    color:#fff;
-}
-
-/* POSITIVE */
-
-button.positive, .buttons a.positive{
-    color:#529214;
-}
-.buttons a.positive:hover, button.positive:hover{
-    background-color:#E6EFC2;
-    border:1px solid #C6D880;
-    color:#529214;
-}
-.buttons a.positive:active{
-    background-color:#529214;
-    border:1px solid #529214;
-    color:#fff;
-}
-
-/* NEGATIVE */
-
-.buttons a.negative, button.negative{
-    color:#d12f19;
-}
-.buttons a.negative:hover, button.negative:hover{
-    background:#fbe3e4;
-    border:1px solid #fbc2c4;
-    color:#d12f19;
-}
-.buttons a.negative:active{
-    background-color:#d12f19;
-    border:1px solid #d12f19;
-    color:#fff;
-}
-
-.buttons .descriptionLinkActive {
-    text-decoration: underline;
-    font-weight: bold;
-    padding: 8px 8px 8px 8px;
-    font-size: small;
-}
 
 .searchRisto {     
     display: inline;
@@ -1291,7 +1169,7 @@ button.positive, .buttons a.positive{
     margin-left: 3%;
     margin-right: 3%;
     text-align: left;
-    font-size: x-small;
+    font-size: 0.8em
 }
 
 .datatableRevision th {
@@ -1299,13 +1177,13 @@ button.positive, .buttons a.positive{
 }
 
 .datatableRevision td {
-    font-weight: normal;
+    font-weight: 1em;
     border-bottom: 1px solid #EEEEEE;
     text-align: center;
 }
 
 .datatableRevision td.description {
-    font-weight: normal;
+    font-weight: 1em;
     text-align: justify;
     width: 45em;
 }
@@ -1444,7 +1322,7 @@ button.positive, .buttons a.positive{
 }
 
 .homeabout{
-    font-size: x-small;
+    font-size: 0.9em;
     line-height: 20px;
     padding-left: 4px;
     padding-right: 4px;
@@ -1453,11 +1331,10 @@ button.positive, .buttons a.positive{
 .privacy{
     text-align: left;
     padding-left: 10px;
-    font-size: small;
 }
 
 .firstLineFooter{
-    font-size: x-small;
+    font-size: 0.8em;
 }
 
 .modal-warning-text{
@@ -1465,7 +1342,7 @@ button.positive, .buttons a.positive{
 	margin-left: 10px;
 	margin-right: 10px;
 	margin-top: 10px;
-	font-size: small;
+	font-size: 0.9em
 }
 
 .modal-warning-button{
@@ -1483,7 +1360,7 @@ button.positive, .buttons a.positive{
     width: 95%;
     list-style-image: none;
     list-style-type: none;
-    font-size: x-small;
+    font-size: 0.8em
     text-align: left;
     padding-left: 6px;
     margin-left: 0px;
@@ -1511,7 +1388,7 @@ button.positive, .buttons a.positive{
 }
 
 .tagSmallBold {
-    font-size: small;
+    font-size: 0.9em
 }
 
 .suggestFriendButton{
@@ -1530,4 +1407,39 @@ button.positive, .buttons a.positive{
 .allignedBox320{
 	float: left; 
 	width: 320px;
+}
+
+.w_caption{
+	display:block; 
+	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+	padding: .5em 1em .3em; position: relative; 
+	border: 1px solid #e78f08; background: #f6a828 url(images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x; color: #ffffff; font-weight: bold; 
+}
+
+.ui-widget-content{
+	background-color: white;
+	background: repeat-x repeat-x;
+	}
+
+.labo{
+	/*color: #ffffff; font-weight: bold;
+	display:block; 
+	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+	padding: .5em 1em .3em; position: relative; 
+	border: 1px solid #e78f08;
+	background: url(images/labo.png) 5% 5% repeat-x;
+	background-position: top; */  	 
+}
+
+.boldText{
+	font-weight: bold;
+}
+.w_close{
+	background-image:url("frame-gray-1-alpha.png");
+}
+
+.tagTitleImage{
+	background-image: url('images/tags.png'); 
+	background-repeat: no-repeat;
+	background-position: 0px 12px;
 }

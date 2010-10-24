@@ -39,6 +39,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -129,15 +130,12 @@ public class RistoranteEditDataPage extends BasePage {
         ListView<Language> descriptionsLinks = new ListView<Language>("descriptionLinks", languageService.getAll()) {
             @Override
             protected void populateItem(final ListItem<Language> item) {
+                
+                if (actualDescriptionLanguage.getCountry().equals(item.getModelObject().getCountry())) {
+                    item.add(new AttributeAppender("class", new Model<String>("ui-tabs-selected ui-state-active"), " "));
+                }
+                
                 item.add(new AjaxFallbackButton("descriptionLink", form) {
-
-                    @Override
-                    protected void onComponentTag(ComponentTag tag) {
-                        super.onComponentTag(tag);
-                        if (actualDescriptionLanguage.getCountry().equals(item.getModelObject().getCountry())) {
-                            tag.getAttributes().put("class", "descriptionLink descriptionLinkActive submitButton");
-                        }
-                    }
 
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
@@ -232,12 +230,6 @@ public class RistoranteEditDataPage extends BasePage {
 
         public SubmitButton(String id, Form<Ristorante> form) {
             super(id, form);
-        }
-
-        @Override
-        protected void onComponentTag(ComponentTag tag) {
-            super.onComponentTag(tag);
-            tag.getAttributes().put("value", getString("button.update"));
         }
 
         @Override

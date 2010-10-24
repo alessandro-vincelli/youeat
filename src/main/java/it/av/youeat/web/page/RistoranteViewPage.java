@@ -47,6 +47,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.markup.html.basic.SmartLinkLabel;
 import org.apache.wicket.extensions.rating.RatingPanel;
@@ -145,7 +146,13 @@ public class RistoranteViewPage extends BasePage {
         formRisto.add(descriptionLinksContainer);
         ListView<Language> descriptionsLinks = new ListView<Language>("descriptionLinks", languageService.getAll()) {
             @Override
+            protected void onComponentTag(ComponentTag tag) {};
+            
+            @Override
             protected void populateItem(final ListItem<Language> item) {
+                if (actualDescriptionLanguage.getCountry().equals(item.getModelObject().getCountry())) {
+                    item.add(new AttributeAppender("class", new Model<String>("ui-tabs-selected ui-state-active"), " "));
+                }
                 item.add(new AjaxFallbackButton("descriptionLink", formRisto) {
 
                     @Override
@@ -156,14 +163,6 @@ public class RistoranteViewPage extends BasePage {
                         if (!langpresent) {
                             tagAttrs.put("title", getString("descriptionNotAvailableLang"));
                             tagAttrs.put("class", "descriptionNotAvailableLang");
-                        }
-                        if (actualDescriptionLanguage.getCountry().equals(item.getModelObject().getCountry())) {
-                            if (tagAttrs.containsKey("class")) {
-                                tagAttrs.put("class", tagAttrs.get("class").concat(
-                                        " descriptionLink descriptionLinkActive"));
-                            } else {
-                                tagAttrs.put("class", "descriptionLink descriptionLinkActive");
-                            }
                         }
                         tag.getAttributes().putAll(tagAttrs);
                     }
@@ -275,9 +274,9 @@ public class RistoranteViewPage extends BasePage {
         formRisto.add(picturesList);
 
         add(revisionModal = new ModalWindow("revisionsPanel"));
-        revisionModal.setWidthUnit("%");
-        revisionModal.setInitialHeight(450);
-        revisionModal.setInitialWidth(100);
+        //revisionModal.setWidthUnit("%");
+        //revisionModal.setInitialHeight(40);
+        //revisionModal.setInitialWidth(90);
         revisionModal.setResizable(false);
         RistoranteRevisionsPanel revisionsPanel = new RistoranteRevisionsPanel(revisionModal.getContentId(),
                 getFeedbackPanel());
@@ -285,6 +284,9 @@ public class RistoranteViewPage extends BasePage {
         revisionModal.setContent(revisionsPanel);
         revisionModal.setTitle("Revisions list");
         revisionModal.setCookieName("SC-revisionLists");
+        //JQUERY LAYOUT
+        //revisionModal.setCssClassName("ui-widget ui-widget-content ui-corner-all");
+        revisionModal.setCssClassName(ModalWindow.CSS_CLASS_BLUE);
 
         revisionModal.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
             public boolean onCloseButtonClicked(AjaxRequestTarget target) {

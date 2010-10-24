@@ -10,12 +10,12 @@
         <wicket:message key="homepage.about"></wicket:message>
     </p>
     <span class="titleSmallBold"><wicket:message key="homePage.lastActivities" /></span>
-    <ul class="activitiesList">
+    <ul class="activitiesList activitiesTitleImage">
         <li wicket:id="activitiesList">
             <img wicket:id="type" class="iconActivities"></img>
             <span wicket:id="activityDesc" style="display: none;"></span>
-            <a href="#" wicket:id="ristorante.link"><span wicket:id="ristorante.name"></span></a>
-            <span wicket:id="date.time" class="dateActivities"></span>
+            <a href="#" wicket:id="ristorante.link"><span wicket:id="name"></span></a>
+            <span wicket:id="date.time" class="dateActivities x-smalltext"></span>
         </li>
         <li>
             <span wicket:id="facebookSignInPanel"></span>
@@ -35,12 +35,10 @@
     <p class="homeabout">
     	<wicket:message key="homepage.wearebuilduing"></wicket:message>
     </p>
-    <span class="titleSmallBold"><wicket:message key="homePage.randomRisto" /></span>
-    <ul class="activitiesList">
-        <li wicket:id="ristosList">
-            <a href="#" wicket:id="ristorante.link"><span wicket:id="name"></span></a>
-        </li>
-    </ul>
+    <span class="titleSmallBold"><wicket:message key="homePage.useTags" /></span>
+    <div class="tagTitleImage">
+    	<wicket:container wicket:id="tagCloud"></wicket:container>
+    </div>
 	<div style="text-align: center;">
         <script type="text/javascript"><!--
 		google_ad_client = "pub-9250698005629707";

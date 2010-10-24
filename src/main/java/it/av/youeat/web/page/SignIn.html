@@ -30,7 +30,7 @@
         <table class="facebookPanel">
         <tr class="buttons">
         <th><wicket:message key="message.join"></wicket:message></th>
-        <td><a  href="#" title="" wicket:id="signUp" wicket:message="title:signIn.signUpLinkTitle"><wicket:message key="signIn.signUpLink"/></a></td>
+        <td><a href="#" title="" wicket:id="signUp" wicket:message="title:signIn.signUpLinkTitle" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="signIn.signUpLink"/></span></a></td>
         </tr>
         <tr>
         <th><wicket:message key="signin.or"></wicket:message></th>
@@ -46,9 +46,9 @@
 	</div>
     </div>
     </div>
-    <div id="navigation" class="buttons">
-        <div class="buttonNavigation">
-        <p><a  href="#" title="" wicket:id="passwordRecover" wicket:message="title:signIn.signUpLinkTitle"><wicket:message key="signIn.passwordRecovery"/></a></p>
+    <div id="navigation" class="buttons-centered-area">
+        <div>
+        <p><a href="#" title="" wicket:id="passwordRecover" wicket:message="title:signIn.signUpLinkTitle" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="signIn.passwordRecovery"/></span></a></p>
         </div>
     </div>
 </wicket:extend>

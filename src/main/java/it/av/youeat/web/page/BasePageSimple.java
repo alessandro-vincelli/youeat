@@ -15,6 +15,7 @@
  */
 package it.av.youeat.web.page;
 
+import it.av.youeat.web.commons.YouEatFeedbackPanel;
 import it.av.youeat.web.util.HtmlUtil;
 
 import org.apache.wicket.markup.html.CSSPackageResource;
@@ -32,7 +33,10 @@ public class BasePageSimple extends WebPage {
 
     private static final CompressedResourceReference STYLES_CSS = new CompressedResourceReference(BasePageSimple.class,
             "resources/styles.css");
-    private FeedbackPanel feedbackPanel;
+    private static final CompressedResourceReference STYLES_JQUERY_CSS = new CompressedResourceReference(BasePage.class,
+    "resources/jquery-ui-1.8.5.custom.css");
+    
+    private YouEatFeedbackPanel feedbackPanel;
 
     /**
      * Construct.
@@ -40,8 +44,9 @@ public class BasePageSimple extends WebPage {
     public BasePageSimple() {
         HtmlUtil.fixInitialHtml(this);
         add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
+        add(CSSPackageResource.getHeaderContribution(STYLES_JQUERY_CSS));
         
-        feedbackPanel = new FeedbackPanel("feedBackPanel");
+        feedbackPanel = new YouEatFeedbackPanel("feedBackPanel");
         feedbackPanel.setOutputMarkupId(true);
         feedbackPanel.setOutputMarkupPlaceholderTag(true);
         add(feedbackPanel);

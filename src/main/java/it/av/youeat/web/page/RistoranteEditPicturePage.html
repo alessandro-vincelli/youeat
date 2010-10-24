@@ -13,7 +13,9 @@
                 <td colspan="2"><span wicket:id="progressBar"></span></td>
                 </tr>
 	        	<tr>
-	        	<td class="buttons" colspan="2"><input type="submit" wicket:id="submitForm" class="submitButton" value="upload" wicket:message="value:button.uploadPicture"></input></td>
+	        	<td class="buttons" colspan="2">
+	        	<a wicket:id="submitForm" value="upload"  class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.uploadPicture"/></span></a>
+	        	</td>
 	        	</tr>
 	        </table>
             
@@ -32,13 +34,13 @@
         	</fieldset>
         </form>
         <p class="submitarea buttons">
-            <a href="#" class="submitButton" wicket:id="buttonOpenAddedRisto" title="" wicket:message="title:button.backToRistoRight"><wicket:message key="button.backToRistoRight"/></a>
+            <a href="#"  wicket:id="buttonOpenAddedRisto" title="" wicket:message="title:button.backToRistoRight" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.backToRistoRight"/></span></a>
          </p>
        </div>
        </div>
     <div id="navigation">
         <div class="buttonNavigation buttons">
-        <a href="#" class="submitButton" wicket:id="buttonOpenAddedRistoRight" title="" wicket:message="title:button.backToRistoRight"><wicket:message key="button.backToRistoRight"/></a>
+        <a href="#"  wicket:id="buttonOpenAddedRistoRight" title="" wicket:message="title:button.backToRistoRight" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.backToRistoRight"/></span></a>
         </div>
     </div>
 </wicket:extend>

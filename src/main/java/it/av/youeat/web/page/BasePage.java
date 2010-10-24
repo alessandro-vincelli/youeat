@@ -20,6 +20,7 @@ import it.av.youeat.service.EaterRelationService;
 import it.av.youeat.service.MessageService;
 import it.av.youeat.web.Locales;
 import it.av.youeat.web.commons.CookieUtil;
+import it.av.youeat.web.commons.YouEatFeedbackPanel;
 import it.av.youeat.web.page.manager.CommentsManagerPage;
 import it.av.youeat.web.page.manager.RistoranteManagerPage;
 import it.av.youeat.web.page.xml.FeedPage;
@@ -55,7 +56,10 @@ public class BasePage extends WebPage {
      "BasePage.js");
     private static final CompressedResourceReference STYLES_CSS = new CompressedResourceReference(BasePage.class,
             "resources/styles.css");
-    private FeedbackPanel feedbackPanel;
+    private static final CompressedResourceReference STYLES_JQUERY_CSS = new CompressedResourceReference(BasePage.class,
+    "resources/jquery-ui-1.8.5.custom.css");
+    
+    private YouEatFeedbackPanel feedbackPanel;
     private boolean isAuthenticated = false;
     private Eater loggedInUser = null;
     @SpringBean
@@ -86,8 +90,9 @@ public class BasePage extends WebPage {
         }
         HtmlUtil.fixInitialHtml(this);
         add(JavascriptPackageResource.getHeaderContribution(BASEPAGE_JS));
+        add(CSSPackageResource.getHeaderContribution(STYLES_JQUERY_CSS));
         add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
-        feedbackPanel = new FeedbackPanel("feedBackPanel");
+        feedbackPanel = new YouEatFeedbackPanel("feedBackPanel");
         feedbackPanel.setOutputMarkupPlaceholderTag(true);
         add(feedbackPanel);
 

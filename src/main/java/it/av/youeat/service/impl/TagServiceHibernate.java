@@ -20,12 +20,16 @@ import it.av.youeat.ocm.model.Tag;
 import it.av.youeat.service.TagService;
 import it.av.youeat.util.LuceneUtil;
 
+import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.util.Version;
+import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.jpa.FullTextEntityManager;
@@ -39,6 +43,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @Repository
 public class TagServiceHibernate extends ApplicationServiceHibernate<Tag> implements TagService {
+
+
 
     /**
      * {@inheritDoc}
@@ -96,5 +102,23 @@ public class TagServiceHibernate extends ApplicationServiceHibernate<Tag> implem
         }
         javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Tag.class);
         return persistenceQuery.getResultList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Map<String, Integer> getTagsAndScore() {
+        SQLQuery criteria = getHibernateSession().createSQLQuery("select tag, count(tags) from ristorante_tags inner join tag on (tags = id)  group by tags, tag order by tag;");
+        List list = criteria.list();
+        if (list != null && list.size() > 0) {
+            Map<String, Integer> map = new HashMap<String, Integer>(list.size());
+            for (Object object : list) {
+                map.put((String) ((Object[]) object)[0], ((BigInteger) ((Object[]) object)[1]).intValue());
+            }
+            return map;
+        } else {
+            return new HashMap<String, Integer>();
+        }
     }
 }

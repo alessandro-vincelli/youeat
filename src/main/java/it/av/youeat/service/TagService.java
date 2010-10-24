@@ -18,6 +18,7 @@ package it.av.youeat.service;
 import it.av.youeat.ocm.model.Tag;
 
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.criterion.Criterion;
 
@@ -82,4 +83,12 @@ public interface TagService {
      * @param tag
      */
     void remove(Tag tag);
+    
+    /**
+     * Return all the tags and the relative score
+     * 
+     * @param criterions
+     * @return Map<String, Integer>
+     */
+    Map<String, Integer> getTagsAndScore();
 }

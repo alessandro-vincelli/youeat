@@ -124,7 +124,7 @@ div#footer p {
 #menu li a {
 
     padding: 0.2em 0.15em;
-    border-bottom: 1px solid #E9E9E9;
+    border-bottom: 1px solid #000000;
     color: #000000;
     text-decoration: none;
     height: 17px;
@@ -833,7 +833,7 @@ input.unpublishPictureButton {
     display: inline-block;
     font-size: 1.00em;
     padding: 0.2em 0.15em;
-    border-bottom: 1px solid #E9E9E9;
+    border-bottom: 1px solid #000000;
     color: #000000;
     text-decoration: none;
     height: 17px;
@@ -1438,8 +1438,3 @@ feedbackPanelERROR {
 	background-image:url("frame-gray-1-alpha.png");
 }
 
-.tagTitleImage{
-	background-image: url('images/tags.png'); 
-	background-repeat: no-repeat;
-	background-position: 0px 12px;
-}

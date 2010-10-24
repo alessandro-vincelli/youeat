@@ -50,7 +50,12 @@ public class ActivitiesListView extends PropertyListView<ActivityRistorante> {
         item.add(new Label("date.time", periodUtil.getPeriod(item.getModelObject().getDate().getTime(), getLocale())));
         BookmarkablePageLink<String> ristoLink = new BookmarkablePageLink<String>("ristorante.link",
                 RistoranteViewPage.class, RistoranteUtil.createParamsForRisto(item.getModelObject().getRistorante()));
-        ristoLink.add(new Label("ristorante.name"));
+        StringBuffer risto = new StringBuffer();
+        risto.append(item.getModelObject().getRistorante().getName());
+        risto.append(" <i class=\"x-smalltext\">(");
+        risto.append(item.getModelObject().getRistorante().getCity());
+        risto.append("</i>)");
+        ristoLink.add(new Label("name", risto.toString()).setEscapeModelStrings(false));
         item.add(ristoLink);
         item.add(new Label("activityDesc", getString(item.getModelObject().getType())));
         AjaxFallbackLink<String> eater = new AjaxFallbackLink<String>("view-eater") {

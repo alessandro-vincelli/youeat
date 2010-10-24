@@ -17,19 +17,20 @@
 <html xmlns:wicket>
 <body>
   <wicket:panel>
-    <span wicket:id="feedback"/>
+    <div wicket:id="feedback" class="feedBackPanelBox"/>
+    <div style="display: block; width: 100%; float: left;">
         <form wicket:id="signInForm" class="signInForm">
             <table>
                 <tr>
                     <th>email:</th>
                     <td>
-                        <input wicket:id="username" type="text" value="" />
+                        <input wicket:id="username" type="text" value="" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"/>
                     </td>
                 </tr>
                 <tr>
                     <th>password:</th>
                     <td>
-                        <input wicket:id="password" type="password" value="" />
+                        <input wicket:id="password" type="password" value="" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"/>
                     </td>
                 </tr>
                 <tr wicket:id="rememberMeRow">
@@ -38,13 +39,15 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td class="buttons">
-                        <button type="submit" name="submit" value="Sign In"><wicket:message key="signIn.submit"/></button>
-                        <button type="reset" value="Reset"><wicket:message key="signIn.reset"/></button>
+                    <td>
+                        <button type="submit" name="submit" value="Sign In" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="signIn.submit"/></span></button>
+                        <button type="reset" value="Reset" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="signIn.reset"/></span></button>
                     </td>
+                     
                 </tr>
             </table>
         </form>
+     </div>
   </wicket:panel>
 </body>
 </html>

@@ -4,6 +4,8 @@ public class SignInPanel extends org.apache.wicket.authentication.panel.SignInPa
 
     public SignInPanel(String id, boolean includeRememberMe) {
         super(id, includeRememberMe);
+        remove("feedback");
+        add(new YouEatFeedbackPanel("feedback"));
     }
 
 }

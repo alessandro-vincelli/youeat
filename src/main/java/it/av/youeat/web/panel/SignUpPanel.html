@@ -4,15 +4,15 @@
        	 <table class="form-signup">
         	<tr>
         	<th><label for="firstname"><wicket:message key="firstname"/></label></th>
-        	<td><input type="text" wicket:id="firstname"/></td>
+        	<td><input type="text" wicket:id="firstname" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"/></td>
             </tr>
             <tr>
             <th><label for="lastname"><wicket:message key="lastname"/></label></th>
-            <td><input type="text" wicket:id="lastname"/></td>
+            <td><input type="text" wicket:id="lastname" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"/></td>
         	</tr>
         	<tr>
         	<th><label for="email"><wicket:message key="email"/></label></th>
-        	<td><input type="text" wicket:id="email"/></td>
+        	<td><input type="text" wicket:id="email" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"/></td>
             </tr>
             <tr>
                 <th><label for="sex"><wicket:message key="sex"/></label></th>
@@ -28,11 +28,11 @@
         	</tr>
    			<tr>
         	<th><label for="password"><wicket:message key="password"/></label></th>
-        	<td><input type="password" wicket:id="password"/></td>
+        	<td><input type="password" wicket:id="password" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"/></td>
         	</tr>
             <tr>
             <th><label for="password-confirm"><wicket:message key="password-confirm"/></label></th>
-            <td><input type="password" wicket:id="password-confirm"/></td>
+            <td><input type="password" wicket:id="password-confirm" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"/></td>
             </tr>
         </table>
         <input type="hidden" wicket:id="captchaHidden"></input>
@@ -40,10 +40,10 @@
        	</fieldset>
        </form>
        <p class="buttons">
-            <button type="submit" wicket:id="buttonCreateNewAccount" wicket:message="title:signUp.buttonCreateNewAccount,value:signUp.buttonCreateNewAccount"><wicket:message key="signUp.buttonCreateNewAccount"></wicket:message></button>
+            <a wicket:id="buttonCreateNewAccount" wicket:message="title:signUp.buttonCreateNewAccount,value:signUp.buttonCreateNewAccount" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="signUp.buttonCreateNewAccount"></wicket:message></span></a>
             <!-- <button wicket:id="buttonClearForm"><wicket:message key="button.clean"/></button>
             -->
-            <a href="#" wicket:id="goSignInAfterSignUp"><wicket:message key="goSignInAfterSignUp"/></a>
+            <a href="#" wicket:id="goSignInAfterSignUp" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="goSignInAfterSignUp"/></span></a>
         </p>       
 	
 </wicket:panel>

@@ -1,18 +1,20 @@
 <wicket:panel>
 <span wicket:id="feedbackPanelSMP"></span>
-<span class="closeButton buttons"><a href="#" wicket:id="closeAfterSent" ><wicket:message key="button.close"/></a></span>
+<span class="closeButton buttons"><a href="#" wicket:id="closeAfterSent" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.close"/></span></a></span>
 <form wicket:id="sendMessageForm">
 <table>
 <tr class="form-send-message-title">
 <th><wicket:message key="messageTitle"></wicket:message></th>
-<td><input wicket:id="title"></input></td>
+<td><input wicket:id="title" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"></input></td>
 </tr>
 <tr>
-<td colspan="2"><textarea wicket:id="body" autocomplete="off" accesskey="u" name="body-message" rows="4" cols="69"></textarea></td>
+<td colspan="2"><textarea wicket:id="body" autocomplete="off" accesskey="u" name="body-message" rows="4" cols="62" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"></textarea></td>
 </tr>
 <tr>
 <td></td>
-<td class="buttons"><button wicket:id="submit" type="button"><wicket:message key="button.sendMessage"/></button></td>
+<td class="buttons">
+<button wicket:id="submit" type="button" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.sendMessage"/></span></button>
+</td>
 </tr>
 </table>
 </form>

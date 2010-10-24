@@ -34,7 +34,7 @@ public class RistosListView extends PropertyListView<Ristorante> {
                 RistoranteViewPage.class, RistoranteUtil.createParamsForRisto(item.getModelObject()));
         StringBuffer risto = new StringBuffer();
         risto.append(item.getModelObject().getName());
-        risto.append(" <i>(");
+        risto.append(" <i class=\"x-smalltext\">(");
         risto.append(item.getModelObject().getCity());
         risto.append("</i>)");
         ristoLink.add(new Label("name", risto.toString()).setEscapeModelStrings(false));

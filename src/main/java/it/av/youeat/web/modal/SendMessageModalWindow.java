@@ -11,7 +11,7 @@ public final class SendMessageModalWindow {
     public static ModalWindow getNewModalWindow(String id) {
         ModalWindow sendMessageMW = new ModalWindow(id);
         sendMessageMW.setInitialHeight(200);
-        sendMessageMW.setCssClassName(ModalWindow.CSS_CLASS_GRAY);
+        sendMessageMW.setCssClassName(ModalWindow.CSS_CLASS_BLUE);
         sendMessageMW.setCookieName("youeat-sendMessageModalWindow");
 
         sendMessageMW.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {

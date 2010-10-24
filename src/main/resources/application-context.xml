@@ -251,5 +251,7 @@
     <bean id="mappingJacksonJsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
         <property name="objectMapper" ref="jaxbObjectMapper"/>
     </bean>
+    
+    <bean id="tagCloud" class="it.av.youeat.web.util.TagCloud"/>
 
 </beans>

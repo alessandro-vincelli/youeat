@@ -1311,10 +1311,7 @@ feedbackPanelERROR {
 #bysy_indicator {
   display: none;
   float: left;
-  
-  /* TODO
-  background: transparent url("/images/wait22trans.gif") no-repeat
-        center top;*/
+  background: transparent url("/images/wait22trans.gif") no-repeat center top;
   margin-top: 41px;
   z-index: 1000;
   width: 22px;
@@ -1438,5 +1435,9 @@ feedbackPanelERROR {
 }
 .w_close{
 	background-image:url("frame-gray-1-alpha.png");
+}
+
+.ui-button{
+	font-size: 0.9em
 }
 

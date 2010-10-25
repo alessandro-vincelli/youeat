@@ -538,9 +538,9 @@ h1 {
     float: left;
     display: inline;
     text-decoration: none;
-    padding-left: 30px;
+    padding-left: 0px;
     padding-top: 5px;
-    width: 80px;
+    width: 180px;
 }
 
 .titleAndGoHome img {
@@ -548,6 +548,11 @@ h1 {
     display: compact;
     width: 80px;
     border-style: none;
+}
+
+img#scritta{
+    width: 100px;
+    padding-top: 5px;
 }
 
 input.deleteButton {

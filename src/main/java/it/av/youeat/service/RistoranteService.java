@@ -92,14 +92,15 @@ public interface RistoranteService {
     List<Ristorante> freeTextSearch(String pattern);
 
     /**
-     * Find restaurants using the given pattern.
+     * Find restaurants using the given pattern and city.
      * <p>
      * <b>Note: fuzzy free text search performed only on the <b>name</b> of the risto.
      * 
      * @param pattern
+     * @param city (NULL to disable)
      * @return found ristos
      */
-    List<Ristorante> freeTextSearchOnName(String pattern);
+    List<Ristorante> freeTextSearchOnName(String pattern, City city);
 
     /**
      * Remove a ristorante

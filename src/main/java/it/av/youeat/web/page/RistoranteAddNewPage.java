@@ -229,8 +229,7 @@ public class RistoranteAddNewPage extends BasePage {
                 invalid();
             }
             ristorante.setCity(city);
-            List<Ristorante> possiblExistingRisto = ristoranteService.freeTextSearchOnName(ristorante.getName() + " "
-                    + ristorante.getCity().getName());
+            List<Ristorante> possiblExistingRisto = ristoranteService.freeTextSearchOnName(ristorante.getName(), ristorante.getCity());
             final Ristorante ristoTopersist = ristorante;
             if (possiblExistingRisto.size() > 0) {
                 modalWindow.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {

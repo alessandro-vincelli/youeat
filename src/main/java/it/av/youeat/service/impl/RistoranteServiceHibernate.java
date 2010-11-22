@@ -264,7 +264,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      * {@inheritDoc}
      */
     @Override
-    public List<Ristorante> freeTextSearchOnName(String pattern) {
+    public List<Ristorante> freeTextSearchOnName(String pattern, City city) {
         FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
                 .getEntityManager());
         String[] fields = new String[] { "name" };
@@ -279,6 +279,11 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
             throw new YoueatException(e);
         }
         FullTextQuery persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Ristorante.class);
+        if(city != null){
+            Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
+            criteria.add(Restrictions.eq(Ristorante.CITY, city));
+            persistenceQuery.setCriteriaQuery(criteria);
+        }
         return persistenceQuery.getResultList();
     }
 

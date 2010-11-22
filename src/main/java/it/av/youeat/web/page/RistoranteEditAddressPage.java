@@ -118,7 +118,7 @@ public class RistoranteEditAddressPage extends BasePage {
         });
         country.setRequired(true);
         form.add(country);
-        form.add(new RequiredTextField<String>(Ristorante.PHONE_NUMBER));
+        form.add(new TextField<String>(Ristorante.PHONE_NUMBER));
         form.add(new TextField<String>(Ristorante.MOBILE_PHONE_NUMBER));
         form.add(new TextField<String>(Ristorante.FAX_NUMBER));
 

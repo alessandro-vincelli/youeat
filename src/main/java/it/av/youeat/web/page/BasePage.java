@@ -19,8 +19,10 @@ import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.service.EaterRelationService;
 import it.av.youeat.service.MessageService;
 import it.av.youeat.web.Locales;
+import it.av.youeat.web.YoueatApplication;
 import it.av.youeat.web.commons.CookieUtil;
 import it.av.youeat.web.commons.YouEatFeedbackPanel;
+import it.av.youeat.web.page.info.InfoForRestaurateurPage;
 import it.av.youeat.web.page.manager.CommentsManagerPage;
 import it.av.youeat.web.page.manager.RistoranteManagerPage;
 import it.av.youeat.web.page.xml.FeedPage;
@@ -95,7 +97,7 @@ public class BasePage extends WebPage {
         feedbackPanel = new YouEatFeedbackPanel("feedBackPanel");
         feedbackPanel.setOutputMarkupPlaceholderTag(true);
         add(feedbackPanel);
-
+        
         add(new BookmarkablePageLink<String>("goUserPage", UserManagerPage.class) {
             @Override
             protected void onBeforeRender() {
@@ -304,7 +306,15 @@ public class BasePage extends WebPage {
         
         BookmarkablePageLink goFeed = new BookmarkablePageLink("goFeed", FeedPage.class);
         add(goFeed);
-
+        
+        BookmarkablePageLink goInfoRestaurateurPage = new BookmarkablePageLink("goInfoRestaurateur", InfoForRestaurateurPage.class){
+            @Override
+            protected void onBeforeRender() {
+                super.onBeforeRender();
+                setVisible(!isAuthenticated);
+            }
+        };
+        add(goInfoRestaurateurPage);
 
         add(new BookmarkablePageLink<String>("goRistoManager", RistoranteManagerPage.class) {
             @Override

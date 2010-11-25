@@ -88,7 +88,7 @@ public class BaseEaterAccountPage extends BasePage {
         formAvatar.setMaxSize(Bytes.megabytes(1));
         FileUploadField uploadField = new FileUploadField("uploadField");
         formAvatar.add(uploadField);
-        formAvatar.add(new UploadProgressBar("progressBar", accountForm));
+        //formAvatar.add(new UploadProgressBar("progressBar", accountForm));
         formAvatar.add(new SubmitAvatarButton("submitForm", formAvatar));
         imagecontatiner = new WebMarkupContainer("imageContainer");
         imagecontatiner.setOutputMarkupId(true);

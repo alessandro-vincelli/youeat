@@ -115,6 +115,10 @@ public class Ristorante extends BasicEntity {
     @IndexedEmbedded
     @ManyToOne
     private City city;
+    
+    @IndexedEmbedded
+    @ManyToOne
+    private Eater restaurateur;
 
     private String type;
 
@@ -162,6 +166,13 @@ public class Ristorante extends BasicEntity {
     @JoinTable
     @Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<RistoranteDescriptionI18n> descriptions;
+    @IndexedEmbedded
+    @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+    @Fetch(FetchMode.SELECT)
+    @JoinTable
+    @Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    private List<RestaurateurBlackboardI18n> restaurateurBlackboards;
+    
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
     @Fetch(FetchMode.SELECT)
     private List<RistorantePicture> pictures;
@@ -428,6 +439,20 @@ public class Ristorante extends BasicEntity {
     }
 
     /**
+     * @return the restaurateur
+     */
+    public Eater getRestaurateur() {
+        return restaurateur;
+    }
+
+    /**
+     * @param restaurateur the restaurateur to set
+     */
+    public void setRestaurateur(Eater restaurateur) {
+        this.restaurateur = restaurateur;
+    }
+
+    /**
      * @return the descriptions
      */
     public List<RistoranteDescriptionI18n> getDescriptions() {
@@ -448,6 +473,15 @@ public class Ristorante extends BasicEntity {
      */
     public void addDescriptions(RistoranteDescriptionI18n description) {
         this.descriptions.add(description);
+    }
+    
+    /**
+     * add a new RestaurateurBlackboardI18n
+     * 
+     * @param blackboardI18n
+     */
+    public void addRestaurateurBalckboardI18n(RestaurateurBlackboardI18n blackboardI18n) {
+        this.restaurateurBlackboards.add(blackboardI18n);
     }
 
     /**
@@ -496,6 +530,14 @@ public class Ristorante extends BasicEntity {
         return comments;
     }
     
+    public List<RestaurateurBlackboardI18n> getRestaurateurBlackboards() {
+        return restaurateurBlackboards;
+    }
+
+    public void setRestaurateurBlackboards(List<RestaurateurBlackboardI18n> restaurateurBlackboards) {
+        this.restaurateurBlackboards = restaurateurBlackboards;
+    }
+
     /**
      * @return only enabled comments
      */
@@ -562,6 +604,25 @@ public class Ristorante extends BasicEntity {
         }
         if (!(langpresent)) {
             this.addDescriptions(new RistoranteDescriptionI18n(language));
+        }
+        return this;
+    }
+    
+    /**
+     * Add a {@link RistoranteDescriptionI18n} item of not yet present for the given language
+     * 
+     * @param language
+     * @return ristorante
+     */
+    public Ristorante addBlackboardLangIfNotPresent(Language language) {
+        boolean langpresent = false;
+        for (RestaurateurBlackboardI18n restaurateurBlackboardI18n : this.getRestaurateurBlackboards()) {
+            if (restaurateurBlackboardI18n.getLanguage().equals(language)) {
+                langpresent = true;
+            }
+        }
+        if (!(langpresent)) {
+            this.addRestaurateurBalckboardI18n(new RestaurateurBlackboardI18n(language));
         }
         return this;
     }

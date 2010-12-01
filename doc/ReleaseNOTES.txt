@@ -1,0 +1,13 @@
+
+Release TO be decided:
+
+- library update:
+
+Spring Framework 3.0.5
+Spring Security 3.0.5
+
+Issues:
+
+Issue 50: Phone mandatory on edit review
+Issue 51: Bug on the List of possible duplication
+Issue 51: Work in progress...

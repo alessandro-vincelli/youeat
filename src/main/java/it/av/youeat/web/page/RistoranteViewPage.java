@@ -19,6 +19,7 @@ import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.ActivityRistorante;
 import it.av.youeat.ocm.model.Comment;
 import it.av.youeat.ocm.model.Language;
+import it.av.youeat.ocm.model.RestaurateurBlackboardI18n;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.RistoranteDescriptionI18n;
 import it.av.youeat.ocm.model.RistorantePicture;
@@ -102,6 +103,8 @@ public class RistoranteViewPage extends BasePage {
     private Language actualDescriptionLanguage;
     private ListView<RistoranteDescriptionI18n> descriptions;
     private WebMarkupContainer descriptionsContainer;
+    private final ListView<RestaurateurBlackboardI18n> restaurateurBlackboards; 
+    private WebMarkupContainer restaurateurBlackboardsContainer;
     private Form<Ristorante> formRisto;
     private WebMarkupContainer descriptionLinksContainer;
     private ListView<RistorantePicture> picturesList;
@@ -123,6 +126,7 @@ public class RistoranteViewPage extends BasePage {
             throw new RestartResponseAtInterceptPageException(getApplication().getHomePage());
         }
         ristorante = ristorante.addDescLangIfNotPresent(actualDescriptionLanguage);
+        ristorante = ristorante.addBlackboardLangIfNotPresent(actualDescriptionLanguage);
         formRisto = new Form<Ristorante>("ristoranteForm", new CompoundPropertyModel<Ristorante>(ristorante));
         add(formRisto);
         formRisto.setOutputMarkupId(true);
@@ -176,6 +180,7 @@ public class RistoranteViewPage extends BasePage {
                         if (target != null) {
                             target.addComponent(descriptionsContainer);
                             target.addComponent(descriptionLinksContainer);
+                            target.addComponent(restaurateurBlackboardsContainer);
                         }
                     }
                 }.add(new Label("linkName", getString(item.getModelObject().getCountry()))));
@@ -189,7 +194,7 @@ public class RistoranteViewPage extends BasePage {
             @Override
             protected void populateItem(ListItem<RistoranteDescriptionI18n> item) {
                 boolean visible = actualDescriptionLanguage.equals(item.getModelObject().getLanguage());
-                if (item.getModelObject().getDescription() == null || item.getModelObject().getDescription().isEmpty()) {
+                if (item.getModelObject().getDescription() == null || StringUtils.isBlank(item.getModelObject().getDescription())) {
                     item.add(new Label(RistoranteDescriptionI18n.DESCRIPTION, getString("descriptionNotAvailableLang"))
                             .setVisible(visible).setOutputMarkupPlaceholderTag(true));
                 } else {
@@ -200,6 +205,26 @@ public class RistoranteViewPage extends BasePage {
             }
         };
         descriptionsContainer.add(descriptions);
+        
+        restaurateurBlackboardsContainer = new WebMarkupContainer("restaurateurBlackboardsContainer");
+        restaurateurBlackboardsContainer.setOutputMarkupId(true);
+        restaurateurBlackboards = new ListView<RestaurateurBlackboardI18n>("restaurateurBlackboards", new BlackBoardsModel()) {
+            @Override
+            protected void populateItem(ListItem<RestaurateurBlackboardI18n> item) {
+                boolean visible = actualDescriptionLanguage.equals(item.getModelObject().getLanguage());
+                if (item.getModelObject().getBlackboard() == null || StringUtils.isBlank(item.getModelObject().getBlackboard())) {
+                    item.add(new Label("restaurateurBlackboard", "")
+                            .setVisible(false).setOutputMarkupPlaceholderTag(true));
+                } else {
+                    item.add(new MultiLineLabel("restaurateurBlackboard", new PropertyModel<String>(item
+                            .getModelObject(), RestaurateurBlackboardI18n.BLACKBOARD)).setVisible(visible)
+                            .setOutputMarkupPlaceholderTag(true).add(new AttributeAppender("class", new Model("blackboard_" + getInitialLanguage().getLanguage()), " ")));
+                }
+            }
+        };
+        restaurateurBlackboardsContainer.add(restaurateurBlackboards);
+        formRisto.add(restaurateurBlackboardsContainer);
+        
         formRisto.add(new Label("revisionNumber"));
 
         Form<Ristorante> formAddress = new Form<Ristorante>("ristoranteAddressForm",
@@ -592,6 +617,21 @@ public class RistoranteViewPage extends BasePage {
         @Override
         protected List<RistoranteDescriptionI18n> load() {
             return ristorante.getDescriptions();
+        }
+    }
+    
+    private class BlackBoardsModel extends LoadableDetachableModel<List<RestaurateurBlackboardI18n>> {
+        public BlackBoardsModel() {
+            super();
+        }
+
+        public BlackBoardsModel(List<RestaurateurBlackboardI18n> descs) {
+            super(descs);
+        }
+
+        @Override
+        protected List<RestaurateurBlackboardI18n> load() {
+            return ristorante.getRestaurateurBlackboards();
         }
     }
 

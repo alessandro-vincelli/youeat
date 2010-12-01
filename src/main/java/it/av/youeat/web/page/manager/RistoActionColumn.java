@@ -1,11 +1,22 @@
 package it.av.youeat.web.page.manager;
 
+import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.Ristorante;
+import it.av.youeat.service.EaterService;
 import it.av.youeat.service.RistoranteService;
 
+import java.util.ArrayList;
+
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -18,6 +29,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 public class RistoActionColumn extends Panel {
     @SpringBean
     private RistoranteService ristoranteService;
+    @SpringBean
+    private EaterService eaterService;
 
     /**
      * @param id component id
@@ -36,6 +49,20 @@ public class RistoActionColumn extends Panel {
             }
         };
         add(link);
+
+        Form<String> form = new Form<String>("setRestaurateurForm", new CompoundPropertyModel(model));
+        form.setOutputMarkupId(true);
+        add(form);
+        ArrayList<Eater> eaters = new ArrayList<Eater>(eaterService.getAll());
+        eaters.add(null);
+        DropDownChoice<Eater> restaurateur = new DropDownChoice<Eater>("restaurateur", eaters);
+        restaurateur.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+            protected void onUpdate(AjaxRequestTarget target) {
+                ristoranteService.updateNoRevision(model.getObject());
+            }
+        });
+        form.add(restaurateur);
+
     }
 
 }

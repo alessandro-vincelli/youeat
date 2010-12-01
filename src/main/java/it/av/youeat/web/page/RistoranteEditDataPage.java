@@ -18,6 +18,7 @@ package it.av.youeat.web.page;
 import it.av.youeat.YoueatConcurrentModificationException;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Language;
+import it.av.youeat.ocm.model.RestaurateurBlackboardI18n;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.RistoranteDescriptionI18n;
 import it.av.youeat.ocm.model.Tag;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -40,6 +42,7 @@ import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -49,6 +52,7 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.parser.TagAttributes;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
@@ -75,9 +79,11 @@ public class RistoranteEditDataPage extends BasePage {
     private Ristorante ristorante;
     private Form<Ristorante> form;
     private final ListView<RistoranteDescriptionI18n> descriptions;
+    private final ListView<RestaurateurBlackboardI18n> restaurateurBlackboards; 
     private Language actualDescriptionLanguage;
     private WebMarkupContainer descriptionsContainer;
     private WebMarkupContainer descriptionLinksContainer;
+    private WebMarkupContainer restaurateurBlackboardsContainer;
 
     /**
      * 
@@ -94,6 +100,7 @@ public class RistoranteEditDataPage extends BasePage {
         }
         actualDescriptionLanguage = getInitialLanguage();
         ristorante = ristorante.addDescLangIfNotPresent(actualDescriptionLanguage);
+        ristorante = ristorante.addBlackboardLangIfNotPresent(actualDescriptionLanguage);
         form = new Form<Ristorante>("ristoranteForm", new CompoundPropertyModel<Ristorante>(ristorante));
         form.setOutputMarkupId(true);
         form.add(new RequiredTextField<String>(Ristorante.NAME));
@@ -140,10 +147,12 @@ public class RistoranteEditDataPage extends BasePage {
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                         actualDescriptionLanguage = item.getModelObject();
                         ristorante = ristorante.addDescLangIfNotPresent(actualDescriptionLanguage);
+                        ristorante = ristorante.addBlackboardLangIfNotPresent(actualDescriptionLanguage);
                         descriptions.removeAll();
                         if (target != null) {
                             target.addComponent(descriptionsContainer);
                             target.addComponent(descriptionLinksContainer);
+                            target.addComponent(restaurateurBlackboardsContainer);
                         }
                     }
                 }.add(new Label("linkName", getString(item.getModelObject().getCountry()))));
@@ -166,6 +175,33 @@ public class RistoranteEditDataPage extends BasePage {
         descriptionsContainer.add(descriptions);
         // form.add(new DropDownChoice<EaterProfile>("userProfile", new
         // ArrayList<EaterProfile>(userProfileService.getAll()), new UserProfilesList()).setOutputMarkupId(true));
+        
+        //RestaurateurBlackboards
+        restaurateurBlackboardsContainer = new WebMarkupContainer("restaurateurBlackboardsContainer");
+        form.add(restaurateurBlackboardsContainer);
+        restaurateurBlackboardsContainer.setOutputMarkupId(true);
+        form.add(restaurateurBlackboardsContainer);
+        restaurateurBlackboards = new ListView<RestaurateurBlackboardI18n>("restaurateurBlackboards") {
+            @Override
+            protected void populateItem(ListItem<RestaurateurBlackboardI18n> item) {
+                boolean visible = actualDescriptionLanguage.equals(item.getModelObject().getLanguage());
+                TextArea<String> blackboard = new TextArea<String>("restaurateurBlackboard", new PropertyModel<String>(item
+                        .getModelObject(), RestaurateurBlackboardI18n.BLACKBOARD));
+                blackboard.setVisible(visible);
+                blackboard.add(new AttributeAppender("class", new Model("blackboard_" + getInitialLanguage().getLanguage()), " "));
+                item.add(blackboard);
+            }
+        };
+        restaurateurBlackboards.setReuseItems(false);
+        restaurateurBlackboards.setOutputMarkupId(true);
+        restaurateurBlackboardsContainer.add(restaurateurBlackboards);
+        //Shows restaurateurBlackboards only to the owner
+        if(getLoggedInUser() != null && getLoggedInUser().equals(ristorante.getRestaurateur())){
+            restaurateurBlackboardsContainer.setVisible(true);
+        }
+        else{
+            restaurateurBlackboardsContainer.setVisible(false);
+        }
 
         form.add(new AjaxFallbackButton("addTag", form) {
             private static final long serialVersionUID = 1L;

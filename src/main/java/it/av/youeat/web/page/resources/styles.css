@@ -1446,3 +1446,33 @@ feedbackPanelERROR {
 	font-size: 0.9em
 }
 
+.blackboard_en{
+	background: transparent url('images/blackboard_en.png') no-repeat center top; 
+	width: 540px; 
+	height: 200px;	 
+	border: 0px solid #CCCCCC;
+    color: #FFF;
+    font-weight: bold;
+    padding-top: 3px;
+    padding-left: 10px;
+    text-shadow: blue;
+    font-weight: lighter;
+    font-style: italic;
+    font-stretch:  expanded;
+}
+
+.blackboard_it{
+	background: transparent url('images/blackboard_it.png') no-repeat center top; 
+	width: 540px; 
+	height: 200px;	 
+	border: 0px solid #CCCCCC;
+    color: #FFF;
+    font-weight: bold;
+    padding-top: 3px;
+    padding-left: 10px;
+    text-shadow: blue;
+    font-weight: lighter;
+    font-style: italic;
+    font-stretch:  expanded;
+}
+

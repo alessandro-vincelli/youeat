@@ -64,11 +64,20 @@
                     <li wicket:id="descriptionLinks" class="ui-state-default ui-corner-top"><a class="descriptionLink submitButton" href="#" wicket:id="descriptionLink"><wicket:container wicket:id="linkName"></wicket:container></a></li>
                     </ul>
 
+					<div wicket:id="restaurateurBlackboardsContainer" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+                	<label for="restaurateurBlackboards"><wicket:message key="restaurateurBlackboard"/></label>
+                	<span wicket:id="restaurateurBlackboards">
+                	<!-- blackboard_language class added dynamically -->
+                    <textarea wicket:id="restaurateurBlackboard" autocomplete="off" accesskey="u" name="restaurateurBlackboards" rows="15" cols="60" class="ui-widget ui-corner-all ui-button-text-only"></textarea>
+                	</span>
+                	</div>
+                	
                     <div wicket:id="descriptionsContainer" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
                 	<span wicket:id="descriptions">
                     <textarea wicket:id="description" autocomplete="off" accesskey="u" name="description" rows="15" cols="60" class="ui-widget ui-state-default ui-corner-all ui-button-text-only"></textarea>
                 	</span>
                 	</div>
+                	
                     </div>
                 </td>
                 </tr>

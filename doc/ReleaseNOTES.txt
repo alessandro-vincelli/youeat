@@ -1,5 +1,5 @@
 
-Release TO be decided:
+Release 1.7:
 
 - library update:
 

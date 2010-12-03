@@ -42,6 +42,7 @@ import it.av.youeat.web.page.UserManagerPage;
 import it.av.youeat.web.page.UserProfilePage;
 import it.av.youeat.web.page.XdReceiver;
 import it.av.youeat.web.page.YoueatHttpParams;
+import it.av.youeat.web.page.info.InfoForRestaurateurPage;
 import it.av.youeat.web.page.manager.CommentsManagerPage;
 import it.av.youeat.web.page.manager.RistoranteManagerPage;
 import it.av.youeat.web.page.xml.FeedPage;
@@ -109,6 +110,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
             addComponentInstantiationListener(new SpringComponentInjector(this, getSpringContext(), true));
         }
         mount(new IndexedParamUrlCodingStrategy("/info", AboutPage.class));
+        mount(new IndexedParamUrlCodingStrategy("/InfoForRestaurateur", InfoForRestaurateurPage.class));
         mount(new IndexedParamUrlCodingStrategy("/signIn", SignIn.class));
         mount(new IndexedParamUrlCodingStrategy("/signOut", SignOut.class));
         mount(new HybridUrlCodingStrategy("/userProfile", UserProfilePage.class));

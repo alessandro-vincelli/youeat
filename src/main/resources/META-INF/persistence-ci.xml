@@ -29,6 +29,7 @@
 		<class>it.av.youeat.ocm.model.RistorantePicture</class>
 		<class>it.av.youeat.ocm.model.RistoranteRevision</class>
 		<class>it.av.youeat.ocm.model.RistoranteTypes</class>
+        <class>it.av.youeat.ocm.model.RestaurateurBlackboardI18n</class>
 		<class>it.av.youeat.ocm.model.Tag</class>
 		<class>it.av.youeat.ocm.model.Message</class>
 		<class>it.av.youeat.ocm.model.data.City</class>

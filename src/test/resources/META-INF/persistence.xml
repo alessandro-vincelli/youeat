@@ -27,6 +27,7 @@
 		<class>it.av.youeat.ocm.model.RateOnRistorante</class>
 		<class>it.av.youeat.ocm.model.Ristorante</class>
 		<class>it.av.youeat.ocm.model.RistoranteDescriptionI18n</class>
+        <class>it.av.youeat.ocm.model.RestaurateurBlackboardI18n</class>
 		<class>it.av.youeat.ocm.model.RistorantePicture</class>
 		<class>it.av.youeat.ocm.model.RistoranteRevision</class>
 		<class>it.av.youeat.ocm.model.RistoranteTypes</class>

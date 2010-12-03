@@ -30,6 +30,7 @@
 		<class>it.av.youeat.ocm.model.RistorantePicture</class>
 		<class>it.av.youeat.ocm.model.RistoranteRevision</class>
 		<class>it.av.youeat.ocm.model.RistoranteTypes</class>
+        <class>it.av.youeat.ocm.model.RestaurateurBlackboardI18n</class>
 		<class>it.av.youeat.ocm.model.Tag</class>
 		<class>it.av.youeat.ocm.model.Message</class>
 		<class>it.av.youeat.ocm.model.data.City</class>
@@ -56,7 +57,7 @@
 				
 				<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
 				<property name="hibernate.connection.url"
-				value="jdbc:postgresql://localhost/eat" />
+				value="jdbc:postgresql://localhost:5432/eat" />
 				<property name="hibernate.connection.username" value="eat" />
 				<property name="hibernate.connection.password" value="eat" />
 				<!-- <property name="hibernate.hbm2ddl.auto" value="update" /> -->

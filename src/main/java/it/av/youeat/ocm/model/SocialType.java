@@ -7,6 +7,8 @@ package it.av.youeat.ocm.model;
 public enum SocialType {
 
 	FACEBOOK,
-	TWITTER
+	TWITTER,
+	GOOGLE,
+	YAHOO
 
 }

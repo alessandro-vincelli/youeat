@@ -7,7 +7,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			classpath:application-context.xml
+			classpath:application-context*.xml
         </param-value>
 	</context-param>
 
@@ -47,14 +47,24 @@
         <filter-name>DisableUrlSessionFilter</filter-name>
         <filter-class>it.av.youeat.web.filter.DisableUrlSessionFilter</filter-class>
     </filter>
-
+    
     <filter>
-        <filter-name>filterChainProxy</filter-name>
+        <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
-
+    
     <filter-mapping>
-        <filter-name>filterChainProxy</filter-name>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>filterChainProxyMobile</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>filterChainProxyMobile</filter-name>
         <url-pattern>/rest/security/*</url-pattern>
     </filter-mapping>
     

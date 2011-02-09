@@ -70,6 +70,14 @@ public interface EaterService {
      * @return just added user
      */
     Eater addFacebookUser(Eater eater);
+    
+    /**
+     * Add a new google user
+     * 
+     * @param eater
+     * @return just added user
+     */
+    Eater addGoogleUser(Eater eater);
 
     /**
      * Return all the users

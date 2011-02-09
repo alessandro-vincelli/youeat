@@ -17,8 +17,6 @@ package it.av.youeat.web.security;
 
 import it.av.youeat.ocm.model.Eater;
 
-import java.util.Collection;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.wicket.Request;
@@ -26,7 +24,7 @@ import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Implements the authentication strategies
@@ -46,26 +44,18 @@ public class SecuritySession extends AuthenticatedWebSession {
 
     private Authentication auth;
     private String username = "";
-    private String[] roles;
-    private Eater loggedInUser;
-    
+    private Roles roles;
+
     /**
      * @see org.apache.wicket.authentication.AuthenticatedWebSession#authenticate(java.lang.String, java.lang.String)
      */
     @Override
     public boolean authenticate(final String username, final String password) {
-
         // Check username and password
         try {
             auth = AuthenticationProvider.authenticate(username, password);
-            Collection<GrantedAuthority> authss = auth.getAuthorities();
-            this.roles = new String[authss.size()];
-            int count = 0;
-            for (GrantedAuthority grantedAuthority : authss) {
-                this.roles[count] = grantedAuthority.getAuthority();
-                count = count + 1;
-            }
-            loggedInUser = ((UserDetailsImpl) auth.getPrincipal()).getUser();
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            signIn(true);
             return auth.isAuthenticated();
         } catch (BadCredentialsException e) {
             // in general this error on a not existing user
@@ -74,22 +64,13 @@ public class SecuritySession extends AuthenticatedWebSession {
     }
 
     public boolean authenticate(HttpServletRequest request) {
-
         // Check if the request contains a facebook session key
         try {
             auth = AuthenticationProvider.faceBookAuthenticate(request);
             if (!auth.isAuthenticated()) {
                 return false;
             }
-
-            Collection<GrantedAuthority> authss = auth.getAuthorities();
-            this.roles = new String[authss.size()];
-            int count = 0;
-            for (GrantedAuthority grantedAuthority : authss) {
-                this.roles[count] = grantedAuthority.getAuthority();
-                count = count + 1;
-            }
-            loggedInUser = ((UserDetailsImpl) auth.getPrincipal()).getUser();
+            SecurityContextHolder.getContext().setAuthentication(auth);
             signIn(true);
             return true;
         } catch (BadCredentialsException e) {
@@ -103,17 +84,18 @@ public class SecuritySession extends AuthenticatedWebSession {
      */
     @Override
     public Roles getRoles() {
-        if (isSignedIn()) {
-            return new Roles(this.roles);
+        if (roles == null && SecurityContextHelper.getAuthenticatedUser() != null &&  SecurityContextHelper.isAuthenticatedUser() ) {
+            roles = new Roles(SecurityContextHelper.getAuthenticatedUserDetails().getAuthorities().iterator().next()
+                    .getAuthority());
         }
-        return null;
+        return roles;
     }
 
     /**
      * @return the auth
      */
     public Authentication getAuth() {
-        return auth;
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 
     /**
@@ -124,7 +106,7 @@ public class SecuritySession extends AuthenticatedWebSession {
     }
 
     public Eater getLoggedInUser() {
-        return loggedInUser;
+        return SecurityContextHelper.getAuthenticatedUser();
     }
 
 }

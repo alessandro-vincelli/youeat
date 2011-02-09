@@ -28,13 +28,17 @@
         <span wicket:id="signInPanel"></span>
         </div>
         <table class="facebookPanel">
-        <tr class="buttons">
-        <th><wicket:message key="message.join"></wicket:message></th>
-        <td><a href="#" title="" wicket:id="signUp" wicket:message="title:signIn.signUpLinkTitle" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="signIn.signUpLink"/></span></a></td>
-        </tr>
         <tr>
         <th><wicket:message key="signin.or"></wicket:message></th>
         <td><span wicket:id="facebookSignInPanel"></span></td> 
+        </tr>
+        <tr>
+        <th><wicket:message key="signin.or"></wicket:message></th>
+        <td><span wicket:id="openIDSignInPanel"></span></td> 
+        </tr>
+        <tr class="buttons">
+        <th><wicket:message key="message.join"></wicket:message></th>
+        <td><a href="#" title="" wicket:id="signUp" wicket:message="title:signIn.signUpLinkTitle" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="signIn.signUpLink"/></span></a></td>
         </tr>
         <tr>
         <th></th>

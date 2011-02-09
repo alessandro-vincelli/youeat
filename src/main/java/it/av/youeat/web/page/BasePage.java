@@ -19,7 +19,6 @@ import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.service.EaterRelationService;
 import it.av.youeat.service.MessageService;
 import it.av.youeat.web.Locales;
-import it.av.youeat.web.YoueatApplication;
 import it.av.youeat.web.commons.CookieUtil;
 import it.av.youeat.web.commons.YouEatFeedbackPanel;
 import it.av.youeat.web.page.info.InfoForRestaurateurPage;

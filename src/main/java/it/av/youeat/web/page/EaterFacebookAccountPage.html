@@ -21,7 +21,7 @@
                 <td><select wicket:id="language"></select></td>
                 </tr>
                 <tr>
-                <td colspan="2" class="submitarea buttons"><input class="submitButton" type="submit" wicket:message="value:button.saveAccount" wicket:id="saveAccount"></input></td>
+                <td colspan="2" class="submitarea buttons"><button type="submit" wicket:id="saveAccount" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.saveAccount" /></span></button></td>
                 </tr>
             </table>
             </fieldset>
@@ -39,10 +39,14 @@
                 <td><input wicket:id="uploadField" id="upload" type="file" class="uploadfield"></input></td>                
                 </tr>
                 <tr>
-                <td class="buttons"><input type="submit" wicket:id="submitForm" class="submitButton" value="upload" wicket:message="value:button.uploadAvatar"></input></td>
+                <td class="buttons">
+                <button type="submit" wicket:id="submitForm" class="ui-button ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"><wicket:message key="button.uploadAvatar" /></span></button>
+                </td>
                 </tr>
                 <tr>
+                <!--
                 <td><span wicket:id="progressBar"></span></td>
+                -->
                 </tr>
             </table>
             </fieldset>

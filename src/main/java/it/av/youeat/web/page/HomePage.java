@@ -23,9 +23,9 @@ import it.av.youeat.service.RistoranteService;
 import it.av.youeat.web.components.ActivitiesListView;
 import it.av.youeat.web.components.RistoNameColumn;
 import it.av.youeat.web.components.RistoranteDataTable;
-import it.av.youeat.web.components.RistosListView;
 import it.av.youeat.web.data.RistoranteSortableDataProvider;
 import it.av.youeat.web.panel.FacebookLoginPanel;
+import it.av.youeat.web.panel.OpenIDLoginPanel;
 import it.av.youeat.web.panel.RistoranteSearchPanel;
 import it.av.youeat.web.util.TagCloud;
 
@@ -37,7 +37,6 @@ import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulato
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
@@ -114,12 +113,15 @@ public class HomePage extends BasePage {
         
         add(new Label("tagCloud", tagCloud.getTagClound()).setEscapeModelStrings(false));
         
-        FacebookLoginPanel myPanel = new FacebookLoginPanel("facebookSignInPanel");
-        // make sure you add the panel first
-        add(myPanel);
-        // now you can create the panel contents
-        myPanel.createPanel();
-        myPanel.setEnabled(true);
+        FacebookLoginPanel facebookSignInPanel = new FacebookLoginPanel("facebookSignInPanel");
+        add(facebookSignInPanel);
+        facebookSignInPanel.createPanel();
+        facebookSignInPanel.setEnabled(true);
+        
+        OpenIDLoginPanel openIDLoginPanel = new OpenIDLoginPanel("openIDLoginPanel");
+        add(openIDLoginPanel);
+        openIDLoginPanel.createPanel();
+        openIDLoginPanel.setEnabled(true);
         
         Label numberOfRisto = new Label("numberOfRisto", Integer.toString(ristoranteService.count()));
         add(numberOfRisto);

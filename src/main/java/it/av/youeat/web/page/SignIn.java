@@ -17,6 +17,7 @@ package it.av.youeat.web.page;
 
 import it.av.youeat.web.commons.SignInPanel;
 import it.av.youeat.web.panel.FacebookLoginPanel;
+import it.av.youeat.web.panel.OpenIDLoginPanel;
 import it.av.youeat.web.security.SecuritySession;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -61,13 +62,22 @@ public class SignIn extends BasePageSimple {
             }
         });
 
-        FacebookLoginPanel myPanel = new FacebookLoginPanel("facebookSignInPanel");
+        FacebookLoginPanel facebookLoginPanel = new FacebookLoginPanel("facebookSignInPanel");
         // make sure you add the panel first
-        add(myPanel);
+        add(facebookLoginPanel);
         // now you can create the panel contents
-        myPanel.createPanel();
-        myPanel.setEnabled(true);
+        facebookLoginPanel.createPanel();
+        facebookLoginPanel.setEnabled(true);
+        
+        OpenIDLoginPanel openIDLoginPanel = new OpenIDLoginPanel("openIDSignInPanel");
+        // make sure you add the panel first
+        add(openIDLoginPanel);
+        // now you can create the panel contents
+        openIDLoginPanel.createPanel();
+        openIDLoginPanel.setEnabled(true);
 
+        
+        
     }
 
 }

@@ -43,4 +43,5 @@ public final class AuthenticationProvider {
     public static Authentication faceBookAuthenticate(HttpServletRequest request) {
         return facebookAuthenticationProvider.authenticate(new FacebookAuthenticationToken(request));
     }
+
 }

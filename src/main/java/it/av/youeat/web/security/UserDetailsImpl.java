@@ -25,14 +25,14 @@ import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
- * Provides user information 
+ * Provides user information
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
 public class UserDetailsImpl implements UserDetails {
 
     private String passwordSalt;
-    private Eater user;
+    private Eater user = new Eater();
 
     /**
      * Constructor
@@ -45,13 +45,21 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     /**
+     * Default empty constructor
+     */
+    public UserDetailsImpl() {
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
-        GrantedAuthority ga = new GrantedAuthorityImpl(user.getUserProfile().getName());
-        ArrayList<GrantedAuthority> gaL = new ArrayList<GrantedAuthority>(1);
-        gaL.add(ga);
+        ArrayList<GrantedAuthority> gaL = new ArrayList<GrantedAuthority>(0);
+        if(user.getUserProfile() != null){
+            GrantedAuthority ga = new GrantedAuthorityImpl(user.getUserProfile().getName());
+            gaL.add(ga);
+        }
         return gaL;
     }
 
@@ -62,7 +70,7 @@ public class UserDetailsImpl implements UserDetails {
     public String getPassword() {
         return user.getPassword();
     }
-    
+
     /**
      * {@inheritDoc}
      */

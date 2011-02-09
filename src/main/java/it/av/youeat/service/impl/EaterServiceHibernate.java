@@ -326,6 +326,20 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
      * {@inheritDoc}
      */
     @Override
+    @Transactional
+    public Eater addGoogleUser(Eater eater) {
+        if (StringUtils.isBlank(eater.getSocialUID())) {
+            throw new YoueatException("Impossible add a google user without a socialUid");
+        }
+        eater.setSocialType(SocialType.GOOGLE);
+        return addRegolarUser(eater);
+    }
+
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Collection<Eater> getAllAdminUsers() {
         EaterProfile profile = eaterProfileService.getAdminUserProfile();
         Criterion critByAdmin = Restrictions.eq(Eater.USERPROFILE, profile);

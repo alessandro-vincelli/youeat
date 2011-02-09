@@ -12,8 +12,8 @@
 		<url>http://code.google.com/p/youeat/issues/list</url>
 	</issueManagement>
 	<ciManagement>
-		<system>Hudson</system>
-		<url>http://www.alessandro.vincelli.name/hudson</url>
+		<system>Jenkins</system>
+		<url>http://www.alessandro.vincelli.name/jenkins</url>
 	</ciManagement>
 	<developers>
 		<developer>
@@ -277,6 +277,11 @@
 		</dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-openid</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
@@ -492,16 +497,18 @@
 				<inherited>true</inherited>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
 					<optimize>true</optimize>
-					<debug>true</debug>
+					<!-- <debug>true</debug> -->
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
+                <version>6.1.26</version>
 				<configuration>
 					<contextPath>/</contextPath>
 					<!--<scanIntervalSeconds>6</scanIntervalSeconds>
@@ -522,6 +529,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.8</version>
 				<configuration>
 					<downloadSources>true</downloadSources>
 					<additionalProjectnatures>
@@ -601,6 +609,7 @@
 			<plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-surefire-plugin</artifactId>
+               <version>2.6</version>
                <configuration>
                		<skip>true</skip>
                   <enableAssertions>false</enableAssertions>
@@ -656,6 +665,7 @@
 		<plugin>
 			<groupId>org.codehaus.mojo</groupId>
 			<artifactId>selenium-maven-plugin</artifactId>
+            <version>1.1</version>
 			<executions>
 				<execution>
 	                <id>xvfb</id>
@@ -690,6 +700,7 @@
 	      <plugin>
 	        <groupId>org.apache.maven.plugins</groupId>
              <artifactId>maven-project-info-reports-plugin</artifactId>
+             <version>2.2</version>
 	        <configuration>
 	          <webAccessUrl>http://youeat.googlecode.com/svn/trunk</webAccessUrl>
 	          <anonymousConnection>scm:svn:https://youeat.googlecode.com/svn/trunk</anonymousConnection>
@@ -733,7 +744,7 @@
     	</site>
 	</distributionManagement>
 	<properties>
-		<wicket.version>1.4.14</wicket.version>
+		<wicket.version>1.4.15</wicket.version>
 		<jetty.version>6.1.4</jetty.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.0.5.RELEASE</spring.version>

@@ -12,12 +12,12 @@
     <security:authentication-manager alias="openIDAuthenticationManager" />
 
     <bean id="authenticationSuccessHandler" class="it.av.youeat.web.security.YouEatAuthenticationSuccessHandler">
-        <property name="defaultTargetUrl" value="/" />
+        <property name="defaultTargetUrl" value="http://www.youeat.org/" />
         <property name="alwaysUseDefaultTargetUrl" value="true" />
         <property name="attributes2UserDetails" ref="openIDAttributes2UserDetails" />
     </bean>
 
-    <security:http>
+    <security:http >
         <security:anonymous enabled="false" />
         <security:logout />
         <security:openid-login user-service-ref="userDetailsServiceOpenIDImpl" authentication-success-handler-ref="authenticationSuccessHandler"

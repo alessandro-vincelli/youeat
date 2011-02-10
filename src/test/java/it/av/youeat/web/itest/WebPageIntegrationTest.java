@@ -28,7 +28,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.thoughtworks.selenium.DefaultSelenium;
 import com.ttdev.wicketpagetest.WebPageTestBasicContext;
 
-@ContextConfiguration(locations = "classpath:test-application-context.xml")
+@ContextConfiguration(locations = "classpath:test-application-context*.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class WebPageIntegrationTest {
 

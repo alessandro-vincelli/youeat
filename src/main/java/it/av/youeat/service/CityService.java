@@ -35,6 +35,16 @@ public interface CityService extends ApplicationService<City> {
      * @return found cities
      */
     List<City> find(String string, int maxResults);
+    
+    /**
+     * Find the restaurant using the given pattern
+     * 
+     * @param string
+     * @param country
+     * @param maxResults
+     * @return found cities
+     */
+    List<City> find(String string, Country country, int maxResults);
 
     /**
      * Find a city using an exact match (case insensitive) on the given cityName and country

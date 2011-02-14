@@ -35,7 +35,7 @@ public class RistoranteProcessor implements ItemProcessor<DataRistorante, Ristor
         Ristorante ristorante = new Ristorante();
         ristorante.setName(createName(item.getName()));
         ristorante.setCountry(country);
-        ristorante.setCity(cityService.find(item.getCity(), 1).get(0));
+        ristorante.setCity(cityService.find(item.getCity(), country, 1).get(0));
         ristorante.setAddress(createAddress(item.getAddress()));
         ristorante.setPostalCode(item.getPostalCode());
         ristorante.setProvince(item.getProvince());

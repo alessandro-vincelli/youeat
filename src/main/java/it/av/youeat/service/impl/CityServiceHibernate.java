@@ -65,6 +65,17 @@ public class CityServiceHibernate extends ApplicationServiceHibernate<City> impl
         Order orderByName = Order.asc(City.NAME_FIELD);
         return findByCriteria(orderByName, 0, maxResults, critByName);
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<City> find(String string, Country country, int maxResults) {
+        Criterion critByName = Restrictions.ilike("name", string + "%");
+        Criterion critByCountry = Restrictions.eq("country", country);
+        Order orderByName = Order.asc(City.NAME_FIELD);
+        return findByCriteria(orderByName, 0, maxResults, critByName, critByCountry);
+    }
 
     /**
      * {@inheritDoc}

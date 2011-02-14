@@ -59,11 +59,11 @@
         <property name="concurrent" value="false" />
     </bean>
 
-    <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+    <!-- <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
         <property name="jobDetail" ref="jobDetail" />
         <property name="startDelay" value="10000" />
         <property name="repeatInterval" value="50000" />
-    </bean>
+    </bean> -->
     
     <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="cronExpression" value="0 0/12 * * * ?"/>
@@ -74,7 +74,7 @@
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
-                <ref bean="simpleTrigger" />
+                <ref bean="cronTrigger" />
             </list>
         </property>
     </bean>

@@ -33,7 +33,7 @@
     <batch:job-repository id="jobRepository" data-source="dataSource" transaction-manager="transactionManager"
         isolation-level-for-create="DEFAULT" table-prefix="BATCH_" max-varchar-length="1000" />
 
-    <batch:job id="dataRistoranteImporter">
+    <batch:job id="dataRistoranteImporter" restartable="true">
         <batch:step id="step1">
             <batch:tasklet>
                 <batch:chunk reader="dataRistoranteReader" processor="ristoranteProcessor" writer="ristoranteWriter"

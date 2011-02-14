@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.solr.analysis.ISOLatin1AccentFilterFactory;
 import org.apache.solr.analysis.LowerCaseFilterFactory;
 import org.apache.solr.analysis.StandardTokenizerFactory;
@@ -79,6 +80,7 @@ public final class DataRistorante extends BasicEntity {
     private String phoneNumber;
     private String mobilePhoneNumber;
     private String faxNumber;
+    private boolean imported;
 	
     
     
@@ -179,12 +181,18 @@ public final class DataRistorante extends BasicEntity {
     public String getFaxNumber() {
     	return faxNumber;
     }
-	/* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
+	
+    public boolean isImported() {
+        return imported;
+    }
+
+    public void setImported(boolean imported) {
+        this.imported = imported;
+    }
+
     @Override
     public String toString() {
-	    return getName();
+        return ToStringBuilder.reflectionToString(this);
     }
   
 }

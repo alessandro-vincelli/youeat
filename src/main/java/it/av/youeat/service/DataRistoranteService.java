@@ -60,6 +60,14 @@ public interface DataRistoranteService {
      * @return Collection<DataRistorante>
      */
     Collection<DataRistorante> find(String pattern, int maxResults);
+    
+    /**
+     * Return restaurants to be imported randomly
+     * 
+     * @param maxResults the max number of results, 0 for unlimited
+     * @return Collection<DataRistorante>
+     */
+    Collection<DataRistorante> getToBeImported(int maxResults);
 
     /**
      * Find the restaurant by the given pattern, city, country

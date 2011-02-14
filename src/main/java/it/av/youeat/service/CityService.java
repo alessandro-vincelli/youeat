@@ -46,7 +46,7 @@ public interface CityService extends ApplicationService<City> {
     City getByNameAndCountry(String cityName, Country country);
 
     /**
-     * Find the restaurant using the given pattern, and return only the cityName
+     * Find the city using the given pattern, and return only the cityName
      * 
      * @param name name of the ristorant
      * @param country
@@ -56,7 +56,7 @@ public interface CityService extends ApplicationService<City> {
     List<String> findByName(String name, Country country, int maxResults);
 
     /**
-     * Find the restaurant using the given pattern, and return only the cityName
+     * Find the city using the given pattern, and return only the cityName
      * 
      * @param string
      * @param maxResults

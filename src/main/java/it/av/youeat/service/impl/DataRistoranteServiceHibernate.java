@@ -26,6 +26,8 @@ import it.av.youeat.util.LuceneUtil;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
@@ -200,5 +202,16 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
             position = position + 1;
             // System.out.println(position);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public Collection<DataRistorante> getToBeImported(int maxResults) {
+        Query query = getJpaTemplate().getEntityManager().createQuery("select risto from DataRistorante as risto order by random()");
+        query.setMaxResults(maxResults);
+        return query.getResultList();
     }
 }

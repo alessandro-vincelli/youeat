@@ -152,6 +152,7 @@ public class UserManagerPage extends BasePage {
                 userService.indexData();
             }
         });
+        
     }
 
     private class SubmitButton extends AjaxButton {

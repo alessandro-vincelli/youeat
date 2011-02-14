@@ -18,7 +18,6 @@ package it.av.youeat.service.impl;
 import it.av.youeat.YoueatConcurrentModificationException;
 import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.BasicEntity;
-import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.service.ApplicationService;
 
 import java.lang.reflect.ParameterizedType;

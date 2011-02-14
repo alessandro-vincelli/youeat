@@ -1,3 +1,8 @@
+Release 1.9 
+
+ALTER TABLE data_ristorante ADD COLUMN imported boolean;
+ALTER TABLE data_ristorante ALTER COLUMN imported SET DEFAULT false;
+
 
 Release 1.7:
 

@@ -39,6 +39,7 @@
                 <batch:chunk reader="dataRistoranteReader" processor="ristoranteProcessor" writer="ristoranteWriter"
                     commit-interval="1" />
             </batch:tasklet>
+            <batch:end on="COMPLETED"/>
         </batch:step>
         <batch:listeners>
             <batch:listener>

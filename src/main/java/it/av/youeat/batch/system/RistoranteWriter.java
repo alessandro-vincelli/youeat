@@ -43,6 +43,5 @@ public class RistoranteWriter implements ItemWriter<RistoranteBatchModel> {
             dataRistoranteService.update(item.getDataRistorante());
             log.info("Imported Risto:" + item.getRistorante());
         }
-        throw new YoueatException("batch item import terminated");
     }
 }

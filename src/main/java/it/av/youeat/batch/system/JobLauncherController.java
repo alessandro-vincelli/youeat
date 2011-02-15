@@ -5,15 +5,27 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * Launchs the batch Ristorant import 
+ * 
+ * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
+ *
+ */
 public class JobLauncherController {
 
     @Autowired
-    JobLauncher jobLauncher;
+    private JobLauncher jobLauncher;
 
     @Autowired
-    Job job;
+    private Job job;
 
+    /**
+     * Run the import
+     * 
+     * @throws Exception
+     */
     public void run() throws Exception {
+        //TODO correct parameters...
         jobLauncher.run(job, new JobParameters());
     }
 

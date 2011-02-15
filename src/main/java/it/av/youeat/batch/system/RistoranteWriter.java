@@ -1,8 +1,7 @@
 package it.av.youeat.batch.system;
 
-import it.av.youeat.ocm.model.DataRistorante;
+import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
-import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.SocialType;
 import it.av.youeat.service.DataRistoranteService;
 import it.av.youeat.service.EaterService;
@@ -44,5 +43,6 @@ public class RistoranteWriter implements ItemWriter<RistoranteBatchModel> {
             dataRistoranteService.update(item.getDataRistorante());
             log.info("Imported Risto:" + item.getRistorante());
         }
+        throw new YoueatException("batch item import terminated");
     }
 }

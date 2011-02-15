@@ -50,6 +50,13 @@ public final class RistoranteBatchUtil {
         text = StringUtils.normalizeSpace(text);
         text = StringUtils.lowerCase(text);
         text = WordUtils.capitalize(text);
+
+        String substringBefore = StringUtils.substringBefore(text, ",");
+        if (StringUtils.isNotBlank(substringBefore) && !substringBefore.equals(text)) {
+            text = StringUtils.removeStart(text, substringBefore + ",");
+            text = text + ", " + substringBefore;
+        }
+        text = StringUtils.normalizeSpace(text);
         return text;
     }
 

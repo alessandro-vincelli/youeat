@@ -29,11 +29,14 @@
             <bean class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
         </property>
     </bean>
+    
+    <bean id="jobParametersIncrementer" class="it.av.youeat.batch.system.LogJobIncrementer"></bean>
 
     <batch:job-repository id="jobRepository" data-source="dataSource" transaction-manager="transactionManager"
         isolation-level-for-create="DEFAULT" table-prefix="BATCH_" max-varchar-length="1000" />
 
-    <batch:job id="dataRistoranteImporter" restartable="true">
+
+    <batch:job id="dataRistoranteImporter" restartable="true" incrementer="jobParametersIncrementer">
         <batch:step id="step1">
             <batch:tasklet>
                 <batch:chunk reader="dataRistoranteReader" processor="ristoranteProcessor" writer="ristoranteWriter"

@@ -1476,3 +1476,16 @@ feedbackPanelERROR {
     font-stretch:  expanded;
 }
 
+
+.rss_items {
+	padding-left: 10px;
+}
+
+.rss_item li{
+	font-size: 0.9em;
+	margin-top: 3px;
+}
+
+.rss_date li{
+	font-size: 0.8em
+}

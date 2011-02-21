@@ -78,7 +78,6 @@ public final class RistoranteBatchUtil {
         listRemove.add("( )");
         listRemove.add("()");
         listRemove.add("ristorante");
-        listRemove.add("pizzeria");
         textToRemove = Collections.unmodifiableSet(listRemove);
     }
 

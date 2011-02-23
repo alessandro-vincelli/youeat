@@ -95,6 +95,7 @@ public class RistoranteViewPage extends BasePage {
     private LanguageService languageService;
     @SpringBean
     private ActivityRistoranteService activityService;
+    private String gmapKey = "ABQIAAAAEpqZyWLxrLSc1icxiiTLyBRjFP5Ion2TodTauLHyn40LiCPQaRSoBSldN1pDUDTAPEK5AlXpouSLuA";
 
     private Ristorante ristorante = new Ristorante();;
 
@@ -457,13 +458,12 @@ public class RistoranteViewPage extends BasePage {
                 || getLoggedInUser() == null);
 
         // position on the map
-        String gmapKey = "ABQIAAAAEpqZyWLxrLSc1icxiiTLyBRjFP5Ion2TodTauLHyn40LiCPQaRSoBSldN1pDUDTAPEK5AlXpouSLuA";
         final GMap2 bottomMap = new GMap2("map", new GMapHeaderContributor(gmapKey));
         bottomMap.setOutputMarkupId(true);
         bottomMap.setMapType(GMapType.G_NORMAL_MAP);
         bottomMap.addControl(GControl.GSmallMapControl);
         bottomMap.addControl(GControl.GMapTypeControl);
-        bottomMap.setZoom(20);
+        bottomMap.setZoom(16);
         if (ristorante.getLatitude() != 0 && ristorante.getLongitude() != 0) {
             GLatLng gLatLng = new GLatLng(ristorante.getLatitude(), ristorante.getLongitude());
             GMarkerOptions markerOptions = new GMarkerOptions(ristorante.getName());

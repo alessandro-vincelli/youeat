@@ -1,7 +1,7 @@
 <wicket:panel>
 	<div class="suggestFriendPanelTitle"><h2 wicket:id="title">the title of the page</h2></div>
 	<form wicket:id="form">
-	<div class="buttons suggestFriendButton"><input wicket:id="submit" type="submit" value="" wicket:message="value:suggestNewFriendPanel.sendSuggestionButton"></input></div>
+	<div class="buttons suggestFriendButton"><input wicket:id="submit" type="submit" value="" wicket:message="value:suggestNewFriendPanel.sendSuggestionButton" class="ui-button ui-state-default ui-corner-all ui-button-text-only"></input></div>
     <div wicket:id="friendsList" class="smallFriendsList">
     <div class="smallFriendCenterColumn">
         <div class="friendAvatar"><img src="#" wicket:id="avatar"></img> </div>
@@ -12,6 +12,6 @@
     </div>
     </div>
     <div class="suggestFriendPanelTitle"><h2 wicket:id="noFriendsToSuggest"><wicket:message key="noFriendsToSuggest"></wicket:message></h2></div>
-    <div class="buttons suggestFriendButton"><input wicket:id="submitBottom" type="submit" value="" wicket:message="value:suggestNewFriendPanel.sendSuggestionButton"></input></div>
+    <div class="buttons suggestFriendButton"><input wicket:id="submitBottom" type="submit" value="" wicket:message="value:suggestNewFriendPanel.sendSuggestionButton" class="ui-button ui-state-default ui-corner-all ui-button-text-only"></input></div>
     </form>
 </wicket:panel>

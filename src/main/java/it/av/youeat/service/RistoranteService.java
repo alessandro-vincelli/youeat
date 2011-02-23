@@ -242,5 +242,14 @@ public interface RistoranteService {
      * create/update lucene index on ristoranti
      */
     void indexData();
+    
+    /**
+     * Count risto on the given search patter
+     * 
+     * @param pattern
+     * @param eaters filter on user (null to disable)
+     * @return
+     */
+    int countfreeTextSearch(String pattern, ArrayList<Eater> eaters);
 
 }

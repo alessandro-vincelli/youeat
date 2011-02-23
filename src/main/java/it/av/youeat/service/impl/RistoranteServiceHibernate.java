@@ -386,20 +386,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      */
     @Override
     public List<Ristorante> freeTextSearch(String pattern, ArrayList<Eater> eaters, int firstResult, int maxResult) {
-        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
-                .getEntityManager());
-        String[] fields = new String[] { "name", "city.name", "tags.tag" };
-        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, fullTextEntityManager.getSearchFactory().getAnalyzer(
-                "ristoranteanalyzer"));
-        org.apache.lucene.search.Query query;
-        try {
-            String patternClean = LuceneUtil.escapeSpecialChars(pattern);
-            String patternFuzzy = LuceneUtil.fuzzyAllTerms(patternClean);
-            query = parser.parse(patternFuzzy);
-        } catch (ParseException e) {
-            throw new YoueatException(e);
-        }
-        FullTextQuery persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Ristorante.class);
+        FullTextQuery persistenceQuery = createFreeTextQuery(pattern);
         if (maxResult >= 0) {
             persistenceQuery.setMaxResults(maxResult);
         }
@@ -414,5 +401,36 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
             return results;
         }
         return persistenceQuery.getResultList();
+    }
+
+    /**
+     * @param pattern
+     * @return
+     */
+    private FullTextQuery createFreeTextQuery(String pattern) {
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
+                .getEntityManager());
+        String[] fields = new String[] { "name", "city.name", "tags.tag" };
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, fullTextEntityManager.getSearchFactory().getAnalyzer(
+                "ristoranteanalyzer"));
+        org.apache.lucene.search.Query query;
+        try {
+            String patternClean = LuceneUtil.escapeSpecialChars(pattern);
+            String patternFuzzy = LuceneUtil.fuzzyAllTerms(patternClean);
+            query = parser.parse(patternFuzzy);
+        } catch (ParseException e) {
+            throw new YoueatException(e);
+        }
+        FullTextQuery persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Ristorante.class);
+        return persistenceQuery;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int countfreeTextSearch(String pattern, ArrayList<Eater> eaters) {
+        FullTextQuery persistenceQuery = createFreeTextQuery(pattern);
+        return persistenceQuery.getResultSize();
     }
 }

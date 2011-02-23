@@ -70,8 +70,8 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
      */
     @Override
     public final int size() {
-        if(results != null){
-            return results.size();    
+        if(results != null && !results.isEmpty()){
+            return ristoranteService.countfreeTextSearch(this.pattern, null);    
         }
         else{
             return 0;

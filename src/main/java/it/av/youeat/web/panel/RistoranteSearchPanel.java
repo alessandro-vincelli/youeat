@@ -79,7 +79,7 @@ public class RistoranteSearchPanel extends Panel {
             protected void onSubmit(AjaxRequestTarget target, Form form) {
                 try {
                     String pattern = getRequest().getParameter("searchData");
-                    dataProvider.fetchResults(pattern);
+                    dataProvider.fetchResults(pattern, dataTable.getRowsPerPage());
                 } catch (YoueatException e) {
                     feedbackPanel.error(e.getMessage());
                 }
@@ -131,7 +131,7 @@ public class RistoranteSearchPanel extends Panel {
             Collection<String> choises = new ArrayList<String>();
             try {
                 if (!input.isEmpty() && input.length() > 2){
-                    for (Ristorante risto : ristoranteService.freeTextSearch(input)) {
+                    for (Ristorante risto : ristoranteService.freeTextSearch(input, -1, 25)) {
                         choises.add(risto.getName() + " <i>(" + risto.getCity() + ")</i>" );
                     }
                 }

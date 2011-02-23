@@ -90,6 +90,18 @@ public interface RistoranteService {
      * @return found ristos
      */
     List<Ristorante> freeTextSearch(String pattern);
+        
+    /**
+     * Find restaurants using the given pattern.
+     * <p>
+     * <b>Note: fuzzy free text search performed on the <b>name</b>, <b>city</b>, and <b>tags</b> of the risto
+     * 
+     * @param pattern
+     * @param firstResult position of the first result, numbered from 0 (-1 for default)
+     * @param maxResult max number of result to retrieve (-1 for default)
+     * @return found ristos
+     */
+    List<Ristorante> freeTextSearch(String pattern, int firstResult, int maxResult);
 
     /**
      * Find restaurants using the given pattern and city.
@@ -207,6 +219,17 @@ public interface RistoranteService {
      * @return List<Ristorante>
      */
     List<Ristorante> freeTextSearch(String pattern, ArrayList<Eater> eaters);
+    
+    /**
+     * Find restaurants by the given pattern, using Lucene and filtering activties for the given map of users
+     * 
+     * @param pattern
+     * @param eaters
+     * @param firstResult position of the first result, numbered from 0 (-1 for default)
+     * @param maxResult max number of result to retrieve (-1 for default)
+     * @return List<Ristorante>
+     */
+    List<Ristorante> freeTextSearch(String pattern, ArrayList<Eater> eaters, int firstResult, int maxResult);
 
     /**
      * count risto in the DB

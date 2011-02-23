@@ -42,6 +42,8 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
     private RistoranteService ristoranteService;
     private transient Collection<Ristorante> results;
     private boolean attached;
+    // pattern text to search
+    private String pattern;
 
     /**
      * Constructor
@@ -55,18 +57,16 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
     }
 
     /**
-     * 
-     * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(int, int)
+     * {@inheritDoc}
      */
     @Override
     public final Iterator<Ristorante> iterator(int first, int count) {
-        return Collections.synchronizedList(new ArrayList<Ristorante>(results)).subList(first, first + count)
-                .iterator();
+        results = ristoranteService.freeTextSearch(this.pattern, first, count);
+        return Collections.synchronizedList(new ArrayList<Ristorante>(results)).iterator();
     }
 
     /**
-     * 
-     * @see org.apache.wicket.markup.repeater.data.IDataProvider#size()
+     * {@inheritDoc}
      */
     @Override
     public final int size() {
@@ -79,10 +79,7 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
     }
 
     /**
-     * @param ristorante
-     * @return IModel<ristorante>
-     * 
-     * @see org.apache.wicket.markup.repeater.data.IDataProvider#model(java.lang.Object)
+     * {@inheritDoc}
      */
     @Override
     public final IModel<Ristorante> model(Ristorante ristorante) {
@@ -90,7 +87,7 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
     }
 
     /**
-     * @see org.apache.wicket.model.IDetachable#detach()
+     * {@inheritDoc}
      */
     @Override
     public void detach() {
@@ -106,9 +103,10 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
      * @param pattern the string to use in the search
      * @throws YoueatException
      */
-    public final void fetchResults(String pattern) throws YoueatException {
+    public final void fetchResults(String pattern, int maxResultXPage) throws YoueatException {
         if (StringUtils.isNotBlank(pattern)) {
-            results = ristoranteService.freeTextSearch(LuceneUtil.removeSpecialChars(pattern));
+            pattern = LuceneUtil.removeSpecialChars(pattern);
+            results = ristoranteService.freeTextSearch(this.pattern, 0, maxResultXPage);
         }
     }
 

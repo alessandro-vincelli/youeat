@@ -60,6 +60,7 @@ public final class DataRistorante extends BasicEntity {
     public static final String PHONE_NUMBER = "phoneNumber";
     public static final String MOBILE_PHONE_NUMBER = "mobilePhoneNumber";
     public static final String FAX_NUMBER = "faxNumber";
+    public static final String IMPORTED = "imported";
 
     @Field(index = Index.TOKENIZED, store = Store.YES)
     @Analyzer(definition = "dataristoranteanalyzer")

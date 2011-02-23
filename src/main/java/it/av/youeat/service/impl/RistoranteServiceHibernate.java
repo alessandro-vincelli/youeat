@@ -126,11 +126,11 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         Ristorante ristoToSave = risto;
         if (!(ristoToSave.getLatitude() == 0 || ristoToSave.getLongitude() == 0)) {
             RistorantePosition position = ristorantePositionService.getByRistorante(ristoToSave);
-            if(position == null){
-                position = new RistorantePosition(ristoToSave, new Location(ristoToSave.getLatitude(), ristoToSave.getLongitude()));
-            }
-            else{
-                position.setWhere(new Location(ristoToSave.getLatitude(), ristoToSave.getLongitude()));    
+            if (position == null) {
+                position = new RistorantePosition(ristoToSave,
+                        new Location(ristoToSave.getLatitude(), ristoToSave.getLongitude()));
+            } else {
+                position.setWhere(new Location(ristoToSave.getLatitude(), ristoToSave.getLongitude()));
             }
             ristorantePositionService.save(position);
         }
@@ -236,28 +236,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      */
     @Override
     public List<Ristorante> freeTextSearch(String pattern, ArrayList<Eater> eaters) {
-        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
-                .getEntityManager());
-        String[] fields = new String[] { "name", "city.name", "tags.tag" };
-        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, fullTextEntityManager.getSearchFactory().getAnalyzer(
-                "ristoranteanalyzer"));
-        org.apache.lucene.search.Query query;
-        try {
-            String patternClean = LuceneUtil.escapeSpecialChars(pattern);
-            String patternFuzzy = LuceneUtil.fuzzyAllTerms(patternClean);
-            query = parser.parse(patternFuzzy);
-        } catch (ParseException e) {
-            throw new YoueatException(e);
-        }
-        FullTextQuery persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Ristorante.class);
-        if (eaters != null) {
-            Session session = (Session) getJpaTemplate().getEntityManager().getDelegate();
-            session.enableFilter("friends").setParameterList("friendlist", eaters);
-            List<Ristorante> results = persistenceQuery.getResultList();
-            session.disableFilter("friends");
-            return results;
-        }
-        return persistenceQuery.getResultList();
+        return freeTextSearch(pattern, eaters, -1, -1);
     }
 
     /**
@@ -279,7 +258,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
             throw new YoueatException(e);
         }
         FullTextQuery persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Ristorante.class);
-        if(city != null){
+        if (city != null) {
             Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
             criteria.add(Restrictions.eq(Ristorante.CITY, city));
             persistenceQuery.setCriteriaQuery(criteria);
@@ -392,5 +371,48 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
             fullTextEntityManager.index(risto);
             position = position + 1;
         }
-    }    
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Ristorante> freeTextSearch(String pattern, int firstResult, int maxResult) {
+        return freeTextSearch(pattern, null, firstResult, maxResult);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Ristorante> freeTextSearch(String pattern, ArrayList<Eater> eaters, int firstResult, int maxResult) {
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
+                .getEntityManager());
+        String[] fields = new String[] { "name", "city.name", "tags.tag" };
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, fullTextEntityManager.getSearchFactory().getAnalyzer(
+                "ristoranteanalyzer"));
+        org.apache.lucene.search.Query query;
+        try {
+            String patternClean = LuceneUtil.escapeSpecialChars(pattern);
+            String patternFuzzy = LuceneUtil.fuzzyAllTerms(patternClean);
+            query = parser.parse(patternFuzzy);
+        } catch (ParseException e) {
+            throw new YoueatException(e);
+        }
+        FullTextQuery persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Ristorante.class);
+        if (maxResult >= 0) {
+            persistenceQuery.setMaxResults(maxResult);
+        }
+        if (firstResult >= 0) {
+            persistenceQuery.setFirstResult(firstResult);
+        }
+        if (eaters != null) {
+            Session session = (Session) getJpaTemplate().getEntityManager().getDelegate();
+            session.enableFilter("friends").setParameterList("friendlist", eaters);
+            List<Ristorante> results = persistenceQuery.getResultList();
+            session.disableFilter("friends");
+            return results;
+        }
+        return persistenceQuery.getResultList();
+    }
 }

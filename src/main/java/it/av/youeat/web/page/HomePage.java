@@ -61,6 +61,7 @@ public class HomePage extends BasePage {
     private EaterService eaterService;
     @SpringBean
     private TagCloud tagCloud;
+    private int ristoXPage = 25;
 
     /**
      * Constructor that is invoked when page is invoked without a session.
@@ -98,7 +99,7 @@ public class HomePage extends BasePage {
         });
 
         RistoranteDataTable<Ristorante> ristoranteDataTable = new RistoranteDataTable<Ristorante>(
-                "ristoranteDataTable", columns, ristoranteSortableDataProvider, 10);
+                "ristoranteDataTable", columns, ristoranteSortableDataProvider, ristoXPage);
         add(ristoranteDataTable);
 
         RistoranteSearchPanel ristoranteSearchPanel = new RistoranteSearchPanel("ristoranteSearchPanel",

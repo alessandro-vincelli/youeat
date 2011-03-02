@@ -4,10 +4,10 @@ import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.service.RistoranteService;
 import it.av.youeat.web.url.YouetGeneratorURL;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.List;
 
 import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +40,8 @@ public class GoogleSitemapGenerator {
         //home page
         sb.append(generateUrl(baseURL, Calendar.getInstance().getTime(), "daily", "1.0"));
         sb.append("\n");
-        Collection<Ristorante> ristoranteList = ristoranteService.getAll();
-        for (Iterator<Ristorante> ristoranteIterator = ristoranteList.iterator(); ristoranteIterator.hasNext();) {
-            Ristorante ristorante = ristoranteIterator.next();
+        List<Ristorante> ristoranteList = new ArrayList<Ristorante>(ristoranteService.getAll());
+        for (Ristorante ristorante : ristoranteList) {
             sb.append(generateUrl(ristoranteURL.getRistoranteUrl(ristorante), ristorante.getModificationTime(), "weekly", "0.2"));
             sb.append("\n");
         }

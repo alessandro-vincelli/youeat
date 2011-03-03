@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -440,13 +441,15 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      */
     @Override
     public Collection<Ristorante> getAllOnlyNameAndCity() {
-        SQLQuery createSQLQuery = getHibernateSession().createSQLQuery("select ri.name as name, city.name as city from ristorante as ri inner join city on (ri.city = city.id);");
+        SQLQuery createSQLQuery = getHibernateSession().createSQLQuery("select ri.name as name, city.name, modification_time, ri.id as city from ristorante as ri inner join city on (ri.city = city.id);");
         List<Object[]> list = createSQLQuery.list();
         Collection<Ristorante> ristorantes = new ArrayList<Ristorante>(list.size());
         for (Object[] item : list) {
             Ristorante risto = new Ristorante();
             risto.setName((String) item[0]);
             risto.setCity(new City((String) item[1]));
+            risto.setModificationTime((Date) item[2]);
+            risto.setId((String) item[3]);
             ristorantes.add(risto);
         }
         return ristorantes;

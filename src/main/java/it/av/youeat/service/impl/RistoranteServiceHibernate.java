@@ -47,6 +47,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
@@ -432,5 +433,22 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     public int countfreeTextSearch(String pattern, ArrayList<Eater> eaters) {
         FullTextQuery persistenceQuery = createFreeTextQuery(pattern);
         return persistenceQuery.getResultSize();
+    }
+
+    /**
+     * {@inheritDoc}}
+     */
+    @Override
+    public Collection<Ristorante> getAllOnlyNameAndCity() {
+        SQLQuery createSQLQuery = getHibernateSession().createSQLQuery("select ri.name as name, city.name as city from ristorante as ri inner join city on (ri.city = city.id);");
+        List<Object[]> list = createSQLQuery.list();
+        Collection<Ristorante> ristorantes = new ArrayList<Ristorante>(list.size());
+        for (Object[] item : list) {
+            Ristorante risto = new Ristorante();
+            risto.setName((String) item[0]);
+            risto.setCity(new City((String) item[1]));
+            ristorantes.add(risto);
+        }
+        return ristorantes;
     }
 }

@@ -72,6 +72,13 @@ public interface RistoranteService {
      * @return Collection<Ristorante>
      */
     Collection<Ristorante> getAll();
+    
+    /**
+     * Return all the ristoranti, with set only Name and City
+     * 
+     * @return Collection<Ristorante>
+     */
+    Collection<Ristorante> getAllOnlyNameAndCity();
 
     /**
      * Find the ristorante by the given pattern

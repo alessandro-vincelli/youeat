@@ -140,7 +140,7 @@ public class RistoranteServiceTest extends YoueatTest {
         assertNotNull(all);
         assertTrue(all.size() > 0);
         
-        all = ristoranteService.getAllOnlyNameAndCity();
+        all = ristoranteService.getAllSimple();
         assertNotNull(all);
         assertTrue(all.size() > 0);
         

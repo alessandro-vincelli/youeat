@@ -43,13 +43,10 @@ public class GoogleSitemapGenerator {
         //home page
         sb.append(generateUrl(baseURL, Calendar.getInstance().getTime(), "daily", "1.0"));
         sb.append("\n");
-        List<Ristorante> ristoranteList = new ArrayList<Ristorante>(ristoranteService.getAllOnlyNameAndCity());
-        int size = ristoranteList.size();
-        log.info("generating sitemap for n." + size);
+        List<Ristorante> ristoranteList = new ArrayList<Ristorante>(ristoranteService.getAllSimple());
         for (Ristorante ristorante : ristoranteList) {
             sb.append(generateUrl(ristoranteURL.getRistoranteUrl(ristorante), ristorante.getModificationTime(), "weekly", "0.2"));
             sb.append("\n");
-            log.info("remaining entry:" + size --);
         }
         log.info("sistemap generated");
         sb.append(URLSET_END);

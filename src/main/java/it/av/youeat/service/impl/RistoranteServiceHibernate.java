@@ -440,7 +440,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      * {@inheritDoc}}
      */
     @Override
-    public Collection<Ristorante> getAllOnlyNameAndCity() {
+    public Collection<Ristorante> getAllSimple() {
         SQLQuery createSQLQuery = getHibernateSession().createSQLQuery("select ri.name as name, city.name, modification_time, ri.id as city from ristorante as ri inner join city on (ri.city = city.id);");
         List<Object[]> list = createSQLQuery.list();
         Collection<Ristorante> ristorantes = new ArrayList<Ristorante>(list.size());

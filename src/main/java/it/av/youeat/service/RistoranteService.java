@@ -74,11 +74,13 @@ public interface RistoranteService {
     Collection<Ristorante> getAll();
     
     /**
-     * Return all the ristoranti, with set only Name and City
+     * Return all the ristoranti, with set only id, Name, City, modification Time.<br>
+     * <b>Use only for readonly</b><br>
+     * <b>the returned object are not persistent object</b>
      * 
      * @return Collection<Ristorante>
      */
-    Collection<Ristorante> getAllOnlyNameAndCity();
+    Collection<Ristorante> getAllSimple();
 
     /**
      * Find the ristorante by the given pattern

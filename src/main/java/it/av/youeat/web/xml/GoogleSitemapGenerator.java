@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.joda.time.format.ISODateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -20,7 +22,8 @@ public class GoogleSitemapGenerator {
     private static final String XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
     private static final String URLSET_START = "<urlset xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
     private static final String URLSET_END = "</urlset>";
-    private String baseURL;    
+    private String baseURL;
+    private static Logger log = LoggerFactory.getLogger(GoogleSitemapGenerator.class);
 
     @Autowired
     private RistoranteService ristoranteService;
@@ -41,10 +44,14 @@ public class GoogleSitemapGenerator {
         sb.append(generateUrl(baseURL, Calendar.getInstance().getTime(), "daily", "1.0"));
         sb.append("\n");
         List<Ristorante> ristoranteList = new ArrayList<Ristorante>(ristoranteService.getAll());
+        int size = ristoranteList.size();
+        log.info("generating sitemap for n." + size);
         for (Ristorante ristorante : ristoranteList) {
             sb.append(generateUrl(ristoranteURL.getRistoranteUrl(ristorante), ristorante.getModificationTime(), "weekly", "0.2"));
             sb.append("\n");
+            log.info("remaining entry:" + size --);
         }
+        log.info("sistemap generated");
         sb.append(URLSET_END);
         return sb.toString();
     }

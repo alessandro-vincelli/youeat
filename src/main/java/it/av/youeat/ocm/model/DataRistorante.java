@@ -61,6 +61,7 @@ public final class DataRistorante extends BasicEntity {
     public static final String MOBILE_PHONE_NUMBER = "mobilePhoneNumber";
     public static final String FAX_NUMBER = "faxNumber";
     public static final String IMPORTED = "imported";
+    public static final String IMPORTFAILS = "importfails";
 
     @Field(index = Index.TOKENIZED, store = Store.YES)
     @Analyzer(definition = "dataristoranteanalyzer")
@@ -82,6 +83,7 @@ public final class DataRistorante extends BasicEntity {
     private String mobilePhoneNumber;
     private String faxNumber;
     private boolean imported;
+    private boolean importfails;
 	
     
     
@@ -189,6 +191,14 @@ public final class DataRistorante extends BasicEntity {
 
     public void setImported(boolean imported) {
         this.imported = imported;
+    }
+
+    public boolean isImportfails() {
+        return importfails;
+    }
+
+    public void setImportfails(boolean importfails) {
+        this.importfails = importfails;
     }
 
     @Override

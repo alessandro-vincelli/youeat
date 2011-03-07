@@ -210,7 +210,7 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
     @Override
     @Transactional
     public Collection<DataRistorante> getToBeImported(int maxResults) {
-        Query query = getJpaTemplate().getEntityManager().createQuery("select risto from DataRistorante as risto where not imported order by random()");
+        Query query = getJpaTemplate().getEntityManager().createQuery("select risto from DataRistorante as risto where imported = false and importfails = false order by random()");
         query.setMaxResults(maxResults);
         return query.getResultList();
     }

@@ -39,7 +39,7 @@ public class DataRistoranteServiceTest {
     
     @Test
     public void DataRistoranteServiceTest() throws YoueatException {
-        //System.out.println(dataRistoranteService.getAll().size());    
+        dataRistoranteService.getToBeImported(1);
     }
 
 }

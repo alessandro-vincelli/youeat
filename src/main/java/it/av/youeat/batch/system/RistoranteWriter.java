@@ -38,10 +38,18 @@ public class RistoranteWriter implements ItemWriter<RistoranteBatchModel> {
         Eater user = eaterService.getBySocialUID("1303070414", SocialType.FACEBOOK);
 
         for (RistoranteBatchModel item : items) {
-            ristoranteService.insert(item.getRistorante(), user);
-            item.getDataRistorante().setImported(true);
-            dataRistoranteService.update(item.getDataRistorante());
-            log.info("Imported Risto:" + item.getRistorante());
+            try {
+                ristoranteService.insert(item.getRistorante(), user);
+                item.getDataRistorante().setImported(true);
+                dataRistoranteService.update(item.getDataRistorante());
+                log.info("Imported Risto:" + item.getRistorante());
+            } catch (Exception e) {
+                item.getDataRistorante().setImportfails(true);
+                dataRistoranteService.update(item.getDataRistorante());
+                log.info("Imported Risto Failed:" + item.getRistorante());
+                throw e;
+            }
+
         }
     }
 }

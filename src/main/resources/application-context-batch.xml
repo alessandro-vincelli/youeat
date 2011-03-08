@@ -29,7 +29,7 @@
             <bean class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
         </property>
     </bean>
-    
+
     <bean id="jobParametersIncrementer" class="it.av.youeat.batch.system.LogJobIncrementer"></bean>
 
     <batch:job-repository id="jobRepository" data-source="dataSource" transaction-manager="transactionManager"
@@ -41,13 +41,15 @@
             <batch:tasklet>
                 <batch:chunk reader="dataRistoranteReader" processor="ristoranteProcessor" writer="ristoranteWriter"
                     commit-interval="1" />
+                <batch:listeners>
+                    <batch:listener>
+                        <bean class="it.av.youeat.batch.system.ItemFailureLoggerListener" />
+                    </batch:listener>
+                </batch:listeners>
             </batch:tasklet>
         </batch:step>
-        <batch:listeners>
-            <batch:listener>
-                <bean class="it.av.youeat.batch.system.ItemFailureLoggerListener" />
-            </batch:listener>
-        </batch:listeners>
+
+
     </batch:job>
 
     <bean id="dataRistoranteReader" class="it.av.youeat.batch.system.DataRistoranteReader" />
@@ -62,17 +64,14 @@
         <property name="concurrent" value="false" />
     </bean>
 
-    <!-- <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
-        <property name="jobDetail" ref="jobDetail" />
-        <property name="startDelay" value="10000" />
-        <property name="repeatInterval" value="50000" />
-    </bean> -->
-    
+    <!-- <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean"> <property name="jobDetail" ref="jobDetail" 
+        /> <property name="startDelay" value="10000" /> <property name="repeatInterval" value="50000" /> </bean> -->
+
     <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail" ref="jobDetail" />   
-        <property name="cronExpression" value="0 0/12 * * * ?"/>
+        <property name="jobDetail" ref="jobDetail" />
+        <property name="cronExpression" value="0 0/1 * * * ?" />
         <!-- 10 seconds -->
-        <property name="startDelay" value="10000" />
+        <property name="startDelay" value="0" />
     </bean>
 
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">

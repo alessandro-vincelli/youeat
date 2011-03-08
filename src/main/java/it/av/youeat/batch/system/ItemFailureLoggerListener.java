@@ -3,13 +3,17 @@ package it.av.youeat.batch.system;
 import java.util.List;
 
 import it.av.youeat.ocm.model.DataRistorante;
+import it.av.youeat.service.DataRistoranteService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.listener.ItemListenerSupport;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ItemFailureLoggerListener extends ItemListenerSupport<DataRistorante, RistoranteBatchModel> {
 
+    @Autowired
+    private DataRistoranteService dataRistoranteService;
     private static Logger log = LoggerFactory.getLogger(ItemFailureLoggerListener.class);
 
     @Override
@@ -21,7 +25,9 @@ public class ItemFailureLoggerListener extends ItemListenerSupport<DataRistorant
     @Override
     public void onProcessError(DataRistorante item, Exception e) {
         super.onProcessError(item, e);
-        log.error("error processing an item" + item, e);
+        item.setImportfails(true);
+        dataRistoranteService.update(item);
+        log.error("error processing the Risto" + item, e);
     }
 
     @Override

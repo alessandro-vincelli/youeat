@@ -1,6 +1,5 @@
 package it.av.youeat.batch.system;
 
-import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.ocm.model.SocialType;
 import it.av.youeat.service.DataRistoranteService;

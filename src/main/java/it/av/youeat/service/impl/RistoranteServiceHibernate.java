@@ -43,8 +43,6 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.hibernate.Criteria;
@@ -56,6 +54,8 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,7 +82,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     @Autowired
     private RistorantePositionService ristorantePositionService;
 
-    private static Log log = LogFactory.getLog(RistoranteServiceHibernate.class);
+    private static Logger log = LoggerFactory.getLogger(RistoranteServiceHibernate.class);
 
     /**
      * {@inheritDoc}

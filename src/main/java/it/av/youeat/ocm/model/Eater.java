@@ -299,7 +299,7 @@ public class Eater extends BasicEntity implements Comparable<Eater> {
      * @return true if the user comes from a social network
      */
     public boolean isSocialNetworkEater(){
-        return socialType != null && socialUID != null;
+        return socialType == SocialType.FACEBOOK && socialUID != null;
     }
 
     public Sex getSex() {

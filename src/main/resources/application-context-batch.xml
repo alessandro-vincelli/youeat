@@ -5,7 +5,7 @@
            http://www.springframework.org/schema/batch 
            http://www.springframework.org/schema/batch/spring-batch-2.1.xsd">
 
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+    <bean id="dataSourceBatch" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 
         <property name="driverClass" value="org.postgresql.Driver" />
         <property name="jdbcUrl" value="" />
@@ -32,7 +32,7 @@
 
     <bean id="jobParametersIncrementer" class="it.av.youeat.batch.system.LogJobIncrementer"></bean>
 
-    <batch:job-repository id="jobRepository" data-source="dataSource" transaction-manager="transactionManager"
+    <batch:job-repository id="jobRepository" data-source="dataSourceBatch" transaction-manager="transactionManager"
         isolation-level-for-create="DEFAULT" table-prefix="BATCH_" max-varchar-length="1000" />
 
 

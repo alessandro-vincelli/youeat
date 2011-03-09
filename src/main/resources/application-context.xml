@@ -112,9 +112,28 @@
 
     <bean id="mailService" class="it.av.youeat.service.system.MailServiceImpl" />
 
+    <bean id="dataSourceMain" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+
+        <property name="driverClass" value="org.postgresql.Driver" />
+        <property name="jdbcUrl" value="" />
+        <property name="user" value="" />
+        <property name="password" value="" />
+
+        <property name="initialPoolSize" value="3" />
+        <property name="minPoolSize" value="3" />
+        <property name="maxPoolSize" value="200" />
+        <!-- <property name="timeout"><value>0</value></property> -->   <!-- 0 means: no timeout -->
+        <property name="idleConnectionTestPeriod" value="200" />
+        <property name="acquireIncrement" value="1" />
+        <property name="maxStatements" value="0" />  <!-- 0 means: statement caching is turned off. -->
+        <property name="numHelperThreads" value="3" />  <!-- 3 is default -->
+
+    </bean>
+
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="youeatPersistence" />
         <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
+        <property name="dataSource" ref="dataSourceMain"/>
     </bean>
 
     <!--

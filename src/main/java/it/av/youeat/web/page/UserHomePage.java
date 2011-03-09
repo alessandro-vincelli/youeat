@@ -20,6 +20,7 @@ import it.av.youeat.ocm.model.ActivityRistorante;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.service.ActivityRistoranteService;
 import it.av.youeat.service.RistoranteService;
+import it.av.youeat.web.YoueatApplication;
 import it.av.youeat.web.commons.ActivityPaging;
 import it.av.youeat.web.components.ActivitiesListView;
 import it.av.youeat.web.components.RistoNameColumn;
@@ -96,7 +97,7 @@ public class UserHomePage extends BasePage {
         });
 
         RistoranteDataTable<Ristorante> ristoranteDataTable = new RistoranteDataTable<Ristorante>(
-                "ristoranteDataTable", columns, ristoranteSortableDataProvider, 10);
+                "ristoranteDataTable", columns, ristoranteSortableDataProvider, ((YoueatApplication)getApplication()).getRistoXPageDataTable());
         add(ristoranteDataTable);
 
         RistoranteSearchPanel ristoranteSearchPanel = new RistoranteSearchPanel("ristoranteSearchPanel",

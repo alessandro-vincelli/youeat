@@ -20,6 +20,7 @@ import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.service.ActivityRistoranteService;
 import it.av.youeat.service.EaterService;
 import it.av.youeat.service.RistoranteService;
+import it.av.youeat.web.YoueatApplication;
 import it.av.youeat.web.components.ActivitiesListView;
 import it.av.youeat.web.components.RistoNameColumn;
 import it.av.youeat.web.components.RistoranteDataTable;
@@ -61,7 +62,7 @@ public class HomePage extends BasePage {
     private EaterService eaterService;
     @SpringBean
     private TagCloud tagCloud;
-    private int ristoXPage = 25;
+    
 
     /**
      * Constructor that is invoked when page is invoked without a session.
@@ -99,7 +100,7 @@ public class HomePage extends BasePage {
         });
 
         RistoranteDataTable<Ristorante> ristoranteDataTable = new RistoranteDataTable<Ristorante>(
-                "ristoranteDataTable", columns, ristoranteSortableDataProvider, ristoXPage);
+                "ristoranteDataTable", columns, ristoranteSortableDataProvider, ((YoueatApplication)getApplication()).getRistoXPageDataTable());
         add(ristoranteDataTable);
 
         RistoranteSearchPanel ristoranteSearchPanel = new RistoranteSearchPanel("ristoranteSearchPanel",

@@ -82,6 +82,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
     private String configurationType;
     private String applicationURL;
     private String gmapKey;
+    private int ristoXPageDataTable = 25;
     
     /**
      * Constructor
@@ -221,7 +222,13 @@ public class YoueatApplication extends AuthenticatedWebApplication {
     public void setGmapKey(String gmapKey) {
         this.gmapKey = gmapKey;
     }
-    
-    
+
+    public int getRistoXPageDataTable() {
+        return ristoXPageDataTable;
+    }
+
+    public void setRistoXPageDataTable(int ristoXPageDataTable) {
+        this.ristoXPageDataTable = ristoXPageDataTable;
+    }
 
 }

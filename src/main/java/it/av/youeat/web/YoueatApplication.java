@@ -81,6 +81,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
     @SpringBean
     private String configurationType;
     private String applicationURL;
+    private String gmapKey;
     
     /**
      * Constructor
@@ -212,5 +213,15 @@ public class YoueatApplication extends AuthenticatedWebApplication {
     public void setApplicationURL(String applicationURL) {
         this.applicationURL = applicationURL;
     }
+
+    public String getGmapKey() {
+        return gmapKey;
+    }
+
+    public void setGmapKey(String gmapKey) {
+        this.gmapKey = gmapKey;
+    }
+    
+    
 
 }

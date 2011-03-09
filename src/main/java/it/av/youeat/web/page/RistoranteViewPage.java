@@ -29,6 +29,7 @@ import it.av.youeat.service.ActivityRistoranteService;
 import it.av.youeat.service.LanguageService;
 import it.av.youeat.service.RistoranteService;
 import it.av.youeat.web.Locales;
+import it.av.youeat.web.YoueatApplication;
 import it.av.youeat.web.components.FriendEaterListView;
 import it.av.youeat.web.components.ImageRisto;
 import it.av.youeat.web.panel.RistoranteRevisionsPanel;
@@ -95,7 +96,6 @@ public class RistoranteViewPage extends BasePage {
     private LanguageService languageService;
     @SpringBean
     private ActivityRistoranteService activityService;
-    private String gmapKey = "ABQIAAAAEpqZyWLxrLSc1icxiiTLyBRjFP5Ion2TodTauLHyn40LiCPQaRSoBSldN1pDUDTAPEK5AlXpouSLuA";
 
     private Ristorante ristorante = new Ristorante();;
 
@@ -458,7 +458,7 @@ public class RistoranteViewPage extends BasePage {
                 || getLoggedInUser() == null);
 
         // position on the map
-        final GMap2 bottomMap = new GMap2("map", new GMapHeaderContributor(gmapKey));
+        final GMap2 bottomMap = new GMap2("map", new GMapHeaderContributor(((YoueatApplication)this.getApplication()).getGmapKey()));
         bottomMap.setOutputMarkupId(true);
         bottomMap.setMapType(GMapType.G_NORMAL_MAP);
         bottomMap.addControl(GControl.GSmallMapControl);

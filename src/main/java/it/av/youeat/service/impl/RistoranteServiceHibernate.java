@@ -367,12 +367,20 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
                 .getEntityManager());
         fullTextEntityManager.getSearchFactory().getAnalyzer("ristoranteanalyzer");
-        Collection<Ristorante> ristos = getAll();
+        int count = count(); 
+        log.info("indexing risto: " + count);
+        int page = count / 100;
+        int i = 0;
         int position = 0;
-        for (Ristorante risto : ristos) {
-            fullTextEntityManager.index(risto);
-            position = position + 1;
+        while (i <= page) {
+            List<Ristorante> ristos = findByCriteria(Order.asc("id"), page * i, 100);
+            for (Ristorante risto : ristos) {
+                fullTextEntityManager.index(risto);
+                position = position + 1;
+            }
+            i = i + 1;
         }
+        log.info("indexed risto: " + position);
     }
 
     /**

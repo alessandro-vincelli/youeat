@@ -475,9 +475,9 @@
 		</dependencies>
 	</dependencyManagement>
 	<scm>
-		<connection>scm:svn:https://youeat.googlecode.com/svn/trunk</connection>
-		<developerConnection>scm:svn:https://youeat.googlecode.com/svn/trunk</developerConnection>
-		<url>https://youeat.googlecode.com/svn/trunk</url>
+		<connection>scm:svn:https://youeat.googlecode.com/svn/tags/youeat-1.9</connection>
+		<developerConnection>scm:svn:https://youeat.googlecode.com/svn/tags/youeat-1.9</developerConnection>
+		<url>https://youeat.googlecode.com/svn/tags/youeat-1.9</url>
 	</scm>
 	<build>
 		<resources>

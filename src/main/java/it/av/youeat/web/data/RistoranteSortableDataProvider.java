@@ -41,7 +41,6 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
     @SpringBean
     private RistoranteService ristoranteService;
     private transient Collection<Ristorante> results;
-    private boolean attached;
     // pattern text to search
     private String pattern;
 
@@ -51,8 +50,6 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
     public RistoranteSortableDataProvider() {
         super();
         InjectorHolder.getInjector().inject(this);
-        results = new ArrayList<Ristorante>(0);
-        attached = true;
         // setSort(LightVac.SortedFieldNames.dateTime.value(), true);
     }
 
@@ -61,8 +58,12 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
      */
     @Override
     public final Iterator<Ristorante> iterator(int first, int count) {
-        results = ristoranteService.freeTextSearch(this.pattern, first, count);
-        return Collections.synchronizedList(new ArrayList<Ristorante>(results)).iterator();
+        //results = ristoranteService.freeTextSearch(this.pattern, first, count);
+        //return Collections.synchronizedList(new ArrayList<Ristorante>(results)).iterator();
+        if(results != null){
+            return Collections.synchronizedList(new ArrayList<Ristorante>(results).subList(first, first + count)).iterator();
+        }
+        return null;
     }
 
     /**
@@ -70,12 +71,10 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
      */
     @Override
     public final int size() {
-        if(results != null && !results.isEmpty()){
-            return ristoranteService.countfreeTextSearch(this.pattern, null);    
+        if(results != null){
+            return results.size();
         }
-        else{
-            return 0;
-        }
+        return 0;
     }
 
     /**
@@ -91,10 +90,10 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
      */
     @Override
     public void detach() {
-        if (attached) {
-            attached = false;
-            results = new ArrayList<Ristorante>(0);
-        }
+//        if (attached) {
+//            attached = false;
+//            results = new ArrayList<Ristorante>(0);
+//        }
     }
 
     /**
@@ -106,7 +105,7 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
     public final void fetchResults(String pattern, int maxResultXPage) throws YoueatException {
         if (StringUtils.isNotBlank(pattern)) {
             this.pattern = LuceneUtil.removeSpecialChars(pattern);
-            results = ristoranteService.freeTextSearch(this.pattern, 0, maxResultXPage);
+            results = ristoranteService.freeTextSearch(this.pattern, 0, -1);
         }
     }
 

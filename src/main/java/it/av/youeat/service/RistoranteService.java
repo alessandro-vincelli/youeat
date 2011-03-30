@@ -137,6 +137,14 @@ public interface RistoranteService {
      * @return Ristorante ristorante
      */
     Ristorante getByID(String id);
+    
+    /**
+     * Get a ristorante by ID and load all the revisions
+     * 
+     * @param id the id of the ristorante
+     * @return Ristorante ristorante
+     */
+    Ristorante getByIDAllRevisions(String id);
 
     /**
      * Add a rate on the given ristoranti by the given user

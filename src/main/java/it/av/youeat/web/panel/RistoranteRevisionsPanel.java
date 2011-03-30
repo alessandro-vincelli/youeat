@@ -4,6 +4,7 @@ import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Language;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.ocm.model.RistoranteRevision;
+import it.av.youeat.service.RistoranteService;
 import it.av.youeat.web.util.TextDiffRender;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -27,6 +29,8 @@ import org.springframework.beans.BeanUtils;
 public class RistoranteRevisionsPanel extends Panel {
     private PropertyListView<RistoranteRevision> productsVersionsList;
     private final FeedbackPanel feedbackPanel;
+    @SpringBean(name = "ristoranteService")
+    private RistoranteService ristoranteService;
 
     /**
      * Constructor
@@ -61,14 +65,15 @@ public class RistoranteRevisionsPanel extends Panel {
      */
     public void refreshRevisionsList(final Ristorante ristoSelected, final Language langSelected) {
         if (ristoSelected != null) {
+            final Ristorante risto = ristoranteService.getByIDAllRevisions(ristoSelected.getId());
             // revisions = RistoranteRevisionUtil.cloneList(ristoSelected.getRevisions());
 
             productsVersionsList.setModel(new LoadableDetachableModel<List<RistoranteRevision>>() {
 
                 @Override
                 protected List<RistoranteRevision> load() {
-                    List<RistoranteRevision> revisions = ristoSelected.getRevisions();
-                    List<RistoranteRevision> revisionsDiff = new ArrayList<RistoranteRevision>(ristoSelected
+                    List<RistoranteRevision> revisions = risto.getRevisions();
+                    List<RistoranteRevision> revisionsDiff = new ArrayList<RistoranteRevision>(risto
                             .getRevisions().size());
                     if (revisions.size() > 1) {
                         for (RistoranteRevision ristoranteRevision : revisions) {

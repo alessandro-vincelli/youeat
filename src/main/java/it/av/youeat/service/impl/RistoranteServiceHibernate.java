@@ -46,6 +46,7 @@ import javax.persistence.Query;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
@@ -94,6 +95,8 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         risto.setModificationTime(DateUtil.getTimestamp());
         risto.setRevisionNumber(risto.getRevisionNumber() + 1);
         save(risto);
+        //needed to LOAD the LAZY revisions 
+        risto = getByIDAllRevisions(risto.getId());
         risto.addRevision(ristoranteRevisionService.insert(new RistoranteRevision(risto)));
         activityRistoranteService.save(activityRistoranteService.save(new ActivityRistorante(DateUtil.getTimestamp(), user,
                 risto, ActivityRistorante.TYPE_MODIFICATION)));
@@ -431,10 +434,22 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         } catch (ParseException e) {
             throw new YoueatException(e);
         }
+        //Criteria criteria = getHibernateSession().createCriteria( Ristorante.class ).setFetchMode( "comments", FetchMode.SELECT ).setFetchMode( "tags", FetchMode.SELECT ).setFetchMode( "revisions", FetchMode. );
         FullTextQuery persistenceQuery = fullTextEntityManager.createFullTextQuery(query, Ristorante.class);
         return persistenceQuery;
     }
     
+    
+    
+    @Override
+    public Ristorante getByIDAllRevisions(String id) {
+        Ristorante risto = (Ristorante) getHibernateSession().load(getPersistentClass(), id);
+        risto.getRevisions();
+        risto.getRevisions().size();
+        return risto;
+    }
+
+
     /**
      * {@inheritDoc}
      */

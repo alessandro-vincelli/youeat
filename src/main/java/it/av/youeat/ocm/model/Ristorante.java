@@ -145,15 +145,15 @@ public class Ristorante extends BasicEntity {
     @org.hibernate.annotations.Index(name = "risto_revisionNumber_index")
     private int revisionNumber;
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.SUBSELECT)
     @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private List<RateOnRistorante> rates;
     @IndexedEmbedded
     @ManyToMany(cascade = { CascadeType.MERGE,  CascadeType.PERSIST,  CascadeType.REFRESH  }, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Tag> tags;
-    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SUBSELECT)
     @OrderBy("revisionNumber DESC")
     @Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<RistoranteRevision> revisions;
@@ -162,22 +162,22 @@ public class Ristorante extends BasicEntity {
     private RistoranteTypes types;
     @IndexedEmbedded
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable
     @Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<RistoranteDescriptionI18n> descriptions;
     @IndexedEmbedded
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable
     @Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<RestaurateurBlackboardI18n> restaurateurBlackboards;
     
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.SUBSELECT)
     private List<RistorantePicture> pictures;
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.SUBSELECT)
     @Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     private List<Comment> comments;
     private double longitude;

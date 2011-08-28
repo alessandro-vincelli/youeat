@@ -45,6 +45,7 @@ import javax.persistence.Query;
 
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.util.Version;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.SQLQuery;
@@ -252,7 +253,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
                 .getEntityManager());
         String[] fields = new String[] { "name" };
-        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, fullTextEntityManager.getSearchFactory().getAnalyzer(
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_31, fields, fullTextEntityManager.getSearchFactory().getAnalyzer(
                 "ristoranteanalyzer"));
         org.apache.lucene.search.Query query;
         try {
@@ -359,7 +360,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     public int count() {
         Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
         criteria.setProjection(Projections.rowCount());
-        return (Integer) criteria.uniqueResult();
+        return ((Long) criteria.uniqueResult()).intValue();
     }
 
     /**
@@ -372,11 +373,11 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         fullTextEntityManager.getSearchFactory().getAnalyzer("ristoranteanalyzer");
         int count = count(); 
         log.info("indexing risto: " + count);
-        int page = count / 100;
+        int page = count / 1000;
         int i = 0;
         int position = 0;
-        while (i <= page) {
-            List<Ristorante> ristos = findByCriteria(Order.asc("id"), page * i, 100);
+        while (i <= page ) {
+            List<Ristorante> ristos = findByCriteria(Order.asc("id"), page * i, 1000);
             for (Ristorante risto : ristos) {
                 fullTextEntityManager.index(risto);
                 position = position + 1;
@@ -424,7 +425,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
         FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
                 .getEntityManager());
         String[] fields = new String[] { "name", "city.name", "tags.tag" };
-        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, fullTextEntityManager.getSearchFactory().getAnalyzer(
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_31, fields, fullTextEntityManager.getSearchFactory().getAnalyzer(
                 "ristoranteanalyzer"));
         org.apache.lucene.search.Query query;
         try {

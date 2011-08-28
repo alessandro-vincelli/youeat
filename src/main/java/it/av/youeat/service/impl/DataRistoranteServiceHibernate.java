@@ -33,6 +33,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.util.Version;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
@@ -134,7 +135,7 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
         // TODO using dataristoranteanalyzer doesn't work
         // MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, fullTextEntityManager.getSearchFactory()
         // .getAnalyzer("ristoranteanalyzer"));
-        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, new StandardAnalyzer());
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_31, fields, new StandardAnalyzer(Version.LUCENE_31));
         org.apache.lucene.search.Query query;
         try {
             query = parser.parse(LuceneUtil.escapeSpecialChars(pattern));
@@ -171,7 +172,7 @@ public class DataRistoranteServiceHibernate extends ApplicationServiceHibernate<
         // TODO using dataristoranteanalyzer doesn't work
         // QueryParser queryParser = new QueryParser("", fullTextEntityManager.getSearchFactory().getAnalyzer(
         // "dataristoranteanalyzer"));
-        QueryParser queryParser = new QueryParser("", new StandardAnalyzer());
+        QueryParser queryParser = new QueryParser(Version.LUCENE_31, "", new StandardAnalyzer(Version.LUCENE_31));
 
         org.apache.lucene.search.Query query;
         try {

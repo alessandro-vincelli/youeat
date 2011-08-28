@@ -91,7 +91,7 @@ public class TagServiceHibernate extends ApplicationServiceHibernate<Tag> implem
         FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
                 .getEntityManager());
         String[] fields = new String[] { "tag" };
-        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, new StandardAnalyzer(Version.LUCENE_CURRENT));
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_31, fields, new StandardAnalyzer(Version.LUCENE_CURRENT));
         org.apache.lucene.search.Query query;
         try {
             String patternClean = LuceneUtil.escapeSpecialChars(pattern);

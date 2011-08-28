@@ -39,6 +39,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.util.Version;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
@@ -207,7 +208,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(getJpaTemplate()
                 .getEntityManager());
 
-        QueryParser queryParser = new QueryParser("", fullTextEntityManager.getSearchFactory().getAnalyzer("ristoranteanalyzer"));
+        QueryParser queryParser = new QueryParser(Version.LUCENE_31, "", fullTextEntityManager.getSearchFactory().getAnalyzer("ristoranteanalyzer"));
 
         org.apache.lucene.search.Query query;
         try {
@@ -353,7 +354,7 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
     public int count() {
         Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
         criteria.setProjection(Projections.rowCount());
-        return (Integer) criteria.uniqueResult();
+        return ((Long) criteria.uniqueResult()).intValue();
     }
 
     /**
@@ -383,6 +384,6 @@ public class EaterServiceHibernate extends ApplicationServiceHibernate<Eater> im
         if(StringUtils.isNotBlank(pattern)){
             criteria.add(critByName);
         }
-        return (Integer) criteria.uniqueResult();
+        return ((Long) criteria.uniqueResult()).intValue();
     }
 }

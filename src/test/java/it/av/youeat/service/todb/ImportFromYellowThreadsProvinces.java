@@ -29,7 +29,7 @@ public class ImportFromYellowThreadsProvinces {
 	
 	public int getPages(String urlToImport) throws SAXException, IOException, ParserConfigurationException, TransformerException, XPathExpressionException {
 		HttpMethodParams httpMethodParams = new HttpMethodParams();
-		httpMethodParams.setUriCharset("UTF8");
+		//httpMethodParams.setUriCharset("UTF8");
 		MultiThreadedHttpConnectionManager connectionManager = new MultiThreadedHttpConnectionManager();
 		connectionManager.setMaxConnectionsPerHost(400);
 		HttpClient httpclient = new HttpClient(connectionManager);

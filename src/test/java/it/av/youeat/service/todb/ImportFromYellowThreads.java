@@ -110,7 +110,7 @@ public class ImportFromYellowThreads {
 		synchronized private String runHttp() throws HttpException, IOException{
 		
 			HttpMethod method = new GetMethod(urlToImport + "p-" + iteration + "?mr=30");
-			httpMethodParams.setUriCharset("UTF8");
+			//httpMethodParams.setUriCharset("UTF8");
 			method.setParams(httpMethodParams);
 			httpclient.executeMethod(method);
 			System.out.println("First iteration" + iteration);
@@ -213,7 +213,7 @@ public class ImportFromYellowThreads {
 		                if (nodeWWW != null) {
 		                	HttpMethod methodWWW = new GetMethod(nodeWWW.getAttributes().getNamedItem("href").getNodeValue());
 		                	methodWWW.setFollowRedirects(true);
-		                	httpMethodParams.setUriCharset("UTF8");
+		                	//httpMethodParams.setUriCharset("UTF8");
 		                	methodWWW.setParams(httpMethodParams);
 		                	httpclient.executeMethod(methodWWW);
 		                	//methodWWW.getResponseBody();

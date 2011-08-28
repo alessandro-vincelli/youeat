@@ -34,7 +34,6 @@ import org.hibernate.annotations.ForeignKey;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  *
  */
-@Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 @Table(
         uniqueConstraints = {@UniqueConstraint(columnNames={"id"})}

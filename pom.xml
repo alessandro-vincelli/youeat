@@ -210,20 +210,20 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>3.6.7.Final</version>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 		   <groupId>org.hibernate</groupId>
 		   <artifactId>hibernate-annotations</artifactId>
 		   <version>3.4.0.GA</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-c3p0</artifactId>
-			<version>3.6.4.Final</version>
+			<version>3.6.7.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-proxool</artifactId>
-			<version>3.6.4.Final</version>
+			<version>3.6.7.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>

@@ -12,7 +12,8 @@
     <security:authentication-manager alias="openIDAuthenticationManager" />
 
     <bean id="authenticationSuccessHandler" class="it.av.youeat.web.security.YouEatAuthenticationSuccessHandler">
-        <property name="defaultTargetUrl" value="/" />
+        <property name="defaultTargetUrl" value="http://www.youeat.org" />
+        <property name="alwaysUseDefaultTargetUrl" value="true"></property>
         <property name="attributes2UserDetails" ref="openIDAttributes2UserDetails" />
     </bean>
 
@@ -20,7 +21,7 @@
         <security:anonymous enabled="false" />
         <security:logout />
         <security:openid-login  user-service-ref="userDetailsServiceOpenIDImpl" authentication-success-handler-ref="authenticationSuccessHandler"
-            login-page="/signIn" authentication-failure-url="/?login_error=true">
+            login-page="/signIn" authentication-failure-url="/?login_error=true" >
             <security:attribute-exchange>
                 <security:openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true" />
                 <security:openid-attribute name="firstName" type="http://axschema.org/namePerson/first" required="true" />

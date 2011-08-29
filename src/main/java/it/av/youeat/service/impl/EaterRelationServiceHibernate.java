@@ -314,7 +314,7 @@ public class EaterRelationServiceHibernate extends ApplicationServiceHibernate<E
         criteria.add(critType);
         criteria.add(critStatus);
         criteria.setProjection(Projections.rowCount());
-        return (Integer) criteria.list().get(0);
+        return ((Long) criteria.list().get(0)).intValue();
     }
 
     /**

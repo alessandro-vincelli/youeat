@@ -106,7 +106,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         senderFilter.add(critBySender2);
         criteria.add(senderFilter);
         criteria.setProjection(Projections.rowCount());
-        return (Integer) criteria.list().get(0);
+        return ((Long) criteria.list().get(0)).intValue();
     }
 
     /**

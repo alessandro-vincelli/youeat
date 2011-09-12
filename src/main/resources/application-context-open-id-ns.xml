@@ -9,33 +9,86 @@
                            http://www.springframework.org/schema/security 
                            http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
-    <security:authentication-manager alias="openIDAuthenticationManager" />
-
+    <security:authentication-manager alias="openIDAuthenticationManager">
+        <security:authentication-provider ref="openIDAuthenticationProvider" user-service-ref="userDetailsServiceOpenIDImpl" >
+        </security:authentication-provider>
+    </security:authentication-manager>
+    
+    <bean id="openIDAuthenticationProvider" class="org.springframework.security.openid.OpenIDAuthenticationProvider">
+        <property name="userDetailsService" ref="userDetailsServiceOpenIDImpl" />
+    </bean> 
+    
     <bean id="authenticationSuccessHandler" class="it.av.youeat.web.security.YouEatAuthenticationSuccessHandler">
-        <property name="defaultTargetUrl" value="http://www.youeat.org" />
-        <property name="alwaysUseDefaultTargetUrl" value="true"></property>
         <property name="attributes2UserDetails" ref="openIDAttributes2UserDetails" />
     </bean>
-
-    <security:http >
-        <security:anonymous enabled="false" />
-        <security:logout />
-        <security:openid-login  user-service-ref="userDetailsServiceOpenIDImpl" authentication-success-handler-ref="authenticationSuccessHandler"
-            login-page="/signIn" authentication-failure-url="/?login_error=true" >
-            <security:attribute-exchange>
-                <security:openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true" />
-                <security:openid-attribute name="firstName" type="http://axschema.org/namePerson/first" required="true" />
-                <security:openid-attribute name="lastName" type="http://axschema.org/namePerson/last" required="true" />
-                <security:openid-attribute name="language" type="http://axschema.org/pref/language" required="true" />
-                <security:openid-attribute name="country" type="http://axschema.org/contact/country/home"
-                    required="true" />
-            </security:attribute-exchange>
-        </security:openid-login>
-        <security:remember-me key="youeat-openid" user-service-ref="userDetailsServiceOpenIDImpl" />
-    </security:http>
 
     <bean id="openIDAttributes2UserDetails" class="it.av.youeat.web.security.OpenIDAttributes2UserDetailsImpl" />
 
     <bean id="userDetailsServiceOpenIDImpl" class="it.av.youeat.web.security.UserDetailsServiceOpenIDImpl" />
+        
+    
+    <bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
+        <security:filter-chain-map path-type="ant">
+            <security:filter-chain pattern="/**"
+                filters="
+            securityContextPersistenceFilter,
+            openIDAuthenticationFilter
+            " />
+        </security:filter-chain-map>
+    </bean>
+
+    <bean id="securityContextPersistenceFilter" class="org.springframework.security.web.context.SecurityContextPersistenceFilter" />
+
+    <bean id="securityContextLogoutHandler" class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"></bean>
+
+    <bean id="openIDAuthenticationFilter" class="it.av.youeat.web.security.YoueatOpenIDAuthenticationFilter">
+        <property name="consumer" ref="openIDConsumer" />
+        <property name="authenticationManager" ref="openIDAuthenticationManager" />
+        <property name="filterProcessesUrl" value="/j_spring_openid_security_check" />
+        <property name="authenticationSuccessHandler" ref="authenticationSuccessHandler"/>
+        <property name="returnTO" value="http://www.youeat.org"/>
+    </bean>
+    
+    <bean id="openIDConsumer" class="org.springframework.security.openid.OpenID4JavaConsumer">
+        <constructor-arg>
+            <list>
+                <ref bean="openIDAttributeEmail" />
+                <ref bean="openIDAttributeFirstName" />
+                <ref bean="openIDAttributeLastName" />
+                <ref bean="openIDAttributeLanguage" />
+                <ref bean="openIDAttributeCountry" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="openIDAttributeEmail" class="org.springframework.security.openid.OpenIDAttribute">
+        <constructor-arg index="0" value="email" />
+        <constructor-arg index="1" value="http://schema.openid.net/contact/email" />
+        <property name="required" value="true" />
+    </bean>
+
+    <bean id="openIDAttributeFirstName" class="org.springframework.security.openid.OpenIDAttribute">
+        <constructor-arg index="0" value="firstName" />
+        <constructor-arg index="1" value="http://axschema.org/namePerson/first" />
+        <property name="required" value="true" />
+    </bean>
+
+    <bean id="openIDAttributeLastName" class="org.springframework.security.openid.OpenIDAttribute">
+        <constructor-arg index="0" value="lastName" />
+        <constructor-arg index="1" value="http://axschema.org/namePerson/last" />
+        <property name="required" value="true" />
+    </bean>
+
+    <bean id="openIDAttributeLanguage" class="org.springframework.security.openid.OpenIDAttribute">
+        <constructor-arg index="0" value="language" />
+        <constructor-arg index="1" value="http://axschema.org/pref/language" />
+        <property name="required" value="true" />
+    </bean>
+    
+    <bean id="openIDAttributeCountry" class="org.springframework.security.openid.OpenIDAttribute">
+        <constructor-arg index="0" value="country" />
+        <constructor-arg index="1" value="http://axschema.org/contact/country/home" />
+        <property name="required" value="true" />
+    </bean>
 
 </beans>

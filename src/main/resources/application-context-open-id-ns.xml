@@ -41,12 +41,11 @@
 
     <bean id="securityContextLogoutHandler" class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"></bean>
 
-    <bean id="openIDAuthenticationFilter" class="it.av.youeat.web.security.YoueatOpenIDAuthenticationFilter">
+    <bean id="openIDAuthenticationFilter" class="org.springframework.security.openid.OpenIDAuthenticationFilter">
         <property name="consumer" ref="openIDConsumer" />
         <property name="authenticationManager" ref="openIDAuthenticationManager" />
         <property name="filterProcessesUrl" value="/j_spring_openid_security_check" />
         <property name="authenticationSuccessHandler" ref="authenticationSuccessHandler"/>
-        <property name="returnTO" value="http://www.youeat.org"/>
     </bean>
     
     <bean id="openIDConsumer" class="org.springframework.security.openid.OpenID4JavaConsumer">

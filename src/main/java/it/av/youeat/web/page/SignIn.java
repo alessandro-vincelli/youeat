@@ -38,7 +38,7 @@ public class SignIn extends BasePageSimple {
     public SignIn() {
         //to eliminate duplicated feedback panel
         getFeedbackPanel().setVisible(false);
-        
+        appendToPageTile(" " + getString("basepage.goSignIn"));
         // try a facebook authentication
         ((SecuritySession) getSession()).authenticate(((WebRequest) getRequest()).getHttpServletRequest());
         // if facebook authentication sucedeed redirect to home page

@@ -67,6 +67,7 @@ public class BasePage extends WebPage {
     private MessageService messageService;
     @SpringBean
     private EaterRelationService eaterRelationService;
+    private Label titlePage;
 
     /**
      * Construct.
@@ -90,6 +91,8 @@ public class BasePage extends WebPage {
             }
         }
         HtmlUtil.fixInitialHtml(this);
+        titlePage = new Label("pageTitle", ":: YouEat ::");
+        add(titlePage);
         add(JavascriptPackageResource.getHeaderContribution(BASEPAGE_JS));
         add(CSSPackageResource.getHeaderContribution(STYLES_JQUERY_CSS));
         add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
@@ -351,5 +354,16 @@ public class BasePage extends WebPage {
     public final Eater getLoggedInUser() {
         return loggedInUser;
     }
-
+    
+    protected void setPageTitle(Label titlePage) {
+        this.titlePage = titlePage;
+    }
+    
+    protected Label getPageTitle() {
+        return titlePage;
+    }
+    
+    protected void appendToPageTile(String title){
+        titlePage.setDefaultModelObject(titlePage.getDefaultModelObjectAsString().concat(title));
+    }
 }

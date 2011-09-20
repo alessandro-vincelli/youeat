@@ -126,6 +126,7 @@ public class RistoranteViewPage extends BasePage {
         } else {
             throw new RestartResponseAtInterceptPageException(getApplication().getHomePage());
         }
+        appendToPageTile(" " + ristorante.getName() + ", " + ristorante.getCity().getName());
         ristorante = ristorante.addDescLangIfNotPresent(actualDescriptionLanguage);
         ristorante = ristorante.addBlackboardLangIfNotPresent(actualDescriptionLanguage);
         formRisto = new Form<Ristorante>("ristoranteForm", new CompoundPropertyModel<Ristorante>(ristorante));

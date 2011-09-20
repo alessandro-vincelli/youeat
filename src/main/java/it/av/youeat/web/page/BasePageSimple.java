@@ -20,6 +20,7 @@ import it.av.youeat.web.util.HtmlUtil;
 
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.resources.CompressedResourceReference;
@@ -37,12 +38,15 @@ public class BasePageSimple extends WebPage {
     "resources/jquery-ui-1.8.5.custom.css");
     
     private YouEatFeedbackPanel feedbackPanel;
+    private Label titlePage;
 
     /**
      * Construct.
      */
     public BasePageSimple() {
         HtmlUtil.fixInitialHtml(this);
+        titlePage = new Label("pageTitle", ":: YouEat ::");
+        add(titlePage);
         add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
         add(CSSPackageResource.getHeaderContribution(STYLES_JQUERY_CSS));
         
@@ -62,4 +66,15 @@ public class BasePageSimple extends WebPage {
         return feedbackPanel;
     }
 
+    protected void setPageTitle(Label titlePage) {
+        this.titlePage = titlePage;
+    }
+    
+    protected Label getPageTitle() {
+        return titlePage;
+    }
+    
+    protected void appendToPageTile(String title){
+        titlePage.setDefaultModelObject(titlePage.getDefaultModelObjectAsString().concat(title));
+    }
 }

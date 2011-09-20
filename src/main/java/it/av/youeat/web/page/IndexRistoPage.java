@@ -39,12 +39,13 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
- * Check friends list, Confirm and remove friends, send a message to a friend
+ * Shows risto per city
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
 public class IndexRistoPage extends BasePage {
+
 
     @SpringBean
     private RistoranteService ristoranteService;
@@ -58,12 +59,15 @@ public class IndexRistoPage extends BasePage {
 
     public IndexRistoPage(PageParameters pageParameters) {
         super();
+        appendToPageTile(" Index :: ");
         if (pageParameters.containsKey(YoueatHttpParams.COUNTRY_ID)) {
             countrySelected = countryService.getByID(pageParameters.getString(YoueatHttpParams.COUNTRY_ID));
+            appendToPageTile(" " + countrySelected.getName());
         }
         if (pageParameters.containsKey(YoueatHttpParams.CITY_ID)) {
             citySelected = cityService.getByID(pageParameters.getString(YoueatHttpParams.CITY_ID));
             countrySelected = citySelected.getCountry();
+            appendToPageTile(" " + countrySelected.getName() + " -> " + citySelected.getName());
         }
 
         add(new Label("instructions", new LoadableDetachableModel<String>() {

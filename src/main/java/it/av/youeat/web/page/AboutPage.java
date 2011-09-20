@@ -28,6 +28,7 @@ public class AboutPage extends BasePage {
      * Constructor
      */
     public AboutPage() {
+        appendToPageTile(" Info");
     }
 
 }

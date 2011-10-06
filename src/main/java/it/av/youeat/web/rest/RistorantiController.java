@@ -108,7 +108,7 @@ public class RistorantiController {
      * @param model
      * @return a list of found restaurants
      */
-    @RequestMapping(value = "/findRistoranti/{searchString}")
+    @RequestMapping(value = "/findPaginatedRistoranti/{searchString}/{firstResult}/{maxResults}")
     public ModelAndView findPaginatedRistoranti(@PathVariable String searchString,  @PathVariable int firstResult, @PathVariable int maxResults, Model model) {
         Assert.notNull(searchString, "the search string cannot be null");
         ModelAndView modelAndView = new ModelAndView();

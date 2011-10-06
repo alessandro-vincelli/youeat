@@ -154,7 +154,7 @@ public class RistorantiController {
      * 
      * @return a list of ristoranti
      */
-    @RequestMapping(value = "/findFreeTextSearchCloseRistoranti/{latitude}/{longitude}/{distanceInMeters}/{maxResults}")
+    @RequestMapping(value = "/findFreeTextSearchCloseRistoranti/{pattern}/{latitude}/{longitude}/{distanceInMeters}/{maxResults}")
     public ModelAndView findFreeTextSearch(@PathVariable String pattern, @PathVariable Double latitude, @PathVariable Double longitude,
             @PathVariable Long distanceInMeters, @PathVariable int maxResults, Model model) {
         // http://localhost:8080/rest/findFreeTextSearchCloseRistoranti/42.5582722/12.6386542/900/10

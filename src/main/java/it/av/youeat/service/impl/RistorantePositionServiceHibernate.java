@@ -146,7 +146,7 @@ public class RistorantePositionServiceHibernate extends ApplicationServiceHibern
         }
         // get position for restaurants
         Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
-        criteria.add(Restrictions.in(RistorantePosition.RISTORANTE_FIELD, ids));
+        criteria.add(Restrictions.in("ristorante.id", ids));
         criteria.addOrder(DistanceOrder.desc(location));
         criteria.setFirstResult(firstResult);
         criteria.setMaxResults(maxResults);

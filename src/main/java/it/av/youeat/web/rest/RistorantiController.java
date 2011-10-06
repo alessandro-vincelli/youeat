@@ -143,6 +143,28 @@ public class RistorantiController {
     }
     
     /**
+     * Returns restaurants as JSON objects sort by distance on the given position 
+     * 
+     * @param pattern
+     * @param latitude
+     * @param longitude
+     * @param distanceInMeters 
+     * @param maxResults
+     * @param model
+     * 
+     * @return a list of ristoranti
+     */
+    @RequestMapping(value = "/findFreeTextSearchCloseRistoranti/{latitude}/{longitude}/{distanceInMeters}/{maxResults}")
+    public ModelAndView findFreeTextSearch(@PathVariable String pattern, @PathVariable Double latitude, @PathVariable Double longitude,
+            @PathVariable Long distanceInMeters, @PathVariable int maxResults, Model model) {
+        // http://localhost:8080/rest/findFreeTextSearchCloseRistoranti/42.5582722/12.6386542/900/10
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setView(jsonView);
+        modelAndView.addObject(positionService.aroundFreeTextSearch(pattern, new Location(latitude, longitude), distanceInMeters, 0, maxResults));
+        return modelAndView;
+    }
+    
+    /**
      * Returns restaurants as JSON objects sort by distance on the given position
      * 
      * @param latitude

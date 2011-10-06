@@ -9,6 +9,7 @@ import it.av.youeat.ocm.model.geo.RistorantePosition;
 import it.av.youeat.ocm.model.geo.RistorantePositionAndDistance;
 import it.av.youeat.service.ActivityRistoranteService;
 import it.av.youeat.service.RistorantePositionService;
+import it.av.youeat.service.RistoranteService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,8 @@ public class RistorantePositionServiceHibernate extends ApplicationServiceHibern
     
     @Autowired
     private ActivityRistoranteService activityRistoranteService;
+    @Autowired
+    private RistoranteService ristoranteService;
 
     /**
      * {@inheritDoc}
@@ -127,6 +130,33 @@ public class RistorantePositionServiceHibernate extends ApplicationServiceHibern
             return result.get(0);
         }
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<RistorantePositionAndDistance> aroundFreeTextSearch(String pattern, Location location, long meters,
+            int firstResult, int maxResults) {
+        //free text search on restaurants
+        List<Ristorante> r = ristoranteService.freeTextSearch(pattern, firstResult, maxResults);
+        List<String> ids = new ArrayList<String>(r.size()); 
+        for (Ristorante ristorante : r) {
+            ids.add(ristorante.getId());
+        }
+        // get position for restaurants
+        Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
+        criteria.add(Restrictions.in(RistorantePosition.RISTORANTE_FIELD, ids));
+        criteria.addOrder(DistanceOrder.desc(location));
+        criteria.setFirstResult(firstResult);
+        criteria.setMaxResults(maxResults);
+        List<RistorantePosition> rp = criteria.list();
+        // calculates distances for restaurants
+        List<RistorantePositionAndDistance> rpd = new ArrayList<RistorantePositionAndDistance>(r.size());
+        for (RistorantePosition ristorantePosition : rp) {
+            rpd.add(new RistorantePositionAndDistance(ristorantePosition, location));            
+        }
+        return rpd;
     }
 
 }

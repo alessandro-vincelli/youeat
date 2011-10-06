@@ -29,6 +29,19 @@ public interface RistorantePositionService {
     List<RistorantePositionAndDistance> around(Location location, long meters, int firstResult, int maxResults);
     
     /**
+     * Search restaurants around a position and matching the given search string.
+     * <p>Returns a list of RistorantePositionAndDistance object containing info about found found ristos and relative distance.  
+     * 
+     * @param searchText text to use in the search 
+     * @param location the location
+     * @param meters the max distance in meter
+     * @param firstResult the first result to retrieve, numbered from <tt>0</tt>
+     * @param maxResults max number of result to return
+     * @return a list of RistorantePositionAndDistance
+     */
+    List<RistorantePositionAndDistance> aroundFreeTextSearch(String searchText,Location location, long meters, int firstResult, int maxResults);
+    
+    /**
      * Favorites restaurants of a user, plus the distance between the risto and the position.
      * 
      * @param eater the user 

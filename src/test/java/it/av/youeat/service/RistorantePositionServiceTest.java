@@ -123,20 +123,20 @@ public class RistorantePositionServiceTest extends YoueatTest {
         positionMola = ristorantePositionService.save(positionMola);
         positionMora = ristorantePositionService.save(positionMora);
 
-        List<RistorantePositionAndDistance> results = ristorantePositionService.around(whereMammalina, 600, 10);
+        List<RistorantePositionAndDistance> results = ristorantePositionService.around(whereMammalina, 600, 0, 10);
         assertNotNull(results);
         assertEquals(2, results.size());
         assertEquals(mammalina, results.get(0).getRistorante());
         assertEquals(ciacco, results.get(1).getRistorante());
 
-        results = ristorantePositionService.around(whereMammalina, 1600, 10);
+        results = ristorantePositionService.around(whereMammalina, 1600, 0, 10);
         assertNotNull(results);
         assertTrue(results.size() == 3);
         assertEquals(mammalina, results.get(0).getRistorante());
         assertEquals(ciacco, results.get(1).getRistorante());
         assertEquals(mora, results.get(2).getRistorante());
 
-        results = ristorantePositionService.around(whereMammalina, 160000, 10);
+        results = ristorantePositionService.around(whereMammalina, 160000, 0, 10);
         assertNotNull(results);
         assertEquals(4, results.size());
         assertEquals(mammalina, results.get(0).getRistorante());
@@ -151,17 +151,17 @@ public class RistorantePositionServiceTest extends YoueatTest {
         
         //position on favorites ristos
         activityRistoranteService.addRistoAsFavorite(user, ciacco);
-        List<RistorantePositionAndDistance> favoritesRisto = ristorantePositionService.favourites(user, whereMammalina, 2);
+        List<RistorantePositionAndDistance> favoritesRisto = ristorantePositionService.favourites(user, whereMammalina, 0, 2);
         assertEquals(1, favoritesRisto.size());
         distanceCalculated = (long)positionCiaccoFromDB.getWhere().distanceFrom(whereMammalina).doubleValue();
         assertEquals(distanceCalculated, results.get(1).getDistanceInMeters());
         
         activityRistoranteService.addRistoAsFavorite(user, mola);
-        favoritesRisto = ristorantePositionService.favourites(user, whereMammalina, 1);
+        favoritesRisto = ristorantePositionService.favourites(user, whereMammalina, 0, 1);
         assertEquals(1, favoritesRisto.size());
         assertEquals(ciacco, results.get(1).getRistorante());
         
-        favoritesRisto = ristorantePositionService.favourites(user, whereMammalina, 2);
+        favoritesRisto = ristorantePositionService.favourites(user, whereMammalina, 0, 2);
         assertEquals(2, favoritesRisto.size());
         assertEquals(ciacco, favoritesRisto.get(0).getRistorante());
         assertEquals(mola, favoritesRisto.get(1).getRistorante());

@@ -22,10 +22,11 @@ public interface RistorantePositionService {
      * 
      * @param location the location
      * @param meters the max distance in meter
+     * @param firstResult the first result to retrieve, numbered from <tt>0</tt>
      * @param maxResults max number of result to return
      * @return a list of RistorantePositionAndDistance
      */
-    List<RistorantePositionAndDistance> around(Location location, long meters, int maxResults);
+    List<RistorantePositionAndDistance> around(Location location, long meters, int firstResult, int maxResults);
     
     /**
      * Favorites restaurants of a user, plus the distance between the risto and the position.
@@ -33,9 +34,10 @@ public interface RistorantePositionService {
      * @param eater the user 
      * @param location the location to calculate the distance
      * @param maxResults max number of result to return
+     * @param firstResult the first result to retrieve, numbered from <tt>0</tt>
      * @return a list of RistorantePositionAndDistance
      */
-    List<RistorantePositionAndDistance> favourites(Eater eater,Location location, int maxResults);
+    List<RistorantePositionAndDistance> favourites(Eater eater, Location location, int firstResult, int maxResults);
 
     /**
      * Saves the given position

@@ -98,11 +98,38 @@ public class RistorantiController {
         }
         return modelAndView;
     }
+    
+    /**
+     * Searches restaurants using the given string
+     * 
+     * @param searchString min 3 characters (not null)
+     * @param firstResult the first result to retrieve, numbered from <tt>0</tt> 
+     * @param maxResults
+     * @param model
+     * @return a list of found restaurants
+     */
+    @RequestMapping(value = "/findRistoranti/{searchString}")
+    public ModelAndView findPaginatedRistoranti(@PathVariable String searchString,  @PathVariable int firstResult, @PathVariable int maxResults, Model model) {
+        Assert.notNull(searchString, "the search string cannot be null");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setView(jsonView);
+        if (searchString.length() < 3) {
+            modelAndView.addObject(new ArrayList<Ristorante>(0));
+        } else {
+            modelAndView.addObject(ristoranteService.freeTextSearch(searchString, firstResult, maxResults));
+        }
+        return modelAndView;
+    }
 
     /**
-     * Returns the last 10 restaurants as JSON objects
+     * Returns restaurants as JSON objects sort by distance on the given position 
      * 
+     * @param latitude
+     * @param longitude
+     * @param distanceInMeters 
+     * @param maxResults
      * @param model
+     * 
      * @return a list of ristoranti
      */
     @RequestMapping(value = "/findCloseRistoranti/{latitude}/{longitude}/{distanceInMeters}/{maxResults}")
@@ -111,7 +138,29 @@ public class RistorantiController {
         // http://localhost:8080/rest/findCloseRistoranti/42.5582722/12.6386542/900/10
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setView(jsonView);
-        modelAndView.addObject(positionService.around(new Location(latitude, longitude), distanceInMeters, maxResults));
+        modelAndView.addObject(positionService.around(new Location(latitude, longitude), distanceInMeters, 0, maxResults));
+        return modelAndView;
+    }
+    
+    /**
+     * Returns restaurants as JSON objects sort by distance on the given position
+     * 
+     * @param latitude
+     * @param longitude
+     * @param distanceInMeters
+     * @param firstResult the first result to retrieve, numbered from <tt>0</tt> 
+     * @param maxResults
+     * @param model
+     * 
+     * @return a list of ristoranti
+     */
+    @RequestMapping(value = "/findPaginatedCloseRistoranti/{latitude}/{longitude}/{distanceInMeters}/{firstResult}/{maxResults}")
+    public ModelAndView getCloseRestaurantsPaginated(@PathVariable Double latitude, @PathVariable Double longitude,
+            @PathVariable Long distanceInMeters, @PathVariable int firstResult, @PathVariable int maxResults, Model model) {
+        // http://localhost:8080/rest/findCloseRistoranti/42.5582722/12.6386542/900/10
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setView(jsonView);
+        modelAndView.addObject(positionService.around(new Location(latitude, longitude), distanceInMeters, firstResult, maxResults));
         return modelAndView;
     }
 
@@ -128,7 +177,7 @@ public class RistorantiController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setView(jsonView);
         modelAndView.addObject(positionService.favourites(SecurityContextHelper.getAuthenticatedUser(), new Location(latitude,
-                longitude), 50));
+                longitude), 0, 50));
         return modelAndView;
     }
 }

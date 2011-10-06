@@ -76,34 +76,36 @@ public class RistorantePositionServiceHibernate extends ApplicationServiceHibern
      * {@inheritDoc}
      */
     @Override
-    public List<RistorantePositionAndDistance> around(Location location, long meters, int maxResults) {
-        return findByParams(location, maxResults, new DistanceExpression(location, ">=", meters));
+    public List<RistorantePositionAndDistance> around(Location location, long meters, int firstResults, int maxResults) {
+        return findByParams(location, firstResults, maxResults, new DistanceExpression(location, ">=", meters));
     }
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<RistorantePositionAndDistance> favourites(Eater eater, Location location, int maxResults) {
+    public List<RistorantePositionAndDistance> favourites(Eater eater, Location location,int firstResult, int maxResults) {
         List<Ristorante> ristos = activityRistoranteService.findFavoriteRisto(eater, maxResults);
         Criterion critByFavoriteRistos = Restrictions.in(RistorantePosition.RISTORANTE_FIELD, ristos);
-        return findByParams(location, maxResults, critByFavoriteRistos);
+        return findByParams(location, firstResult, maxResults, critByFavoriteRistos);
     }
 
     /**
      * base find methods  
      * 
      * @param location
+     * @param firstResult the first result to retrieve, numbered from <tt>0</tt>
      * @param maxResults
      * @param criterions
      * @return
      */
-    private List<RistorantePositionAndDistance> findByParams(Location location, int maxResults, Criterion...criterions) {
+    private List<RistorantePositionAndDistance> findByParams(Location location, int firstResult, int maxResults, Criterion...criterions) {
         Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
         for (Criterion criterion : criterions) {
             criteria.add(criterion);    
         }
         criteria.addOrder(DistanceOrder.desc(location));
+        criteria.setFirstResult(firstResult);
         criteria.setMaxResults(maxResults);
         List<RistorantePosition> results = criteria.list();
         List<RistorantePositionAndDistance> positionAndDistances = new ArrayList<RistorantePositionAndDistance>(results.size());

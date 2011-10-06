@@ -6,6 +6,7 @@ import it.av.youeat.ocm.model.Ristorante;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Index;
 
@@ -55,7 +56,8 @@ public class RistorantePosition extends BasicEntity {
         this.cosLongitude = location.getLongitude().cos();
         this.sinLongitude = location.getLongitude().sin();
     }
-
+    
+    @XmlTransient
     public Ristorante getRistorante() {
         return ristorante;
     }

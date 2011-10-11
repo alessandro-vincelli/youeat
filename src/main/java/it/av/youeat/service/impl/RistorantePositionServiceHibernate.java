@@ -148,8 +148,8 @@ public class RistorantePositionServiceHibernate extends ApplicationServiceHibern
         Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
         criteria.add(Restrictions.in("ristorante.id", ids));
         criteria.addOrder(DistanceOrder.desc(location));
-        criteria.setFirstResult(firstResult);
-        criteria.setMaxResults(maxResults);
+        //criteria.setFirstResult(firstResult);
+        //criteria.setMaxResults(maxResults);
         List<RistorantePosition> rp = criteria.list();
         // calculates distances for restaurants
         List<RistorantePositionAndDistance> rpd = new ArrayList<RistorantePositionAndDistance>(maxResults);

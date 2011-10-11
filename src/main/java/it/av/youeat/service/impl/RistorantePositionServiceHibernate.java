@@ -139,7 +139,7 @@ public class RistorantePositionServiceHibernate extends ApplicationServiceHibern
     public List<RistorantePositionAndDistance> aroundFreeTextSearch(String pattern, Location location, long meters,
             int firstResult, int maxResults) {
         //free text search on restaurants
-        List<Ristorante> r = ristoranteService.freeTextSearch(pattern, firstResult, maxResults);
+        List<Ristorante> r = ristoranteService.freeTextSearch(pattern);
         List<String> ids = new ArrayList<String>(r.size()); 
         for (Ristorante ristorante : r) {
             ids.add(ristorante.getId());
@@ -152,7 +152,12 @@ public class RistorantePositionServiceHibernate extends ApplicationServiceHibern
         criteria.setMaxResults(maxResults);
         List<RistorantePosition> rp = criteria.list();
         // calculates distances for restaurants
-        List<RistorantePositionAndDistance> rpd = new ArrayList<RistorantePositionAndDistance>(r.size());
+        List<RistorantePositionAndDistance> rpd = new ArrayList<RistorantePositionAndDistance>(maxResults);
+        for (int i = firstResult; ( i < maxResults && i <= rpd.size() ); i++) {
+            if(rp.get(i) != null){
+                rpd.add(new RistorantePositionAndDistance(rp.get(i), location));    
+            }
+        }
         for (RistorantePosition ristorantePosition : rp) {
             rpd.add(new RistorantePositionAndDistance(ristorantePosition, location));            
         }

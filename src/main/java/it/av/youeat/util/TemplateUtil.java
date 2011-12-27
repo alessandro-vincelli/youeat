@@ -6,6 +6,7 @@ import it.av.youeat.service.EaterService;
 import it.av.youeat.web.url.YouetGeneratorURL;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.wicket.markup.html.WebPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
@@ -64,9 +65,11 @@ public class TemplateUtil {
      * @param message message to parse
      * @param generateLinks creates links on found eater
      * @param className class name for a custom CSS style (optional)
+     * @param page
+     * 
      * @return resolved template string message
      */
-    public String resolveTemplateEater(Message message, boolean generateLinks, String className) {
+    public String resolveTemplateEater(Message message, boolean generateLinks, String className, WebPage page) {
         String text = message.getBody();
         String[] templatesID = StringUtils.substringsBetween(text, OPEN_EATER_DOUBLE_CURLYBRACKETS, CLOSE_DOUBLE_CURLYBRACKETS);
         if (templatesID == null) {
@@ -75,7 +78,7 @@ public class TemplateUtil {
         for (String id : templatesID) {
             Eater eater = eaterService.getByID(StringUtils.trim(id));
             text = StringUtils.replace(text, OPEN_EATER_DOUBLE_CURLYBRACKETS + id + CLOSE_DOUBLE_CURLYBRACKETS,
-                    extractNameAndUrls(eater, generateLinks, className));
+                    extractNameAndUrls(eater, generateLinks, className, page));
         }
         return text;
     }
@@ -90,13 +93,15 @@ public class TemplateUtil {
      * 
      * @param eater
      * @param generateLink true to add the link to the user
-     * @param className class name for a custom CSS style (optional) 
+     * @param className class name for a custom CSS style (optional)
+     * @param page
+     *  
      * @return eater name, with link if requested
      */
-    public String extractNameAndUrls(Eater eater, boolean generateLink, String className) {
+    public String extractNameAndUrls(Eater eater, boolean generateLink, String className, WebPage page) {
         StringBuffer buffer = new StringBuffer();
         if (generateLink) {
-            String url = youetGeneratorURL.getEaterUrl(eater);
+            String url = youetGeneratorURL.getEaterUrl(eater, page);
             buffer.append("<a href=\"");
             buffer.append(url);
             buffer.append("\"");

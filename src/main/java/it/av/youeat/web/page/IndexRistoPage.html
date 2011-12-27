@@ -28,11 +28,21 @@
     <div id="navigation">
         <span class="titleMyActivities"><wicket:message key="indexPage.cities" /></span>
         <span wicket:id="cityListContainer">
-        <ul class="activitiesList">
-            <li wicket:id="cityList"> 
-            <a wicket:id="city"><span wicket:id="cityTitle"></span></a> 
+            <div style="float:  left;">
+            <ul class="azCitiesList">
+            <li wicket:id="cityListAZ">
+            <a wicket:id="city"><wicket:container wicket:id="cityFirstLetter"/></a> 
             </li>
-        </ul>
+            </ul>
+            </div>
+            <div style="float:  left; width: 180px;">
+            <span style="font-size: smaller;" wicket:id="navigator"/>
+            <ul class="citiesList">
+            <li wicket:id="cityList"> 
+            <a wicket:id="city"><wicket:container wicket:id="cityTitle"/></a> 
+            </li>
+            </ul>
+            </div>
         <div style="text-align: center;">
         <script type="text/javascript"><!--
 		google_ad_client = "pub-9250698005629707";

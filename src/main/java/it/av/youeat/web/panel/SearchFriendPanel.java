@@ -31,7 +31,7 @@ import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteSettings;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.extensions.ajax.markup.html.repeater.data.table.AjaxFallbackDefaultDataTable;
-import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -81,7 +81,7 @@ public class SearchFriendPanel extends Panel {
 
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form form) {
-                String pattern = getRequest().getParameter("searchData");
+                String pattern = getRequest().getPostParameters().getParameterValue("searchData").toString("");
                 try {
                     dataProvider.fetchResults(pattern);
                 } catch (YoueatException e) {
@@ -138,7 +138,7 @@ public class SearchFriendPanel extends Panel {
         public SearchBox(String id, Eater loggedUser, AutoCompleteSettings autoCompleteSettings) {
             super(id, autoCompleteSettings);
             this.loggedUser = loggedUser;
-            InjectorHolder.getInjector().inject(this);
+            Injector.get().inject(this);
             Assert.notNull(loggedUser);
         }
 

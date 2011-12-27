@@ -197,7 +197,7 @@ public interface RistoranteService {
      * @param maxResults number of results
      * @return found ristos
      */
-    List<Ristorante> getByCity(City city, int firsResult, int maxResults);
+    List<Ristorante> getByCity(City city, int firstResult, int maxResults);
 
     /**
      * Return cities with risto
@@ -212,6 +212,39 @@ public interface RistoranteService {
      * @return found cities
      */
     List<City> getCityWithRistoByCountry(Country country);
+    
+    /**
+     * Return cities with risto by the given country
+     *
+     * @param country 
+     * @param firstResult first result
+     * @param maxResults number of results
+     * 
+     * @return found cities
+     */
+    List<City> getCityWithRistoByCountry(Country country, int firstResult, int maxResults);
+    
+    /**
+     * Return cities with risto by the given country and city name start with the given StartLetter 
+     *
+     * @param country 
+     * @param startLetter A-Z 
+     * @param firstResult first result
+     * @param maxResults number of results
+     * 
+     * @return found cities
+     */
+    List<City> getCityWithRistoByCountryAZ(Country country, String startLetter, int firstResult, int maxResults);
+    
+    /**
+     * Return cities with risto by the given country and city name start with the given StartLetter 
+     *
+     * @param country 
+     * @param startLetter A-Z 
+     * 
+     * @return found cities
+     */
+    int countCityWithRistoByCountryAZ(Country country, String startLetter);
 
     /**
      * Return countries with risto

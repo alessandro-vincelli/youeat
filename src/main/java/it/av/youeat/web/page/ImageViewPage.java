@@ -16,7 +16,7 @@
 package it.av.youeat.web.page;
 
 import org.apache.wicket.markup.html.image.Image;
-import org.apache.wicket.markup.html.image.resource.DynamicImageResource;
+import org.apache.wicket.request.resource.DynamicImageResource;
 
 /**
  * Show an image
@@ -26,10 +26,10 @@ import org.apache.wicket.markup.html.image.resource.DynamicImageResource;
 public class ImageViewPage extends BasePage {
 
     public ImageViewPage(final byte[] image) {
-        Image avatar = new Image("image");
+        Image avatar = new Image("image", "avatar");
         avatar.setImageResource(new DynamicImageResource() {
             @Override
-            protected byte[] getImageData() {
+            protected byte[] getImageData(Attributes attributes) {
                 return image;
             }
         });

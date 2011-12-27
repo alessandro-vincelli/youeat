@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteSettings;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
-import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -34,7 +34,7 @@ public class RistoranteAutocompleteBox extends AutoCompleteTextField<DataRistora
      */
     public RistoranteAutocompleteBox(String id, AutoCompleteSettings autoCompleteSettings) {
         super(id, autoCompleteSettings);
-        InjectorHolder.getInjector().inject(this);
+        Injector.get().inject(this);
     }
 
     /**

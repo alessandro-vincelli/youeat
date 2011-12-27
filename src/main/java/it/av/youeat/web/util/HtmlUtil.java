@@ -3,10 +3,10 @@
  */
 package it.av.youeat.web.util;
 
-import it.av.youeat.web.components.TransparentWebMarkupContainer;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Page;
+import org.apache.wicket.markup.html.TransparentWebMarkupContainer;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 

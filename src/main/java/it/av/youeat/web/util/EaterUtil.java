@@ -6,7 +6,8 @@ package it.av.youeat.web.util;
 import it.av.youeat.ocm.model.Eater;
 import it.av.youeat.web.page.YoueatHttpParams;
 
-import org.apache.wicket.PageParameters;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+
 
 /**
  * Utils

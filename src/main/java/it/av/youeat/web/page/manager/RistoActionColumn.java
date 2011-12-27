@@ -9,9 +9,7 @@ import java.util.ArrayList;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
@@ -38,14 +36,15 @@ public class RistoActionColumn extends Panel {
      */
     public RistoActionColumn(String id, final IModel<Ristorante> model) {
         super(id, model);
-        InjectorHolder.getInjector().inject(this);
+        Injector.get().inject(this);
         Link<Ristorante> link = new Link<Ristorante>("remove", model) {
 
             @Override
             public void onClick() {
                 ristoranteService.remove(model.getObject());
                 setResponsePage(getApplication().getHomePage());
-                setRedirect(true);
+                //TODO 1.5
+                //setRedirect(true);
             }
         };
         add(link);

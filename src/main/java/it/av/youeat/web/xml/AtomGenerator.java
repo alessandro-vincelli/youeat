@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.wicket.markup.html.WebPage;
 import org.jdom.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,7 +38,7 @@ public class AtomGenerator {
     // <email>johndoe@example.com</email>
     // </author>
 
-    public Document generate() throws FeedException {
+    public Document generate(WebPage page) throws FeedException {
         Feed feed = new Feed("atom");
         feed.setTitle("YouEat Feed");
         feed.setSubtitle(new Content());
@@ -56,7 +57,7 @@ public class AtomGenerator {
         ArrayList<Person> persons = new ArrayList<Person>(1);
         persons.add(getAuthor());
         feed.setAuthors(persons);
-        feed.setEntries(getEntries());
+        feed.setEntries(getEntries(page));
         Atom10Generator atom10Generator = new Atom10Generator();
         Document doc = atom10Generator.generate(feed);
         return doc;
@@ -70,7 +71,7 @@ public class AtomGenerator {
         return author;
     }
 
-    private List<Entry> getEntries() {
+    private List<Entry> getEntries(WebPage page) {
         List<Ristorante> ristorantes = ristoranteService.getLastsModified(25);
         List<Entry> entries = new ArrayList<Entry>(ristorantes.size());
         for (Ristorante ristorante : ristorantes) {
@@ -80,7 +81,7 @@ public class AtomGenerator {
             entry.setTitle(ristorante.getName() + " " + ristorante.getCity().getName());
             List<Link> urls = new ArrayList<Link>(1);
             Link link = new Link();
-            link.setHref(generatorRistoranteURL.getRistoranteUrl(ristorante));
+            link.setHref(generatorRistoranteURL.getRistoranteUrl(ristorante, page));
             link.setTitle(ristorante.getName());
             urls.add(link);
             entry.setAlternateLinks(urls);

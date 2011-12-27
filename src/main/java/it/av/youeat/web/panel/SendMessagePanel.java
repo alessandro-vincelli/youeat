@@ -8,7 +8,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
@@ -43,7 +43,7 @@ public class SendMessagePanel extends Panel {
         Assert.notNull(sender);
         Assert.notNull(recipient);
         Assert.notNull(container);
-        InjectorHolder.getInjector().inject(this);
+        Injector.get().inject(this);
         final FeedbackPanel feedbackPanelSMP = new FeedbackPanel("feedbackPanelSMP");
         feedbackPanelSMP.setOutputMarkupId(true);
         feedbackPanelSMP.setOutputMarkupPlaceholderTag(true);
@@ -71,7 +71,7 @@ public class SendMessagePanel extends Panel {
         sendMessageForm.add(new AjaxButton("submit", sendMessageForm) {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                dialogService.startNewDialog(sender, recipient, (Message) form.getModelObject());
+                dialogService.startNewDialog(sender, recipient, (Message) form.getModelObject(), getWebPage());
                 feedbackPanelSMP.info(getString("message.messageSent", new Model<Eater>(recipient)));
                 target.addComponent(feedbackPanelSMP);
                 sendMessageForm.setVisible(false);
@@ -82,7 +82,6 @@ public class SendMessagePanel extends Panel {
 
             @Override
             protected void onError(AjaxRequestTarget target, Form<?> form) {
-                super.onError(target, form);
                 // I don't want show the error message, layout issues
                 // target.addComponent(feedbackPanelSMP);
             }

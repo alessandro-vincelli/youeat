@@ -32,18 +32,20 @@ import java.util.Locale;
 
 import javax.servlet.http.Cookie;
 
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.html.CSSPackageResource;
-import org.apache.wicket.markup.html.JavascriptPackageResource;
+import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.markup.html.resources.CompressedResourceReference;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
+import org.apache.wicket.protocol.http.servlet.ServletWebResponse;
+import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
@@ -53,12 +55,10 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  */
 public class BasePage extends WebPage {
 
-    private static final CompressedResourceReference BASEPAGE_JS = new CompressedResourceReference(BasePage.class,
-     "BasePage.js");
-    private static final CompressedResourceReference STYLES_CSS = new CompressedResourceReference(BasePage.class,
-            "resources/styles.css");
-    private static final CompressedResourceReference STYLES_JQUERY_CSS = new CompressedResourceReference(BasePage.class,
-    "resources/jquery-ui-1.8.5.custom.css");
+    
+    private static final String BASEPAGE_JS =  "BasePage.js";
+    private static final String STYLES_CSS =  "resources/styles.css";
+    private static final String STYLES_JQUERY_CSS =  "resources/jquery-ui-1.8.5.custom.css";
     
     private YouEatFeedbackPanel feedbackPanel;
     private boolean isAuthenticated = false;
@@ -80,22 +80,18 @@ public class BasePage extends WebPage {
         }
 
         loggedInUser = securitySession.getLoggedInUser();
-        if (getWebRequestCycle().getWebRequest().getCookie(CookieUtil.LANGUAGE) != null) {
+        if(((ServletWebRequest)RequestCycle.get().getRequest()).getCookie(CookieUtil.LANGUAGE) != null) {
             getSession().setLocale(
-                    new Locale(getWebRequestCycle().getWebRequest().getCookie(CookieUtil.LANGUAGE).getValue()));
+                    new Locale(((ServletWebRequest)RequestCycle.get().getRequest()).getCookie(CookieUtil.LANGUAGE).getValue()));
         } else {
             if (loggedInUser != null) {
-                getWebRequestCycle().getWebResponse().addCookie(
-                        new Cookie(CookieUtil.LANGUAGE, loggedInUser.getLanguage().getLanguage()));
+                ((ServletWebResponse)RequestCycle.get().getResponse()).addCookie((new Cookie(CookieUtil.LANGUAGE, loggedInUser.getLanguage().getLanguage())));
                 getSession().setLocale(new Locale(loggedInUser.getLanguage().getLanguage()));
             }
         }
         HtmlUtil.fixInitialHtml(this);
         titlePage = new Label("pageTitle", ":: YouEat ::");
         add(titlePage);
-        add(JavascriptPackageResource.getHeaderContribution(BASEPAGE_JS));
-        add(CSSPackageResource.getHeaderContribution(STYLES_JQUERY_CSS));
-        add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
         feedbackPanel = new YouEatFeedbackPanel("feedBackPanel");
         feedbackPanel.setOutputMarkupPlaceholderTag(true);
         add(feedbackPanel);
@@ -205,8 +201,8 @@ public class BasePage extends WebPage {
             @Override
             public void onClick() {
                 getSession().setLocale(Locales.ITALIAN);
-                getWebRequestCycle().getWebResponse().addCookie(
-                        new Cookie(CookieUtil.LANGUAGE, Locales.ITALIAN.getLanguage()));
+                ((ServletWebResponse)RequestCycle.get().getResponse()).addCookie((
+                        new Cookie(CookieUtil.LANGUAGE, Locales.ITALIAN.getLanguage())));
             }
 
             @Override
@@ -223,8 +219,8 @@ public class BasePage extends WebPage {
             @Override
             public void onClick() {
                 getSession().setLocale(Locales.ENGLISH);
-                getWebRequestCycle().getWebResponse().addCookie(
-                        new Cookie(CookieUtil.LANGUAGE, Locales.ENGLISH.getLanguage()));
+                ((ServletWebResponse)RequestCycle.get().getResponse()).addCookie((
+                        new Cookie(CookieUtil.LANGUAGE, Locales.ENGLISH.getLanguage())));
             }
 
             @Override
@@ -366,4 +362,14 @@ public class BasePage extends WebPage {
     protected void appendToPageTile(String title){
         titlePage.setDefaultModelObject(titlePage.getDefaultModelObjectAsString().concat(title));
     }
+
+    @Override
+    public void renderHead(IHeaderResponse response) {
+        super.renderHead(response);
+        response.renderJavaScriptReference(new PackageResourceReference(BasePage.class, BASEPAGE_JS));
+        response.renderCSSReference(new PackageResourceReference(BasePage.class, STYLES_JQUERY_CSS));
+        response.renderCSSReference(new PackageResourceReference(BasePage.class, STYLES_CSS));
+    }
+    
+    
 }

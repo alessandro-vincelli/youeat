@@ -25,17 +25,25 @@ import it.av.youeat.web.components.ImageRisto;
 import it.av.youeat.web.util.RistoranteUtil;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-import org.apache.wicket.PageParameters;
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.extensions.markup.html.basic.SmartLinkLabel;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.AbstractLink;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.PageableListView;
 import org.apache.wicket.markup.html.list.PropertyListView;
+import org.apache.wicket.markup.html.navigation.paging.IPageable;
+import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
@@ -56,18 +64,30 @@ public class IndexRistoPage extends BasePage {
 
     private Country countrySelected = null;
     private City citySelected = null;
+    private String cityFirstLetterSelected = null;
+    private int pageSelected = 0;
+    
+    private int citiesPerPage = 50;
 
     public IndexRistoPage(PageParameters pageParameters) {
         super();
         appendToPageTile(" Index :: ");
-        if (pageParameters.containsKey(YoueatHttpParams.COUNTRY_ID)) {
-            countrySelected = countryService.getByID(pageParameters.getString(YoueatHttpParams.COUNTRY_ID));
+        if (pageParameters.getNamedKeys().contains(YoueatHttpParams.COUNTRY_ID)) {
+            countrySelected = countryService.getByID(pageParameters.get(YoueatHttpParams.COUNTRY_ID).toString());
             appendToPageTile(" " + countrySelected.getName());
         }
-        if (pageParameters.containsKey(YoueatHttpParams.CITY_ID)) {
-            citySelected = cityService.getByID(pageParameters.getString(YoueatHttpParams.CITY_ID));
+        if (pageParameters.getNamedKeys().contains(YoueatHttpParams.CITY_FL) && pageParameters.getNamedKeys().contains(YoueatHttpParams.COUNTRY_ID)) {
+            cityFirstLetterSelected = pageParameters.get(YoueatHttpParams.CITY_FL).toString("");
+            countrySelected = countryService.getByID(pageParameters.get(YoueatHttpParams.COUNTRY_ID).toString());
+            appendToPageTile(" " + countrySelected.getName());
+        }
+        if (pageParameters.getNamedKeys().contains(YoueatHttpParams.CITY_ID) && StringUtils.isNotBlank(pageParameters.get(YoueatHttpParams.CITY_ID).toString())) {
+            citySelected = cityService.getByID(pageParameters.get(YoueatHttpParams.CITY_ID).toString());
             countrySelected = citySelected.getCountry();
             appendToPageTile(" " + countrySelected.getName() + " -> " + citySelected.getName());
+        }
+        if (pageParameters.getNamedKeys().contains(YoueatHttpParams.PAGE)) {
+            pageSelected = pageParameters.get(YoueatHttpParams.PAGE).toInt();
         }
 
         add(new Label("instructions", new LoadableDetachableModel<String>() {
@@ -109,14 +129,34 @@ public class IndexRistoPage extends BasePage {
         WebMarkupContainer cityContainer = new WebMarkupContainer("cityListContainer");
         cityContainer.setOutputMarkupId(true);
         add(cityContainer);
-
-        PropertyListView<City> cityListView = new PropertyListView<City>("cityList", new CitiesModel()) {
+        
+        PropertyListView<String> cityListAZView = new PropertyListView<String>("cityListAZ", new CitiesAZModel()) {
 
             @Override
-            protected void populateItem(ListItem<City> item) {
+            protected void populateItem(ListItem<String> item) {
                 // IF not logged user, use params, better for search engigne
-                BookmarkablePageLink link = new BookmarkablePageLink<Country>("city", IndexRistoPage.class,
-                        new PageParameters(YoueatHttpParams.CITY_ID + "=" + item.getModelObject().getId()));
+                BookmarkablePageLink<Country> link = new BookmarkablePageLink<Country>("city", IndexRistoPage.class,
+                        new PageParameters(YoueatHttpParams.CITY_FL + "=" + item.getModelObject() + "," + YoueatHttpParams.COUNTRY_ID + "=" + ((countrySelected != null)?countrySelected.getId():"")));
+
+                if (item.getModelObject().equals(cityFirstLetterSelected)) {
+                    link.add(new SimpleAttributeModifier("class", "cityOrCountrySelected"));
+                }
+                link.add(new Label("cityFirstLetter", item.getModelObject()));
+                item.add(link);
+            }
+        };
+
+        cityContainer.add(cityListAZView);
+        
+        
+        PageableListView<City> listview = new PageableListView<City>("cityList", new CitiesModel(), citiesPerPage)
+        {
+            @Override
+            protected void populateItem(ListItem<City> item)
+            {
+                // IF not logged user, use params, better for search engigne
+                BookmarkablePageLink<Country> link = new BookmarkablePageLink<Country>("city", IndexRistoPage.class,
+                        new PageParameters(YoueatHttpParams.CITY_ID + "=" + item.getModelObject().getId() + ","+ YoueatHttpParams.CITY_FL + "=" + cityFirstLetterSelected));
 
                 if (item.getModelObject().equals(citySelected)) {
                     link.add(new SimpleAttributeModifier("class", "cityOrCountrySelected"));
@@ -125,8 +165,25 @@ public class IndexRistoPage extends BasePage {
                 item.add(link);
             }
         };
+        cityContainer.add(listview);
+        cityContainer.add(new PagingNavigator("navigator", listview){
 
-        cityContainer.add(cityListView);
+            @Override
+            protected AbstractLink newPagingNavigationIncrementLink(String id, IPageable pageable, int increment) {
+                // TODO Auto-generated method stub
+                return super.newPagingNavigationIncrementLink(id, pageable, increment);
+            }
+
+            @Override
+            protected AbstractLink newPagingNavigationLink(String id, IPageable pageable, int pageNumber) {
+                super.newPagingNavigationLink(id, pageable, pageNumber);
+                return new BookmarkablePageLink<Country>(id, IndexRistoPage.class,
+                        new PageParameters(YoueatHttpParams.CITY_FL + "=" + cityFirstLetterSelected + "," + YoueatHttpParams.COUNTRY_ID + "=" + ((countrySelected != null)?countrySelected.getId():"")));
+
+            }
+            
+        });
+        cityContainer.setVersioned(false);
 
         WebMarkupContainer ristoContainer = new WebMarkupContainer("ristoListContainer");
         ristoContainer.setOutputMarkupId(true);
@@ -174,10 +231,43 @@ public class IndexRistoPage extends BasePage {
 
         @Override
         protected List<City> load() {
-            if (countrySelected != null) {
-                return ristoranteService.getCityWithRistoByCountry(countrySelected);
-            } else{
+            
+            if (countrySelected != null && StringUtils.isBlank(cityFirstLetterSelected)) {
+                //return ristoranteService.getCityWithRistoByCountry(countrySelected);
+                return ristoranteService.getCityWithRistoByCountry(countrySelected, 0, 999999);
+            }
+            else if (countrySelected != null && StringUtils.isNotBlank(cityFirstLetterSelected)) {
+                //return ristoranteService.getCityWithRistoByCountry(countrySelected);
+                return ristoranteService.getCityWithRistoByCountryAZ(countrySelected, cityFirstLetterSelected, 0, 99999999);
+                //return ristoranteService.getCityWithRistoByCountryAZ(countrySelected, cityFirstLetterSelected, pageSelected * citiesPerPage, citiesPerPage);
+            }
+            else{
                 return new ArrayList<City>(0);
+            }
+        }
+    }
+    
+    private class CitiesAZModel extends LoadableDetachableModel<List<String>> {
+        public CitiesAZModel() {
+            super();
+        }
+
+        @Override
+        protected List<String> load() {
+            if (countrySelected != null) {
+                List<City> cityWithRistoByCountry = ristoranteService.getCityWithRistoByCountry(countrySelected);
+                SortedSet<String> az = new TreeSet<String>(new AZComparator());
+
+                for (City city : cityWithRistoByCountry) {
+                    az.add(StringUtils.substring(city.getName(), 0, 1).toUpperCase());
+                }
+                ArrayList<String> azL = new ArrayList<String>();
+                for (String string : az) {
+                    azL.add(string);
+                }                
+                return azL;
+            } else{
+                return new ArrayList<String>();
             }
         }
     }
@@ -195,5 +285,14 @@ public class IndexRistoPage extends BasePage {
                 return new ArrayList<Ristorante>(0);
             }
         }
+    }
+    
+    private class AZComparator implements Comparator<String>{
+
+        @Override
+        public int compare(String o1, String o2) {
+            return o1.compareTo(o2);
+        }
+        
     }
 }

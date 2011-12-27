@@ -26,7 +26,7 @@ import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
-import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -50,7 +50,7 @@ public class SearchUserFriendSortableDataProvider extends SortableDataProvider<E
         attached = true;
         results = new ArrayList<Eater>();
         this.forUser = forUser;
-        InjectorHolder.getInjector().inject(this);
+        Injector.get().inject(this);
         // setSort(LightVac.SortedFieldNames.dateTime.value(), true);
     }
 

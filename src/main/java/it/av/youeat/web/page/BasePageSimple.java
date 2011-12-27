@@ -18,12 +18,12 @@ package it.av.youeat.web.page;
 import it.av.youeat.web.commons.YouEatFeedbackPanel;
 import it.av.youeat.web.util.HtmlUtil;
 
-import org.apache.wicket.markup.html.CSSPackageResource;
+import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.markup.html.resources.CompressedResourceReference;
+import org.apache.wicket.request.resource.PackageResourceReference;
 
 /**
  * Base Page without user session. Contains some commons elements.
@@ -32,10 +32,9 @@ import org.apache.wicket.markup.html.resources.CompressedResourceReference;
  */
 public class BasePageSimple extends WebPage {
 
-    private static final CompressedResourceReference STYLES_CSS = new CompressedResourceReference(BasePageSimple.class,
-            "resources/styles.css");
-    private static final CompressedResourceReference STYLES_JQUERY_CSS = new CompressedResourceReference(BasePage.class,
-    "resources/jquery-ui-1.8.5.custom.css");
+    private static final String BASEPAGE_JS =  "BasePage.js";
+    private static final String STYLES_CSS =  "resources/styles.css";
+    private static final String STYLES_JQUERY_CSS =  "resources/jquery-ui-1.8.5.custom.css";
     
     private YouEatFeedbackPanel feedbackPanel;
     private Label titlePage;
@@ -47,8 +46,6 @@ public class BasePageSimple extends WebPage {
         HtmlUtil.fixInitialHtml(this);
         titlePage = new Label("pageTitle", ":: YouEat ::");
         add(titlePage);
-        add(CSSPackageResource.getHeaderContribution(STYLES_CSS));
-        add(CSSPackageResource.getHeaderContribution(STYLES_JQUERY_CSS));
         
         feedbackPanel = new YouEatFeedbackPanel("feedBackPanel");
         feedbackPanel.setOutputMarkupId(true);
@@ -76,5 +73,13 @@ public class BasePageSimple extends WebPage {
     
     protected void appendToPageTile(String title){
         titlePage.setDefaultModelObject(titlePage.getDefaultModelObjectAsString().concat(title));
+    }
+    
+    @Override
+    public void renderHead(IHeaderResponse response) {
+        super.renderHead(response);
+        response.renderJavaScriptReference(new PackageResourceReference(BasePage.class, BASEPAGE_JS));
+        response.renderCSSReference(new PackageResourceReference(BasePage.class, STYLES_JQUERY_CSS));
+        response.renderCSSReference(new PackageResourceReference(BasePage.class, STYLES_CSS));
     }
 }

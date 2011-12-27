@@ -14,6 +14,7 @@ import it.av.youeat.service.RistoranteService;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -138,15 +139,26 @@ public class RistorantePositionServiceHibernate extends ApplicationServiceHibern
     @Override
     public List<RistorantePositionAndDistance> aroundFreeTextSearch(String pattern, Location location, long meters,
             int firstResult, int maxResults) {
+        // if the search string is empty use the simple around() method
+        if(StringUtils.isBlank(pattern)){
+            return around(location, meters, firstResult, maxResults);
+        }
         //free text search on restaurants
-        List<Ristorante> r = ristoranteService.freeTextSearch(pattern);
+        List<Ristorante> r = new ArrayList<Ristorante>();
+        // if the pattern is empty exclude this Restriction to search only by distance
+        if(!StringUtils.equals(pattern, "(null)")){
+             r = ristoranteService.freeTextSearch(pattern);    
+        }
         List<String> ids = new ArrayList<String>(r.size()); 
         for (Ristorante ristorante : r) {
             ids.add(ristorante.getId());
         }
         // get position for restaurants
         Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
-        criteria.add(Restrictions.in("ristorante.id", ids));
+        // if the pattern is empty exclude this Restriction to search only by distance 
+        if(!ids.isEmpty()){
+            criteria.add(Restrictions.in("ristorante.id", ids));    
+        }
         criteria.addOrder(DistanceOrder.desc(location));
         criteria.setFirstResult(firstResult);
         criteria.setMaxResults(maxResults);

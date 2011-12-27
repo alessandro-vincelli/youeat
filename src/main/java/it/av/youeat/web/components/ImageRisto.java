@@ -11,7 +11,7 @@ import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.NonCachingImage;
-import org.apache.wicket.markup.html.image.resource.DynamicImageResource;
+import org.apache.wicket.request.resource.DynamicImageResource;
 
 /**
  * Utils for risto Image
@@ -73,7 +73,7 @@ public final class ImageRisto {
     public static Image getImage(String id, final byte[] image, int width, int heigth, boolean isCachingImage) {
         Image imgRisto;
         if (isCachingImage) {
-            imgRisto = new Image(id);
+            imgRisto = new Image(id, id);
         } else {
             imgRisto = new NonCachingImage(id);
         }
@@ -81,7 +81,7 @@ public final class ImageRisto {
         if (width <= 0 || heigth <= 0) {
             imgRisto.setImageResource(new DynamicImageResource() {
                 @Override
-                protected byte[] getImageData() {
+                protected byte[] getImageData(Attributes attributes) {
                     return image;
                 }
             });

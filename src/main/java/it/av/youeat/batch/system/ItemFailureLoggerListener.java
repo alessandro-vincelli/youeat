@@ -1,9 +1,9 @@
 package it.av.youeat.batch.system;
 
-import java.util.List;
-
 import it.av.youeat.ocm.model.DataRistorante;
 import it.av.youeat.service.DataRistoranteService;
+
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

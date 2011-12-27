@@ -6,9 +6,11 @@ import it.av.youeat.web.util.ImageUtil;
 import javax.swing.ImageIcon;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.NonCachingImage;
+import org.apache.wicket.markup.html.image.resource.BufferedDynamicImageResource;
+import org.apache.wicket.request.resource.IResource;
+import org.apache.wicket.request.resource.ResourceReference;
 
 /**
  * Common components for Image
@@ -35,7 +37,7 @@ public final class ImagesAvatar {
         Image avatar;
         ImageIcon icon;
         if (isCachingImage) {
-            avatar = new Image(id);
+            avatar = new Image(id, eater.getFirstname());
         } else {
             avatar = new NonCachingImage(id);
         }
@@ -67,7 +69,15 @@ public final class ImagesAvatar {
     }
 
     public static ResourceReference getDefaultAvatar(Page page) {
-        return new ResourceReference(page.getClass(), "resources/images/avatar.gif");//
+        return new ResourceReference(page.getClass(), "resources/images/avatar.gif"){
+
+            @Override
+            public IResource getResource() {
+                // TODO 1.5 Auto-generated method stub
+                return new BufferedDynamicImageResource();
+            }
+            
+        };//
     }
 
 }

@@ -29,10 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
-import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -43,6 +42,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
@@ -104,7 +104,7 @@ public class MessageListPage extends BasePage {
                 item.add(recipientLink);
                 item.add(new Label(Message.SENTTIME_FIELD));
                 item.add(new OpenMessage("openMessageTitle", new Model<Message>(item.getModelObject()), item).add(new Label(Message.TITLE_FIELD)));
-                String messageBodyShort = StringUtils.abbreviate(templateUtil.resolveTemplateEater(item.getModelObject(), false, null), 150);
+                String messageBodyShort = StringUtils.abbreviate(templateUtil.resolveTemplateEater(item.getModelObject(), false, null, getWebPage()), 150);
                 item.add(new OpenMessage("openMessage", new Model<Message>(item.getModelObject()), item).add(new Label(
                         Message.BODY_FIELD, messageBodyShort)));
                 item.add(new AjaxFallbackLink<Message>("remove", new Model<Message>(item.getModelObject())) {

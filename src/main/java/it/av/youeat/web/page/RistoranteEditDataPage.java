@@ -34,15 +34,12 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.wicket.Component;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
-import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -52,10 +49,10 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.parser.TagAttributes;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.springframework.util.Assert;
@@ -92,7 +89,7 @@ public class RistoranteEditDataPage extends BasePage {
      */
     public RistoranteEditDataPage(PageParameters parameters) throws YoueatException {
 
-        String ristoranteId = parameters.getString(YoueatHttpParams.RISTORANTE_ID, "");
+        String ristoranteId = parameters.get(YoueatHttpParams.RISTORANTE_ID).toString("");
         if (StringUtils.isNotBlank(ristoranteId)) {
             this.ristorante = ristoranteService.getByID(ristoranteId);
         } else {
@@ -154,6 +151,11 @@ public class RistoranteEditDataPage extends BasePage {
                             target.addComponent(descriptionLinksContainer);
                             target.addComponent(restaurateurBlackboardsContainer);
                         }
+                    }
+
+                    @Override
+                    protected void onError(AjaxRequestTarget target, Form<?> form) {
+                        // TODO 1.5 Auto-generated method stub
                     }
                 }.add(new Label("linkName", getString(item.getModelObject().getCountry()))));
             }
@@ -230,7 +232,6 @@ public class RistoranteEditDataPage extends BasePage {
 
             @Override
             protected void onError(AjaxRequestTarget target, Form<?> form) {
-                super.onError(target, form);
                 if (target != null) {
                     target.addComponent(getFeedbackPanel());
                 }

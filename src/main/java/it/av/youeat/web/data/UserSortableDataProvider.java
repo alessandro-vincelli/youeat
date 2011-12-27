@@ -20,8 +20,9 @@ import it.av.youeat.service.EaterService;
 
 import java.util.Iterator;
 
+import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
-import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -39,8 +40,8 @@ public class UserSortableDataProvider extends SortableDataProvider<Eater> {
      */
     public UserSortableDataProvider() {
         super();
-        setSort(Eater.ID, true);
-        InjectorHolder.getInjector().inject(this);
+        setSort(Eater.ID, SortOrder.ASCENDING);
+        Injector.get().inject(this);
     }
 
     /**

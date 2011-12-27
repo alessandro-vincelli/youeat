@@ -25,10 +25,9 @@ import it.av.youeat.service.LanguageService;
 import it.av.youeat.web.components.ImageAvatarResource;
 import it.av.youeat.web.components.ImagesAvatar;
 
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
-import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -39,6 +38,7 @@ import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Bytes;
 
@@ -63,10 +63,10 @@ public class BaseEaterAccountPage extends BasePage {
     final private Form<Eater> accountForm;
 
     public BaseEaterAccountPage(PageParameters pageParameters) {
-        if (!pageParameters.containsKey(YoueatHttpParams.YOUEAT_ID)) {
+        if (!pageParameters.getNamedKeys().contains(YoueatHttpParams.YOUEAT_ID)) {
             throw new YoueatException("Missing user id");
         }
-        String eaterId = pageParameters.getString(YoueatHttpParams.YOUEAT_ID, "");
+        String eaterId = pageParameters.get(YoueatHttpParams.YOUEAT_ID).toString("");
         eater = eaterService.getByID(eaterId);
 
         accountForm = new Form<Eater>("account", new CompoundPropertyModel<Eater>(eater));
@@ -112,7 +112,12 @@ public class BaseEaterAccountPage extends BasePage {
         }
 
         @Override
-        protected void onSubmit(AjaxRequestTarget target, Form form) {
+        protected void onError(AjaxRequestTarget target, Form<?> form) {
+            // TODO 1.5 Auto-generated method stub
+        }
+
+        @Override
+        protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
             FileUpload upload = ((FileUploadField) form.get("uploadField")).getFileUpload();
             if (upload != null) {
                 accountForm.getModelObject().setAvatar(upload.getBytes());
@@ -138,6 +143,7 @@ public class BaseEaterAccountPage extends BasePage {
                 target.addComponent(imagecontatiner);
                 target.addComponent(avatar);
             }
+
         }
     }
 

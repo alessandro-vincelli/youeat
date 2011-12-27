@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
-import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
@@ -42,7 +42,7 @@ public class TagBox extends AutoCompleteTextField<String> {
     public TagBox(Model<String> model, String id, Ristorante ristorante) {
         super(id, model, AutocompleteUtils.getAutoCompleteSettings());
         this.ristorante = ristorante;
-        InjectorHolder.getInjector().inject(this);
+        Injector.get().inject(this);
     }
 
     /**

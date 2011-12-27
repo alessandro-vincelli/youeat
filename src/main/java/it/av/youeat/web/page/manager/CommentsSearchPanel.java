@@ -31,7 +31,7 @@ import org.apache.wicket.ajax.form.AjaxFormValidatingBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteSettings;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
-import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -78,7 +78,7 @@ public class CommentsSearchPanel extends Panel {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form form) {
                 try {
-                    String pattern = getRequest().getParameter("searchData");
+                    String pattern = getRequest().getPostParameters().getParameterValue("searchData").toString();
                     dataProvider.fetchResults(pattern);
                 } catch (YoueatException e) {
                     feedbackPanel.error(e.getMessage());
@@ -123,7 +123,7 @@ public class CommentsSearchPanel extends Panel {
 
         public SearchBox(String id, AutoCompleteSettings autoCompleteSettings) {
             super(id, autoCompleteSettings);
-            InjectorHolder.getInjector().inject(this);
+            Injector.get().inject(this);
         }
 
         @Override

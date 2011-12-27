@@ -13,7 +13,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteSettings;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
-import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -38,7 +38,7 @@ public class CityAutocompleteBox extends AutoCompleteTextField<String> {
         super(id, cityModel, String.class, autoCompleteSettings);
         setRequired(true);
         setLabel(new Model<String>(getString("city")));
-        InjectorHolder.getInjector().inject(this);
+        Injector.get().inject(this);
         setOutputMarkupId(true);
     }
 

@@ -8,12 +8,12 @@ import it.av.youeat.web.page.YoueatHttpParams;
 
 import java.util.List;
 
-import org.apache.wicket.PageParameters;
-import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class ActivitiesRelationListView extends PropertyListView<ActivityEaterRelation> {
@@ -29,7 +29,7 @@ public class ActivitiesRelationListView extends PropertyListView<ActivityEaterRe
      */
     public ActivitiesRelationListView(String id, List<? extends ActivityEaterRelation> list) {
         super(id, list);
-        InjectorHolder.getInjector().inject(this);
+        Injector.get().inject(this);
     }
 
     @Override

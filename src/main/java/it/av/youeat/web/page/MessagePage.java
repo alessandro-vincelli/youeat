@@ -26,11 +26,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
-import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -40,6 +39,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.StringValidator;
 
@@ -66,7 +66,7 @@ public class MessagePage extends BasePage {
      */
     public MessagePage(PageParameters parameters) throws YoueatException {
         super();
-        final String dialogId = parameters.getString(YoueatHttpParams.DIALOG_ID, "");
+        final String dialogId = parameters.get(YoueatHttpParams.DIALOG_ID).toString("");
         if (StringUtils.isBlank(dialogId)) {
             throw new RestartResponseAtInterceptPageException(getApplication().getHomePage());
         }
@@ -86,7 +86,7 @@ public class MessagePage extends BasePage {
                         YoueatHttpParams.YOUEAT_ID + "=" + item.getModelObject().getSender().getId())).add(new Label(
                         Message.SENDER_FIELD)));
                 item.add(new Label(Message.SENTTIME_FIELD));
-                String body = templateUtil.resolveTemplateEater(item.getModelObject(), true, null);
+                String body = templateUtil.resolveTemplateEater(item.getModelObject(), true, null, getWebPage());
                 item.add(new Label(Message.BODY_FIELD, body).setEscapeModelStrings(false));
                 item.add(new Label(Message.TITLE_FIELD));
                 item.add(ImagesAvatar.getAvatar("avatar", item.getModelObject().getSender(), this.getPage(), true));
@@ -104,7 +104,7 @@ public class MessagePage extends BasePage {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 Message msgToSend = (Message) form.getModelObject();
-                dialogService.reply(msgToSend, dialog, dialog.checkCounterpart(getLoggedInUser()));
+                dialogService.reply(msgToSend, dialog, dialog.checkCounterpart(getLoggedInUser()), getWebPage());
                 dialog = dialogService.readDiscussion(dialogId, getLoggedInUser());
                 sendMessageForm.setModelObject(getNewMessage());
                 if (target != null) {
@@ -116,7 +116,6 @@ public class MessagePage extends BasePage {
 
             @Override
             protected void onError(AjaxRequestTarget target, Form<?> form) {
-                super.onError(target, form);
                 // for the moment I don't want show the error message
                 target.addComponent(getFeedbackPanel());
             }

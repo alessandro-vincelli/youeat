@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.request.http.WebResponse;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
@@ -31,7 +32,7 @@ public class FeedPage extends WebPage {
         XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try {
-            outputter.output(atomGenerator.generate(), stream);
+            outputter.output(atomGenerator.generate(this), stream);
             Label sitemap = new Label("sitemap", new String(stream.toByteArray(), "UTF-8"));
             sitemap.setRenderBodyOnly(true);
             sitemap.setEscapeModelStrings(false);
@@ -41,12 +42,15 @@ public class FeedPage extends WebPage {
         } finally {
             stream.close();
         }
-
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public String getMarkupType() {
-        return "xml";
+    protected void configureResponse(WebResponse response) {
+        super.configureResponse(response);
+        response.setContentType("text/xml"); 
     }
 
 }

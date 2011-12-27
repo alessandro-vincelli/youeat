@@ -20,9 +20,10 @@ import it.av.youeat.web.panel.FacebookLoginPanel;
 import it.av.youeat.web.panel.OpenIDLoginPanel;
 import it.av.youeat.web.security.SecuritySession;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
-import org.apache.wicket.protocol.http.WebRequest;
 
 /**
  * SignIn page performs authentication on an internal youeat db and on Facebook
@@ -40,7 +41,7 @@ public class SignIn extends BasePageSimple {
         getFeedbackPanel().setVisible(false);
         appendToPageTile(" " + getString("basepage.goSignIn"));
         // try a facebook authentication
-        ((SecuritySession) getSession()).authenticate(((WebRequest) getRequest()).getHttpServletRequest());
+        ((SecuritySession) getSession()).authenticate((HttpServletRequest) getRequest().getContainerRequest());
         // if facebook authentication sucedeed redirect to home page
         if (getSession().getAuthorizationStrategy().isInstantiationAuthorized(UserHomePage.class)) {
             getRequestCycle().setResponsePage(UserHomePage.class);
@@ -75,8 +76,6 @@ public class SignIn extends BasePageSimple {
         // now you can create the panel contents
         openIDLoginPanel.createPanel();
         openIDLoginPanel.setEnabled(true);
-
-        
         
     }
 

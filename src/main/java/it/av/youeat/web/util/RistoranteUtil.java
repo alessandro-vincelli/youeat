@@ -7,8 +7,8 @@ import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.web.page.YoueatHttpParams;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.wicket.PageParameters;
-import org.apache.wicket.protocol.http.WicketURLEncoder;
+import org.apache.wicket.request.UrlEncoder;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
  * Utils
@@ -42,7 +42,7 @@ public final class RistoranteUtil {
      */
     public static String cleansNameAndCity(Ristorante risto) {
         String cleanedNameandCity = StringUtils.replace(risto.getName() + " " + risto.getCity().getName(), " ", "_");
-        cleanedNameandCity = WicketURLEncoder.QUERY_INSTANCE.encode(cleanedNameandCity);
+        cleanedNameandCity = UrlEncoder.QUERY_INSTANCE.encode(cleanedNameandCity, "UTF8");
         return cleanedNameandCity;
     }
 

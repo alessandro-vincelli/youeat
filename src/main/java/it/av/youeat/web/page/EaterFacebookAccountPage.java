@@ -17,12 +17,12 @@ package it.av.youeat.web.page;
 
 import it.av.youeat.ocm.model.Eater;
 
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
-import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
  * User account manager page.
@@ -56,7 +56,8 @@ public class EaterFacebookAccountPage extends BaseEaterAccountPage {
 
         @Override
         protected void onError(AjaxRequestTarget target, Form<?> form) {
-            super.onError(target, form);
+            //super.onError(target, form);
+            //TODO 1.5
             target.addComponent(getFeedbackPanel());
         }
     }

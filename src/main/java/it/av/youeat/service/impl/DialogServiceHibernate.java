@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.apache.wicket.markup.html.WebPage;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
@@ -161,12 +162,12 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      */
     @Override
     @Transactional
-    public Dialog reply(Message message, Dialog dialog, Eater recipient) {
+    public Dialog reply(Message message, Dialog dialog, Eater recipient, WebPage page) {
         message.setSentTime(DateUtil.getTimestamp());
         message.setDialog(dialog);
         dialog.getMessages().add(message);
         Dialog savedDialog = save(dialog);
-        sendNotification(recipient, message);
+        sendNotification(recipient, message, page);
         return savedDialog;
     }
 
@@ -175,8 +176,8 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      */
     @Override
     @Transactional
-    public Dialog startNewDialog(Eater sender, Eater recipient, Message message) {
-        return startNewDialog(sender, recipient, message, true);
+    public Dialog startNewDialog(Eater sender, Eater recipient, Message message, WebPage page) {
+        return startNewDialog(sender, recipient, message, true, page);
     }
 
     /**
@@ -189,7 +190,7 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      * @return the created dialog
      */
     @Transactional
-    Dialog startNewDialog(Eater sender, Eater recipient, Message message, boolean sendNotifcation) {
+    Dialog startNewDialog(Eater sender, Eater recipient, Message message, boolean sendNotifcation, WebPage page) {
         message.setSentTime(DateUtil.getTimestamp());
         message.setSender(sender);
         Dialog dialog = new Dialog();
@@ -200,16 +201,16 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
         message.setDialog(dialog);
         dialog = save(dialog);
         if (sendNotifcation) {
-            sendNotification(recipient, message);
+            sendNotification(recipient, message, page);
         }
         return dialog;
     }
 
-    private void sendNotification(Eater recipient, Message message) {
+    private void sendNotification(Eater recipient, Message message, WebPage page) {
         if (recipient.isSocialNetworkEater()) {
-            socialService.sendMessageReceivedNotification(recipient, message);
+            socialService.sendMessageReceivedNotification(recipient, message, page);
         } else {
-            mailService.sendMessageReceivedNotification(recipient, message);
+            mailService.sendMessageReceivedNotification(recipient, message, page);
         }
     }
 
@@ -240,13 +241,13 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      */
     @Override
     @Transactional
-    public void sendFriendSuggestions(Eater sender, Eater recipient, Set<Eater> friendsToSuggest) {
+    public void sendFriendSuggestions(Eater sender, Eater recipient, Set<Eater> friendsToSuggest, WebPage page) {
         Assert.assertNotNull(friendsToSuggest);
         if (!friendsToSuggest.isEmpty()) {
             Message message = createMessageForFriendSuggestion(sender, friendsToSuggest, recipient);
-            startNewDialog(sender, recipient, message, false);
+            startNewDialog(sender, recipient, message, false, page);
             //send a custom mail notification
-            sendFriendSuggestionNotification(sender, friendsToSuggest, recipient);
+            sendFriendSuggestionNotification(sender, friendsToSuggest, recipient, page);
         }
     }
 
@@ -299,11 +300,11 @@ public class DialogServiceHibernate extends ApplicationServiceHibernate<Dialog> 
      * @param friendsToSuggest list of friend to suggest
      * @param recipient the recipient of the suggestions and the recipient of the email notification
      */
-    void sendFriendSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient) {
+    void sendFriendSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient, WebPage page) {
         if (recipient.isSocialNetworkEater()) {
-            socialService.sendFriendSuggestionNotification(sender, friendsToSuggest, recipient);
+            socialService.sendFriendSuggestionNotification(sender, friendsToSuggest, recipient, page);
         } else {
-            mailService.sendFriendSuggestionNotification(sender, friendsToSuggest, recipient);
+            mailService.sendFriendSuggestionNotification(sender, friendsToSuggest, recipient, page);
         }
     }
 

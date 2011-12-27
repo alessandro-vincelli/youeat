@@ -36,11 +36,10 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
-import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -50,6 +49,7 @@ import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
@@ -78,7 +78,7 @@ public class EaterViewPage extends BasePage {
 
     public EaterViewPage(PageParameters pageParameters) {
         add(getFeedbackPanel());
-        String eaterId = pageParameters.getString(YoueatHttpParams.YOUEAT_ID, "");
+        String eaterId = pageParameters.get(YoueatHttpParams.YOUEAT_ID).toString("");
         if (StringUtils.isBlank(eaterId)) {
             throw new RestartResponseAtInterceptPageException(getApplication().getHomePage());
         }

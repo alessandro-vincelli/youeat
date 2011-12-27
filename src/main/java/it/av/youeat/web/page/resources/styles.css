@@ -1489,3 +1489,72 @@ feedbackPanelERROR {
 .rss_date li{
 	font-size: 0.8em
 }
+
+
+
+.citiesList {
+    width: 80%;
+    list-style-image: none;
+    list-style-type: none;
+    font-size: 0.95em;
+    text-align: left;
+    padding-bottom: 2px;
+    padding-left: 6px;
+    margin-left: 0px;
+}
+
+.citiesList ul {
+    display: inline;
+    float: left;
+}
+
+.citiesList li {
+    color: #A4A0A1;
+    margin: 4px 0px 0px 0px;
+    padding-top: 10px;
+    vertical-align: baseline;
+}
+
+.citiesList li a {
+    color: #000;
+    text-decoration: none;
+}
+
+.citiesList li a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+.azCitiesList {
+    width: 10%;
+    list-style-image: none;
+    list-style-type: none;
+    font-size: 0.95em;
+    text-align: left;
+    padding-bottom: 2px;
+    padding-left: 6px;
+    margin-left: 0px;
+}
+
+.azCitiesList ul {
+    display: inline;
+    float: left;
+}
+
+.azCitiesList li {
+    color: #A4A0A1;
+    margin: 4px 0px 0px 0px;
+    padding-top: 10px;
+    vertical-align: baseline;
+    font-size: medium;
+}
+
+.azCitiesList li a {
+    color: #000;
+    text-decoration: none;
+}
+
+.azCitiesList li a:hover {
+    color: #000;
+    text-decoration: underline;
+}

@@ -21,6 +21,8 @@ import it.av.youeat.ocm.model.Message;
 
 import java.util.Set;
 
+import org.apache.wicket.markup.html.WebPage;
+
 /**
  * Operations and services on social networks
  * 
@@ -34,8 +36,9 @@ public interface SocialService {
      * @param sender
      * @param recipient
      * @param message the message to be notified
+     * @param page
      */
-    void sendMessageReceivedNotification(Eater recipient, Message message);
+    void sendMessageReceivedNotification(Eater recipient, Message message, WebPage page);
 
     /**
      * Publishes an activity on the facebook wall of YouEat
@@ -50,8 +53,9 @@ public interface SocialService {
      * @param sender the sender of the suggestion
      * @param friendsToSuggest list of friend to suggest
      * @param recipient the recipient of the suggestions and the recipient of the email notification
+     * @param page 
      */
-    void sendFriendSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient);
+    void sendFriendSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient, WebPage page);
 
     /**
      * Sends a message to notify the friend request

@@ -3,7 +3,7 @@ package it.av.youeat.web.page.manager;
 import it.av.youeat.ocm.model.Comment;
 import it.av.youeat.service.CommentService;
 
-import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
@@ -25,14 +25,15 @@ public class CommentActionColumn extends Panel {
      */
     public CommentActionColumn(String id, final IModel<Comment> model) {
         super(id, model);
-        InjectorHolder.getInjector().inject(this);
+        Injector.get().inject(this);
         Link<Comment> link = new Link<Comment>("remove", model) {
 
             @Override
             public void onClick() {
                 commentService.disable(model.getObject());
                 setResponsePage(getApplication().getHomePage());
-                setRedirect(true);
+                //TODO 1.5
+                //setRedirect(true);
             }
         };
         add(link);

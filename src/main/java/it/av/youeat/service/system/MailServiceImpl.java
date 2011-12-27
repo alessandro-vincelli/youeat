@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
 
+import org.apache.wicket.markup.html.WebPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
@@ -35,11 +36,11 @@ public class MailServiceImpl implements MailService {
      * {@inheritDoc}
      */
     @Override
-    public void sendMessageReceivedNotification(Eater eater, Message message) {
+    public void sendMessageReceivedNotification(Eater eater, Message message, WebPage page) {
         Locale locale = Locales.getSupportedLocale(eater.getLanguage().getLanguage());
         Object[] params = { message.getSender().getFirstname() + " " + message.getSender().getLastname() };
         String subject = messageSource.getMessage("notification.newmessage.mailSubject", params, locale);
-        String body = prepareMessage.mailTextNotifyNewMessage(eater, message, locale);
+        String body = prepareMessage.mailTextNotifyNewMessage(eater, message, locale, page);
         sendNotificationMail(subject, body, eater.getEmail());
     }
 
@@ -74,9 +75,9 @@ public class MailServiceImpl implements MailService {
      * {@inheritDoc}
      */
     @Override
-    public void sendFriendSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient) {
+    public void sendFriendSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient, WebPage page) {
         String subject = prepareMessage.titleForSuggestionNotification(sender, friendsToSuggest, recipient);
-        String body = prepareMessage.mailTextSuggestionNotification(sender, friendsToSuggest, recipient);
+        String body = prepareMessage.mailTextSuggestionNotification(sender, friendsToSuggest, recipient, page);
         sendNotificationMail(subject, body, recipient.getEmail());
     }
 

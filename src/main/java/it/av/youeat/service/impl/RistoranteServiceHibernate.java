@@ -35,6 +35,7 @@ import it.av.youeat.util.LuceneUtil;
 import it.av.youeat.util.ServerGeocoder;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -47,7 +48,6 @@ import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.util.Version;
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
@@ -331,10 +331,20 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
      */
     @Override
     public List<City> getCityWithRistoByCountry(Country country) {
+        return getCityWithRistoByCountry(country, 0, 1000000);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<City> getCityWithRistoByCountry(Country country, int firstResult, int maxResults) {
         Criteria criteria = getHibernateSession().createCriteria(getPersistentClass());
         if (country != null) {
             criteria.add(Restrictions.eq(Ristorante.COUNTRY, country));
         }
+        criteria.setFirstResult(firstResult);
+        criteria.setMaxResults(maxResults);
         criteria.setProjection(Projections.distinct(Projections.property(Ristorante.CITY)));
         List<City> cities = (List<City>) criteria.list();
         Collections.sort(cities);
@@ -461,7 +471,7 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
     }
 
     /**
-     * {@inheritDoc}}
+     * {@inheritDoc}
      */
     @Override
     public Collection<Ristorante> getAllSimple() {
@@ -477,5 +487,30 @@ public class RistoranteServiceHibernate extends ApplicationServiceHibernate<Rist
             ristorantes.add(risto);
         }
         return ristorantes;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<City> getCityWithRistoByCountryAZ(Country country, String startLetter,  int firstResult, int maxResults) {
+        String hql = "select distinct ci from Ristorante as ri join ri.city as ci where ci.name like :startLetter order by ci.name";
+        Query criteria = getJpaTemplate().getEntityManager().createQuery(hql);
+        criteria.setParameter("startLetter",  startLetter + "%");
+        criteria.setFirstResult(firstResult);
+        criteria.setMaxResults(maxResults);
+        List<City> cities = (List<City>) criteria.getResultList();
+        Collections.sort(cities);
+        return cities;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int countCityWithRistoByCountryAZ(Country country, String startLetter) {
+        SQLQuery createSQLQuery = getHibernateSession().createSQLQuery("select count (distinct ci) as count  from ristorante as ri inner join city as ci on (ri.city = ci.id) where ci.name like '" + startLetter + "%' group by ci.name order by ci.name ");
+        Object result = createSQLQuery.uniqueResult();
+        return (result != null)?((BigInteger)result).intValue():0;
     }
 }

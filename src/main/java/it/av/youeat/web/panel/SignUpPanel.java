@@ -36,7 +36,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.captcha.kittens.KittenCaptchaPanel;
 import org.apache.wicket.extensions.validation.validator.RfcCompliantEmailAddressValidator;
-import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.HiddenField;
@@ -84,7 +84,7 @@ public class SignUpPanel extends Panel {
      */
     public SignUpPanel(String id, FeedbackPanel feedbackPanel) throws YoueatException {
         super(id);
-        InjectorHolder.getInjector().inject(this);
+        Injector.get().inject(this);
         this.feedbackPanel = feedbackPanel;
 
         List<Country> countryList = countryService.getAll();

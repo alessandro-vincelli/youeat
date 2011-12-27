@@ -4,6 +4,7 @@ import it.av.youeat.web.xml.GoogleSitemapGenerator;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.request.http.WebResponse;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
@@ -18,15 +19,19 @@ public class SitemapPage extends WebPage {
 	 * Constructor
 	 */
 	public SitemapPage() {
-		Label sitemap = new Label("sitemap", sitemapGenerator.run());
+		Label sitemap = new Label("sitemap", sitemapGenerator.run(this));
 		sitemap.setRenderBodyOnly(true);
 		sitemap.setEscapeModelStrings(false);
 		add(sitemap);
 	}
 
-	@Override
-	public String getMarkupType() {
-		return "xml";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void configureResponse(WebResponse response) {
+        super.configureResponse(response);
+        response.setContentType("text/xml"); 
+    }
 
 }

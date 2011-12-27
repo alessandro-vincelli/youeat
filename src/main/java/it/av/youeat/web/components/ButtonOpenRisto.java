@@ -4,9 +4,9 @@ import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.web.page.RistoranteViewPage;
 import it.av.youeat.web.util.RistoranteUtil;
 
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
  * Create a links to open the given risto

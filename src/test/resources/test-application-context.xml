@@ -70,7 +70,7 @@
 	</bean>
 	
  	<bean id="wicketApplication" class="it.av.youeat.web.YouetApplicationMock">
-		<property name="configurationType" value="development" />
+		<!-- <property name="configurationType" value="development" /> -->
 		<property name="applicationURL" value="http://www.youeat.org"/>
 	</bean>
 

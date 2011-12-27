@@ -13,7 +13,7 @@ import java.util.Set;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
-import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -49,7 +49,7 @@ public class SuggestNewFriendsPanel extends Panel {
             final SuggestNewFriendModalWindow modalWindow) {
         super(id);
         selectedEater = new HashSet<Eater>();
-        InjectorHolder.getInjector().inject(this);
+        Injector.get().inject(this);
         add(new Label("title", getString("suggestNewFriendPanel.title", new Model<Eater>(recipient))));
         Form form = new Form("form");
         add(form);
@@ -93,8 +93,14 @@ public class SuggestNewFriendsPanel extends Panel {
 
         @Override
         protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-            dialogService.sendFriendSuggestions(sender, recipient, selectedEater);
+            dialogService.sendFriendSuggestions(sender, recipient, selectedEater, getWebPage());
             modalWindow.close(target);
+        }
+
+        @Override
+        protected void onError(AjaxRequestTarget target, Form<?> form) {
+            // TODO 1.5
+            
         }
     }
 

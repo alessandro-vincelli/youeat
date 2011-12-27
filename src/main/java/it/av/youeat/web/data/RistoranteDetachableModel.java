@@ -19,7 +19,7 @@ import it.av.youeat.YoueatException;
 import it.av.youeat.ocm.model.Ristorante;
 import it.av.youeat.service.RistoranteService;
 
-import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -41,7 +41,7 @@ public class RistoranteDetachableModel extends LoadableDetachableModel<Ristorant
      */
     public RistoranteDetachableModel(Ristorante object) {
         this(object.getId());
-        InjectorHolder.getInjector().inject(this);
+        Injector.get().inject(this);
     }
 
     /**

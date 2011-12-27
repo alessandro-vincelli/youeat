@@ -50,26 +50,24 @@ import it.av.youeat.web.page.xml.SitemapPage;
 import it.av.youeat.web.security.SecuritySession;
 import it.av.youeat.web.url.YouEatPagePaths;
 
-import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.InvocationTargetException;
 
 import org.apache.wicket.Application;
-import org.apache.wicket.Request;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.Response;
-import org.apache.wicket.authentication.AuthenticatedWebApplication;
-import org.apache.wicket.authentication.AuthenticatedWebSession;
-import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadWebRequest;
+import org.apache.wicket.WicketRuntimeException;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.protocol.http.WebRequest;
-import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
-import org.apache.wicket.request.target.coding.IndexedParamUrlCodingStrategy;
-import org.apache.wicket.request.target.coding.MixedParamHybridUrlCodingStrategy;
-import org.apache.wicket.request.target.coding.MixedParamUrlCodingStrategy;
-import org.apache.wicket.request.target.coding.QueryStringUrlCodingStrategy;
+import org.apache.wicket.request.IRequestHandler;
+import org.apache.wicket.request.Url;
+import org.apache.wicket.request.cycle.IRequestCycleListener;
+import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.handler.BookmarkablePageRequestHandler;
+import org.apache.wicket.request.handler.PageProvider;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
 
 /**
  * Wicket Application.
@@ -101,6 +99,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
     @Override
     protected void init() {
         super.init(); 
+
         getMarkupSettings().setCompressWhitespace(true);
         getMarkupSettings().setStripWicketTags(true);
         // TODO following line disabled to prevent strip of the adSense code, add differently the adsense and an restore the line below
@@ -109,37 +108,142 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         // THIS LINE IS IMPORTANT - IT INSTALLS THE COMPONENT INJECTOR THAT WILL
         // INJECT NEWLY CREATED COMPONENTS WITH THEIR SPRING DEPENDENCIES
         if(getSpringContext() != null){
-            addComponentInstantiationListener(new SpringComponentInjector(this, getSpringContext(), true));
+            getComponentInstantiationListeners().add(new SpringComponentInjector(this, getSpringContext(), true));
         }
-        mount(new IndexedParamUrlCodingStrategy("/info", AboutPage.class));
-        mount(new IndexedParamUrlCodingStrategy("/InfoForRestaurateur", InfoForRestaurateurPage.class));
-        mount(new IndexedParamUrlCodingStrategy("/signIn", SignIn.class));
-        mount(new IndexedParamUrlCodingStrategy("/signOut", SignOut.class));
-        mount(new HybridUrlCodingStrategy("/userProfile", UserProfilePage.class));
-        mount(new HybridUrlCodingStrategy("/userPage", UserManagerPage.class));
-        mount(new HybridUrlCodingStrategy("/newRistorante", RistoranteAddNewPage.class));
-        mount(new MixedParamHybridUrlCodingStrategy("/editRistorante", RistoranteEditDataPage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
-        mount(new MixedParamHybridUrlCodingStrategy("/editAddressRistorante", RistoranteEditAddressPage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
-        mount(new MixedParamHybridUrlCodingStrategy("/editPicturesRistorante", RistoranteEditPicturePage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
-        mount(new MixedParamUrlCodingStrategy(YouEatPagePaths.VIEW_RISTORANTE, RistoranteViewPage.class, new String[]{YoueatHttpParams.RISTORANTE_NAME_AND_CITY}));
-        mount(new HybridUrlCodingStrategy("/searchFriends", SearchFriendPage.class));
-        mount(new HybridUrlCodingStrategy("/friends", FriendsPage.class)); 
-        mount(new IndexedParamUrlCodingStrategy("/signUp", SignUpPage.class));
-        mount(new IndexedParamUrlCodingStrategy("/userHomePage", UserHomePage.class));
-        mount(new MixedParamHybridUrlCodingStrategy(YouEatPagePaths.VIEW_EATER, EaterViewPage.class, new String[]{YoueatHttpParams.YOUEAT_ID}));
-        mount(new MixedParamHybridUrlCodingStrategy("/account", EaterAccountPage.class, new String[]{YoueatHttpParams.YOUEAT_ID}));
-        mount(new HybridUrlCodingStrategy("/passwordRecover", PasswordRecoverPage.class));
-        mount(new HybridUrlCodingStrategy("/messages", MessageListPage.class));
-        mount(new MixedParamHybridUrlCodingStrategy("/message", MessagePage.class, new String[]{YoueatHttpParams.DIALOG_ID}));
-        mount(new HybridUrlCodingStrategy("/picture", ImageViewPage.class));
-        mount(new QueryStringUrlCodingStrategy("/index", IndexRistoPage.class));
-        mount(new MixedParamUrlCodingStrategy("/xd_receiver.htm", XdReceiver.class, null));
-        mount(new IndexedParamUrlCodingStrategy("/privacy", PrivacyPage.class));
-        mount(new IndexedParamUrlCodingStrategy("/sitemap.xml", SitemapPage.class));
-        mount(new IndexedParamUrlCodingStrategy("/feed", FeedPage.class));
-        mount(new IndexedParamUrlCodingStrategy("/ristoManager", RistoranteManagerPage.class));
-        mount(new IndexedParamUrlCodingStrategy("/activitiesManager", ActivitiesManagerPage.class));
-        mount(new IndexedParamUrlCodingStrategy("/commentsManager", CommentsManagerPage.class));
+        mountPage("/info", AboutPage.class);
+        mountPage("/InfoForRestaurateur", InfoForRestaurateurPage.class);
+        mountPage("/signIn", SignIn.class);
+        mountPage("/signOut", SignOut.class);
+        mountPage("/userProfile", UserProfilePage.class);
+        mountPage("/userPage", UserManagerPage.class);
+        mountPage("/newRistorante", RistoranteAddNewPage.class);
+        mountPage("/editRistorante" + "/${" + YoueatHttpParams.RISTORANTE_ID + "}/" , RistoranteEditDataPage.class);
+        mountPage("/editAddressRistorante" + "/${" + YoueatHttpParams.RISTORANTE_ID + "}/", RistoranteEditAddressPage.class);
+        mountPage("/editPicturesRistorante" + "/${" + YoueatHttpParams.RISTORANTE_ID + "}/", RistoranteEditPicturePage.class);
+        mountPage(YouEatPagePaths.VIEW_RISTORANTE + "/${" + YoueatHttpParams.RISTORANTE_NAME_AND_CITY + "}/", RistoranteViewPage.class);
+        mountPage("/searchFriends", SearchFriendPage.class);
+        mountPage("/friends", FriendsPage.class);
+        mountPage("/signUp", SignUpPage.class);
+        mountPage("/userHomePage", UserHomePage.class);
+        mountPage(YouEatPagePaths.VIEW_EATER + "/${" + YoueatHttpParams.YOUEAT_ID + "}/", EaterViewPage.class);
+        mountPage("/account" + "/${" + YoueatHttpParams.YOUEAT_ID + "}/", EaterAccountPage.class);
+        mountPage("/passwordRecover", PasswordRecoverPage.class);
+        mountPage("/messages", MessageListPage.class);
+        mountPage("/message" + "/${" + YoueatHttpParams.DIALOG_ID + "}/" , MessagePage.class);
+        mountPage("/picture", ImageViewPage.class);
+        mountPage("/index", IndexRistoPage.class);
+        mountPage("/xd_receiver.htm", XdReceiver.class);
+        mountPage("/privacy", PrivacyPage.class);
+        mountPage("/sitemap.xml", SitemapPage.class);
+        mountPage("/feed", FeedPage.class);
+        mountPage("/ristoManager", RistoranteManagerPage.class);
+        mountPage("/activitiesManager", ActivitiesManagerPage.class);
+        mountPage("/commentsManager", CommentsManagerPage.class);
+        
+//        mount(new IndexedParamUrlCodingStrategy("/info", AboutPage.class));
+//        mount(new IndexedParamUrlCodingStrategy("/InfoForRestaurateur", InfoForRestaurateurPage.class));
+//        mount(new IndexedParamUrlCodingStrategy("/signIn", SignIn.class));
+//        mount(new IndexedParamUrlCodingStrategy("/signOut", SignOut.class));
+//        mount(new HybridUrlCodingStrategy("/userProfile", UserProfilePage.class));
+//        mount(new HybridUrlCodingStrategy("/userPage", UserManagerPage.class));
+//        mount(new HybridUrlCodingStrategy("/newRistorante", RistoranteAddNewPage.class));
+//        mount(new MixedParamHybridUrlCodingStrategy("/editRistorante", RistoranteEditDataPage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
+//        mount(new MixedParamHybridUrlCodingStrategy("/editAddressRistorante", RistoranteEditAddressPage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
+//        mount(new MixedParamHybridUrlCodingStrategy("/editPicturesRistorante", RistoranteEditPicturePage.class, new String[]{YoueatHttpParams.RISTORANTE_ID}));
+//        mount(new MixedParamUrlCodingStrategy(YouEatPagePaths.VIEW_RISTORANTE, RistoranteViewPage.class, new String[]{YoueatHttpParams.RISTORANTE_NAME_AND_CITY}));
+//        mount(new HybridUrlCodingStrategy("/searchFriends", SearchFriendPage.class));
+//        mount(new HybridUrlCodingStrategy("/friends", FriendsPage.class)); 
+//        mount(new IndexedParamUrlCodingStrategy("/signUp", SignUpPage.class));
+//        mount(new IndexedParamUrlCodingStrategy("/userHomePage", UserHomePage.class));
+//        mount(new MixedParamHybridUrlCodingStrategy(YouEatPagePaths.VIEW_EATER, EaterViewPage.class, new String[]{YoueatHttpParams.YOUEAT_ID}));
+//        mount(new MixedParamHybridUrlCodingStrategy("/account", EaterAccountPage.class, new String[]{YoueatHttpParams.YOUEAT_ID}));
+//        mount(new HybridUrlCodingStrategy("/passwordRecover", PasswordRecoverPage.class));
+//        mount(new HybridUrlCodingStrategy("/messages", MessageListPage.class));
+//        mount(new MixedParamHybridUrlCodingStrategy("/message", MessagePage.class, new String[]{YoueatHttpParams.DIALOG_ID}));
+//        mount(new HybridUrlCodingStrategy("/picture", ImageViewPage.class));
+//        mount(new QueryStringUrlCodingStrategy("/index", IndexRistoPage.class));
+//        mount(new MixedParamUrlCodingStrategy("/xd_receiver.htm", XdReceiver.class, null));
+//        mount(new IndexedParamUrlCodingStrategy("/privacy", PrivacyPage.class));
+//        mount(new IndexedParamUrlCodingStrategy("/sitemap.xml", SitemapPage.class));
+//        mount(new IndexedParamUrlCodingStrategy("/feed", FeedPage.class));
+//        mount(new IndexedParamUrlCodingStrategy("/ristoManager", RistoranteManagerPage.class));
+//        mount(new IndexedParamUrlCodingStrategy("/activitiesManager", ActivitiesManagerPage.class));
+//        mount(new IndexedParamUrlCodingStrategy("/commentsManager", CommentsManagerPage.class));
+        
+        getRequestCycleListeners().add(new IRequestCycleListener() {
+
+            @Override
+            public void onBeginRequest(RequestCycle cycle) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void onEndRequest(RequestCycle cycle) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void onDetach(RequestCycle cycle) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void onRequestHandlerResolved(RequestCycle cycle, IRequestHandler handler) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void onRequestHandlerScheduled(RequestCycle cycle, IRequestHandler handler) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public IRequestHandler onException(RequestCycle cycle, Exception ex) {
+                if (YoueatApplication.get().inDevelopment()) {
+                    // Let Wicket show the error.
+                    return null;
+                }
+
+                // exceptions are wrapped in WicketRuntimeExceptions and
+                // InvocationTargetExceptions. The actual exception that occured is in
+                // the cause
+                Throwable cause = ex;
+                if (cause instanceof WicketRuntimeException) {
+                    cause = cause.getCause();
+                }
+                if (cause instanceof InvocationTargetException) {
+                    cause = cause.getCause();
+                }
+                return new BookmarkablePageRequestHandler(new PageProvider(ErrorPage.class));
+                //TODO 1.5
+                //return new ErrorPage(cause);
+            }
+
+            @Override
+            public void onExceptionRequestHandlerResolved(RequestCycle cycle, IRequestHandler handler, Exception exception) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void onRequestHandlerExecuted(RequestCycle cycle, IRequestHandler handler) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void onUrlMapped(RequestCycle cycle, IRequestHandler handler, Url url) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+
+            });
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
     }
@@ -162,23 +266,24 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         return WebApplicationContextUtils.getWebApplicationContext(getServletContext());
     }
 
-    @Override
-    public String getConfigurationType() {
-        return this.configurationType;
-    }
-
-    @Override
-    protected WebRequest newWebRequest(HttpServletRequest servletRequest) {
-        return new UploadWebRequest(servletRequest);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public RequestCycle newRequestCycle(Request request, Response response) {
-        return new YouetRequestCycle(this, (WebRequest) request, response);
-    }
+//    @Override    //TODO 1.5
+//    public String getConfigurationType() {
+//        return this.configurationType;
+//    }
+//    //TODO 1.5
+//    @Override
+//    protected WebRequest newWebRequest(HttpServletRequest servletRequest) {
+//        return new UploadWebRequest(servletRequest);
+//    }
+//    
+//    /**
+//     * {@inheritDoc}
+//     */
+    //TODO 1.5
+//    @Override
+//    public RequestCycle newRequestCycle(Request request, Response response) {
+//        return new YouetRequestCycle(this, (WebRequest) request, response);
+//    }
     
     /**
      * Get Application for current thread.
@@ -193,7 +298,9 @@ public class YoueatApplication extends AuthenticatedWebApplication {
      * @return true when running in deployment configuration, false for development configuration
      */
     public boolean inDeployment() {
-        return DEPLOYMENT.equals(getConfigurationType());
+        return true;
+        //TODO 1.5
+        //return DEPLOYMENT.equals(getConfigurationType());
     }
 
     /**

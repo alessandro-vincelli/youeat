@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.wicket.markup.html.WebPage;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,7 @@ public class GoogleSitemapGenerator {
      * 
      * @return string containing google XML sitemap 
      */
-    public String run() {
+    public String run(WebPage page) {
         StringBuffer sb = new StringBuffer();
         sb.append(XML_DECLARATION);
         sb.append("\n");
@@ -45,7 +46,7 @@ public class GoogleSitemapGenerator {
         sb.append("\n");
         List<Ristorante> ristoranteList = new ArrayList<Ristorante>(ristoranteService.getAllSimple());
         for (Ristorante ristorante : ristoranteList) {
-            sb.append(generateUrl(ristoranteURL.getRistoranteUrl(ristorante), ristorante.getModificationTime(), "weekly", "0.2"));
+            sb.append(generateUrl(ristoranteURL.getRistoranteUrl(ristorante, page), ristorante.getModificationTime(), "weekly", "0.2"));
             sb.append("\n");
         }
         log.info("sistemap generated");

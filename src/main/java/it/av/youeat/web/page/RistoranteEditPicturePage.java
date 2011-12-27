@@ -26,9 +26,8 @@ import it.av.youeat.web.components.ImageRisto;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
-import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadProgressBar;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -40,6 +39,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Bytes;
 
@@ -67,7 +67,7 @@ public class RistoranteEditPicturePage extends BasePage {
      */
     public RistoranteEditPicturePage(PageParameters parameters) throws YoueatException {
         add(getFeedbackPanel());
-        ristoranteId = parameters.getString(YoueatHttpParams.RISTORANTE_ID, "");
+        ristoranteId = parameters.get(YoueatHttpParams.RISTORANTE_ID).toString("");
         if (StringUtils.isBlank(ristoranteId)) {
             throw new RestartResponseAtInterceptPageException(getApplication().getHomePage());
         }

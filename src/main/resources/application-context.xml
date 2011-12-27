@@ -163,7 +163,7 @@
     </bean>
 
     <bean id="wicketApplication" class="it.av.youeat.web.YoueatApplication">
-        <property name="configurationType" value="development" />
+        <!-- <property name="configurationType" value="development" /> -->
         <property name="applicationURL" value="http://www.youeat.org" />
         <property name="gmapKey" value="" />
     </bean>

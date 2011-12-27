@@ -37,7 +37,7 @@ public class ShowAlreadyPresentRistoPanel extends Panel {
         super(id);
         Assert.notNull(ristos);
         Assert.notNull(container);
-        // InjectorHolder.getInjector().inject(this);
+        // Injector.get().inject(this);
         final FeedbackPanel feedbackPanelSMP = new FeedbackPanel("feedbackPanelSMP");
         feedbackPanelSMP.setOutputMarkupId(true);
         feedbackPanelSMP.setOutputMarkupPlaceholderTag(true);

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Set;
 
+import org.apache.wicket.markup.html.WebPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +46,9 @@ public class SocialServiceFacebook implements SocialService {
      * {@inheritDoc}
      */
     @Override
-    public void sendMessageReceivedNotification(Eater recipient, Message message) {
+    public void sendMessageReceivedNotification(Eater recipient, Message message, WebPage page) {
         Locale locale = Locales.getSupportedLocale(recipient.getLanguage().getLanguage());
-        String messageBody = prepareMessage.mailTextNotifyNewMessage(recipient, message, locale);
+        String messageBody = prepareMessage.mailTextNotifyNewMessage(recipient, message, locale, page);
         Object[] params = { message.getSender().getFirstname() + " " + message.getSender().getLastname() };
         String subject = messageSource.getMessage("notification.newmessage.mailSubject", params, locale);
         sendTextEmail(recipient, subject, messageBody);
@@ -76,9 +77,9 @@ public class SocialServiceFacebook implements SocialService {
      */
     @Override
     @Transactional
-    public void sendFriendSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient) {
+    public void sendFriendSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient, WebPage page) {
         String subject = prepareMessage.titleForSuggestionNotification(sender, friendsToSuggest, recipient);
-        String body = prepareMessage.mailTextSuggestionNotification(sender, friendsToSuggest, recipient);
+        String body = prepareMessage.mailTextSuggestionNotification(sender, friendsToSuggest, recipient, page);
         sendTextEmail(recipient, subject, body);
     }
 

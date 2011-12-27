@@ -43,7 +43,6 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
@@ -68,6 +67,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.StringValidator;
 import org.springframework.util.Assert;
@@ -120,7 +120,7 @@ public class RistoranteViewPage extends BasePage {
      */
     public RistoranteViewPage(PageParameters parameters) throws YoueatException {
         actualDescriptionLanguage = getInitialLanguage();
-        String ristoranteId = parameters.getString(YoueatHttpParams.RISTORANTE_ID, "");
+        String ristoranteId = parameters.get(YoueatHttpParams.RISTORANTE_ID).toString("");
         if (StringUtils.isNotBlank(ristoranteId)) {
             this.ristorante = ristoranteService.getByID(ristoranteId);
         } else {
@@ -184,6 +184,12 @@ public class RistoranteViewPage extends BasePage {
                             target.addComponent(descriptionLinksContainer);
                             target.addComponent(restaurateurBlackboardsContainer);
                         }
+                    }
+
+                    @Override
+                    protected void onError(AjaxRequestTarget target, Form<?> form) {
+                        // TODO 1.5 Auto-generated method stub
+                        
                     }
                 }.add(new Label("linkName", getString(item.getModelObject().getCountry()))));
             }
@@ -423,7 +429,6 @@ public class RistoranteViewPage extends BasePage {
 
             @Override
             protected void onError(AjaxRequestTarget target, Form<?> form) {
-                super.onError(target, form);
                 if (target != null) {
                     target.addComponent(getFeedbackPanel());
                 }

@@ -1,5 +1,7 @@
 package it.av.youeat.web.components;
 
+import javax.management.RuntimeErrorException;
+
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.IModel;
 
@@ -12,19 +14,22 @@ import org.apache.wicket.model.IModel;
  * will work as well).
  *
  * @author Erik van Oosten
+ * @deprecated
  */
 public class TransparentWebMarkupContainer extends WebMarkupContainer {
 
     public TransparentWebMarkupContainer(String id) {
         super(id);
+        throw new RuntimeErrorException(null);
     }
 
     public TransparentWebMarkupContainer(String id, IModel model) {
         super(id, model);
+        throw new RuntimeErrorException(null);
     }
 
-    @Override
-    public boolean isTransparentResolver() {
-        return true;
-    }
+//   TODO 1.5 @Override
+//    public boolean isTransparentResolver() {
+//        return true;
+//    }
 }

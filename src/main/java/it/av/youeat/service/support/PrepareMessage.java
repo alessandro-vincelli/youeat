@@ -14,6 +14,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.wicket.markup.html.WebPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
@@ -32,7 +33,7 @@ public class PrepareMessage {
     @Autowired
     private YouetGeneratorURL generatorURL;
 
-    public String mailTextNotifyNewMessage(Eater eater, Message message, Locale locale) {
+    public String mailTextNotifyNewMessage(Eater eater, Message message, Locale locale, WebPage page) {
         StringBuffer textBody = new StringBuffer();
         textBody.append("\n\n");
         String[] params = { message.getSender().getFirstname() };
@@ -42,7 +43,7 @@ public class PrepareMessage {
             textBody.append(message.getTitle());
             textBody.append("\n\n");
         }
-        String body = templateUtil.resolveTemplateEater(message, true, null);
+        String body = templateUtil.resolveTemplateEater(message, true, null, page);
         textBody.append(body);
         textBody.append("\n\n");
         textBody.append("http://www.youeat.org");
@@ -63,7 +64,7 @@ public class PrepareMessage {
         return textBody.toString();
     }
 
-    public String mailTextSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient) {
+    public String mailTextSuggestionNotification(Eater sender, Set<Eater> friendsToSuggest, Eater recipient, WebPage page) {
         Locale locale = Locales.getSupportedLocale(recipient.getLanguage().getLanguage());
         if (friendsToSuggest.size() == 1) {
             Eater eaterToSuggest = friendsToSuggest.iterator().next();
@@ -72,7 +73,7 @@ public class PrepareMessage {
             Object[] paramsBody = { sender, eaterToSuggest };
             textBody.append(messageSource.getMessage("mail.suggestNewFriend.body", paramsBody, locale));
             textBody.append("\n");
-            textBody.append(generatorURL.getEaterUrl(eaterToSuggest));
+            textBody.append(generatorURL.getEaterUrl(eaterToSuggest, page));
             textBody.append("\n\n");
             textBody.append("http://www.youeat.org");
             textBody.append("\n");
@@ -84,7 +85,7 @@ public class PrepareMessage {
                 Eater eaterToSuggest = (Eater) iterator.next();
                 friendsList.append(eaterToSuggest);
                 friendsList.append("\n");
-                friendsList.append(generatorURL.getEaterUrl(eaterToSuggest));
+                friendsList.append(generatorURL.getEaterUrl(eaterToSuggest, page));
                 if (iterator.hasNext()) {
                     friendsList.append("\n");
                     friendsList.append("\n");

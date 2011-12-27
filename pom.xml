@@ -116,7 +116,7 @@
 		<!--  WICKET DEPENDENCIES -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket</artifactId>
+			<artifactId>wicket-core</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
 		<dependency>
@@ -147,8 +147,8 @@
 		</dependency>
 		<dependency>
         	<groupId>org.wicketstuff</groupId>
-        	<artifactId>gmap2</artifactId>
-        	<version>1.4.1</version>
+        	<artifactId>wicketstuff-gmap2</artifactId>
+        	<version>${wicket.version}</version>
     	</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -371,11 +371,11 @@
 			<artifactId>facebook-java-api-annotation-processor</artifactId>
 			<version>3.0.2</version>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>org.wicketstuff</groupId>
 			<artifactId>scriptaculous</artifactId>
 			<version>1.4.1</version>
-		</dependency>   
+		</dependency>    -->
 		<dependency>
   			<groupId>rome</groupId>
   			<artifactId>rome</artifactId>
@@ -765,11 +765,11 @@
     	</site>
 	</distributionManagement>
 	<properties>
-		<wicket.version>1.4.18</wicket.version>
+		<wicket.version>1.5.3</wicket.version>
 		<jetty.version>6.1.4</jetty.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>3.0.6.RELEASE</spring.version>
-		<spring.security.version>3.0.5.RELEASE</spring.security.version>
+		<spring.version>3.0.7.RELEASE</spring.version>
+		<spring.security.version>3.0.7.RELEASE</spring.security.version>
 		<jackson.version>1.6.0</jackson.version>
 	</properties>
 </project>

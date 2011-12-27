@@ -22,6 +22,8 @@ import it.av.youeat.ocm.model.Message;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.wicket.markup.html.WebPage;
+
 /**
  * Offer operation to create a dialog between two users
  * 
@@ -36,9 +38,11 @@ public interface DialogService {
      * @param sender the creator of the dialog
      * @param recipient the receiver of the first message of the dialog
      * @param message to send
+     * @param page
+     * 
      * @return the created dialog
      */
-    Dialog startNewDialog(Eater sender, Eater recipient, Message message);
+    Dialog startNewDialog(Eater sender, Eater recipient, Message message, WebPage page);
 
     /**
      * Reply wit a message in the dialog.
@@ -46,9 +50,11 @@ public interface DialogService {
      * @param message message to send
      * @param dialog the dialog for the message
      * @param recipient the recipient of the reply
+     * @param page
+     * 
      * @return the sent message
      */
-    Dialog reply(Message message, Dialog dialog, Eater recipient);
+    Dialog reply(Message message, Dialog dialog, Eater recipient, WebPage page);
 
     /**
      * Returns dialogs created(sent) by the given user not flagged as removed
@@ -105,6 +111,7 @@ public interface DialogService {
      * @param sender the sender of the suggestion
      * @param recipient the receiver of the suggestions
      * @param friendsToSuggest the list of friends to suggest
+     * @param page
      */
-    void sendFriendSuggestions(Eater sender, Eater recipient, Set<Eater> friendsToSuggest);
+    void sendFriendSuggestions(Eater sender, Eater recipient, Set<Eater> friendsToSuggest, WebPage page);
 }

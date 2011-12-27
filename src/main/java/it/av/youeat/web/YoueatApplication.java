@@ -269,7 +269,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
 
     @Override    //TODO 1.5
     public RuntimeConfigurationType getConfigurationType() {
-        return RuntimeConfigurationType.valueOf(configurationTypeProperty);
+        return RuntimeConfigurationType.valueOf(configurationTypeProperty.toUpperCase());
     }
 //    //TODO 1.5
 //    @Override

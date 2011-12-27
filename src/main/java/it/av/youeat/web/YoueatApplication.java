@@ -53,6 +53,7 @@ import it.av.youeat.web.url.YouEatPagePaths;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.wicket.Application;
+import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
@@ -77,7 +78,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  */
 public class YoueatApplication extends AuthenticatedWebApplication {
     @SpringBean
-    private String configurationType;
+    private String configurationTypeProperty;
     private String applicationURL;
     private String gmapKey;
     private int ristoXPageDataTable = 25;
@@ -266,10 +267,10 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         return WebApplicationContextUtils.getWebApplicationContext(getServletContext());
     }
 
-//    @Override    //TODO 1.5
-//    public String getConfigurationType() {
-//        return this.configurationType;
-//    }
+    @Override    //TODO 1.5
+    public RuntimeConfigurationType getConfigurationType() {
+        return RuntimeConfigurationType.valueOf(configurationTypeProperty);
+    }
 //    //TODO 1.5
 //    @Override
 //    protected WebRequest newWebRequest(HttpServletRequest servletRequest) {
@@ -298,20 +299,18 @@ public class YoueatApplication extends AuthenticatedWebApplication {
      * @return true when running in deployment configuration, false for development configuration
      */
     public boolean inDeployment() {
-        return true;
-        //TODO 1.5
-        //return DEPLOYMENT.equals(getConfigurationType());
+        return getConfigurationType().equals(RuntimeConfigurationType.DEPLOYMENT);
     }
 
     /**
      * @return true when running in development configuration, false for deployment configuration
      */
     public boolean inDevelopment() {
-        return !inDeployment();
+        return getConfigurationType().equals(RuntimeConfigurationType.DEVELOPMENT);
     }    
     
-    public final void setConfigurationType(String configurationType) {
-        this.configurationType = configurationType;
+    public final void setConfigurationTypeProperty(String configurationTypeProperty) {
+        this.configurationTypeProperty = configurationTypeProperty;
     }
 
     public String getApplicationURL() {

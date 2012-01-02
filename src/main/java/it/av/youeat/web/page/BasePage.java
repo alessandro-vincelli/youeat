@@ -41,12 +41,12 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
-import org.apache.wicket.protocol.http.servlet.ServletWebResponse;
 import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.http.WebResponse;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.cookies.CookieUtils;
 
 /**
  * Contains some commons elements.
@@ -80,12 +80,12 @@ public class BasePage extends WebPage {
         }
 
         loggedInUser = securitySession.getLoggedInUser();
-        if(((ServletWebRequest)RequestCycle.get().getRequest()).getCookie(CookieUtil.LANGUAGE) != null) {
+        if(new CookieUtils().load(CookieUtil.LANGUAGE) != null) {
             getSession().setLocale(
-                    new Locale(((ServletWebRequest)RequestCycle.get().getRequest()).getCookie(CookieUtil.LANGUAGE).getValue()));
+                    new Locale(new CookieUtils().load(CookieUtil.LANGUAGE)));
         } else {
             if (loggedInUser != null) {
-                ((ServletWebResponse)RequestCycle.get().getResponse()).addCookie((new Cookie(CookieUtil.LANGUAGE, loggedInUser.getLanguage().getLanguage())));
+                ((WebResponse)RequestCycle.get().getResponse()).addCookie((new Cookie(CookieUtil.LANGUAGE, loggedInUser.getLanguage().getLanguage())));
                 getSession().setLocale(new Locale(loggedInUser.getLanguage().getLanguage()));
             }
         }
@@ -201,8 +201,7 @@ public class BasePage extends WebPage {
             @Override
             public void onClick() {
                 getSession().setLocale(Locales.ITALIAN);
-                ((ServletWebResponse)RequestCycle.get().getResponse()).addCookie((
-                        new Cookie(CookieUtil.LANGUAGE, Locales.ITALIAN.getLanguage())));
+                new CookieUtils().save(CookieUtil.LANGUAGE, Locales.ITALIAN.getLanguage());
             }
 
             @Override
@@ -219,8 +218,7 @@ public class BasePage extends WebPage {
             @Override
             public void onClick() {
                 getSession().setLocale(Locales.ENGLISH);
-                ((ServletWebResponse)RequestCycle.get().getResponse()).addCookie((
-                        new Cookie(CookieUtil.LANGUAGE, Locales.ENGLISH.getLanguage())));
+                new CookieUtils().save(CookieUtil.LANGUAGE, Locales.ENGLISH.getLanguage());
             }
 
             @Override
@@ -370,6 +368,5 @@ public class BasePage extends WebPage {
         response.renderCSSReference(new PackageResourceReference(BasePage.class, STYLES_JQUERY_CSS));
         response.renderCSSReference(new PackageResourceReference(BasePage.class, STYLES_CSS));
     }
-    
     
 }

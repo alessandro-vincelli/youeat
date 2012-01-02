@@ -58,6 +58,7 @@ import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.request.IExceptionMapper;
 import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.Url;
 import org.apache.wicket.request.cycle.IRequestCycleListener;
@@ -66,6 +67,7 @@ import org.apache.wicket.request.handler.BookmarkablePageRequestHandler;
 import org.apache.wicket.request.handler.PageProvider;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+import org.apache.wicket.util.IProvider;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -171,80 +173,6 @@ public class YoueatApplication extends AuthenticatedWebApplication {
 //        mount(new IndexedParamUrlCodingStrategy("/activitiesManager", ActivitiesManagerPage.class));
 //        mount(new IndexedParamUrlCodingStrategy("/commentsManager", CommentsManagerPage.class));
         
-        getRequestCycleListeners().add(new IRequestCycleListener() {
-
-            @Override
-            public void onBeginRequest(RequestCycle cycle) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public void onEndRequest(RequestCycle cycle) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public void onDetach(RequestCycle cycle) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public void onRequestHandlerResolved(RequestCycle cycle, IRequestHandler handler) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public void onRequestHandlerScheduled(RequestCycle cycle, IRequestHandler handler) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public IRequestHandler onException(RequestCycle cycle, Exception ex) {
-                if (YoueatApplication.get().inDevelopment()) {
-                    // Let Wicket show the error.
-                    return null;
-                }
-
-                // exceptions are wrapped in WicketRuntimeExceptions and
-                // InvocationTargetExceptions. The actual exception that occured is in
-                // the cause
-                Throwable cause = ex;
-                if (cause instanceof WicketRuntimeException) {
-                    cause = cause.getCause();
-                }
-                if (cause instanceof InvocationTargetException) {
-                    cause = cause.getCause();
-                }
-                return new BookmarkablePageRequestHandler(new PageProvider(ErrorPage.class));
-                //TODO 1.5
-                //return new ErrorPage(cause);
-            }
-
-            @Override
-            public void onExceptionRequestHandlerResolved(RequestCycle cycle, IRequestHandler handler, Exception exception) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public void onRequestHandlerExecuted(RequestCycle cycle, IRequestHandler handler) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public void onUrlMapped(RequestCycle cycle, IRequestHandler handler, Url url) {
-                // TODO Auto-generated method stub
-                
-            }
-            
-
-            });
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
     }
@@ -267,7 +195,7 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         return WebApplicationContextUtils.getWebApplicationContext(getServletContext());
     }
 
-    @Override    //TODO 1.5
+    @Override
     public RuntimeConfigurationType getConfigurationType() {
         return RuntimeConfigurationType.valueOf(configurationTypeProperty.toUpperCase());
     }
@@ -331,6 +259,11 @@ public class YoueatApplication extends AuthenticatedWebApplication {
 
     public int getRistoXPageDataTable() {
         return ristoXPageDataTable;
+    }
+
+    @Override
+    public IProvider<IExceptionMapper> getExceptionMapperProvider() {
+        return super.getExceptionMapperProvider();
     }
 
     public void setRistoXPageDataTable(int ristoXPageDataTable) {

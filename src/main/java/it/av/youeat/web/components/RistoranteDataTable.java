@@ -29,7 +29,7 @@ public class RistoranteDataTable<T> extends AjaxFallbackDefaultDataTable<T> {
         super(id, columns, dataProvider, rowsPerPage);
         setOutputMarkupId(true);
         setVersioned(false);
-        addTopToolbar(new AjaxNavigationToolbar(this));
+        //addTopToolbar(new AjaxNavigationToolbar(this));
         addTopToolbar(new AjaxFallbackHeadersToolbar(this, dataProvider));
     }
 

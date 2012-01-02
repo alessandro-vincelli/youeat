@@ -7,7 +7,15 @@ import org.springframework.util.Assert;
 
 public class ErrorPage extends BasePage {
 
-	/**
+    /**
+     * Default Constructor.
+     */
+    public ErrorPage() {
+        super();
+        add(new Label("errorMessage", "internal error"));
+    }
+
+    /**
 	 * Constructor.
 	 */
 	public ErrorPage(Throwable e) {

@@ -70,7 +70,7 @@ public class RistoranteSortableDataProvider extends SortableDataProvider<Ristora
      */
     @Override
     public final int size() {
-        if (size == 0 && StringUtils.isNotBlank(pattern)) {
+        if (StringUtils.isNotBlank(pattern)) {
             size = ristoranteService.countfreeTextSearch(this.pattern, null);
             return size;
         } else {

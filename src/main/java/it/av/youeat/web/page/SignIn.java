@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
+import org.apache.wicket.protocol.https.RequireHttps;
 
 /**
  * SignIn page performs authentication on an internal youeat db and on Facebook
@@ -31,6 +32,7 @@ import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
+@RequireHttps
 public class SignIn extends BasePageSimple {
 
     /**

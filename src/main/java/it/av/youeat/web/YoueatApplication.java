@@ -50,21 +50,14 @@ import it.av.youeat.web.page.xml.SitemapPage;
 import it.av.youeat.web.security.SecuritySession;
 import it.av.youeat.web.url.YouEatPagePaths;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.apache.wicket.Application;
 import org.apache.wicket.RuntimeConfigurationType;
-import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.protocol.https.HttpsConfig;
+import org.apache.wicket.protocol.https.HttpsMapper;
 import org.apache.wicket.request.IExceptionMapper;
-import org.apache.wicket.request.IRequestHandler;
-import org.apache.wicket.request.Url;
-import org.apache.wicket.request.cycle.IRequestCycleListener;
-import org.apache.wicket.request.cycle.RequestCycle;
-import org.apache.wicket.request.handler.BookmarkablePageRequestHandler;
-import org.apache.wicket.request.handler.PageProvider;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.util.IProvider;
@@ -175,6 +168,8 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         
         
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
+        
+        setRootRequestMapper(new HttpsMapper(getRootRequestMapper(), new HttpsConfig(80, 443)));
     }
 
     /**

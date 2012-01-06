@@ -37,6 +37,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.protocol.https.RequireHttps;
 
 /**
  * Add and remove friends.
@@ -44,6 +45,7 @@ import org.apache.wicket.model.StringResourceModel;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
+@RequireHttps
 @AuthorizeInstantiation( { "USER", "ADMIN"})
 public class SearchFriendPage extends BasePage {
 

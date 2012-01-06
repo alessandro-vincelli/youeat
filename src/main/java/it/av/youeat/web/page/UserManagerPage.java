@@ -50,6 +50,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.protocol.https.RequireHttps;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
@@ -58,6 +59,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
+@RequireHttps
 @AuthorizeInstantiation( { "ADMIN" })
 public class UserManagerPage extends BasePage {
 

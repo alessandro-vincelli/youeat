@@ -22,6 +22,7 @@ import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.protocol.https.RequireHttps;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
@@ -29,6 +30,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
+@RequireHttps
 @AuthorizeInstantiation( { "USER", "ADMIN" })
 public class EaterFacebookAccountPage extends BaseEaterAccountPage {
 

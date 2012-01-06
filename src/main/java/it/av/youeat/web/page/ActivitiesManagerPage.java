@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.list.PropertyListView;
+import org.apache.wicket.protocol.https.RequireHttps;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
@@ -31,6 +32,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
+@RequireHttps
 @AuthorizeInstantiation( { "ADMIN" })
 public class ActivitiesManagerPage extends BasePage {
 

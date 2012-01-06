@@ -38,6 +38,7 @@ import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.protocol.https.RequireHttps;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Bytes;
@@ -47,6 +48,7 @@ import org.apache.wicket.util.lang.Bytes;
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
+@RequireHttps
 @AuthorizeInstantiation({ "USER", "ADMIN" })
 public class BaseEaterAccountPage extends BasePage {
 

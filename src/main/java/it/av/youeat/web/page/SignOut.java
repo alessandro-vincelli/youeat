@@ -15,12 +15,15 @@
  */
 package it.av.youeat.web.page;
 
+import org.apache.wicket.protocol.https.RequireHttps;
+
 /**
  * Performs the logout
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
+@RequireHttps
 public class SignOut extends BasePageSimple {
 
     /**

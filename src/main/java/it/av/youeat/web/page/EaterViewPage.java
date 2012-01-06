@@ -49,6 +49,7 @@ import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.protocol.https.RequireHttps;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -57,6 +58,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  * 
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  */
+@RequireHttps
 @AuthorizeInstantiation( { "USER", "ADMIN" })
 public class EaterViewPage extends BasePage {
 

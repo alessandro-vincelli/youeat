@@ -34,8 +34,8 @@
 		<property name="cacheSeconds" value="-1"/>
 	</bean>
 
-	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" >
-		<property name="host" value="127.0.0.1"/>
+	<bean id="javaMailSender" class="it.av.youeat.web.util.MockJavaMailSender" >
+		<!-- <property name="host" value="127.0.0.1"/> -->
 	</bean>
 	
 	<bean id="mailService" class="it.av.youeat.service.system.MailServiceImpl" />
@@ -69,10 +69,9 @@
 		<property name="nestedTransactionAllowed" value="false"></property>
 	</bean>
 	
- 	<bean id="wicketApplication" class="it.av.youeat.web.YouetApplicationMock">
-		<!-- <property name="configurationType" value="development" /> -->
+<!--  	<bean id="wicketApplication" class="it.av.youeat.web.YouetApplicationMock">
 		<property name="applicationURL" value="http://www.youeat.org"/>
-	</bean>
+	</bean> -->
 
 	<bean id="eaterService" class="it.av.youeat.service.impl.EaterServiceHibernate" />
 

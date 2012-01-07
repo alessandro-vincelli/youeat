@@ -58,6 +58,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.https.HttpsConfig;
 import org.apache.wicket.protocol.https.HttpsMapper;
 import org.apache.wicket.request.IExceptionMapper;
+import org.apache.wicket.settings.IRequestCycleSettings;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.util.IProvider;
@@ -170,6 +171,8 @@ public class YoueatApplication extends AuthenticatedWebApplication {
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
         
         setRootRequestMapper(new HttpsMapper(getRootRequestMapper(), new HttpsConfig(80, 443)));
+        //to remove page version parameter in the URL.
+        this.getRequestCycleSettings().setRenderStrategy(IRequestCycleSettings.RenderStrategy.ONE_PASS_RENDER);
     }
 
     /**

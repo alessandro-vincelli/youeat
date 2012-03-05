@@ -32,7 +32,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AbstractAuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
@@ -47,7 +47,7 @@ import com.google.code.facebookapi.schema.UsersGetInfoResponse;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class FacebookAuthenticationProvider extends AbstractAuthenticationManager {
+public class FacebookAuthenticationProvider extends ProviderManager {
     @Autowired
     private EaterService eaterService;
     @Autowired
@@ -62,7 +62,6 @@ public class FacebookAuthenticationProvider extends AbstractAuthenticationManage
     /**
      * {@inheritDoc}
      */
-    @Override
     protected Authentication doAuthentication(Authentication authentication) throws AuthenticationException {
         HttpServletRequest request = (HttpServletRequest) authentication.getPrincipal();
 

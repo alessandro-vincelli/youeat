@@ -32,7 +32,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
@@ -47,7 +47,7 @@ import com.google.code.facebookapi.schema.UsersGetInfoResponse;
  * @author <a href='mailto:a.vincelli@gmail.com'>Alessandro Vincelli</a>
  * 
  */
-public class FacebookAuthenticationProvider extends ProviderManager {
+public class FacebookAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private EaterService eaterService;
     @Autowired
@@ -59,32 +59,6 @@ public class FacebookAuthenticationProvider extends ProviderManager {
 
     private static Logger log = LoggerFactory.getLogger(FacebookAuthenticationProvider.class);
 
-    /**
-     * {@inheritDoc}
-     */
-    protected Authentication doAuthentication(Authentication authentication) throws AuthenticationException {
-        HttpServletRequest request = (HttpServletRequest) authentication.getPrincipal();
-
-        FacebookJaxbRestClient authClient;
-        try {
-            authClient = bookAuthHandler.getAuthenticatedClient(request);
-            String facebookSession = authClient.getCacheSessionKey();
-            long facebookUserId = authClient.users_getLoggedInUser();
-
-            Eater eater = eaterService.getBySocialUID(Long.toString(facebookUserId), SocialType.FACEBOOK);
-            checkAndCreateUser(authClient, facebookUserId, eater);
-
-            eater = eaterService.getBySocialUID(Long.toString(facebookUserId), SocialType.FACEBOOK);
-            eater.setSocialSessionKey(facebookSession);
-            Authentication authenticationToReturn = new FacebookAuthenticationToken(new UserDetailsImpl(eater));
-            authenticationToReturn.setAuthenticated(true);
-            return authenticationToReturn;
-        } catch (Exception e) {
-            log.info("Facebook session not available");
-        }
-        return authentication;
-
-    }
 
     /**
      * @param authClient
@@ -135,6 +109,36 @@ public class FacebookAuthenticationProvider extends ProviderManager {
             log.warn("impossible get The avatar from facebook", e);
         }
         return null;
+    }
+
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        HttpServletRequest request = (HttpServletRequest) authentication.getPrincipal();
+
+        FacebookJaxbRestClient authClient;
+        try {
+            authClient = bookAuthHandler.getAuthenticatedClient(request);
+            String facebookSession = authClient.getCacheSessionKey();
+            long facebookUserId = authClient.users_getLoggedInUser();
+
+            Eater eater = eaterService.getBySocialUID(Long.toString(facebookUserId), SocialType.FACEBOOK);
+            checkAndCreateUser(authClient, facebookUserId, eater);
+
+            eater = eaterService.getBySocialUID(Long.toString(facebookUserId), SocialType.FACEBOOK);
+            eater.setSocialSessionKey(facebookSession);
+            Authentication authenticationToReturn = new FacebookAuthenticationToken(new UserDetailsImpl(eater));
+            authenticationToReturn.setAuthenticated(true);
+            return authenticationToReturn;
+        } catch (Exception e) {
+            log.info("Facebook session not available");
+        }
+        return authentication;
+
+    }
+
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return true;
     }
 
 }

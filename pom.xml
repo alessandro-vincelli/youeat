@@ -881,7 +881,7 @@
     	</site>
 	</distributionManagement>
 	<properties>
-		<wicket.version>1.5.4</wicket.version>
+		<wicket.version>1.5.5</wicket.version>
 		<jetty.version>6.1.4</jetty.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.1.1.RELEASE</spring.version>

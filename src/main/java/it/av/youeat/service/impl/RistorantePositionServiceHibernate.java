@@ -147,7 +147,7 @@ public class RistorantePositionServiceHibernate extends ApplicationServiceHibern
         List<Ristorante> r = new ArrayList<Ristorante>();
         // if the pattern is empty exclude this Restriction to search only by distance
         if(!StringUtils.equals(pattern, "(null)")){
-             r = ristoranteService.freeTextSearch(pattern);    
+             r = ristoranteService.freeTextSearch(pattern, firstResult, maxResults);    
         }
         List<String> ids = new ArrayList<String>(r.size()); 
         for (Ristorante ristorante : r) {

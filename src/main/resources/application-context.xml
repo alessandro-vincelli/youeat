@@ -36,15 +36,16 @@
         <property name="authenticationManager" ref="authenticationManager"/>
     </bean>
     
+<!--     
+Disabilitato, va aggiornato e rimesso in filterChainProxyMobile
     <bean id="faceBookForMobileAuthenticationFilter" class="it.av.youeat.web.security.FaceBookForMobileAuthenticationFilter">
         <property name="authenticationManager" ref="facebookAuthenticationProvider"/>
-    </bean>
+    </bean> -->
 
     <bean id="filterChainProxyMobile" class="org.springframework.security.web.FilterChainProxy">
         <security:filter-chain-map path-type="ant">
             <security:filter-chain pattern="/rest/security/**" filters="
             securityContextPersistenceFilter,
-            faceBookForMobileAuthenticationFilter,
             basicAuthenticationFilter,
             usernamePasswordAuthenticationFilter,
             exceptionTranslationFilter,
